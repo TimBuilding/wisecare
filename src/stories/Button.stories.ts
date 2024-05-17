@@ -35,11 +35,3 @@ export const XL: Story = {
     size: 'lg',
   },
 }
-
-export const SM: Story = {
-  args: {
-    variant: 'default',
-    children: 'Button',
-    size: 'sm',
-  },
-}
