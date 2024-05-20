@@ -82,7 +82,7 @@ create policy "allow admin to insert hmo_providers"
     exists (
       select 1
       from user_profiles
-      where user_profiles.user_id = auth.uid() and user_profiles.department = 'admin'
+      where user_profiles.user_id = auth.uid() and user_profiles.department_id = (select id from departments where name = 'admin')
     )
   );
 
@@ -94,7 +94,7 @@ create policy "allow admin to insert plan_types"
     exists (
       select 1
       from user_profiles
-      where user_profiles.user_id = auth.uid() and user_profiles.department = 'admin'
+      where user_profiles.user_id = auth.uid() and user_profiles.department_id = (select id from departments where name = 'admin')
     )
   );
 
@@ -106,7 +106,7 @@ create policy "allow admin to insert mode_of_payments"
     exists (
       select 1
       from user_profiles
-      where user_profiles.user_id = auth.uid() and user_profiles.department = 'admin'
+      where user_profiles.user_id = auth.uid() and user_profiles.department_id = (select id from departments where name = 'admin')
     )
   );
 
@@ -118,7 +118,7 @@ create policy "allow admin to insert account_types"
     exists (
       select 1
       from user_profiles
-      where user_profiles.user_id = auth.uid() and user_profiles.department = 'admin'
+      where user_profiles.user_id = auth.uid() and user_profiles.department_id = (select id from departments where name = 'admin')
     )
   );
 
@@ -130,7 +130,7 @@ create policy "allow admin to insert mode_of_premium"
     exists (
       select 1
       from user_profiles
-      where user_profiles.user_id = auth.uid() and user_profiles.department = 'admin'
+      where user_profiles.user_id = auth.uid() and user_profiles.department_id = (select id from departments where name = 'admin')
     )
   );
 
@@ -144,14 +144,14 @@ create policy "allow admin to update hmo_providers"
     exists (
       select 1
       from user_profiles
-      where user_profiles.user_id = auth.uid() and user_profiles.department = 'admin'
+      where user_profiles.user_id = auth.uid() and user_profiles.department_id = (select id from departments where name = 'admin')
     )
   )
   with check (
     exists (
       select 1
       from user_profiles
-      where user_profiles.user_id = auth.uid() and user_profiles.department = 'admin'
+      where user_profiles.user_id = auth.uid() and user_profiles.department_id = (select id from departments where name = 'admin')
     )
   );
 
@@ -163,14 +163,14 @@ create policy "allow admin to update account_types"
     exists (
       select 1
       from user_profiles
-      where user_profiles.user_id = auth.uid() and user_profiles.department = 'admin'
+      where user_profiles.user_id = auth.uid() and user_profiles.department_id = (select id from departments where name = 'admin')
     )
   )
   with check (
     exists (
       select 1
       from user_profiles
-      where user_profiles.user_id = auth.uid() and user_profiles.department = 'admin'
+      where user_profiles.user_id = auth.uid() and user_profiles.department_id = (select id from departments where name = 'admin')
     )
   );
 
@@ -182,14 +182,14 @@ create policy "allow admin to update mode_of_premium"
     exists (
       select 1
       from user_profiles
-      where user_profiles.user_id = auth.uid() and user_profiles.department = 'admin'
+      where user_profiles.user_id = auth.uid() and user_profiles.department_id = (select id from departments where name = 'admin')
     )
   )
   with check (
     exists (
       select 1
       from user_profiles
-      where user_profiles.user_id = auth.uid() and user_profiles.department = 'admin'
+      where user_profiles.user_id = auth.uid() and user_profiles.department_id = (select id from departments where name = 'admin')
     )
   );
 

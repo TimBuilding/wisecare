@@ -260,6 +260,21 @@ export type Database = {
           },
         ]
       }
+      departments: {
+        Row: {
+          id: number
+          name: string | null
+        }
+        Insert: {
+          id?: number
+          name?: string | null
+        }
+        Update: {
+          id?: number
+          name?: string | null
+        }
+        Relationships: []
+      }
       hmo_providers: {
         Row: {
           created_at: string | null
@@ -347,32 +362,39 @@ export type Database = {
       user_profiles: {
         Row: {
           created_at: string | null
-          department: Database['public']['Enums']['department']
-          email: string
-          first_name: string
-          last_name: string
+          department_id: number | null
+          email: string | null
+          first_name: string | null
+          last_name: string | null
           updated_at: string | null
           user_id: string
         }
         Insert: {
           created_at?: string | null
-          department?: Database['public']['Enums']['department']
-          email: string
-          first_name: string
-          last_name: string
+          department_id?: number | null
+          email?: string | null
+          first_name?: string | null
+          last_name?: string | null
           updated_at?: string | null
           user_id: string
         }
         Update: {
           created_at?: string | null
-          department?: Database['public']['Enums']['department']
-          email?: string
-          first_name?: string
-          last_name?: string
+          department_id?: number | null
+          email?: string | null
+          first_name?: string | null
+          last_name?: string | null
           updated_at?: string | null
           user_id?: string
         }
         Relationships: [
+          {
+            foreignKeyName: 'user_profiles_department_id_fkey'
+            columns: ['department_id']
+            isOneToOne: false
+            referencedRelation: 'departments'
+            referencedColumns: ['id']
+          },
           {
             foreignKeyName: 'user_profiles_user_id_fkey'
             columns: ['user_id']
@@ -390,13 +412,7 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      department:
-        | 'marketing'
-        | 'after-sales'
-        | 'under-writing'
-        | 'finance'
-        | 'admin'
-        | 'agent'
+      [_ in never]: never
     }
     CompositeTypes: {
       [_ in never]: never

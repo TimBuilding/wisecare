@@ -23,8 +23,13 @@ import { SubmitHandler, useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { SheetClose } from '@/components/ui/sheet'
 import { createBrowserClient } from '@/utils/supabase'
+import { useState } from 'react'
+import Message from '@/components/message'
+import { Loader2 } from 'lucide-react'
 
 const AddUserForm = () => {
+  const [isLoading, setIsLoading] = useState<boolean>(false)
+  const [error, setError] = useState<string>('')
   const form = useForm<z.infer<typeof userSchema>>({
     resolver: zodResolver(userSchema),
     defaultValues: {
@@ -39,8 +44,7 @@ const AddUserForm = () => {
   const handleSubmit: SubmitHandler<z.infer<typeof userSchema>> = async (
     data,
   ) => {
-    console.log(data)
-    console.log('submitting')
+    setIsLoading(true)
     const supabase = createBrowserClient()
     const { error } = await supabase.auth.signUp({
       email: data.email,
@@ -49,19 +53,26 @@ const AddUserForm = () => {
         data: {
           first_name: data.firstName,
           last_name: data.lastName,
-          department: data.department,
+          department: 'marketing',
         },
       },
     })
     if (error) {
-      console.log(error)
+      setError(error.message)
+      setIsLoading(false)
+      return
     }
+
+    // clear form
+    form.reset()
+    setIsLoading(false)
   }
 
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(handleSubmit)}>
         <div className="space-y-8 px-6 pb-10">
+          {error && <Message variant={'error'}>{error}</Message>}
           <FormField
             name={'firstName'}
             control={form.control}
@@ -82,7 +93,7 @@ const AddUserForm = () => {
               <FormItem>
                 <FormLabel>Last Name</FormLabel>
                 <FormControl>
-                  <Input {...field} />
+                  <Input {...field} disabled={isLoading} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -95,7 +106,7 @@ const AddUserForm = () => {
               <FormItem>
                 <FormLabel>Email</FormLabel>
                 <FormControl>
-                  <Input {...field} />
+                  <Input {...field} disabled={isLoading} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -109,7 +120,7 @@ const AddUserForm = () => {
                 <FormLabel>Department</FormLabel>
                 <Select onValueChange={field.onChange}>
                   <FormControl>
-                    <SelectTrigger>
+                    <SelectTrigger disabled={isLoading}>
                       <SelectValue placeholder={'Select department'} />
                     </SelectTrigger>
                   </FormControl>
@@ -127,16 +138,23 @@ const AddUserForm = () => {
           />
         </div>
         <div className="fixed bottom-0 flex w-full flex-row items-center justify-between gap-2 bg-[#f1f5f9] px-4 py-3 md:max-w-2xl">
-          <Button type="button" variant="ghost" className="text-destructive">
+          <Button
+            type="button"
+            variant="ghost"
+            className="text-destructive"
+            disabled={isLoading}
+          >
             Delete
           </Button>
           <div className="flex flex-row items-center justify-center">
             <SheetClose asChild={true}>
-              <Button type="button" variant="ghost">
+              <Button type="button" variant="ghost" disabled={isLoading}>
                 Cancel
               </Button>
             </SheetClose>
-            <Button type="submit">Add User</Button>
+            <Button type="submit" disabled={isLoading}>
+              {isLoading ? <Loader2 className="animate-spin" /> : 'Add User'}
+            </Button>
           </div>
         </div>
       </form>

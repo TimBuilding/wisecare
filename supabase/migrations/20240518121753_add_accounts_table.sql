@@ -62,7 +62,7 @@ create policy "allow specific departments to insert accounts"
     exists (
       select 1
       from user_profiles
-      where user_profiles.user_id = auth.uid() and user_profiles.department in ('admin', 'marketing', 'finance')
+      where user_profiles.user_id = auth.uid() and user_profiles.department_id in (select id from departments where name in ('admin', 'marketing', 'finance'))
     )  
   );
 
@@ -74,13 +74,13 @@ create policy "allow specific departments to update accounts"
     exists (
       select 1
       from user_profiles
-      where user_profiles.user_id = auth.uid() and user_profiles.department in ('admin', 'marketing', 'finance')
+      where user_profiles.user_id = auth.uid() and user_profiles.department_id in (select id from departments where name in ('admin', 'marketing', 'finance'))
     )
   )
   with check (
     exists (
       select 1
       from user_profiles
-      where user_profiles.user_id = auth.uid() and user_profiles.department in ('admin', 'marketing', 'finance')
+      where user_profiles.user_id = auth.uid() and user_profiles.department_id in (select id from departments where name in ('admin', 'marketing', 'finance'))
     )
   );
