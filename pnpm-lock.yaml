@@ -35,6 +35,9 @@ importers:
       '@supabase-cache-helpers/postgrest-react-query':
         specifier: ^1.6.4
         version: 1.6.4(@supabase/postgrest-js@1.15.2)(@supabase/supabase-js@2.43.2)(@tanstack/react-query@5.36.2(react@18.2.0))(react@18.2.0)
+      '@supabase/postgrest-js':
+        specifier: ^1.15.2
+        version: 1.15.2
       '@supabase/ssr':
         specifier: ^0.1.0
         version: 0.1.0(@supabase/supabase-js@2.43.2)

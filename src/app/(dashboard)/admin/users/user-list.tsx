@@ -8,14 +8,19 @@ import { useQuery } from '@supabase-cache-helpers/postgrest-react-query'
 import Avatar, { genConfig } from 'react-nice-avatar'
 
 const UserListItem = ({
-  user,
+  userId,
+  firstName,
+  lastName,
+  department,
   isLoading,
 }: {
-  user?: Tables<'user_profiles'>
+  userId?: string
+  firstName?: string
+  lastName?: string
+  department?: string
   isLoading?: boolean
 }) => {
-  const uid = '123'
-  const config = genConfig(user?.user_id ?? uid)
+  const config = genConfig(userId || '')
   return (
     <div className="flex flex-row items-center gap-4 bg-card px-6 py-4 hover:bg-muted">
       {isLoading ? (
@@ -25,10 +30,14 @@ const UserListItem = ({
       )}
       <div className="flex flex-col">
         <span className="text-sm font-medium text-card-foreground">
-          {isLoading ? <Skeleton className="h-4 w-40" /> : user?.first_name}
+          {isLoading ? (
+            <Skeleton className="h-4 w-40" />
+          ) : (
+            `${firstName} ${lastName}`
+          )}
         </span>
         <span className="text-sm capitalize text-muted-foreground">
-          {user?.department}
+          {department}
         </span>
       </div>
     </div>
@@ -44,7 +53,15 @@ const UserList = () => {
     <div className="flex w-full flex-col divide-y divide-border border-y border-border">
       {isPending &&
         [...Array(5)].map((_, index) => <UserListItem key={index} isLoading />)}
-      {data?.map((user) => <UserListItem key={user.user_id} />)}
+      {data?.map((user) => (
+        <UserListItem
+          key={user.user_id}
+          userId={user.user_id}
+          firstName={user.first_name || ''}
+          lastName={user.last_name || ''}
+          department={user.departments?.name || ''}
+        />
+      ))}
     </div>
   )
 }

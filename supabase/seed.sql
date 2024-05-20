@@ -23,7 +23,7 @@ INSERT INTO
             '00000000-0000-0000-0000-000000000000',
             uuid_generate_v4 (),
             'authenticated',
-            'user',
+            'authenticated',
             'user' || (ROW_NUMBER() OVER ()) || '@example.com',
             crypt ('password123', gen_salt ('bf')),
             current_timestamp,

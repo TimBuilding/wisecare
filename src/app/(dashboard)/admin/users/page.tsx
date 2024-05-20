@@ -5,19 +5,22 @@ import {
   PageHeader,
   PageTitle,
 } from '@/components/page-header'
+import getUsers from '@/queries/get-users'
 import { createServerClient } from '@/utils/supabase'
+import { prefetchQuery } from '@supabase-cache-helpers/postgrest-react-query'
 import {
   dehydrate,
   HydrationBoundary,
   QueryClient,
 } from '@tanstack/react-query'
 import { cookies } from 'next/headers'
+import UserList from './user-list'
 
 const UsersPage = async () => {
-  const supabase = createServerClient(cookies())
   const queryClient = new QueryClient()
+  const supabase = createServerClient(cookies())
 
-  // await prefetchQuery(queryClient, getUsers(supabase))
+  await prefetchQuery(queryClient, getUsers(supabase))
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
@@ -30,7 +33,7 @@ const UsersPage = async () => {
           <AddUser />
         </PageHeader>
 
-        {/* <UserList /> */}
+        <UserList />
       </div>
     </HydrationBoundary>
   )
