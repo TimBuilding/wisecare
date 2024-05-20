@@ -148,7 +148,11 @@ create policy "allow admin to update hmo_providers"
     )
   )
   with check (
-    true
+    exists (
+      select 1
+      from user_profiles
+      where user_profiles.user_id = auth.uid() and user_profiles.department = 'admin'
+    )
   );
 
 create policy "allow admin to update account_types"
@@ -163,7 +167,11 @@ create policy "allow admin to update account_types"
     )
   )
   with check (
-    true
+    exists (
+      select 1
+      from user_profiles
+      where user_profiles.user_id = auth.uid() and user_profiles.department = 'admin'
+    )
   );
 
 create policy "allow admin to update mode_of_premium"
@@ -178,7 +186,11 @@ create policy "allow admin to update mode_of_premium"
     )
   )
   with check (
-    true
+    exists (
+      select 1
+      from user_profiles
+      where user_profiles.user_id = auth.uid() and user_profiles.department = 'admin'
+    )
   );
 
 
