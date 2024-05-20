@@ -26,7 +26,8 @@
     "test:ci": "jest --ci",
     "analyze": "ANALYZE=true pnpm build",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "typegen": "pnpm dlx supabase gen types typescript --local > src/types/database.types.ts"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.4.0",
