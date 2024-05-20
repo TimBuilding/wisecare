@@ -12,7 +12,7 @@ const userSchema = z.object({
     'finance',
     'admin',
   ]),
-  password: z.string().min(8),
+  // password: z.string().min(8),
 })
 
 export default userSchema

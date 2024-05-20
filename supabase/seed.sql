@@ -30,7 +30,7 @@ INSERT INTO
             NULL,
             current_timestamp,
             '{"provider":"email","providers":["email"]}',
-            jsonb_build_object('first_name', 'FirstName' || (ROW_NUMBER() OVER ()), 'last_name', 'LastName' || (ROW_NUMBER() OVER ())),
+            jsonb_build_object('first_name', 'FirstName' || (ROW_NUMBER() OVER ()), 'last_name', 'LastName' || (ROW_NUMBER() OVER ()), 'department', 'agent'),
             current_timestamp,
             current_timestamp,
             '',

@@ -347,7 +347,7 @@ export type Database = {
       user_profiles: {
         Row: {
           created_at: string | null
-          department: Database['public']['Enums']['department'] | null
+          department: Database['public']['Enums']['department']
           email: string
           first_name: string
           last_name: string
@@ -356,7 +356,7 @@ export type Database = {
         }
         Insert: {
           created_at?: string | null
-          department?: Database['public']['Enums']['department'] | null
+          department?: Database['public']['Enums']['department']
           email: string
           first_name: string
           last_name: string
@@ -365,7 +365,7 @@ export type Database = {
         }
         Update: {
           created_at?: string | null
-          department?: Database['public']['Enums']['department'] | null
+          department?: Database['public']['Enums']['department']
           email?: string
           first_name?: string
           last_name?: string

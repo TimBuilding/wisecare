@@ -7,6 +7,7 @@ import {
   FormField,
   FormItem,
   FormLabel,
+  FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import {
@@ -18,9 +19,10 @@ import {
 } from '@/components/ui/select'
 import { Button } from '@/components/ui/button'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useForm } from 'react-hook-form'
+import { SubmitHandler, useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { SheetClose } from '@/components/ui/sheet'
+import { createBrowserClient } from '@/utils/supabase'
 
 const AddUserForm = () => {
   const form = useForm<z.infer<typeof userSchema>>({
@@ -30,79 +32,111 @@ const AddUserForm = () => {
       lastName: '',
       email: '',
       department: 'marketing',
-      password: '',
+      // password: '',
     },
   })
 
+  const handleSubmit: SubmitHandler<z.infer<typeof userSchema>> = async (
+    data,
+  ) => {
+    console.log(data)
+    console.log('submitting')
+    const supabase = createBrowserClient()
+    const { error } = await supabase.auth.signUp({
+      email: data.email,
+      password: 'password123',
+      options: {
+        data: {
+          first_name: data.firstName,
+          last_name: data.lastName,
+          department: data.department,
+        },
+      },
+    })
+    if (error) {
+      console.log(error)
+    }
+  }
+
   return (
     <Form {...form}>
-      <form>
+      <form onSubmit={form.handleSubmit(handleSubmit)}>
         <div className="space-y-8 px-6 pb-10">
           <FormField
             name={'firstName'}
+            control={form.control}
             render={({ field }) => (
               <FormItem>
                 <FormLabel>First Name</FormLabel>
                 <FormControl>
                   <Input {...field} />
                 </FormControl>
+                <FormMessage />
               </FormItem>
             )}
           />
           <FormField
             name={'lastName'}
+            control={form.control}
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Last Name</FormLabel>
                 <FormControl>
                   <Input {...field} />
                 </FormControl>
+                <FormMessage />
               </FormItem>
             )}
           />
           <FormField
             name={'email'}
+            control={form.control}
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Email</FormLabel>
                 <FormControl>
                   <Input {...field} />
                 </FormControl>
+                <FormMessage />
               </FormItem>
             )}
           />
           <FormField
             name={'department'}
+            control={form.control}
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Department</FormLabel>
-                <Select>
+                <Select onValueChange={field.onChange}>
                   <FormControl>
                     <SelectTrigger>
                       <SelectValue placeholder={'Select department'} />
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    <SelectItem value="agent">Marketing</SelectItem>
-                    <SelectItem value="manager">After Sales</SelectItem>
-                    <SelectItem value="admin">Under Writing</SelectItem>
-                    <SelectItem value="admin">Finance</SelectItem>
+                    <SelectItem value="marketing">Marketing</SelectItem>
+                    <SelectItem value="after-sales">After Sales</SelectItem>
+                    <SelectItem value="under-writing">Under Writing</SelectItem>
+                    <SelectItem value="finance">Finance</SelectItem>
                     <SelectItem value="admin">Admin</SelectItem>
                   </SelectContent>
                 </Select>
+                <FormMessage />
               </FormItem>
             )}
           />
         </div>
         <div className="fixed bottom-0 flex w-full flex-row items-center justify-between gap-2 bg-[#f1f5f9] px-4 py-3 md:max-w-2xl">
-          <Button variant="ghost" className="text-destructive">
+          <Button type="button" variant="ghost" className="text-destructive">
             Delete
           </Button>
           <div className="flex flex-row items-center justify-center">
             <SheetClose asChild={true}>
-              <Button variant="ghost">Cancel</Button>
+              <Button type="button" variant="ghost">
+                Cancel
+              </Button>
             </SheetClose>
-            <Button>Add User</Button>
+            <Button type="submit">Add User</Button>
           </div>
         </div>
       </form>
