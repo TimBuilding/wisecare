@@ -1,14 +1,11 @@
-import { Tables } from '@/types/database.types'
-import { SupabaseClient } from '@supabase/supabase-js'
+import { TypedSupabaseClient } from '@/types/typedSupabaseClient'
 
-const getUsers = async (
-  supabase: SupabaseClient,
-): Promise<Tables<'user_profiles'>[]> => {
-  const { data, error } = await supabase.from('user_profiles').select('*')
-  if (error) {
-    return []
-  }
-  return data
+const getUsers = async (supabase: TypedSupabaseClient) => {
+  return supabase
+    .from('user_profiles')
+    .select('user_id, first_name, last_name, department')
+    .order('first_name')
+    .throwOnError()
 }
 
 export default getUsers

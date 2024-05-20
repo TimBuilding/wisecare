@@ -4,7 +4,7 @@ import { Skeleton } from '@/components/ui/skeleton'
 import getUsers from '@/queries/get-users'
 import { Tables } from '@/types/database.types'
 import { createBrowserClient } from '@/utils/supabase'
-import { useQuery } from '@tanstack/react-query'
+import { useQuery } from '@supabase-cache-helpers/postgrest-react-query'
 import Avatar, { genConfig } from 'react-nice-avatar'
 
 const UserListItem = ({
@@ -35,24 +35,16 @@ const UserListItem = ({
   )
 }
 
-const UserList = ({
-  initialUsers,
-}: {
-  initialUsers: Tables<'user_profiles'>[]
-}) => {
+const UserList = () => {
   const supabase = createBrowserClient()
 
-  const { data, isPending } = useQuery({
-    queryKey: ['users'],
-    queryFn: () => getUsers(supabase),
-    initialData: initialUsers,
-  })
+  const { data, isPending } = useQuery(getUsers(supabase))
 
   return (
     <div className="flex w-full flex-col divide-y divide-border border-y border-border">
       {isPending &&
         [...Array(5)].map((_, index) => <UserListItem key={index} isLoading />)}
-      {data?.map((user) => <UserListItem key={user.user_id} user={user} />)}
+      {data?.map((user) => <UserListItem key={user.user_id} />)}
     </div>
   )
 }

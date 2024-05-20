@@ -1,37 +1,38 @@
 'use server'
+import AddUser from '@/app/(dashboard)/admin/users/add-user'
 import {
   PageDescription,
   PageHeader,
   PageTitle,
 } from '@/components/page-header'
-import UserList from '@/app/(dashboard)/admin/users/user-list'
-import { Button } from '@/components/ui/button'
-import { Plus } from 'lucide-react'
-import getUsers from '@/queries/get-users'
 import { createServerClient } from '@/utils/supabase'
+import {
+  dehydrate,
+  HydrationBoundary,
+  QueryClient,
+} from '@tanstack/react-query'
 import { cookies } from 'next/headers'
 
 const UsersPage = async () => {
   const supabase = createServerClient(cookies())
+  const queryClient = new QueryClient()
 
-  const initialUsers = await getUsers(supabase)
+  // await prefetchQuery(queryClient, getUsers(supabase))
 
   return (
-    <div className="space-y-8">
-      <PageHeader>
-        <div>
-          <PageTitle>Users</PageTitle>
-          <PageDescription>81 Users</PageDescription>
-        </div>
-        <div>
-          <Button className="space-x-2">
-            <Plus />
-            <span>Add</span>
-          </Button>
-        </div>
-      </PageHeader>
-      <UserList initialUsers={initialUsers} />
-    </div>
+    <HydrationBoundary state={dehydrate(queryClient)}>
+      <div className="space-y-8">
+        <PageHeader>
+          <div>
+            <PageTitle>Users</PageTitle>
+            <PageDescription>81 Users</PageDescription>
+          </div>
+          <AddUser />
+        </PageHeader>
+
+        {/* <UserList /> */}
+      </div>
+    </HydrationBoundary>
   )
 }
 
