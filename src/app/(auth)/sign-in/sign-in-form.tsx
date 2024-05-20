@@ -20,6 +20,7 @@ import WisecareLogo from '@/assets/images/wisecare-logo-2 1.png'
 import Image from 'next/image'
 import Message from '@/components/message'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { Loader2 } from 'lucide-react'
 
 const SignInForm = () => {
   const form = useForm<z.infer<typeof signInSchema>>({
@@ -31,11 +32,13 @@ const SignInForm = () => {
   })
   const [error, setError] = useState<string>('')
   const router = useRouter()
+  const [isLoading, setIsLoading] = useState(false)
 
   const handleSignIn: SubmitHandler<z.infer<typeof signInSchema>> = async ({
     email,
     password,
   }) => {
+    setIsLoading(true)
     const supabase = createBrowserClient()
     const { error } = await supabase.auth.signInWithPassword({
       email,
@@ -43,6 +46,7 @@ const SignInForm = () => {
     })
 
     if (error) {
+      setIsLoading(false)
       return setError(error.message.toString())
     }
 
@@ -64,7 +68,7 @@ const SignInForm = () => {
                 <FormItem>
                   <FormLabel>Email address*</FormLabel>
                   <FormControl>
-                    <Input {...field} />
+                    <Input {...field} disabled={isLoading} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -77,7 +81,7 @@ const SignInForm = () => {
                 <FormItem>
                   <FormLabel>Password*</FormLabel>
                   <FormControl>
-                    <Input {...field} type="password" />
+                    <Input {...field} type="password" disabled={isLoading} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -89,8 +93,8 @@ const SignInForm = () => {
               Forgot password?
             </Link>
           </div>
-          <Button type="submit" className="mt-8 w-full">
-            Sign in
+          <Button type="submit" className="mt-8 w-full" disabled={isLoading}>
+            {isLoading ? <Loader2 className="animate-spin" /> : 'Sign in'}
           </Button>
         </form>
       </Form>
