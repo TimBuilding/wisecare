@@ -6,7 +6,7 @@ import Navbar from './navbar'
 const Header = () => {
   return (
     <Sheet>
-      <header className="flex h-16 w-full flex-row items-center justify-between bg-card px-3 py-2 shadow-md md:justify-end">
+      <header className="flex h-16 w-full flex-row items-center justify-between border-b bg-card px-3 py-2 shadow-md md:justify-end">
         <SheetTrigger asChild={true}>
           <Button variant={'ghost'} size={'icon'} className="md:hidden">
             <Menu className="text-muted-foreground/50" />
