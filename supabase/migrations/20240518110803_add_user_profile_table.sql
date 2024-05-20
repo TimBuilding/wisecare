@@ -5,7 +5,7 @@ create table user_profiles (
   first_name varchar(255) not null,
   last_name varchar(255) not null,
   email varchar(255) not null,
-  department department,
+  department department default 'agent',
   created_at timestamp with time zone default now(),
   updated_at timestamp with time zone default now()
 );
