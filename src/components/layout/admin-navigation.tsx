@@ -1,4 +1,4 @@
-import { Users } from 'lucide-react'
+import { BookType, Users } from 'lucide-react'
 import NavigationItem from './navigation-item'
 
 const AdminNavigation = () => {
@@ -16,6 +16,12 @@ const AdminNavigation = () => {
           href="/admin/users"
           active={false}
           icon={Users}
+        />
+        <NavigationItem
+          title="Manage Types"
+          href="/admin/types"
+          active={false}
+          icon={BookType}
         />
       </div>
     </div>
