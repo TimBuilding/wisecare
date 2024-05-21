@@ -1,8 +1,5 @@
 'use client'
-import { useForm } from 'react-hook-form'
-import { z } from 'zod'
-import typeSchema from './type-schema'
-import { zodResolver } from '@hookform/resolvers/zod'
+import { Button } from '@/components/ui/button'
 import {
   Form,
   FormControl,
@@ -10,11 +7,16 @@ import {
   FormItem,
   FormLabel,
 } from '@/components/ui/form'
-import { TypeTabs } from './type-card'
-import { FC } from 'react'
 import { Input } from '@/components/ui/input'
-import { Button } from '@/components/ui/button'
+import { createBrowserClient } from '@/utils/supabase'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useInsertMutation } from '@supabase-cache-helpers/postgrest-react-query'
 import { Plus } from 'lucide-react'
+import { FC, FormEventHandler, useCallback } from 'react'
+import { useForm } from 'react-hook-form'
+import { z } from 'zod'
+import { TypeTabs } from './type-card'
+import typeSchema from './type-schema'
 
 interface Props {
   page: TypeTabs
@@ -43,9 +45,31 @@ const CreateType: FC<Props> = ({ page }) => {
     },
   })
 
+  const supabase = createBrowserClient()
+
+  const { mutateAsync } = useInsertMutation(
+    supabase.from(page),
+    ['id'],
+    'name, id, created_at',
+  )
+
+  const onSubmitHandler = useCallback<FormEventHandler<HTMLFormElement>>(
+    (e) => {
+      form.handleSubmit(async (data) => {
+        console.log('submitted')
+        await mutateAsync([
+          {
+            name: data.name,
+          },
+        ])
+      })(e)
+    },
+    [mutateAsync],
+  )
+
   return (
     <Form {...form}>
-      <form className="mt-8 px-6">
+      <form onSubmit={onSubmitHandler} className="mt-8 px-6">
         <FormField
           control={form.control}
           name="name"
@@ -61,6 +85,7 @@ const CreateType: FC<Props> = ({ page }) => {
                     className="absolute right-1 top-1"
                     size={'icon'}
                     variant={'ghost'}
+                    type="submit"
                   >
                     <div className="rounded-full bg-[#97a2b1] p-1">
                       <Plus className="h-4 w-4" />
