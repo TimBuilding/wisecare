@@ -110,7 +110,7 @@ DECLARE
     mode_of_payment_id uuid;
     mode_of_premium_id uuid;
 BEGIN
-    FOR i IN 1..10 LOOP
+    FOR i IN 1..50 LOOP
         -- Randomly select agent_id, hmo_provider_id, account_type_id, plan_type_id, mode_of_payment_id, mode_of_premium_id
         SELECT user_id INTO agent_id FROM user_profiles OFFSET floor(random() * (SELECT count(*) FROM user_profiles)) LIMIT 1;
         SELECT id INTO hmo_provider_id FROM hmo_providers OFFSET floor(random() * (SELECT count(*) FROM hmo_providers)) LIMIT 1;
@@ -206,6 +206,3 @@ BEGIN
         );
     END LOOP;
 END $$;
-
-
-
