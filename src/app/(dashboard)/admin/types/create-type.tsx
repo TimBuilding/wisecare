@@ -17,6 +17,7 @@ import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { TypeTabs } from './type-card'
 import typeSchema from './type-schema'
+import { useToast } from '@/components/ui/use-toast'
 
 interface Props {
   page: TypeTabs
@@ -46,11 +47,24 @@ const CreateType: FC<Props> = ({ page }) => {
   })
 
   const supabase = createBrowserClient()
+  const { toast } = useToast()
 
   const { mutateAsync } = useInsertMutation(
     supabase.from(page),
     ['id'],
     'name, id, created_at',
+    {
+      onSuccess: () => {
+        toast({
+          variant: 'default',
+          title: 'Type created!',
+          description: `Successfully created ${form.getValues('name')} on ${renderTitle()}.`,
+        })
+
+        // clear form
+        form.reset()
+      },
+    },
   )
 
   const onSubmitHandler = useCallback<FormEventHandler<HTMLFormElement>>(
