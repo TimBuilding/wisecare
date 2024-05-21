@@ -22,7 +22,7 @@ const TablePagination = <TData,>({
   table,
 }: DataTablePaginationProps<TData>) => {
   return (
-    <div className="fixed bottom-0 flex h-[73px] w-full flex-col justify-center bg-card p-7">
+    <div className="fixed bottom-0 flex h-[73px] w-full flex-col justify-center bg-background p-7">
       <div className=" w-2/3 items-center justify-between px-2">
         <div className="flex items-center space-x-6 lg:space-x-8">
           <div className="flex items-center space-x-2">
