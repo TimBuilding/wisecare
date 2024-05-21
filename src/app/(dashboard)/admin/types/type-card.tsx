@@ -18,7 +18,7 @@ const TypeCard = () => {
     <div className="pt-9">
       <TypesTitle page={page} />
       <CreateType page={page} />
-      <TypeList />
+      <TypeList page={page} />
     </div>
   )
 }
