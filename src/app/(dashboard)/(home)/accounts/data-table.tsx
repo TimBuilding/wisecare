@@ -1,8 +1,14 @@
 'use client'
 
+import {
+  PageHeader,
+  PageTitle,
+  PageDescription,
+} from '@/components/page-header'
 import TablePagination from '@/components/table-pagination'
 import TableViewOptions from '@/components/table-view-options'
 import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
 import {
   TableHeader,
   TableRow,
@@ -13,14 +19,17 @@ import {
 } from '@/components/ui/table'
 import {
   ColumnDef,
+  ColumnFiltersState,
   SortingState,
   VisibilityState,
   flexRender,
   getCoreRowModel,
+  getFilteredRowModel,
   getPaginationRowModel,
   getSortedRowModel,
   useReactTable,
 } from '@tanstack/react-table'
+import { Plus, Search } from 'lucide-react'
 import { useState } from 'react'
 
 interface DataTableProps<TData, TValue> {
@@ -34,6 +43,7 @@ const DataTable = <TData, TValue>({
 }: DataTableProps<TData, TValue>) => {
   const [sorting, setSorting] = useState<SortingState>([])
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
 
   const table = useReactTable({
     data,
@@ -43,13 +53,47 @@ const DataTable = <TData, TValue>({
     onSortingChange: setSorting,
     getSortedRowModel: getSortedRowModel(),
     onColumnVisibilityChange: setColumnVisibility,
+    onColumnFiltersChange: setColumnFilters,
+    getFilteredRowModel: getFilteredRowModel(),
     state: {
       sorting,
       columnVisibility,
+      columnFilters,
     },
   })
   return (
-    <div>
+    <div className="flex flex-col">
+      <PageHeader>
+        <div className="flex w-full flex-col gap-6 sm:flex-row sm:justify-between">
+          <div>
+            <PageTitle>Accounts</PageTitle>
+            <PageDescription>123 Accounts</PageDescription>
+          </div>
+          <div className="flex flex-row gap-4">
+            <div className="relative">
+              <Search className="absolute left-3.5 top-3.5 h-5 w-5 text-[#94a3b8]" />
+              <Input
+                className="max-w-xs rounded-full pl-10"
+                placeholder="Search accounts"
+                value={
+                  (table
+                    .getColumn('company_name')
+                    ?.getFilterValue() as string) ?? ''
+                }
+                onChange={(event) =>
+                  table
+                    .getColumn('company_name')
+                    ?.setFilterValue(event.target.value)
+                }
+              />
+            </div>
+            <Button className="space-x-2">
+              <Plus />
+              <span>Add</span>
+            </Button>
+          </div>
+        </div>
+      </PageHeader>
       {/* <TableViewOptions table={table} /> */}
       <div className="h-full bg-card">
         <div className="rounded-md border">

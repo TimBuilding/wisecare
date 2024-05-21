@@ -24,20 +24,7 @@ const AccountsPage = async () => {
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <div className="flex flex-col">
-        <PageHeader>
-          <div>
-            <PageTitle>Accounts</PageTitle>
-            <PageDescription>123 Accounts</PageDescription>
-          </div>
-          <Button className="space-x-2">
-            <Plus />
-            <span>Add</span>
-          </Button>
-        </PageHeader>
-
-        <AccountsTable />
-      </div>
+      <AccountsTable />
     </HydrationBoundary>
   )
 }
