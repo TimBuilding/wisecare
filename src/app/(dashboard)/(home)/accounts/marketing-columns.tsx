@@ -1,4 +1,5 @@
 'use client'
+import TableHeader from '@/components/table-header'
 import getAccounts from '@/queries/get-accounts'
 import { Tables } from '@/types/database.types'
 import { QueryData } from '@supabase/supabase-js'
@@ -9,171 +10,237 @@ export type getAccountsResponse = Awaited<ReturnType<typeof getAccounts>>
 const marketingColumns: ColumnDef<getAccountsResponse>[] = [
   {
     accessorKey: 'company_name',
-    header: 'Company Name',
+    header: ({ column }) => (
+      <TableHeader column={column} title="Company Name" />
+    ),
   },
   {
     accessorKey: 'account_type.name',
-    header: 'Account Type',
+    header: ({ column }) => (
+      <TableHeader column={column} title="Account Type" />
+    ),
   },
   {
     accessorKey: 'agent.first_name',
-    header: 'Agent',
+    header: ({ column }) => <TableHeader column={column} title="Agent" />,
   },
   {
     accessorKey: 'is_active',
-    header: 'Active Status',
+    header: ({ column }) => (
+      <TableHeader column={column} title="Active Status" />
+    ),
   },
   {
     accessorKey: 'company_address',
-    header: 'Company Address',
+    header: ({ column }) => (
+      <TableHeader column={column} title="Company Address" />
+    ),
   },
   {
     accessorKey: 'nature_of_business',
-    header: 'Nature of Business',
+    header: ({ column }) => (
+      <TableHeader column={column} title="Nature of Business" />
+    ),
   },
   {
     accessorKey: 'hmo_provider.name',
-    header: 'HMO Provider',
+    header: ({ column }) => (
+      <TableHeader column={column} title="HMO Provider" />
+    ),
   },
   {
     accessorKey: 'previous_hmo_provider.name',
-    header: 'Previous HMO Provider',
+    header: ({ column }) => (
+      <TableHeader column={column} title="Previous HMO Provider" />
+    ),
   },
   {
     accessorKey: 'current_hmo_provider.name',
-    header: 'Current HMO Provider',
+    header: ({ column }) => (
+      <TableHeader column={column} title="Current HMO Provider" />
+    ),
   },
   {
     accessorKey: 'total_utilization',
-    header: 'Total Utilization',
+    header: ({ column }) => (
+      <TableHeader column={column} title="Total Utilization" />
+    ),
   },
   {
     accessorKey: 'total_premium_paid',
-    header: 'Total Premium Paid',
+    header: ({ column }) => (
+      <TableHeader column={column} title="Total Premium Paid" />
+    ),
   },
   {
     accessorKey: 'signatory_designation',
-    header: 'Signatory Designation',
+    header: ({ column }) => (
+      <TableHeader column={column} title="Signatory Designation" />
+    ),
   },
   {
     accessorKey: 'contact_person',
-    header: 'Contact Person',
+    header: ({ column }) => (
+      <TableHeader column={column} title="Contact Person" />
+    ),
   },
   {
     accessorKey: 'contact_number',
-    header: 'Contact Number',
+    header: ({ column }) => (
+      <TableHeader column={column} title="Contact Number" />
+    ),
   },
   {
     accessorKey: 'principal_plan_type.name',
-    header: 'Principal Plan Type',
+    header: ({ column }) => (
+      <TableHeader column={column} title="Principal Plan Type" />
+    ),
   },
   {
     accessorKey: 'dependent_plan_type.name',
-    header: 'Dependent Plan Type',
+    header: ({ column }) => (
+      <TableHeader column={column} title="Dependent Plan Type" />
+    ),
   },
   {
     accessorKey: 'initial_head_count',
-    header: 'Initial Head Count',
+    header: ({ column }) => (
+      <TableHeader column={column} title="Initial Head Count" />
+    ),
   },
   {
     accessorKey: 'effectivity_date',
-    header: 'Effectivity Date',
+    header: ({ column }) => (
+      <TableHeader column={column} title="Effectivity Date" />
+    ),
   },
   {
     accessorKey: 'coc_issue_date',
-    header: 'COC Issue Date',
+    header: ({ column }) => (
+      <TableHeader column={column} title="COC Issue Date" />
+    ),
   },
   {
     accessorKey: 'effective_date',
-    header: 'Effective Date',
+    header: ({ column }) => (
+      <TableHeader column={column} title="Effective Date" />
+    ),
   },
   {
     accessorKey: 'renewal_date',
-    header: 'Renewal Date',
+    header: ({ column }) => (
+      <TableHeader column={column} title="Renewal Date" />
+    ),
   },
   {
     accessorKey: 'expiration_date',
-    header: 'Expiration Date',
+    header: ({ column }) => (
+      <TableHeader column={column} title="Expiration Date" />
+    ),
   },
   {
     accessorKey: 'delivery_date_of_membership_ids',
-    header: 'Delivery Date of Membership IDs',
+    header: ({ column }) => (
+      <TableHeader column={column} title="Delivery Date of Membership IDs" />
+    ),
   },
   {
     accessorKey: 'orientation_date',
-    header: 'Orientation Date',
+    header: ({ column }) => (
+      <TableHeader column={column} title="Orientation Date" />
+    ),
   },
   {
     accessorKey: 'initial_contract_value',
-    header: 'Initial Contract Value',
+    header: ({ column }) => (
+      <TableHeader column={column} title="Initial Contract Value" />
+    ),
   },
   {
     accessorKey: 'mode_of_payment.name',
-    header: 'Mode of Payment',
+    header: ({ column }) => (
+      <TableHeader column={column} title="Mode of Payment" />
+    ),
   },
   {
     accessorKey: 'wellness_lecture_date',
-    header: 'Wellness Lecture Date',
+    header: ({ column }) => (
+      <TableHeader column={column} title="Wellness Lecture Date" />
+    ),
   },
   {
     accessorKey: 'annual_physical_examination_date',
-    header: 'Annual Physical Examination Date',
+    header: ({ column }) => (
+      <TableHeader column={column} title="Annual Physical Examination Date" />
+    ),
   },
   {
     accessorKey: 'commision_rate',
-    header: 'Commission Rate',
+    header: ({ column }) => (
+      <TableHeader column={column} title="Commission Rate" />
+    ),
   },
   {
     accessorKey: 'additional_benefits',
-    header: 'Additional Benefits',
+    header: ({ column }) => (
+      <TableHeader column={column} title="Additional Benefits" />
+    ),
   },
   {
     accessorKey: 'special_benefits',
-    header: 'Special Benefits',
+    header: ({ column }) => (
+      <TableHeader column={column} title="Special Benefits" />
+    ),
   },
   {
     accessorKey: 'mode_of_premium.name',
-    header: 'Mode of Premium',
+    header: ({ column }) => (
+      <TableHeader column={column} title="Mode of Premium" />
+    ),
   },
   {
     accessorKey: 'due_date',
-    header: 'Due Date',
+    header: ({ column }) => <TableHeader column={column} title="Due Date" />,
   },
   {
     accessorKey: 'or_number',
-    header: 'OR Number',
+    header: ({ column }) => <TableHeader column={column} title="OR Number" />,
   },
   {
     accessorKey: 'or_date',
-    header: 'OR Date',
+    header: ({ column }) => <TableHeader column={column} title="OR Date" />,
   },
   {
     accessorKey: 'sa_number',
-    header: 'SA Number',
+    header: ({ column }) => <TableHeader column={column} title="SA Number" />,
   },
   {
     accessorKey: 'amount',
-    header: 'Amount',
+    header: ({ column }) => <TableHeader column={column} title="Amount" />,
   },
   {
     accessorKey: 'total_contract_value',
-    header: 'Total Contract Value',
+    header: ({ column }) => (
+      <TableHeader column={column} title="Total Contract Value" />
+    ),
   },
   {
     accessorKey: 'balance',
-    header: 'Balance',
+    header: ({ column }) => <TableHeader column={column} title="Balance" />,
   },
   {
     accessorKey: 'billing_period',
-    header: 'Billing Period',
+    header: ({ column }) => (
+      <TableHeader column={column} title="Billing Period" />
+    ),
   },
   {
     accessorKey: 'created_at',
-    header: 'Created At',
+    header: ({ column }) => <TableHeader column={column} title="Created At" />,
   },
   {
     accessorKey: 'updated_at',
-    header: 'Updated At',
+    header: ({ column }) => <TableHeader column={column} title="Updated At" />,
   },
 ]
 
