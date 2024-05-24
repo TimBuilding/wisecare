@@ -6,17 +6,20 @@ import { useQuery } from '@supabase-cache-helpers/postgrest-react-query'
 import { createBrowserClient } from '@/utils/supabase'
 import getTypes from '@/queries/get-types'
 import { Skeleton } from '@/components/ui/skeleton'
+import DeleteType from './delete-type'
 
 const TypeListItem = ({
   name,
   date,
   id,
   isLoading,
+  page,
 }: {
   name?: string
   date?: string
   id?: string
   isLoading?: boolean
+  page: TypeTabs
 }) => {
   return (
     <div className="flex flex-row items-center justify-between py-6">
@@ -34,14 +37,8 @@ const TypeListItem = ({
           </span>
         </div>
       </div>
-      <Button
-        variant={'ghost'}
-        size={'icon'}
-        className="text-muted-foreground/50 hover:text-destructive"
-      >
-        {isLoading && <Skeleton className="h-10 w-10 rounded-full" />}
-        {id && <Trash2 className="h-6 w-6" />}
-      </Button>
+      {id && <DeleteType id={id} name={name || ''} page={page} />}
+      {isLoading && <Skeleton className="h-10 w-10 rounded-full" />}
     </div>
   )
 }
@@ -58,7 +55,7 @@ const TypeList: FC<Props> = ({ page }) => {
     <div className="mt-9 flex w-full flex-col divide-y divide-border border-y border-border px-6">
       {isPending &&
         [...Array(5)].map((_, index) => (
-          <TypeListItem isLoading={true} key={index} />
+          <TypeListItem page={page} isLoading={true} key={index} />
         ))}
       {data?.map((type) => (
         <TypeListItem
@@ -66,6 +63,7 @@ const TypeList: FC<Props> = ({ page }) => {
           name={type.name}
           date="2022-01-01"
           id={type.id}
+          page={page}
         />
       ))}
     </div>
