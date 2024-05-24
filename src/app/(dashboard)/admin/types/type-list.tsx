@@ -22,7 +22,7 @@ const TypeListItem = ({
   page: TypeTabs
 }) => {
   return (
-    <div className="flex flex-row items-center justify-between py-6">
+    <div className="flex flex-row items-center justify-between py-6 duration-500 animate-in fade-in slide-in-from-left-96">
       <div className="flex flex-row items-center justify-center gap-4">
         {id && <div className="h-10 w-10 rounded-full bg-primary" />}
         {isLoading && <Skeleton className="h-10 w-10 rounded-full" />}

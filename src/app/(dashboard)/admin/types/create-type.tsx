@@ -11,7 +11,7 @@ import { Input } from '@/components/ui/input'
 import { createBrowserClient } from '@/utils/supabase'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useInsertMutation } from '@supabase-cache-helpers/postgrest-react-query'
-import { Plus } from 'lucide-react'
+import { Loader2, Plus } from 'lucide-react'
 import { FC, FormEventHandler, useCallback } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
@@ -49,7 +49,7 @@ const CreateType: FC<Props> = ({ page }) => {
   const supabase = createBrowserClient()
   const { toast } = useToast()
 
-  const { mutateAsync } = useInsertMutation(
+  const { mutateAsync, isPending } = useInsertMutation(
     supabase.from(page),
     ['id'],
     'name, id, created_at',
@@ -94,15 +94,20 @@ const CreateType: FC<Props> = ({ page }) => {
               </FormLabel>
               <FormControl>
                 <div className="relative">
-                  <Input {...field} />
+                  <Input {...field} disabled={isPending} />
                   <Button
                     className="absolute right-1 top-1"
                     size={'icon'}
                     variant={'ghost'}
                     type="submit"
+                    disabled={isPending}
                   >
                     <div className="rounded-full bg-[#97a2b1] p-1">
-                      <Plus className="h-4 w-4" />
+                      {isPending ? (
+                        <Loader2 className="h-4 w-4 animate-spin" />
+                      ) : (
+                        <Plus className="h-4 w-4" />
+                      )}
                     </div>
                   </Button>
                 </div>

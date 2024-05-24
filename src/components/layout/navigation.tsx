@@ -1,9 +1,6 @@
-import { BookCopy, ClipboardCheck, HandMetal } from 'lucide-react'
-import Link from 'next/link'
-import { ComponentType } from 'react'
-import { cn } from '../../utils/tailwind'
-import NavigationItem from './navigation-item'
+import { BookCopy, ClipboardCheck } from 'lucide-react'
 import AdminNavigation from './admin-navigation'
+import NavigationItem from './navigation-item'
 
 const Navigation = () => {
   return (
