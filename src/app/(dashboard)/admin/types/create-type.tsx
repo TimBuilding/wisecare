@@ -83,7 +83,7 @@ const CreateType: FC<Props> = ({ page }) => {
 
   return (
     <Form {...form}>
-      <form onSubmit={onSubmitHandler} className="mt-8 px-6">
+      <form onSubmit={onSubmitHandler} className="mt-8 px-6 lg:px-12">
         <FormField
           control={form.control}
           name="name"

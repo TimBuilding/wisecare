@@ -52,7 +52,7 @@ const TypeList: FC<Props> = ({ page }) => {
   const { data, isPending } = useQuery(getTypes(supabase, page))
 
   return (
-    <div className="mt-9 flex w-full flex-col divide-y divide-border border-y border-border px-6">
+    <div className="mt-9 flex w-full flex-col divide-y divide-border border-y border-border px-6 lg:px-12">
       {isPending &&
         [...Array(5)].map((_, index) => (
           <TypeListItem page={page} isLoading={true} key={index} />
