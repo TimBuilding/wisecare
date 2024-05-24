@@ -1,6 +1,13 @@
 import { Button } from '@/components/ui/button'
 import { cn } from '@/utils/tailwind'
-import { UserCircle, X } from 'lucide-react'
+import {
+  UserCircle,
+  X,
+  ActivitySquare,
+  CreditCard,
+  CalendarClock,
+  Users,
+} from 'lucide-react'
 import { ComponentType, FC } from 'react'
 import { TypeTabs, useTypesContext } from './type-card'
 
@@ -18,24 +25,53 @@ const navigationLinks: NavigationLink[] = [
     tab: 'account_types',
     icon: UserCircle,
   },
+  {
+    name: 'HMO Providers',
+    description: 'Manage HMO Providers',
+    tab: 'hmo_providers',
+    icon: ActivitySquare,
+  },
+  {
+    name: 'Mode of Payments',
+    description: 'Manage mode of payments',
+    tab: 'mode_of_payments',
+    icon: CreditCard,
+  },
+  {
+    name: 'Mode of Premium',
+    description: 'Manage mode of premium',
+    tab: 'mode_of_premium',
+    icon: CalendarClock,
+  },
+  {
+    name: 'Plan Types',
+    description: 'Manage plan types',
+    tab: 'plan_types',
+    icon: Users,
+  },
 ]
 
 const NavigationItem: FC<NavigationLink> = ({
   name,
   description,
   tab,
-  icon,
+  icon: Icon,
 }) => {
-  const { page } = useTypesContext()
+  const { page, setPage, setIsNavOpen } = useTypesContext()
 
+  const handleClick = () => {
+    setPage(tab)
+    setIsNavOpen(false)
+  }
   return (
-    <div
+    <button
       className={cn(
         page === tab ? 'bg-primary/10' : 'hover:bg-muted',
         'flex max-h-28 w-full cursor-pointer flex-row items-start justify-start gap-3 px-8 py-5 sm:w-96',
       )}
+      onClick={handleClick}
     >
-      <UserCircle
+      <Icon
         className={cn(
           page === tab ? 'text-primary' : 'text-foreground/80',
           'h-6 w-6',
@@ -45,14 +81,14 @@ const NavigationItem: FC<NavigationLink> = ({
         <span
           className={cn(
             page === tab ? 'text-primary' : 'text-foreground/80',
-            'text-sm font-medium',
+            'text-left text-sm font-medium',
           )}
         >
           {name}
         </span>
         <span className="text-sm text-muted-foreground/70">{description}</span>
       </div>
-    </div>
+    </button>
   )
 }
 

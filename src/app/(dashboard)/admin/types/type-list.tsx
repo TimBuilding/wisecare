@@ -1,22 +1,21 @@
-import { Button } from '@/components/ui/button'
-import { Trash2 } from 'lucide-react'
-import { TypeTabs } from './type-card'
-import { FC } from 'react'
-import { useQuery } from '@supabase-cache-helpers/postgrest-react-query'
-import { createBrowserClient } from '@/utils/supabase'
-import getTypes from '@/queries/get-types'
 import { Skeleton } from '@/components/ui/skeleton'
+import getTypes from '@/queries/get-types'
+import { createBrowserClient } from '@/utils/supabase'
+import { useQuery } from '@supabase-cache-helpers/postgrest-react-query'
+import { format } from 'date-fns'
+import { FC } from 'react'
 import DeleteType from './delete-type'
+import { TypeTabs } from './type-card'
 
 const TypeListItem = ({
   name,
-  date,
+  created_at,
   id,
   isLoading,
   page,
 }: {
   name?: string
-  date?: string
+  created_at?: string
   id?: string
   isLoading?: boolean
   page: TypeTabs
@@ -31,8 +30,8 @@ const TypeListItem = ({
             {name}
             {isLoading && <Skeleton className="h-4 w-20" />}
           </span>
-          <span className="text-sm text-[#64748b]">
-            {date}
+          <span className="text-xs text-[#64748b]">
+            Created at {created_at}
             {isLoading && <Skeleton className="mt-1 h-4 w-24" />}
           </span>
         </div>
@@ -61,7 +60,7 @@ const TypeList: FC<Props> = ({ page }) => {
         <TypeListItem
           key={type.id}
           name={type.name}
-          date="2022-01-01"
+          created_at={type.created_at || ''}
           id={type.id}
           page={page}
         />
