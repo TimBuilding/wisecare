@@ -11,9 +11,10 @@ import MarketingInputs from './forms/marketing-inputs'
 import { useInsertMutation } from '@supabase-cache-helpers/postgrest-react-query'
 import { createBrowserClient } from '@/utils/supabase'
 import { FormEventHandler, useCallback } from 'react'
+import { Loader2 } from 'lucide-react'
 
 const AddAccountForm = () => {
-  const { isFormOpen } = useAccountsContext()
+  const { isFormOpen, setIsFormOpen } = useAccountsContext()
   const form = useForm<z.infer<typeof accountsSchema>>({
     resolver: zodResolver(accountsSchema),
     defaultValues: {
@@ -52,10 +53,19 @@ const AddAccountForm = () => {
   })
 
   const supabase = createBrowserClient()
-  const { mutateAsync } = useInsertMutation(
+  const { mutateAsync, isPending } = useInsertMutation(
     supabase.from('accounts'),
     ['id'],
     'id',
+    {
+      onSuccess: () => {
+        // clear form
+        form.reset()
+
+        // close form
+        setIsFormOpen(false)
+      },
+    },
   )
 
   const onSubmitHandler = useCallback<FormEventHandler<HTMLFormElement>>(
@@ -114,15 +124,20 @@ const AddAccountForm = () => {
         <Form {...form}>
           <form onSubmit={onSubmitHandler}>
             <div className="space-y-5 px-8">
-              <MarketingInputs />
+              <MarketingInputs isLoading={isPending} />
             </div>
             <div className="mt-8 border-t border-border py-3">
               <div className="flex flex-row items-center justify-between px-4">
-                <Button variant="outline" className="w-24">
-                  Cancel
+                <Button variant="outline" className="w-24" disabled={isPending}>
+                  {isPending ? <Loader2 className="animate-spin" /> : 'Cancel'}
                 </Button>
-                <Button type="submit" variant="default" className="w-24">
-                  Save
+                <Button
+                  type="submit"
+                  variant="default"
+                  className="w-24"
+                  disabled={isPending}
+                >
+                  {isPending ? <Loader2 className="animate-spin" /> : 'Save'}
                 </Button>
               </div>
             </div>

@@ -30,8 +30,13 @@ import { CalendarIcon } from 'lucide-react'
 import { useFormContext } from 'react-hook-form'
 import { z } from 'zod'
 import accountsSchema from '../accounts-schema'
+import { FC } from 'react'
 
-const MarketingInputs = () => {
+interface Props {
+  isLoading: boolean
+}
+
+const MarketingInputs: FC<Props> = ({ isLoading }) => {
   const form = useFormContext<z.infer<typeof accountsSchema>>()
   const supabase = createBrowserClient()
 
@@ -53,7 +58,7 @@ const MarketingInputs = () => {
             <FormLabel>Agent</FormLabel>
             <Select onValueChange={field.onChange}>
               <FormControl>
-                <SelectTrigger>
+                <SelectTrigger disabled={isLoading}>
                   <SelectValue placeholder="Select Agent" />
                 </SelectTrigger>
               </FormControl>
@@ -76,7 +81,7 @@ const MarketingInputs = () => {
           <FormItem>
             <FormLabel>Company Name</FormLabel>
             <FormControl>
-              <Input {...field} />
+              <Input {...field} disabled={isLoading} />
             </FormControl>
             <FormMessage />
           </FormItem>
@@ -89,7 +94,7 @@ const MarketingInputs = () => {
           <FormItem>
             <FormLabel>Company Address</FormLabel>
             <FormControl>
-              <Input {...field} />
+              <Input {...field} disabled={isLoading} />
             </FormControl>
             <FormMessage />
           </FormItem>
@@ -102,7 +107,7 @@ const MarketingInputs = () => {
           <FormItem>
             <FormLabel>Nature of Business</FormLabel>
             <FormControl>
-              <Input {...field} />
+              <Input {...field} disabled={isLoading} />
             </FormControl>
             <FormMessage />
           </FormItem>
@@ -116,7 +121,7 @@ const MarketingInputs = () => {
             <FormLabel>HMO Provider</FormLabel>
             <Select onValueChange={field.onChange}>
               <FormControl>
-                <SelectTrigger>
+                <SelectTrigger disabled={isLoading}>
                   <SelectValue placeholder="Select HMO Provider" />
                 </SelectTrigger>
               </FormControl>
@@ -140,7 +145,7 @@ const MarketingInputs = () => {
             <FormLabel>Previous HMO Provider</FormLabel>
             <Select onValueChange={field.onChange}>
               <FormControl>
-                <SelectTrigger>
+                <SelectTrigger disabled={isLoading}>
                   <SelectValue placeholder="Select Previous HMO Provider" />
                 </SelectTrigger>
               </FormControl>
@@ -164,7 +169,7 @@ const MarketingInputs = () => {
             <FormLabel>Current HMO Provider</FormLabel>
             <Select onValueChange={field.onChange}>
               <FormControl>
-                <SelectTrigger>
+                <SelectTrigger disabled={isLoading}>
                   <SelectValue placeholder="Select Current HMO Provider" />
                 </SelectTrigger>
               </FormControl>
@@ -188,7 +193,7 @@ const MarketingInputs = () => {
             <FormLabel>Account Type</FormLabel>
             <Select onValueChange={field.onChange}>
               <FormControl>
-                <SelectTrigger>
+                <SelectTrigger disabled={isLoading}>
                   <SelectValue placeholder="Select Account Type" />
                 </SelectTrigger>
               </FormControl>
@@ -211,7 +216,7 @@ const MarketingInputs = () => {
           <FormItem>
             <FormLabel>Total Utilization</FormLabel>
             <FormControl>
-              <Input {...field} type="number" />
+              <Input {...field} type="number" disabled={isLoading} />
             </FormControl>
             <FormMessage />
           </FormItem>
@@ -224,7 +229,7 @@ const MarketingInputs = () => {
           <FormItem>
             <FormLabel>Total Premium Paid</FormLabel>
             <FormControl>
-              <Input {...field} type="number" />
+              <Input {...field} type="number" disabled={isLoading} />
             </FormControl>
             <FormMessage />
           </FormItem>
@@ -237,7 +242,7 @@ const MarketingInputs = () => {
           <FormItem>
             <FormLabel>Signatory Designation</FormLabel>
             <FormControl>
-              <Input {...field} />
+              <Input {...field} disabled={isLoading} />
             </FormControl>
             <FormMessage />
           </FormItem>
@@ -250,7 +255,7 @@ const MarketingInputs = () => {
           <FormItem>
             <FormLabel>Contact Person</FormLabel>
             <FormControl>
-              <Input {...field} />
+              <Input {...field} disabled={isLoading} />
             </FormControl>
             <FormMessage />
           </FormItem>
@@ -263,7 +268,7 @@ const MarketingInputs = () => {
           <FormItem>
             <FormLabel>Contact Number</FormLabel>
             <FormControl>
-              <Input {...field} type="tel" />
+              <Input {...field} type="tel" disabled={isLoading} />
             </FormControl>
             <FormMessage />
           </FormItem>
@@ -277,7 +282,7 @@ const MarketingInputs = () => {
             <FormLabel>Principal Plan Type</FormLabel>
             <Select onValueChange={field.onChange}>
               <FormControl>
-                <SelectTrigger>
+                <SelectTrigger disabled={isLoading}>
                   <SelectValue placeholder="Select Principal Plan Type" />
                 </SelectTrigger>
               </FormControl>
@@ -301,7 +306,7 @@ const MarketingInputs = () => {
             <FormLabel>Dependent Plan Type</FormLabel>
             <Select onValueChange={field.onChange}>
               <FormControl>
-                <SelectTrigger>
+                <SelectTrigger disabled={isLoading}>
                   <SelectValue placeholder="Select Dependent Plan Type" />
                 </SelectTrigger>
               </FormControl>
@@ -324,7 +329,7 @@ const MarketingInputs = () => {
           <FormItem>
             <FormLabel>Initial Head Count</FormLabel>
             <FormControl>
-              <Input {...field} type="number" />
+              <Input {...field} type="number" disabled={isLoading} />
             </FormControl>
             <FormMessage />
           </FormItem>
@@ -346,6 +351,7 @@ const MarketingInputs = () => {
                       !field.value && 'text-muted-foreground',
                       'text-left font-normal',
                     )}
+                    disabled={isLoading}
                   >
                     {field.value ? (
                       format(field.value, 'PPP')
@@ -388,6 +394,7 @@ const MarketingInputs = () => {
                       !field.value && 'text-muted-foreground',
                       'text-left font-normal',
                     )}
+                    disabled={isLoading}
                   >
                     {field.value ? (
                       format(field.value, 'PPP')
@@ -430,6 +437,7 @@ const MarketingInputs = () => {
                       !field.value && 'text-muted-foreground',
                       'text-left font-normal',
                     )}
+                    disabled={isLoading}
                   >
                     {field.value ? (
                       format(field.value, 'PPP')
@@ -472,6 +480,7 @@ const MarketingInputs = () => {
                       !field.value && 'text-muted-foreground',
                       'text-left font-normal',
                     )}
+                    disabled={isLoading}
                   >
                     {field.value ? (
                       format(field.value, 'PPP')
@@ -514,6 +523,7 @@ const MarketingInputs = () => {
                       !field.value && 'text-muted-foreground',
                       'text-left font-normal',
                     )}
+                    disabled={isLoading}
                   >
                     {field.value ? (
                       format(field.value, 'PPP')
@@ -556,6 +566,7 @@ const MarketingInputs = () => {
                       !field.value && 'text-muted-foreground',
                       'text-left font-normal',
                     )}
+                    disabled={isLoading}
                   >
                     {field.value ? (
                       format(field.value, 'PPP')
@@ -598,6 +609,7 @@ const MarketingInputs = () => {
                       !field.value && 'text-muted-foreground',
                       'text-left font-normal',
                     )}
+                    disabled={isLoading}
                   >
                     {field.value ? (
                       format(field.value, 'PPP')
@@ -635,6 +647,7 @@ const MarketingInputs = () => {
                 {...field}
                 type="number"
                 placeholder="Enter initial contract value"
+                disabled={isLoading}
               />
             </FormControl>
             <FormMessage />
@@ -649,7 +662,7 @@ const MarketingInputs = () => {
             <FormLabel>Mode of Payment</FormLabel>
             <Select onValueChange={field.onChange}>
               <FormControl>
-                <SelectTrigger>
+                <SelectTrigger disabled={isLoading}>
                   <SelectValue placeholder="Select Mode of Payment" />
                 </SelectTrigger>
               </FormControl>
@@ -681,6 +694,7 @@ const MarketingInputs = () => {
                       !field.value && 'text-muted-foreground',
                       'text-left font-normal',
                     )}
+                    disabled={isLoading}
                   >
                     {field.value ? (
                       format(field.value, 'PPP')
@@ -723,6 +737,7 @@ const MarketingInputs = () => {
                       !field.value && 'text-muted-foreground',
                       'text-left font-normal',
                     )}
+                    disabled={isLoading}
                   >
                     {field.value ? (
                       format(field.value, 'PPP')
