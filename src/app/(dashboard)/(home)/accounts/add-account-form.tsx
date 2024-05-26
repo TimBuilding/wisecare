@@ -118,7 +118,9 @@ const AddAccountForm = () => {
   return (
     <div>
       <TableRow>
-        <TableCell>Name</TableCell>
+        <TableCell>
+          {form.getValues('company_name') || 'Company Name'}
+        </TableCell>
       </TableRow>
       <div className="z-20 w-screen border-y border-border pt-8 shadow-md md:w-[calc(100vw-288px)]">
         <Form {...form}>
