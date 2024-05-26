@@ -1,21 +1,19 @@
 'use client'
 
 import {
+  PageDescription,
   PageHeader,
   PageTitle,
-  PageDescription,
 } from '@/components/page-header'
 import TablePagination from '@/components/table-pagination'
-import TableViewOptions from '@/components/table-view-options'
-import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import {
-  TableHeader,
-  TableRow,
-  TableHead,
+  Table,
   TableBody,
   TableCell,
-  Table,
+  TableHead,
+  TableHeader,
+  TableRow,
 } from '@/components/ui/table'
 import {
   ColumnDef,
@@ -29,8 +27,12 @@ import {
   getSortedRowModel,
   useReactTable,
 } from '@tanstack/react-table'
-import { Plus, Search } from 'lucide-react'
+import { Search } from 'lucide-react'
 import { useState } from 'react'
+import AccountsProvider, { useAccountsContext } from './accounts-provider'
+import AddAccountButton from './add-account-button'
+import AddAccountForm from './add-account-form'
+import TableViewOptions from '@/components/table-view-options'
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
@@ -44,6 +46,8 @@ const DataTable = <TData, TValue>({
   const [sorting, setSorting] = useState<SortingState>([])
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
+
+  const { isFormOpen } = useAccountsContext()
 
   const table = useReactTable({
     data,
@@ -62,93 +66,93 @@ const DataTable = <TData, TValue>({
     },
   })
   return (
-    <div className="flex flex-col">
-      <PageHeader>
-        <div className="flex w-full flex-col gap-6 sm:flex-row sm:justify-between">
-          <div>
-            <PageTitle>Accounts</PageTitle>
-            <PageDescription>123 Accounts</PageDescription>
-          </div>
-          <div className="flex flex-row gap-4">
-            <div className="relative">
-              <Search className="absolute left-3.5 top-3.5 h-5 w-5 text-[#94a3b8]" />
-              <Input
-                className="max-w-xs rounded-full pl-10"
-                placeholder="Search accounts"
-                value={
-                  (table
-                    .getColumn('company_name')
-                    ?.getFilterValue() as string) ?? ''
-                }
-                onChange={(event) =>
-                  table
-                    .getColumn('company_name')
-                    ?.setFilterValue(event.target.value)
-                }
-              />
+    <AccountsProvider>
+      <div className="flex flex-col">
+        <PageHeader>
+          <div className="flex w-full flex-col gap-6 sm:flex-row sm:justify-between">
+            <div>
+              <PageTitle>Accounts</PageTitle>
+              <PageDescription>123 Accounts</PageDescription>
             </div>
-            <Button className="space-x-2">
-              <Plus />
-              <span>Add</span>
-            </Button>
+            <div className="flex flex-row gap-4">
+              <div className="relative">
+                <Search className="absolute left-3.5 top-3.5 h-5 w-5 text-[#94a3b8]" />
+                <Input
+                  className="max-w-xs rounded-full pl-10"
+                  placeholder="Search accounts"
+                  value={
+                    (table
+                      .getColumn('company_name')
+                      ?.getFilterValue() as string) ?? ''
+                  }
+                  onChange={(event) =>
+                    table
+                      .getColumn('company_name')
+                      ?.setFilterValue(event.target.value)
+                  }
+                />
+              </div>
+              <AddAccountButton />
+            </div>
           </div>
-        </div>
-      </PageHeader>
-      {/* <TableViewOptions table={table} /> */}
-      <div className="h-full bg-card">
-        <div className="rounded-md border">
-          <Table>
-            <TableHeader>
-              {table.getHeaderGroups().map((headerGroup) => (
-                <TableRow key={headerGroup.id}>
-                  {headerGroup.headers.map((header) => {
-                    return (
-                      <TableHead key={header.id}>
-                        {header.isPlaceholder
-                          ? null
-                          : flexRender(
-                              header.column.columnDef.header,
-                              header.getContext(),
-                            )}
-                      </TableHead>
-                    )
-                  })}
-                </TableRow>
-              ))}
-            </TableHeader>
-            <TableBody>
-              {table.getRowModel().rows?.length ? (
-                table.getRowModel().rows.map((row) => (
-                  <TableRow
-                    key={row.id}
-                    data-state={row.getIsSelected() && 'selected'}
-                  >
-                    {row.getVisibleCells().map((cell) => (
-                      <TableCell key={cell.id}>
-                        {flexRender(
-                          cell.column.columnDef.cell,
-                          cell.getContext(),
-                        )}
-                      </TableCell>
-                    ))}
+        </PageHeader>
+        <TableViewOptions table={table} />
+        <div className="h-full bg-card">
+          <div className="rounded-md border">
+            <Table>
+              <TableHeader>
+                {table.getHeaderGroups().map((headerGroup) => (
+                  <TableRow key={headerGroup.id}>
+                    {headerGroup.headers.map((header) => {
+                      return (
+                        <TableHead key={header.id}>
+                          {header.isPlaceholder
+                            ? null
+                            : flexRender(
+                                header.column.columnDef.header,
+                                header.getContext(),
+                              )}
+                        </TableHead>
+                      )
+                    })}
                   </TableRow>
-                ))
-              ) : (
-                <TableRow>
-                  <TableCell
-                    colSpan={columns.length}
-                    className="h-16 text-center"
-                  >
-                    No results.
-                  </TableCell>
-                </TableRow>
-              )}
-            </TableBody>
-          </Table>
+                ))}
+              </TableHeader>
+              <TableBody>
+                <AddAccountForm />
+                {table.getRowModel().rows?.length ? (
+                  table.getRowModel().rows.map((row) => (
+                    <TableRow
+                      key={row.id}
+                      data-state={row.getIsSelected() && 'selected'}
+                    >
+                      {row.getVisibleCells().map((cell) => (
+                        <TableCell key={cell.id}>
+                          {flexRender(
+                            cell.column.columnDef.cell,
+                            cell.getContext(),
+                          )}
+                        </TableCell>
+                      ))}
+                    </TableRow>
+                  ))
+                ) : (
+                  <TableRow>
+                    <TableCell
+                      colSpan={columns.length}
+                      className="h-16 text-center"
+                    >
+                      No results.
+                    </TableCell>
+                  </TableRow>
+                )}
+              </TableBody>
+            </Table>
+          </div>
+          <TablePagination table={table} />
         </div>
-        <TablePagination table={table} />
       </div>
-    </div>
+    </AccountsProvider>
   )
 }
 
