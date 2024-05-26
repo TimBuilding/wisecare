@@ -8,6 +8,7 @@ import {
   FormLabel,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
+import { useToast } from '@/components/ui/use-toast'
 import { createBrowserClient } from '@/utils/supabase'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useInsertMutation } from '@supabase-cache-helpers/postgrest-react-query'
@@ -17,7 +18,6 @@ import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { TypeTabs } from './type-card'
 import typeSchema from './type-schema'
-import { useToast } from '@/components/ui/use-toast'
 
 interface Props {
   page: TypeTabs

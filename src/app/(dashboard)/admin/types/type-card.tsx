@@ -1,9 +1,9 @@
 'use client'
 import { createContext, useContext, useState } from 'react'
-import TypesTitle from './types-title'
 import CreateType from './create-type'
 import TypeList from './type-list'
 import TypesNavigation from './types-navigation'
+import TypesTitle from './types-title'
 
 export type TypeTabs =
   | 'account_types'
@@ -24,7 +24,7 @@ const TypesContext = createContext({
   isNavOpen: false,
   setIsNavOpen: (value: boolean) => {},
   page: 'account_types',
-  setPage: (value: TypeTabs) => {},
+  setPage: (_value: TypeTabs) => {},
 })
 
 const TypeCard = () => {

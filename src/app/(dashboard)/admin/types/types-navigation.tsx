@@ -1,12 +1,12 @@
 import { Button } from '@/components/ui/button'
 import { cn } from '@/utils/tailwind'
 import {
-  UserCircle,
-  X,
   ActivitySquare,
-  CreditCard,
   CalendarClock,
+  CreditCard,
+  UserCircle,
   Users,
+  X,
 } from 'lucide-react'
 import { ComponentType, FC } from 'react'
 import { TypeTabs, useTypesContext } from './type-card'

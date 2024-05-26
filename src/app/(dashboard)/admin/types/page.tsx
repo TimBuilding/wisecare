@@ -1,14 +1,14 @@
 'use server'
+import getTypes from '@/queries/get-types'
 import { createServerClient } from '@/utils/supabase'
-import TypeCard from './type-card'
-import { cookies } from 'next/headers'
+import { prefetchQuery } from '@supabase-cache-helpers/postgrest-react-query'
 import {
   HydrationBoundary,
   QueryClient,
   dehydrate,
 } from '@tanstack/react-query'
-import { prefetchQuery } from '@supabase-cache-helpers/postgrest-react-query'
-import getTypes from '@/queries/get-types'
+import { cookies } from 'next/headers'
+import TypeCard from './type-card'
 
 const TypesPage = async () => {
   const supabase = createServerClient(cookies())

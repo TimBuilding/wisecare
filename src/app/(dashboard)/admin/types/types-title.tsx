@@ -1,7 +1,7 @@
 import { Button } from '@/components/ui/button'
-import { TypeTabs } from './type-card'
 import { Menu } from 'lucide-react'
 import { FC } from 'react'
+import { TypeTabs } from './type-card'
 
 interface Props {
   page: TypeTabs
