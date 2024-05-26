@@ -1,4 +1,4 @@
-import { BookCopy, ClipboardCheck } from 'lucide-react'
+import { BookCopy, ClipboardCheck, ListStart } from 'lucide-react'
 import AdminNavigation from './admin-navigation'
 import NavigationItem from './navigation-item'
 
@@ -32,9 +32,15 @@ const Navigation = () => {
         <div className="space-y-1">
           <NavigationItem
             title="Accounts"
-            href="/"
+            href="/accounts"
             active={false}
             icon={BookCopy}
+          />
+          <NavigationItem
+            title="Pending"
+            href="/pending"
+            active={false}
+            icon={ListStart}
           />
         </div>
       </div>
