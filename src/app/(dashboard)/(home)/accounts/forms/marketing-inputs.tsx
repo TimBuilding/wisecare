@@ -1,3 +1,5 @@
+import { Button } from '@/components/ui/button'
+import { Calendar } from '@/components/ui/calendar'
 import {
   FormControl,
   FormField,
@@ -7,29 +9,27 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/components/ui/popover'
+import {
   Select,
-  SelectItem,
   SelectContent,
+  SelectItem,
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
 import getAgents from '@/queries/get-agents'
 import getTypes from '@/queries/get-types'
 import { createBrowserClient } from '@/utils/supabase'
+import { cn } from '@/utils/tailwind'
 import { useQuery } from '@supabase-cache-helpers/postgrest-react-query'
+import { format } from 'date-fns'
+import { CalendarIcon } from 'lucide-react'
 import { useFormContext } from 'react-hook-form'
 import { z } from 'zod'
 import accountsSchema from '../accounts-schema'
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from '@/components/ui/popover'
-import { cn } from '@/utils/tailwind'
-import { format } from 'date-fns'
-import { CalendarIcon } from 'lucide-react'
-import { Button } from '@/components/ui/button'
-import { Calendar } from '@/components/ui/calendar'
 
 const MarketingInputs = () => {
   const form = useFormContext<z.infer<typeof accountsSchema>>()
@@ -38,13 +38,13 @@ const MarketingInputs = () => {
   const { data: agents } = useQuery(getAgents(supabase))
   const { data: hmoProviders } = useQuery(getTypes(supabase, 'hmo_providers'))
   const { data: accountTypes } = useQuery(getTypes(supabase, 'account_types'))
+  const { data: planTypes } = useQuery(getTypes(supabase, 'plan_types'))
   const { data: modeOfPayments } = useQuery(
     getTypes(supabase, 'mode_of_payments'),
   )
 
   return (
     <>
-      {/* TODO: insert is active checkbox */}
       <FormField
         control={form.control}
         name="agent_id"
@@ -282,9 +282,9 @@ const MarketingInputs = () => {
                 </SelectTrigger>
               </FormControl>
               <SelectContent>
-                {hmoProviders?.map((provider) => (
-                  <SelectItem key={provider.id} value={provider.id}>
-                    {provider.name}
+                {planTypes?.map((type) => (
+                  <SelectItem key={type.id} value={type.id}>
+                    {type.name}
                   </SelectItem>
                 ))}
               </SelectContent>
@@ -306,9 +306,9 @@ const MarketingInputs = () => {
                 </SelectTrigger>
               </FormControl>
               <SelectContent>
-                {hmoProviders?.map((provider) => (
-                  <SelectItem key={provider.id} value={provider.id}>
-                    {provider.name}
+                {planTypes?.map((type) => (
+                  <SelectItem key={type.id} value={type.id}>
+                    {type.name}
                   </SelectItem>
                 ))}
               </SelectContent>

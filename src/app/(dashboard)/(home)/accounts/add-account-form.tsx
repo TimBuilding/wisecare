@@ -8,13 +8,16 @@ import { z } from 'zod'
 import { useAccountsContext } from './accounts-provider'
 import accountsSchema from './accounts-schema'
 import MarketingInputs from './forms/marketing-inputs'
+import { useInsertMutation } from '@supabase-cache-helpers/postgrest-react-query'
+import { createBrowserClient } from '@/utils/supabase'
+import { FormEventHandler, useCallback } from 'react'
 
 const AddAccountForm = () => {
   const { isFormOpen } = useAccountsContext()
   const form = useForm<z.infer<typeof accountsSchema>>({
     resolver: zodResolver(accountsSchema),
     defaultValues: {
-      is_active: false,
+      is_active: true,
       agent_id: '',
       company_name: '',
       company_address: '',
@@ -48,10 +51,57 @@ const AddAccountForm = () => {
     },
   })
 
-  console.log(form.formState.errors)
-  const onSubmitHandler = () => {
-    console.log('submitted')
-  }
+  const supabase = createBrowserClient()
+  const { mutateAsync } = useInsertMutation(
+    supabase.from('accounts'),
+    ['id'],
+    'id',
+  )
+
+  const onSubmitHandler = useCallback<FormEventHandler<HTMLFormElement>>(
+    (e) => {
+      form.handleSubmit(async (data) => {
+        await mutateAsync([
+          {
+            company_name: data.company_name,
+            is_active: data.is_active,
+            agent_id: data.agent_id,
+            company_address: data.company_address,
+            nature_of_business: data.nature_of_business,
+            hmo_provider_id: data.hmo_provider_id,
+            previous_hmo_provider_id: data.previous_hmo_provider_id,
+            current_hmo_provider_id: data.current_hmo_provider_id,
+            account_type_id: data.account_type_id,
+            total_utilization: data.total_utilization,
+            total_premium_paid: data.total_premium_paid,
+            signatory_designation: data.signatory_designation,
+            contact_person: data.contact_person,
+            contact_number: data.contact_number,
+            principal_plan_type_id: data.principal_plan_type_id,
+            dependent_plan_type_id: data.dependent_plan_type_id,
+            initial_head_count: data.initial_head_count,
+            effectivity_date: data.effectivity_date,
+            coc_issue_date: data.coc_issue_date,
+            effective_date: data.effective_date,
+            renewal_date: data.renewal_date,
+            expiration_date: data.expiration_date,
+            delivery_date_of_membership_ids:
+              data.delivery_date_of_membership_ids,
+            orientation_date: data.orientation_date,
+            initial_contract_value: data.initial_contract_value,
+            mode_of_payment_id: data.mode_of_payment_id,
+            wellness_lecture_date: data.wellness_lecture_date,
+            annual_physical_examination_date:
+              data.annual_physical_examination_date,
+            commision_rate: data.commision_rate,
+            additional_benefits: data.additional_benefits,
+            special_benefits: data.special_benefits,
+          },
+        ])
+      })(e)
+    },
+    [form, mutateAsync],
+  )
 
   // render nothing if the form is not open
   if (!isFormOpen) return null
@@ -62,23 +112,22 @@ const AddAccountForm = () => {
       </TableRow>
       <div className="z-20 w-screen border-y border-border pt-8 shadow-md md:w-[calc(100vw-288px)]">
         <Form {...form}>
-          <form
-            onSubmit={form.handleSubmit(onSubmitHandler)}
-            className="space-y-5 px-8"
-          >
-            <MarketingInputs />
+          <form onSubmit={onSubmitHandler}>
+            <div className="space-y-5 px-8">
+              <MarketingInputs />
+            </div>
+            <div className="mt-8 border-t border-border py-3">
+              <div className="flex flex-row items-center justify-between px-4">
+                <Button variant="outline" className="w-24">
+                  Cancel
+                </Button>
+                <Button type="submit" variant="default" className="w-24">
+                  Save
+                </Button>
+              </div>
+            </div>
           </form>
         </Form>
-        <div className="mt-8 border-t border-border py-3">
-          <div className="flex flex-row items-center justify-between px-4">
-            <Button variant="outline" className="w-24">
-              Cancel
-            </Button>
-            <Button type="submit" variant="default" className="w-24">
-              Save
-            </Button>
-          </div>
-        </div>
       </div>
     </div>
   )

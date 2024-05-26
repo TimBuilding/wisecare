@@ -70,7 +70,6 @@ const CreateType: FC<Props> = ({ page }) => {
   const onSubmitHandler = useCallback<FormEventHandler<HTMLFormElement>>(
     (e) => {
       form.handleSubmit(async (data) => {
-        console.log('submitted')
         await mutateAsync([
           {
             name: data.name,
