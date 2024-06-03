@@ -29,14 +29,14 @@ import { format } from 'date-fns'
 import { CalendarIcon } from 'lucide-react'
 import { useFormContext } from 'react-hook-form'
 import { z } from 'zod'
-import accountsSchema from '../accounts-schema'
 import { FC } from 'react'
+import accountsSchema from '../../accounts/accounts-schema'
 
 interface Props {
   isLoading: boolean
 }
 
-const MarketingInputs: FC<Props> = ({ isLoading }) => {
+const DisabledInputs: FC<Props> = ({ isLoading }) => {
   const form = useFormContext<z.infer<typeof accountsSchema>>()
   const supabase = createBrowserClient()
 
@@ -812,4 +812,4 @@ const MarketingInputs: FC<Props> = ({ isLoading }) => {
   )
 }
 
-export default MarketingInputs
+export default DisabledInputs
