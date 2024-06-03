@@ -8,8 +8,13 @@ import MarketingInputs from '../accounts/forms/marketing-inputs'
 import { Separator } from '@/components/ui/separator'
 import DisabledInputs from './forms/disabled-inputs'
 import { Button } from '@/components/ui/button'
+import { FC } from 'react'
 
-const UpdatePendingForm = () => {
+interface Props {
+  accountId: string
+}
+
+const UpdatePendingForm: FC<Props> = ({ accountId }) => {
   const form = useForm<z.infer<typeof pendingSchema>>({
     resolver: zodResolver(pendingSchema),
     defaultValues: {
@@ -29,7 +34,7 @@ const UpdatePendingForm = () => {
     <Form {...form}>
       <form>
         <div className="w-full space-y-5 px-8 py-5">
-          <DisabledInputs isLoading={false} />
+          <DisabledInputs isLoading={false} id={accountId} />
           <Separator className="my-5" />
           <PendingInputs />
           <Button>Update</Button>

@@ -50,7 +50,7 @@ const PendingInputs = () => {
               <FormLabel>HMO Provider</FormLabel>
               <Select onValueChange={field.onChange}>
                 <FormControl>
-                  <SelectTrigger disabled={isLModeOfPremiumLoading}>
+                  <SelectTrigger disabled={true}>
                     <SelectValue placeholder="Select HMO Provider" />
                   </SelectTrigger>
                 </FormControl>

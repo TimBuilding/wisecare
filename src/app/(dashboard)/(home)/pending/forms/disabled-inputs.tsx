@@ -1,18 +1,11 @@
 import { Button } from '@/components/ui/button'
-import { Calendar } from '@/components/ui/calendar'
 import {
   FormControl,
-  FormField,
   FormItem,
   FormLabel,
   FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from '@/components/ui/popover'
 import {
   Select,
   SelectContent,
@@ -20,793 +13,387 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import getAgents from '@/queries/get-agents'
-import getTypes from '@/queries/get-types'
+import getAccountById from '@/queries/get-account-by-id'
 import { createBrowserClient } from '@/utils/supabase'
 import { cn } from '@/utils/tailwind'
 import { useQuery } from '@supabase-cache-helpers/postgrest-react-query'
 import { format } from 'date-fns'
 import { CalendarIcon } from 'lucide-react'
-import { useFormContext } from 'react-hook-form'
-import { z } from 'zod'
 import { FC } from 'react'
-import accountsSchema from '../../accounts/accounts-schema'
 
 interface Props {
   isLoading: boolean
+  id: string
 }
 
-const DisabledInputs: FC<Props> = ({ isLoading }) => {
-  const form = useFormContext<z.infer<typeof accountsSchema>>()
+const DisabledInputs: FC<Props> = ({ isLoading, id }) => {
   const supabase = createBrowserClient()
 
-  const { data: agents } = useQuery(getAgents(supabase))
-  const { data: hmoProviders } = useQuery(getTypes(supabase, 'hmo_providers'))
-  const { data: accountTypes } = useQuery(getTypes(supabase, 'account_types'))
-  const { data: planTypes } = useQuery(getTypes(supabase, 'plan_types'))
-  const { data: modeOfPayments } = useQuery(
-    getTypes(supabase, 'mode_of_payments'),
-  )
+  const { data: account } = useQuery(getAccountById(supabase, id))
 
   return (
     <>
-      <FormField
-        control={form.control}
-        name="agent_id"
-        render={({ field }) => (
-          <FormItem>
-            <FormLabel>Agent</FormLabel>
+      <FormItem>
+        <FormLabel>Agent</FormLabel>
 
-            <FormMessage />
-          </FormItem>
-        )}
-      />
-      <FormField
-        control={form.control}
-        name="company_name"
-        render={({ field }) => (
-          <FormItem>
-            <FormLabel>Company Name</FormLabel>
-            <FormControl>
-              <Input {...field} disabled={isLoading} />
-            </FormControl>
-            <FormMessage />
-          </FormItem>
-        )}
-      />
-      <FormField
-        control={form.control}
-        name="company_address"
-        render={({ field }) => (
-          <FormItem>
-            <FormLabel>Company Address</FormLabel>
-            <FormControl>
-              <Input {...field} disabled={isLoading} />
-            </FormControl>
-            <FormMessage />
-          </FormItem>
-        )}
-      />
-      <FormField
-        control={form.control}
-        name="nature_of_business"
-        render={({ field }) => (
-          <FormItem>
-            <FormLabel>Nature of Business</FormLabel>
-            <FormControl>
-              <Input {...field} disabled={isLoading} />
-            </FormControl>
-            <FormMessage />
-          </FormItem>
-        )}
-      />
+        <FormMessage />
+      </FormItem>
+
+      <FormItem>
+        <FormLabel>Company Name</FormLabel>
+        <FormControl>
+          <Input disabled={true} value={account?.company_name} />
+        </FormControl>
+        <FormMessage />
+      </FormItem>
+
+      <FormItem>
+        <FormLabel>Company Address</FormLabel>
+        <FormControl>
+          <Input disabled={true} value={account?.company_address} />
+        </FormControl>
+        <FormMessage />
+      </FormItem>
+
+      <FormItem>
+        <FormLabel>Nature of Business</FormLabel>
+        <FormControl>
+          <Input disabled={true} value={account?.nature_of_business} />
+        </FormControl>
+        <FormMessage />
+      </FormItem>
       <div className="grid grid-cols-2 gap-4">
-        <FormField
-          control={form.control}
-          name="account_type_id"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>HMO Provider</FormLabel>
-              <Select onValueChange={field.onChange}>
-                <FormControl>
-                  <SelectTrigger disabled={isLoading}>
-                    <SelectValue placeholder="Select HMO Provider" />
-                  </SelectTrigger>
-                </FormControl>
-                <SelectContent>
-                  {hmoProviders?.map((provider) => (
-                    <SelectItem key={provider.id} value={provider.id}>
-                      {provider.name}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="previous_hmo_provider_id"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Previous HMO Provider</FormLabel>
-              <Select onValueChange={field.onChange}>
-                <FormControl>
-                  <SelectTrigger disabled={isLoading}>
-                    <SelectValue placeholder="Select Previous HMO Provider" />
-                  </SelectTrigger>
-                </FormControl>
-                <SelectContent>
-                  {hmoProviders?.map((provider) => (
-                    <SelectItem key={provider.id} value={provider.id}>
-                      {provider.name}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+        <FormItem>
+          <FormLabel>HMO Provider</FormLabel>
+          <Select
+            // @ts-ignore
+            value={account?.hmo_provider.name || 'hmoProvider'}
+            disabled={true}
+          >
+            <FormControl>
+              <SelectTrigger disabled={isLoading}>
+                <SelectValue placeholder="Select HMO Provider" />
+              </SelectTrigger>
+            </FormControl>
+            <SelectContent>
+              {/* @ts-ignore */}
+              <SelectItem value={account?.hmo_provider.name || 'hmoProvider'}>
+                {/* @ts-ignore */}
+                {account?.hmo_provider.name || ''}
+              </SelectItem>
+            </SelectContent>
+          </Select>
+          <FormMessage />
+        </FormItem>
+        <FormItem>
+          <FormLabel>Previous HMO Provider</FormLabel>
+          <Select
+            // @ts-ignore
+            value={account?.previous_hmo_provider.name || 'previousHmoProvider'}
+            disabled={true}
+          >
+            <FormControl>
+              <SelectTrigger disabled={isLoading}>
+                <SelectValue placeholder="Select Previous HMO Provider" />
+              </SelectTrigger>
+            </FormControl>
+            <SelectContent>
+              <SelectItem
+                value={
+                  // @ts-ignore
+                  account?.previous_hmo_provider?.name || 'prevHmoProvider'
+                }
+              >
+                {/* @ts-ignore */}
+                {account?.previous_hmo_provider.name || ''}
+              </SelectItem>
+            </SelectContent>
+          </Select>
+          <FormMessage />
+        </FormItem>
       </div>
       <div className="grid grid-cols-2 gap-4">
-        <FormField
-          control={form.control}
-          name="current_hmo_provider_id"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Current HMO Provider</FormLabel>
-              <Select onValueChange={field.onChange}>
-                <FormControl>
-                  <SelectTrigger disabled={isLoading}>
-                    <SelectValue placeholder="Select Current HMO Provider" />
-                  </SelectTrigger>
-                </FormControl>
-                <SelectContent>
-                  {hmoProviders?.map((provider) => (
-                    <SelectItem key={provider.id} value={provider.id}>
-                      {provider.name}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="account_type_id"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Account Type</FormLabel>
-              <Select onValueChange={field.onChange}>
-                <FormControl>
-                  <SelectTrigger disabled={isLoading}>
-                    <SelectValue placeholder="Select Account Type" />
-                  </SelectTrigger>
-                </FormControl>
-                <SelectContent>
-                  {accountTypes?.map((type) => (
-                    <SelectItem key={type.id} value={type.id}>
-                      {type.name}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+        <FormItem>
+          <FormLabel>Current HMO Provider</FormLabel>
+          <Select
+            // @ts-ignore
+            value={account?.hmo_provider.name || 'currentHmoProvider'}
+            disabled={true}
+          >
+            <FormControl>
+              <SelectTrigger disabled={isLoading}>
+                <SelectValue placeholder="Select Current HMO Provider" />
+              </SelectTrigger>
+            </FormControl>
+            <SelectContent>
+              <SelectItem
+                // @ts-ignore
+                value={account?.hmo_provider.name || 'currentHmoProvider'}
+              >
+                {/* @ts-ignore */}
+                {account?.hmo_provider.name || ''}
+              </SelectItem>
+            </SelectContent>
+          </Select>
+          <FormMessage />
+        </FormItem>
+        <FormItem>
+          <FormLabel>Account Type</FormLabel>
+          <Select
+            // @ts-ignore
+            value={account?.account_type.name || 'accountType'}
+            disabled={true}
+          >
+            <FormControl>
+              <SelectTrigger disabled={isLoading}>
+                <SelectValue placeholder="Select Account Type" />
+              </SelectTrigger>
+            </FormControl>
+            <SelectContent>
+              {/* @ts-ignore */}
+              <SelectItem value={account?.account_type.name || 'accountType'}>
+                {/* @ts-ignore */}
+                {account?.account_type.name || ''}
+              </SelectItem>
+            </SelectContent>
+          </Select>
+          <FormMessage />
+        </FormItem>
       </div>
       <div className="grid grid-cols-3 gap-4">
-        <FormField
-          control={form.control}
-          name="total_utilization"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Total Utilization</FormLabel>
-              <FormControl>
-                <Input {...field} type="number" disabled={isLoading} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="total_premium_paid"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Total Premium Paid</FormLabel>
-              <FormControl>
-                <Input {...field} type="number" disabled={isLoading} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="signatory_designation"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Signatory Designation</FormLabel>
-              <FormControl>
-                <Input {...field} disabled={isLoading} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+        <FormItem>
+          <FormLabel>Total Utilization</FormLabel>
+          <FormControl>
+            <Input
+              type="number"
+              disabled={true}
+              value={account?.total_utilization}
+            />
+          </FormControl>
+          <FormMessage />
+        </FormItem>
+        <FormItem>
+          <FormLabel>Total Premium Paid</FormLabel>
+          <FormControl>
+            <Input
+              type="number"
+              disabled={true}
+              value={account?.total_premium_paid}
+            />
+          </FormControl>
+          <FormMessage />
+        </FormItem>
+        <FormItem>
+          <FormLabel>Signatory Designation</FormLabel>
+          <FormControl>
+            <Input disabled={true} value={account?.signatory_designation} />
+          </FormControl>
+          <FormMessage />
+        </FormItem>
       </div>
       <div className="grid grid-cols-2 gap-4">
-        <FormField
-          control={form.control}
-          name="contact_person"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Contact Person</FormLabel>
-              <FormControl>
-                <Input {...field} disabled={isLoading} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="contact_number"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Contact Number</FormLabel>
-              <FormControl>
-                <Input {...field} type="tel" disabled={isLoading} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="principal_plan_type_id"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Principal Plan Type</FormLabel>
-              <Select onValueChange={field.onChange}>
-                <FormControl>
-                  <SelectTrigger disabled={isLoading}>
-                    <SelectValue placeholder="Select Principal Plan Type" />
-                  </SelectTrigger>
-                </FormControl>
-                <SelectContent>
-                  {planTypes?.map((type) => (
-                    <SelectItem key={type.id} value={type.id}>
-                      {type.name}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="dependent_plan_type_id"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Dependent Plan Type</FormLabel>
-              <Select onValueChange={field.onChange}>
-                <FormControl>
-                  <SelectTrigger disabled={isLoading}>
-                    <SelectValue placeholder="Select Dependent Plan Type" />
-                  </SelectTrigger>
-                </FormControl>
-                <SelectContent>
-                  {planTypes?.map((type) => (
-                    <SelectItem key={type.id} value={type.id}>
-                      {type.name}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="initial_head_count"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Initial Head Count</FormLabel>
-              <FormControl>
-                <Input {...field} type="number" disabled={isLoading} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="effectivity_date"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Effectivity Date</FormLabel>
-              <Popover>
-                <PopoverTrigger asChild>
-                  <FormControl>
-                    <Button
-                      variant={'outline'}
-                      className={cn(
-                        'flex h-12 w-full min-w-[240px] rounded-lg border border-input bg-white px-4 py-3 text-sm shadow-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50',
-                        !field.value && 'text-muted-foreground',
-                        'text-left font-normal',
-                      )}
-                      disabled={isLoading}
-                    >
-                      {field.value ? (
-                        format(field.value, 'PPP')
-                      ) : (
-                        <span>Pick a date</span>
-                      )}
-                      <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                    </Button>
-                  </FormControl>
-                </PopoverTrigger>
-                <PopoverContent className="w-auto p-0" align="start">
-                  <Calendar
-                    mode="single"
-                    selected={field.value}
-                    onSelect={field.onChange}
-                    disabled={(date) =>
-                      date > new Date() || date < new Date('1900-01-01')
-                    }
-                    initialFocus
-                  />
-                </PopoverContent>
-              </Popover>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="coc_issue_date"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>COC Issue Date</FormLabel>
-              <Popover>
-                <PopoverTrigger asChild>
-                  <FormControl>
-                    <Button
-                      variant={'outline'}
-                      className={cn(
-                        'flex h-12 w-full min-w-[240px] rounded-lg border border-input bg-white px-4 py-3 text-sm shadow-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50',
-                        !field.value && 'text-muted-foreground',
-                        'text-left font-normal',
-                      )}
-                      disabled={isLoading}
-                    >
-                      {field.value ? (
-                        format(field.value, 'PPP')
-                      ) : (
-                        <span>Pick a date</span>
-                      )}
-                      <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                    </Button>
-                  </FormControl>
-                </PopoverTrigger>
-                <PopoverContent className="w-auto p-0" align="start">
-                  <Calendar
-                    mode="single"
-                    selected={field.value}
-                    onSelect={field.onChange}
-                    disabled={(date) =>
-                      date > new Date() || date < new Date('1900-01-01')
-                    }
-                    initialFocus
-                  />
-                </PopoverContent>
-              </Popover>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="effective_date"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Effective Date</FormLabel>
-              <Popover>
-                <PopoverTrigger asChild>
-                  <FormControl>
-                    <Button
-                      variant={'outline'}
-                      className={cn(
-                        'flex h-12 w-full min-w-[240px] rounded-lg border border-input bg-white px-4 py-3 text-sm shadow-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50',
-                        !field.value && 'text-muted-foreground',
-                        'text-left font-normal',
-                      )}
-                      disabled={isLoading}
-                    >
-                      {field.value ? (
-                        format(field.value, 'PPP')
-                      ) : (
-                        <span>Pick a date</span>
-                      )}
-                      <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                    </Button>
-                  </FormControl>
-                </PopoverTrigger>
-                <PopoverContent className="w-auto p-0" align="start">
-                  <Calendar
-                    mode="single"
-                    selected={field.value}
-                    onSelect={field.onChange}
-                    disabled={(date) =>
-                      date > new Date() || date < new Date('1900-01-01')
-                    }
-                    initialFocus
-                  />
-                </PopoverContent>
-              </Popover>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="renewal_date"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Renewal Date</FormLabel>
-              <Popover>
-                <PopoverTrigger asChild>
-                  <FormControl>
-                    <Button
-                      variant={'outline'}
-                      className={cn(
-                        'flex h-12 w-full min-w-[240px] rounded-lg border border-input bg-white px-4 py-3 text-sm shadow-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50',
-                        !field.value && 'text-muted-foreground',
-                        'text-left font-normal',
-                      )}
-                      disabled={isLoading}
-                    >
-                      {field.value ? (
-                        format(field.value, 'PPP')
-                      ) : (
-                        <span>Pick a date</span>
-                      )}
-                      <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                    </Button>
-                  </FormControl>
-                </PopoverTrigger>
-                <PopoverContent className="w-auto p-0" align="start">
-                  <Calendar
-                    mode="single"
-                    selected={field.value}
-                    onSelect={field.onChange}
-                    disabled={(date) =>
-                      date > new Date() || date < new Date('1900-01-01')
-                    }
-                    initialFocus
-                  />
-                </PopoverContent>
-              </Popover>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="expiration_date"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Expiration Date</FormLabel>
-              <Popover>
-                <PopoverTrigger asChild>
-                  <FormControl>
-                    <Button
-                      variant={'outline'}
-                      className={cn(
-                        'flex h-12 w-full min-w-[240px] rounded-lg border border-input bg-white px-4 py-3 text-sm shadow-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50',
-                        !field.value && 'text-muted-foreground',
-                        'text-left font-normal',
-                      )}
-                      disabled={isLoading}
-                    >
-                      {field.value ? (
-                        format(field.value, 'PPP')
-                      ) : (
-                        <span>Pick a date</span>
-                      )}
-                      <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                    </Button>
-                  </FormControl>
-                </PopoverTrigger>
-                <PopoverContent className="w-auto p-0" align="start">
-                  <Calendar
-                    mode="single"
-                    selected={field.value}
-                    onSelect={field.onChange}
-                    disabled={(date) =>
-                      date > new Date() || date < new Date('1900-01-01')
-                    }
-                    initialFocus
-                  />
-                </PopoverContent>
-              </Popover>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="delivery_date_of_membership_ids"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Delivery Date of Membership IDs</FormLabel>
-              <Popover>
-                <PopoverTrigger asChild>
-                  <FormControl>
-                    <Button
-                      variant={'outline'}
-                      className={cn(
-                        'flex h-12 w-full min-w-[240px] rounded-lg border border-input bg-white px-4 py-3 text-sm shadow-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50',
-                        !field.value && 'text-muted-foreground',
-                        'text-left font-normal',
-                      )}
-                      disabled={isLoading}
-                    >
-                      {field.value ? (
-                        format(field.value, 'PPP')
-                      ) : (
-                        <span>Pick a date</span>
-                      )}
-                      <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                    </Button>
-                  </FormControl>
-                </PopoverTrigger>
-                <PopoverContent className="w-auto p-0" align="start">
-                  <Calendar
-                    mode="single"
-                    selected={field.value}
-                    onSelect={field.onChange}
-                    disabled={(date) =>
-                      date > new Date() || date < new Date('1900-01-01')
-                    }
-                    initialFocus
-                  />
-                </PopoverContent>
-              </Popover>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="orientation_date"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Orientation Date</FormLabel>
-              <Popover>
-                <PopoverTrigger asChild>
-                  <FormControl>
-                    <Button
-                      variant={'outline'}
-                      className={cn(
-                        'flex h-12 w-full min-w-[240px] rounded-lg border border-input bg-white px-4 py-3 text-sm shadow-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50',
-                        !field.value && 'text-muted-foreground',
-                        'text-left font-normal',
-                      )}
-                      disabled={isLoading}
-                    >
-                      {field.value ? (
-                        format(field.value, 'PPP')
-                      ) : (
-                        <span>Pick a date</span>
-                      )}
-                      <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                    </Button>
-                  </FormControl>
-                </PopoverTrigger>
-                <PopoverContent className="w-auto p-0" align="start">
-                  <Calendar
-                    mode="single"
-                    selected={field.value}
-                    onSelect={field.onChange}
-                    disabled={(date) =>
-                      date > new Date() || date < new Date('1900-01-01')
-                    }
-                    initialFocus
-                  />
-                </PopoverContent>
-              </Popover>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-      </div>
-      <div className="grid grid-cols-3 gap-4">
-        <FormField
-          control={form.control}
-          name="initial_contract_value"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Initial Contract Value</FormLabel>
-              <FormControl>
-                <Input
-                  {...field}
-                  type="number"
-                  placeholder="Enter initial contract value"
-                  disabled={isLoading}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="mode_of_payment_id"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Mode of Payment</FormLabel>
-              <Select onValueChange={field.onChange}>
-                <FormControl>
-                  <SelectTrigger disabled={isLoading}>
-                    <SelectValue placeholder="Select Mode of Payment" />
-                  </SelectTrigger>
-                </FormControl>
-                <SelectContent>
-                  {modeOfPayments?.map((mode) => (
-                    <SelectItem key={mode.id} value={mode.id}>
-                      {mode.name}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="commision_rate"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Commission Rate (%)</FormLabel>
-              <FormControl>
-                <Input
-                  {...field}
-                  type="number"
-                  min="0"
-                  step="0.01"
-                  placeholder="Enter commission rate"
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-      </div>
-      <div className="grid grid-cols-2 gap-4">
-        <FormField
-          control={form.control}
-          name="wellness_lecture_date"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Wellness Lecture Date</FormLabel>
-              <Popover>
-                <PopoverTrigger asChild>
-                  <FormControl>
-                    <Button
-                      variant={'outline'}
-                      className={cn(
-                        'flex h-12 w-full min-w-[240px] rounded-lg border border-input bg-white px-4 py-3 text-sm shadow-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50',
-                        !field.value && 'text-muted-foreground',
-                        'text-left font-normal',
-                      )}
-                      disabled={isLoading}
-                    >
-                      {field.value ? (
-                        format(field.value, 'PPP')
-                      ) : (
-                        <span>Pick a date</span>
-                      )}
-                      <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                    </Button>
-                  </FormControl>
-                </PopoverTrigger>
-                <PopoverContent className="w-auto p-0" align="start">
-                  <Calendar
-                    mode="single"
-                    selected={field.value}
-                    onSelect={field.onChange}
-                    disabled={(date) =>
-                      date > new Date() || date < new Date('1900-01-01')
-                    }
-                    initialFocus
-                  />
-                </PopoverContent>
-              </Popover>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="annual_physical_examination_date"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Annual Physical Examination Date</FormLabel>
-              <Popover>
-                <PopoverTrigger asChild>
-                  <FormControl>
-                    <Button
-                      variant={'outline'}
-                      className={cn(
-                        'flex h-12 w-full min-w-[240px] rounded-lg border border-input bg-white px-4 py-3 text-sm shadow-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50',
-                        !field.value && 'text-muted-foreground',
-                        'text-left font-normal',
-                      )}
-                      disabled={isLoading}
-                    >
-                      {field.value ? (
-                        format(field.value, 'PPP')
-                      ) : (
-                        <span>Pick a date</span>
-                      )}
-                      <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                    </Button>
-                  </FormControl>
-                </PopoverTrigger>
-                <PopoverContent className="w-auto p-0" align="start">
-                  <Calendar
-                    mode="single"
-                    selected={field.value}
-                    onSelect={field.onChange}
-                    disabled={(date) =>
-                      date > new Date() || date < new Date('1900-01-01')
-                    }
-                    initialFocus
-                  />
-                </PopoverContent>
-              </Popover>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="additional_benefits"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Additional Benefits</FormLabel>
-              <FormControl>
-                <Input {...field} placeholder="Enter additional benefits" />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="special_benefits"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Special Benefits</FormLabel>
-              <FormControl>
-                <Input {...field} placeholder="Enter special benefits" />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+        <FormItem>
+          <FormLabel>Contact Person</FormLabel>
+          <FormControl>
+            <Input disabled={true} value={account?.contact_person} />
+          </FormControl>
+          <FormMessage />
+        </FormItem>
+        <FormItem>
+          <FormLabel>Contact Number</FormLabel>
+          <FormControl>
+            <Input type="tel" disabled={true} value={account?.contact_number} />
+          </FormControl>
+          <FormMessage />
+        </FormItem>
+        <FormItem>
+          <FormLabel>Principal Plan Type</FormLabel>
+          <Select
+            // @ts-ignore
+            value={account?.principal_plan_type.name || 'principalPlanType'}
+            disabled={true}
+          >
+            <FormControl>
+              <SelectTrigger disabled={isLoading}>
+                <SelectValue placeholder="Select Principal Plan Type" />
+              </SelectTrigger>
+            </FormControl>
+            <SelectContent>
+              <SelectItem
+                // @ts-ignore
+                value={account?.principal_plan_type.name || 'principalPlanType'}
+              >
+                {/* @ts-ignore */}
+                {account?.principal_plan_type.name || ''}
+              </SelectItem>
+            </SelectContent>
+          </Select>
+          <FormMessage />
+        </FormItem>
+        <FormItem>
+          <FormLabel>Dependent Plan Type</FormLabel>
+          <Select
+            // @ts-ignore
+            value={account?.dependent_plan_type.name || 'dependentPlanType'}
+            disabled={true}
+          >
+            <FormControl>
+              <SelectTrigger disabled={isLoading}>
+                <SelectValue placeholder="Select Dependent Plan Type" />
+              </SelectTrigger>
+            </FormControl>
+            <SelectContent>
+              <SelectItem
+                // @ts-ignore
+                value={account?.dependent_plan_type.name || 'dependentPlanType'}
+              >
+                {/* @ts-ignore */}
+                {account?.dependent_plan_type.name || ''}
+              </SelectItem>
+            </SelectContent>
+          </Select>
+          <FormMessage />
+        </FormItem>
+        <FormItem>
+          <FormLabel>Initial Head Count</FormLabel>
+          <FormControl>
+            <Input
+              type="number"
+              disabled={true}
+              value={account?.initial_head_count}
+            />
+          </FormControl>
+          <FormMessage />
+        </FormItem>
+        <FormItem>
+          <FormLabel>Effectivity Date</FormLabel>
+          <FormControl>
+            <Button
+              variant={'outline'}
+              className={cn(
+                'flex h-12 w-full min-w-[240px] rounded-lg border border-input bg-white px-4 py-3 text-left text-sm font-normal shadow-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50',
+              )}
+              disabled={true}
+            >
+              {account?.effectivity_date
+                ? format(new Date(account.effectivity_date), 'MMM dd, yyyy')
+                : ''}
+              <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+            </Button>
+          </FormControl>
+          <FormMessage />
+        </FormItem>
+        <FormItem>
+          <FormLabel>COC Issue Date</FormLabel>
+          <FormControl>
+            <Button
+              variant={'outline'}
+              className={cn(
+                'flex h-12 w-full min-w-[240px] rounded-lg border border-input bg-white px-4 py-3 text-left text-sm font-normal shadow-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50',
+              )}
+              disabled={true}
+            >
+              {account?.coc_issue_date
+                ? format(new Date(account.coc_issue_date), 'MMM dd, yyyy')
+                : ''}
+              <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+            </Button>
+          </FormControl>
+          <FormMessage />
+        </FormItem>
+        <FormItem>
+          <FormLabel>Effective Date</FormLabel>
+          <FormControl>
+            <Button
+              variant={'outline'}
+              className={cn(
+                'flex h-12 w-full min-w-[240px] rounded-lg border border-input bg-white px-4 py-3 text-left text-sm font-normal shadow-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50',
+              )}
+              disabled={true}
+            >
+              {account?.effective_date
+                ? format(new Date(account.effective_date), 'MMM dd, yyyy')
+                : ''}
+              <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+            </Button>
+          </FormControl>
+          <FormMessage />
+        </FormItem>
+        <FormItem>
+          <FormLabel>Renewal Date</FormLabel>
+          <FormControl>
+            <Button
+              variant={'outline'}
+              className={cn(
+                'flex h-12 w-full min-w-[240px] rounded-lg border border-input bg-white px-4 py-3 text-left text-sm font-normal shadow-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50',
+              )}
+              disabled={true}
+            >
+              {account?.renewal_date
+                ? format(new Date(account.renewal_date), 'MMM dd, yyyy')
+                : ''}
+              <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+            </Button>
+          </FormControl>
+          <FormMessage />
+        </FormItem>
+        <FormItem>
+          <FormLabel>Expiration Date</FormLabel>
+          <FormControl>
+            <Button
+              variant={'outline'}
+              className={cn(
+                'flex h-12 w-full min-w-[240px] rounded-lg border border-input bg-white px-4 py-3 text-left text-sm font-normal shadow-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50',
+              )}
+              disabled={true}
+            >
+              {account?.expiration_date
+                ? format(new Date(account.expiration_date), 'MMM dd, yyyy')
+                : ''}
+              <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+            </Button>
+          </FormControl>
+          <FormMessage />
+        </FormItem>
+        <FormItem>
+          <FormLabel>Delivery Date of Membership IDs</FormLabel>
+          <FormControl>
+            <Button
+              variant={'outline'}
+              className={cn(
+                'flex h-12 w-full min-w-[240px] rounded-lg border border-input bg-white px-4 py-3 text-left text-sm font-normal shadow-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50',
+              )}
+              disabled={true}
+            >
+              {account?.delivery_date_of_membership_ids
+                ? format(
+                    new Date(account.delivery_date_of_membership_ids),
+                    'MMM dd, yyyy',
+                  )
+                : ''}
+              <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+            </Button>
+          </FormControl>
+          <FormMessage />
+        </FormItem>
+        <FormItem>
+          <FormLabel>Orientation Date</FormLabel>
+          <FormControl>
+            <Button
+              variant={'outline'}
+              className={cn(
+                'flex h-12 w-full min-w-[240px] rounded-lg border border-input bg-white px-4 py-3 text-left text-sm font-normal shadow-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50',
+              )}
+              disabled={true}
+            >
+              {account?.orientation_date
+                ? format(new Date(account.orientation_date), 'MMM dd, yyyy')
+                : ''}
+              <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+            </Button>
+          </FormControl>
+          <FormMessage />
+        </FormItem>
       </div>
     </>
   )

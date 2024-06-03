@@ -32,7 +32,8 @@ const DataTableRow = <TData,>({ table, columns }: TableRowProps<TData>) => {
             {openForm === row.id && (
               <TableCell colSpan={columns.length}>
                 {/* {row.original.id} */}
-                <UpdatePendingForm />
+                {/* @ts-ignore */}
+                <UpdatePendingForm accountId={row.original.id} />
               </TableCell>
             )}
           </>
