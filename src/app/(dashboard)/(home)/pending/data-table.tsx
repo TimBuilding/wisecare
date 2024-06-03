@@ -106,6 +106,7 @@ const DataTable = <TData, TValue>({
               ))}
             </TableHeader>
             <TableBody>
+              {/* @ts-ignore */}
               <DataTableRow table={table} columns={columns} />
             </TableBody>
           </Table>

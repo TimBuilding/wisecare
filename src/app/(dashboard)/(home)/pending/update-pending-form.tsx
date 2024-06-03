@@ -8,13 +8,18 @@ import MarketingInputs from '../accounts/forms/marketing-inputs'
 import { Separator } from '@/components/ui/separator'
 import DisabledInputs from './forms/disabled-inputs'
 import { Button } from '@/components/ui/button'
-import { FC } from 'react'
+import { FC, FormEventHandler, useCallback } from 'react'
+import { useUpdateMutation } from '@supabase-cache-helpers/postgrest-react-query'
+import { createBrowserClient } from '@/utils/supabase'
+import { useToast } from '@/components/ui/use-toast'
 
 interface Props {
   accountId: string
+  setOpenForm: (_value: string | null) => void
 }
 
-const UpdatePendingForm: FC<Props> = ({ accountId }) => {
+const UpdatePendingForm: FC<Props> = ({ accountId, setOpenForm }) => {
+  const { toast } = useToast()
   const form = useForm<z.infer<typeof pendingSchema>>({
     resolver: zodResolver(pendingSchema),
     defaultValues: {
@@ -30,14 +35,52 @@ const UpdatePendingForm: FC<Props> = ({ accountId }) => {
     },
   })
 
+  const supabase = createBrowserClient()
+  const { mutateAsync } = useUpdateMutation(
+    supabase.from('accounts'),
+    ['id'],
+    'id',
+    {
+      onError: (error) => {
+        toast({
+          variant: 'destructive',
+          title: 'Something went wrong',
+          description: error.message,
+        })
+      },
+      onSuccess: () => {
+        setOpenForm(null)
+        // reset form
+        form.reset()
+        toast({
+          variant: 'default',
+          title: 'Success',
+          description: 'Pending updated',
+        })
+      },
+    },
+  )
+
+  const onUpdateHandler = useCallback<FormEventHandler<HTMLFormElement>>(
+    (e) => {
+      form.handleSubmit(async (data) => {
+        await mutateAsync({
+          ...data,
+          id: accountId,
+        })
+      })(e)
+    },
+    [form, mutateAsync],
+  )
+
   return (
     <Form {...form}>
-      <form>
+      <form onSubmit={onUpdateHandler}>
         <div className="w-full space-y-5 px-8 py-5">
           <DisabledInputs isLoading={false} id={accountId} />
           <Separator className="my-5" />
           <PendingInputs />
-          <Button>Update</Button>
+          <Button type="submit">Update</Button>
         </div>
       </form>
     </Form>

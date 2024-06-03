@@ -35,7 +35,7 @@ const PendingInputs = () => {
   const form = useFormContext<z.infer<typeof pendingSchema>>()
   const supabase = createBrowserClient()
 
-  const { data: modeOfPremiums, isLoading: isLModeOfPremiumLoading } = useQuery(
+  const { data: modeOfPremiums, isLoading: isModeOfPremiumLoading } = useQuery(
     getTypes(supabase, 'mode_of_premium'),
   )
 
@@ -47,10 +47,10 @@ const PendingInputs = () => {
           name="mode_of_premium_id"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>HMO Provider</FormLabel>
+              <FormLabel>Mode of Premium</FormLabel>
               <Select onValueChange={field.onChange}>
                 <FormControl>
-                  <SelectTrigger disabled={true}>
+                  <SelectTrigger disabled={isModeOfPremiumLoading}>
                     <SelectValue placeholder="Select HMO Provider" />
                   </SelectTrigger>
                 </FormControl>
@@ -82,7 +82,7 @@ const PendingInputs = () => {
                         !field.value && 'text-muted-foreground',
                         'text-left font-normal',
                       )}
-                      disabled={isLModeOfPremiumLoading}
+                      disabled={isModeOfPremiumLoading}
                     >
                       {field.value ? (
                         format(field.value, 'PPP')
@@ -117,7 +117,7 @@ const PendingInputs = () => {
           <FormItem>
             <FormLabel>OR Number</FormLabel>
             <FormControl>
-              <Input {...field} disabled={isLModeOfPremiumLoading} />
+              <Input {...field} disabled={isModeOfPremiumLoading} />
             </FormControl>
             <FormMessage />
           </FormItem>
@@ -139,7 +139,7 @@ const PendingInputs = () => {
                       !field.value && 'text-muted-foreground',
                       'text-left font-normal',
                     )}
-                    disabled={isLModeOfPremiumLoading}
+                    disabled={isModeOfPremiumLoading}
                   >
                     {field.value ? (
                       format(field.value, 'PPP')
@@ -173,7 +173,7 @@ const PendingInputs = () => {
           <FormItem>
             <FormLabel>SA Number</FormLabel>
             <FormControl>
-              <Input {...field} disabled={isLModeOfPremiumLoading} />
+              <Input {...field} disabled={isModeOfPremiumLoading} />
             </FormControl>
             <FormMessage />
           </FormItem>
@@ -189,7 +189,7 @@ const PendingInputs = () => {
               <Input
                 {...field}
                 type="number"
-                disabled={isLModeOfPremiumLoading}
+                disabled={isModeOfPremiumLoading}
               />
             </FormControl>
             <FormMessage />
@@ -206,7 +206,7 @@ const PendingInputs = () => {
               <Input
                 {...field}
                 type="number"
-                disabled={isLModeOfPremiumLoading}
+                disabled={isModeOfPremiumLoading}
               />
             </FormControl>
             <FormMessage />
@@ -223,7 +223,7 @@ const PendingInputs = () => {
               <Input
                 {...field}
                 type="number"
-                disabled={isLModeOfPremiumLoading}
+                disabled={isModeOfPremiumLoading}
               />
             </FormControl>
             <FormMessage />
@@ -241,7 +241,7 @@ const PendingInputs = () => {
                 {...field}
                 type="number"
                 min="1"
-                disabled={isLModeOfPremiumLoading}
+                disabled={isModeOfPremiumLoading}
               />
             </FormControl>
             <FormMessage />
