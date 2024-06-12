@@ -1,8 +1,6 @@
 'use client'
 import TableHeader from '@/components/table-header'
 import getAccounts from '@/queries/get-accounts'
-import { Tables } from '@/types/database.types'
-import { QueryData } from '@supabase/supabase-js'
 import { ColumnDef } from '@tanstack/react-table'
 
 export type getAccountsResponse = Awaited<ReturnType<typeof getAccounts>>

@@ -17,8 +17,6 @@ const pageProtect = async (department: string) => {
     .eq('user_id', user?.id)
     .single()
 
-  console.log(userProfileData)
-
   if (userProfileError) {
     return redirect('/')
   }

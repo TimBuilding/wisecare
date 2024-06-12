@@ -1,5 +1,5 @@
 import { ColumnDef } from '@tanstack/react-table'
-import { getAccountsResponse } from '../accounts/marketing-columns'
+import { getAccountsResponse } from '../accounts/columns/marketing-columns'
 import TableHeader from '@/components/table-header'
 import { format } from 'date-fns'
 
