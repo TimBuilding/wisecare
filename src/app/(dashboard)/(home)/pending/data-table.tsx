@@ -84,8 +84,8 @@ const DataTable = <TData, TValue>({
         </div>
       </PageHeader>
       <TableViewOptions table={table} />
-      <div className="h-full bg-card">
-        <div className="rounded-md border">
+      <div className="flex h-full flex-col justify-between bg-card">
+        <div className="h-full rounded-md border">
           <Table>
             <TableHeader>
               {table.getHeaderGroups().map((headerGroup) => (
