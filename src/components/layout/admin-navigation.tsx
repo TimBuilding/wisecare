@@ -1,7 +1,13 @@
 import { BookType, Users } from 'lucide-react'
 import NavigationItem from './navigation-item'
+import { createServerClient } from '@/utils/supabase'
+import { cookies } from 'next/headers'
+import isAdmin from '@/utils/is-admin'
 
-const AdminNavigation = () => {
+const AdminNavigation = async () => {
+  const supabase = createServerClient(cookies())
+  if (!(await isAdmin(supabase))) return null
+
   return (
     <div>
       <div className="flex flex-col gap-1 px-4 py-3">
@@ -22,6 +28,12 @@ const AdminNavigation = () => {
           href="/admin/types"
           active={false}
           icon={BookType}
+        />
+        <NavigationItem
+          title="Agents"
+          href="/admin/agents"
+          active={false}
+          icon={Users}
         />
       </div>
     </div>

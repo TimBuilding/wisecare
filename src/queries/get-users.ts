@@ -7,6 +7,7 @@ const getUsers = (supabase: TypedSupabaseClient) => {
       .select('user_id,first_name,last_name,departments(name)', {
         count: 'exact',
       })
+      .neq('department_id', '4234234234')
       // .order('first_name')
       .throwOnError()
   )
