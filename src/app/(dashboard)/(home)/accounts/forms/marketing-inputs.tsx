@@ -56,7 +56,20 @@ const MarketingInputs: FC<Props> = ({ isLoading }) => {
         render={({ field }) => (
           <FormItem>
             <FormLabel>Agent</FormLabel>
-
+            <Select onValueChange={field.onChange}>
+              <FormControl>
+                <SelectTrigger disabled={isLoading}>
+                  <SelectValue placeholder="Select Agent" />
+                </SelectTrigger>
+              </FormControl>
+              <SelectContent>
+                {agents?.map((agent) => (
+                  <SelectItem key={agent.user_id} value={agent.user_id}>
+                    {agent.first_name} {agent.last_name}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
             <FormMessage />
           </FormItem>
         )}
@@ -103,7 +116,7 @@ const MarketingInputs: FC<Props> = ({ isLoading }) => {
       <div className="grid grid-cols-2 gap-4">
         <FormField
           control={form.control}
-          name="account_type_id"
+          name="hmo_provider_id"
           render={({ field }) => (
             <FormItem>
               <FormLabel>HMO Provider</FormLabel>

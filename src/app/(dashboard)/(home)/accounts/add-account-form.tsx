@@ -12,9 +12,11 @@ import { useInsertMutation } from '@supabase-cache-helpers/postgrest-react-query
 import { createBrowserClient } from '@/utils/supabase'
 import { FormEventHandler, useCallback } from 'react'
 import { Loader2 } from 'lucide-react'
+import { useToast } from '@/components/ui/use-toast'
 
 const AddAccountForm = () => {
   const { isFormOpen, setIsFormOpen } = useAccountsContext()
+  const { toast } = useToast()
   const form = useForm<z.infer<typeof accountsSchema>>({
     resolver: zodResolver(accountsSchema),
     defaultValues: {
@@ -65,12 +67,20 @@ const AddAccountForm = () => {
         // close form
         setIsFormOpen(false)
       },
+      onError: (error) => {
+        toast({
+          title: 'Something went wrong',
+          description: error.message,
+          variant: 'destructive',
+        })
+      },
     },
   )
 
   const onSubmitHandler = useCallback<FormEventHandler<HTMLFormElement>>(
     (e) => {
       form.handleSubmit(async (data) => {
+        console.log(data)
         await mutateAsync([
           {
             company_name: data.company_name,

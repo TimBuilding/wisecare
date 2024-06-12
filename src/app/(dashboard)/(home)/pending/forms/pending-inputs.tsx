@@ -30,8 +30,13 @@ import { format } from 'date-fns'
 import { CalendarIcon } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Calendar } from '@/components/ui/calendar'
+import { FC } from 'react'
 
-const PendingInputs = () => {
+interface Props {
+  isLoading: boolean
+}
+
+const PendingInputs: FC<Props> = ({ isLoading }) => {
   const form = useFormContext<z.infer<typeof pendingSchema>>()
   const supabase = createBrowserClient()
 
@@ -50,7 +55,7 @@ const PendingInputs = () => {
               <FormLabel>Mode of Premium</FormLabel>
               <Select onValueChange={field.onChange}>
                 <FormControl>
-                  <SelectTrigger disabled={isModeOfPremiumLoading}>
+                  <SelectTrigger disabled={isModeOfPremiumLoading || isLoading}>
                     <SelectValue placeholder="Select HMO Provider" />
                   </SelectTrigger>
                 </FormControl>
@@ -82,7 +87,7 @@ const PendingInputs = () => {
                         !field.value && 'text-muted-foreground',
                         'text-left font-normal',
                       )}
-                      disabled={isModeOfPremiumLoading}
+                      disabled={isLoading}
                     >
                       {field.value ? (
                         format(field.value, 'PPP')
@@ -117,7 +122,7 @@ const PendingInputs = () => {
           <FormItem>
             <FormLabel>OR Number</FormLabel>
             <FormControl>
-              <Input {...field} disabled={isModeOfPremiumLoading} />
+              <Input {...field} disabled={isLoading} />
             </FormControl>
             <FormMessage />
           </FormItem>
@@ -139,7 +144,7 @@ const PendingInputs = () => {
                       !field.value && 'text-muted-foreground',
                       'text-left font-normal',
                     )}
-                    disabled={isModeOfPremiumLoading}
+                    disabled={isLoading}
                   >
                     {field.value ? (
                       format(field.value, 'PPP')
@@ -173,7 +178,7 @@ const PendingInputs = () => {
           <FormItem>
             <FormLabel>SA Number</FormLabel>
             <FormControl>
-              <Input {...field} disabled={isModeOfPremiumLoading} />
+              <Input {...field} disabled={isLoading} />
             </FormControl>
             <FormMessage />
           </FormItem>
@@ -186,11 +191,7 @@ const PendingInputs = () => {
           <FormItem>
             <FormLabel>Amount</FormLabel>
             <FormControl>
-              <Input
-                {...field}
-                type="number"
-                disabled={isModeOfPremiumLoading}
-              />
+              <Input {...field} type="number" disabled={isLoading} />
             </FormControl>
             <FormMessage />
           </FormItem>
@@ -203,11 +204,7 @@ const PendingInputs = () => {
           <FormItem>
             <FormLabel>Total Contract Value</FormLabel>
             <FormControl>
-              <Input
-                {...field}
-                type="number"
-                disabled={isModeOfPremiumLoading}
-              />
+              <Input {...field} type="number" disabled={isLoading} />
             </FormControl>
             <FormMessage />
           </FormItem>
@@ -220,11 +217,7 @@ const PendingInputs = () => {
           <FormItem>
             <FormLabel>Balance</FormLabel>
             <FormControl>
-              <Input
-                {...field}
-                type="number"
-                disabled={isModeOfPremiumLoading}
-              />
+              <Input {...field} type="number" disabled={isLoading} />
             </FormControl>
             <FormMessage />
           </FormItem>
@@ -237,12 +230,7 @@ const PendingInputs = () => {
           <FormItem>
             <FormLabel>Billing Period</FormLabel>
             <FormControl>
-              <Input
-                {...field}
-                type="number"
-                min="1"
-                disabled={isModeOfPremiumLoading}
-              />
+              <Input {...field} type="number" min="1" disabled={isLoading} />
             </FormControl>
             <FormMessage />
           </FormItem>

@@ -12,6 +12,7 @@ import { FC, FormEventHandler, useCallback } from 'react'
 import { useUpdateMutation } from '@supabase-cache-helpers/postgrest-react-query'
 import { createBrowserClient } from '@/utils/supabase'
 import { useToast } from '@/components/ui/use-toast'
+import { Loader2 } from 'lucide-react'
 
 interface Props {
   accountId: string
@@ -36,7 +37,7 @@ const UpdatePendingForm: FC<Props> = ({ accountId, setOpenForm }) => {
   })
 
   const supabase = createBrowserClient()
-  const { mutateAsync } = useUpdateMutation(
+  const { mutateAsync, isPending } = useUpdateMutation(
     supabase.from('accounts'),
     ['id'],
     'id',
@@ -64,6 +65,15 @@ const UpdatePendingForm: FC<Props> = ({ accountId, setOpenForm }) => {
   const onUpdateHandler = useCallback<FormEventHandler<HTMLFormElement>>(
     (e) => {
       form.handleSubmit(async (data) => {
+        // check if mode_of_premium_id is not empty
+        if (data.mode_of_premium_id === '') {
+          toast({
+            variant: 'destructive',
+            title: 'Something went wrong',
+            description: 'Mode of premium is required',
+          })
+          return
+        }
         await mutateAsync({
           ...data,
           id: accountId,
@@ -79,8 +89,10 @@ const UpdatePendingForm: FC<Props> = ({ accountId, setOpenForm }) => {
         <div className="w-full space-y-5 px-8 py-5">
           <DisabledInputs isLoading={false} id={accountId} />
           <Separator className="my-5" />
-          <PendingInputs />
-          <Button type="submit">Update</Button>
+          <PendingInputs isLoading={isPending} />
+          <Button type="submit" disabled={isPending}>
+            {isPending ? <Loader2 className="animate-spin" /> : 'Update'}
+          </Button>
         </div>
       </form>
     </Form>
