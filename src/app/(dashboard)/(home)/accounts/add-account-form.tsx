@@ -140,7 +140,12 @@ const AddAccountForm = () => {
             </div>
             <div className="mt-8 border-t border-border py-3">
               <div className="flex flex-row items-center justify-between px-4">
-                <Button variant="outline" className="w-24" disabled={isPending}>
+                <Button
+                  onClick={() => setIsFormOpen(false)}
+                  variant="outline"
+                  className="w-24"
+                  disabled={isPending}
+                >
                   {isPending ? <Loader2 className="animate-spin" /> : 'Cancel'}
                 </Button>
                 <Button
