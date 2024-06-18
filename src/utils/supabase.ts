@@ -3,6 +3,7 @@ import {
   createServerClient as serverClient,
   type CookieOptions,
 } from '@supabase/ssr'
+import { createClient } from '@supabase/supabase-js'
 import { cookies } from 'next/headers'
 import { NextRequest, NextResponse } from 'next/server'
 
@@ -77,3 +78,9 @@ export const createMiddlewareClient = (request: NextRequest) => {
 
   return { supabase, response }
 }
+
+export const createServiceRoleClient = () =>
+  createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.SUPABASE_SERVICE_ROLE_KEY!,
+  )

@@ -13,6 +13,7 @@ import {
 import { cookies } from 'next/headers'
 import AgentsList from './agents-list'
 import AgentsCount from './agents-count'
+import AddAgent from './add-agent'
 
 const AgentsPage = async () => {
   const queryClient = new QueryClient()
@@ -27,6 +28,7 @@ const AgentsPage = async () => {
             <PageTitle>Agents</PageTitle>
             <AgentsCount />
           </div>
+          <AddAgent />
         </PageHeader>
 
         <AgentsList />
