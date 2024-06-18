@@ -12,6 +12,7 @@ import {
 } from '@tanstack/react-query'
 import { cookies } from 'next/headers'
 import AgentsList from './agents-list'
+import AgentsCount from './agents-count'
 
 const AgentsPage = async () => {
   const queryClient = new QueryClient()
@@ -24,7 +25,7 @@ const AgentsPage = async () => {
         <PageHeader>
           <div>
             <PageTitle>Agents</PageTitle>
-            <PageDescription>132 agents</PageDescription>
+            <AgentsCount />
           </div>
         </PageHeader>
 
