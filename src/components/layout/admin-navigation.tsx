@@ -20,20 +20,17 @@ const AdminNavigation = async () => {
         <NavigationItem
           title="Users"
           href="/admin/users"
-          active={false}
-          icon={Users}
+          icon={<Users className="h-6 w-6 group-hover:text-white" />}
         />
         <NavigationItem
           title="Manage Types"
           href="/admin/types"
-          active={false}
-          icon={BookType}
+          icon={<BookType className="h-6 w-6 group-hover:text-white" />}
         />
         <NavigationItem
           title="Agents"
           href="/admin/agents"
-          active={false}
-          icon={Users}
+          icon={<Users className="h-6 w-6 group-hover:text-white" />}
         />
       </div>
     </div>

@@ -1,4 +1,4 @@
-import { BookCopy, ClipboardCheck, ListStart } from 'lucide-react'
+import { BookCopy, ClipboardCheck, ListStart, LucideIcon } from 'lucide-react'
 import AdminNavigation from './admin-navigation'
 import NavigationItem from './navigation-item'
 
@@ -16,8 +16,7 @@ const Navigation = () => {
           <NavigationItem
             title="Dashboard"
             href="/"
-            active={true}
-            icon={ClipboardCheck}
+            icon={<ClipboardCheck className="h-6 w-6 group-hover:text-white" />}
           />
         </div>
       </div>
@@ -33,14 +32,12 @@ const Navigation = () => {
           <NavigationItem
             title="Accounts"
             href="/accounts"
-            active={false}
-            icon={BookCopy}
+            icon={<BookCopy className="h-6 w-6 group-hover:text-white" />}
           />
           <NavigationItem
             title="Pending"
             href="/pending"
-            active={false}
-            icon={ListStart}
+            icon={<ListStart className="h-6 w-6 group-hover:text-white" />}
           />
         </div>
       </div>
