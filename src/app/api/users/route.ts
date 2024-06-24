@@ -2,6 +2,7 @@ import isAdmin from '@/utils/is-admin'
 import { createServerClient, createServiceRoleClient } from '@/utils/supabase'
 import { cookies } from 'next/headers'
 import { NextRequest, NextResponse } from 'next/server'
+import generator from 'generate-password'
 
 // create new user
 export const POST = async (req: NextRequest) => {
@@ -15,7 +16,14 @@ export const POST = async (req: NextRequest) => {
 
   const supabase = createServiceRoleClient()
 
-  const randomPassword = Math.random().toString(36).slice(-8)
+  // const randomPassword = Math.random().toString(36).slice(-8)
+  const randomPassword = generator.generate({
+    length: 12,
+    numbers: true,
+    symbols: true,
+    uppercase: true,
+    lowercase: true,
+  })
 
   // get agent department id
   const { data: departmentData, error: departmentError } = await supabase

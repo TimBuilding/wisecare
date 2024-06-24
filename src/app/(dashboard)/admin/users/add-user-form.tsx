@@ -41,26 +41,28 @@ const AddUserForm = () => {
     },
   })
 
-  const handleSubmit: SubmitHandler<z.infer<typeof userSchema>> = async (
-    data,
-  ) => {
+  const handleSubmit: SubmitHandler<z.infer<typeof userSchema>> = async ({
+    email,
+    firstName,
+    lastName,
+    department,
+  }) => {
     setIsLoading(true)
-    const supabase = createBrowserClient()
-    const { error } = await supabase.auth.signUp({
-      email: data.email,
-      password: 'password123',
-      options: {
-        data: {
-          first_name: data.firstName,
-          last_name: data.lastName,
-          department: 'marketing',
-        },
-      },
+
+    const res = await fetch('/api/users', {
+      method: 'POST',
+      body: JSON.stringify({
+        email,
+        first_name: firstName,
+        last_name: lastName,
+        department,
+      }),
     })
-    if (error) {
-      setError(error.message)
-      setIsLoading(false)
-      return
+
+    const data = await res.json()
+
+    if (data.error) {
+      setError(data.error)
     }
 
     // clear form
