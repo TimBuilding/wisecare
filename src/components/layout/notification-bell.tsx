@@ -58,7 +58,13 @@ const NotificationBell: FC<Props> = ({ user }) => {
   return (
     <Popover>
       <PopoverTrigger asChild={true}>
-        <Button variant={'ghost'} size={'icon'}>
+        <Button variant={'ghost'} size={'icon'} className="relative">
+          {data && data.length > 0 && (
+            <span className="absolute right-2.5 top-1.5 flex h-2 w-2">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-sky-400 opacity-75"></span>
+              <span className="relative inline-flex h-2 w-2 rounded-full bg-sky-500"></span>
+            </span>
+          )}
           <Bell className="text-muted-foreground/50" />
         </Button>
       </PopoverTrigger>
