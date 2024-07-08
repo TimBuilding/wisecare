@@ -3,12 +3,48 @@ import { PopoverContent } from '@radix-ui/react-popover'
 import { Bell } from 'lucide-react'
 import { Button } from '../ui/button'
 import { Popover, PopoverTrigger } from '../ui/popover'
-import { useQuery } from '@supabase-cache-helpers/postgrest-react-query'
+import {
+  useQuery,
+  useUpdateMutation,
+} from '@supabase-cache-helpers/postgrest-react-query'
 import getNotifications from '@/queries/get-notifications'
 import { createBrowserClient } from '@/utils/supabase'
 import { User } from '@supabase/supabase-js'
-import { FC } from 'react'
+import { FC, useCallback } from 'react'
 import { Skeleton } from '../ui/skeleton'
+
+interface NotificationItemProps {
+  id: string
+  title: string
+  description: string
+}
+
+const NotificationItem: FC<NotificationItemProps> = ({
+  id,
+  title,
+  description,
+}) => {
+  const supabase = createBrowserClient()
+
+  const { mutateAsync } = useUpdateMutation(
+    supabase.from('notifications'),
+    ['id'],
+    'read',
+  )
+  const handleReadNotification = useCallback(() => {
+    mutateAsync({ id, read: true })
+  }, [id, mutateAsync])
+
+  return (
+    <div
+      onClick={handleReadNotification}
+      className="flex cursor-pointer flex-col px-7 py-4 hover:bg-muted/50"
+    >
+      <span className="text-sm font-medium">{title}</span>
+      <span className="text-sm text-muted-foreground">{description}</span>
+    </div>
+  )
+}
 
 interface Props {
   user: User | null
@@ -36,17 +72,12 @@ const NotificationBell: FC<Props> = ({ user }) => {
           </div>
           <div className="grid gap-2">
             {data?.map((notification) => (
-              <div
+              <NotificationItem
                 key={notification.id}
-                className="flex cursor-pointer flex-col px-7 py-4 hover:bg-muted/50"
-              >
-                <span className="text-sm font-medium">
-                  {notification.title}
-                </span>
-                <span className="text-sm text-muted-foreground">
-                  {notification.description}
-                </span>
-              </div>
+                id={notification.id}
+                title={notification.title}
+                description={notification.description}
+              />
             ))}
             {isPending &&
               [...Array(5)].map((_, i) => (

@@ -5,6 +5,7 @@ const getNotifications = (supabase: TypedSupabaseClient, user_id?: string) => {
     .from('notifications')
     .select('id, title, description, created_at')
     .eq('user_id', user_id || '')
+    .eq('read', false)
     .order('created_at', { ascending: false })
     .throwOnError()
 }
