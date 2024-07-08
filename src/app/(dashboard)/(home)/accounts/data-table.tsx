@@ -6,6 +6,7 @@ import {
   PageTitle,
 } from '@/components/page-header'
 import TablePagination from '@/components/table-pagination'
+import TableViewOptions from '@/components/table-view-options'
 import { Input } from '@/components/ui/input'
 import {
   Table,
@@ -29,10 +30,9 @@ import {
 } from '@tanstack/react-table'
 import { Search } from 'lucide-react'
 import { useState } from 'react'
-import AccountsProvider, { useAccountsContext } from './accounts-provider'
+import AccountsProvider from './accounts-provider'
 import AddAccountButton from './add-account-button'
 import AddAccountForm from './add-account-form'
-import TableViewOptions from '@/components/table-view-options'
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
