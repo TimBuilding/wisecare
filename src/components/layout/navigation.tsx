@@ -1,8 +1,11 @@
+'use server'
+
 import { BookCopy, ClipboardCheck, ListStart, LucideIcon } from 'lucide-react'
 import AdminNavigation from './admin-navigation'
 import NavigationItem from './navigation-item'
+import getRole from '@/utils/get-role'
 
-const Navigation = () => {
+const Navigation = async () => {
   return (
     <div className="z-50 space-y-6 px-3">
       <div>
@@ -34,11 +37,16 @@ const Navigation = () => {
             href="/accounts"
             icon={<BookCopy className="h-6 w-6 group-hover:text-white" />}
           />
-          <NavigationItem
-            title="Pending"
-            href="/pending"
-            icon={<ListStart className="h-6 w-6 group-hover:text-white" />}
-          />
+          {
+            // only show pending tab if role is finance
+            (await getRole()) === 'finance' && (
+              <NavigationItem
+                title="Pending"
+                href="/pending"
+                icon={<ListStart className="h-6 w-6 group-hover:text-white" />}
+              />
+            )
+          }
         </div>
       </div>
 
