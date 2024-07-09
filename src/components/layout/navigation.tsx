@@ -1,9 +1,9 @@
 'use server'
 
-import { BookCopy, ClipboardCheck, ListStart, LucideIcon } from 'lucide-react'
+import getRole from '@/utils/get-role'
+import { BookCopy, ClipboardCheck, ListStart } from 'lucide-react'
 import AdminNavigation from './admin-navigation'
 import NavigationItem from './navigation-item'
-import getRole from '@/utils/get-role'
 
 const Navigation = async () => {
   return (

@@ -1,5 +1,3 @@
-import { UserCircle } from 'lucide-react'
-import { Button } from '../ui/button'
 import WisecareLogo from '@/assets/images/wisecare-logo-2 1.png'
 import Image from 'next/image'
 import Navigation from './navigation'
