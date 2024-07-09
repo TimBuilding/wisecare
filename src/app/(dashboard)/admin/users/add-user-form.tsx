@@ -21,12 +21,17 @@ import {
 } from '@/components/ui/select'
 import { SheetClose } from '@/components/ui/sheet'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useQueryClient } from '@tanstack/react-query'
 import { Loader2 } from 'lucide-react'
 import { useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { z } from 'zod'
 
-const AddUserForm = () => {
+interface Props {
+  onOpenChange: (open: boolean) => void
+}
+
+const AddUserForm = ({ onOpenChange }: Props) => {
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [error, setError] = useState<string>('')
   const form = useForm<z.infer<typeof userSchema>>({
@@ -39,6 +44,7 @@ const AddUserForm = () => {
       // password: '',
     },
   })
+  const queryClient = useQueryClient()
 
   const handleSubmit: SubmitHandler<z.infer<typeof userSchema>> = async ({
     email,
@@ -64,8 +70,12 @@ const AddUserForm = () => {
       setError(data.error)
     }
 
+    // clear cache
+    await queryClient.invalidateQueries()
+
     // clear form
     form.reset()
+    onOpenChange(false)
     setIsLoading(false)
   }
 

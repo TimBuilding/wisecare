@@ -8,13 +8,16 @@ import {
   SheetTrigger,
 } from '@/components/ui/sheet'
 import { Plus, X } from 'lucide-react'
+import { useState } from 'react'
 import Avatar, { genConfig } from 'react-nice-avatar'
 
 const AddUser = () => {
   const uid = '123'
   const config = genConfig(uid)
+  const [isFormOpen, setIsFormOpen] = useState(false)
+
   return (
-    <Sheet>
+    <Sheet open={isFormOpen} onOpenChange={setIsFormOpen}>
       <SheetTrigger asChild={true}>
         <Button className="space-x-2">
           <Plus />
@@ -34,7 +37,7 @@ const AddUser = () => {
             className="mx-6 h-32 w-32 -translate-y-16 rounded-full border-4 border-card"
             {...config}
           />
-          <AddUserForm />
+          <AddUserForm onOpenChange={setIsFormOpen} />
         </div>
       </SheetContent>
     </Sheet>

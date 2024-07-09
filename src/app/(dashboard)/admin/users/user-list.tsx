@@ -2,7 +2,6 @@
 
 import { Skeleton } from '@/components/ui/skeleton'
 import getUsers from '@/queries/get-users'
-import { Tables } from '@/types/database.types'
 import { createBrowserClient } from '@/utils/supabase'
 import { useQuery } from '@supabase-cache-helpers/postgrest-react-query'
 import Avatar, { genConfig } from 'react-nice-avatar'
