@@ -1,6 +1,8 @@
 'use client'
 
 import userSchema from '@/app/(dashboard)/admin/users/user-schema'
+import Message from '@/components/message'
+import { Button } from '@/components/ui/button'
 import {
   Form,
   FormControl,
@@ -12,20 +14,17 @@ import {
 import { Input } from '@/components/ui/input'
 import {
   Select,
+  SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-  SelectContent,
 } from '@/components/ui/select'
-import { Button } from '@/components/ui/button'
+import { SheetClose } from '@/components/ui/sheet'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { Loader2 } from 'lucide-react'
+import { useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { z } from 'zod'
-import { SheetClose } from '@/components/ui/sheet'
-import { createBrowserClient } from '@/utils/supabase'
-import { useState } from 'react'
-import Message from '@/components/message'
-import { Loader2 } from 'lucide-react'
 
 const AddUserForm = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false)
