@@ -16,7 +16,6 @@ interface Props {
 
 const CompanyPage: FC<Props> = ({ companyId }) => {
   const [showAddPersonnel, setShowAddPersonnel] = useState(false)
-  const router = useRouter()
 
   const toggleAddPersonnel = () => setShowAddPersonnel(!showAddPersonnel)
   return (
@@ -26,12 +25,7 @@ const CompanyPage: FC<Props> = ({ companyId }) => {
         <TabsContent value="about">
           <CompanyAbout companyId={companyId} />
         </TabsContent>
-        <TabsContent
-          value="employees"
-          onClick={() =>
-            router.push(`/accounts/(Personnel)/${companyId}/employees-page`)
-          }
-        >
+        <TabsContent value="employees">
           <div className="ml-auto flex w-full flex-col lg:items-end lg:justify-center">
             {!showAddPersonnel && (
               <Button

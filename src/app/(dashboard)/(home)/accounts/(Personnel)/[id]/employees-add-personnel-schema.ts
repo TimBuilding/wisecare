@@ -20,7 +20,7 @@ const employeesSchema = z.object({
   telephoneNumber: z.number(),
   mobileNumber: z.number(),
   agentName: z.string().min(1),
-  philHealth: z.string(),
+  philHealth: z.string().min(1),
   paymentMode: z.string().min(1),
   planType: z.string().min(1),
   planDescription: z.string().min(1),

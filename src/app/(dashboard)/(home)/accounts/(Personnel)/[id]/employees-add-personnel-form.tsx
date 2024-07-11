@@ -23,6 +23,7 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover'
 import { Calendar } from '@/components/ui/calendar'
+import EmployeesAddPersonnelButton from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/employees-add-personnel-button'
 
 const EmployeesAddPersonnelForm = () => {
   const form = useForm<z.infer<typeof employeesSchema>>({
@@ -369,6 +370,7 @@ const EmployeesAddPersonnelForm = () => {
           />
         </div>
         <div className="mt-4 flex flex-row items-center justify-between gap-4 lg:ml-auto lg:justify-end">
+          <EmployeesAddPersonnelButton />
           <Button
             type="submit"
             variant="default"
