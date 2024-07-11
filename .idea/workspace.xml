@@ -4,7 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="026827f0-6b8e-4d30-b546-2e0d659878c6" name="Changes" comment="" />
+    <list default="true" id="026827f0-6b8e-4d30-b546-2e0d659878c6" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/(dashboard)/(home)/accounts/(Personnel)/[id]/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/(dashboard)/(home)/accounts/(Personnel)/[id]/page.tsx" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -66,10 +69,23 @@
       <workItem from="1718679620460" duration="527000" />
       <workItem from="1718680180225" duration="13172000" />
       <workItem from="1719204376329" duration="262000" />
+      <workItem from="1719204692072" duration="12784000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/src/app/(dashboard)/(home)/accounts/(Personnel)/[id]/page.tsx</url>
+          <line>40</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>
