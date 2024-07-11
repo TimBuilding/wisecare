@@ -11,7 +11,7 @@ interface Props {
 const CompanyPage: FC<Props> = ({ companyId }) => {
   return (
     <Tabs defaultValue="about">
-      <CompanyHeader />
+      <CompanyHeader id={companyId} />
       <div className="p-8 lg:mx-auto lg:max-w-5xl">
         <TabsContent value="about">
           <CompanyAbout companyId={companyId} />
