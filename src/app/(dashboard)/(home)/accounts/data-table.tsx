@@ -6,7 +6,6 @@ import {
   PageTitle,
 } from '@/components/page-header'
 import TablePagination from '@/components/table-pagination'
-import TableViewOptions from '@/components/table-view-options'
 import { Input } from '@/components/ui/input'
 import {
   Table,
@@ -33,19 +32,26 @@ import { useState } from 'react'
 import AccountsProvider from './accounts-provider'
 import AddAccountButton from './add-account-button'
 import AddAccountForm from './add-account-form'
+import TableViewOptions from '@/components/table-view-options'
+import { useRouter } from 'next/navigation'
 
-interface DataTableProps<TData, TValue> {
+interface IData {
+  id: string
+}
+
+interface DataTableProps<TData extends IData, TValue> {
   columns: ColumnDef<TData, TValue>[]
   data: TData[]
 }
 
-const DataTable = <TData, TValue>({
+const DataTable = <TData extends IData, TValue>({
   columns,
   data,
 }: DataTableProps<TData, TValue>) => {
   const [sorting, setSorting] = useState<SortingState>([])
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
+  const router = useRouter()
 
   const table = useReactTable({
     data,
@@ -119,21 +125,26 @@ const DataTable = <TData, TValue>({
               <TableBody>
                 <AddAccountForm />
                 {table.getRowModel().rows?.length ? (
-                  table.getRowModel().rows.map((row) => (
-                    <TableRow
-                      key={row.id}
-                      data-state={row.getIsSelected() && 'selected'}
-                    >
-                      {row.getVisibleCells().map((cell) => (
-                        <TableCell key={cell.id}>
-                          {flexRender(
-                            cell.column.columnDef.cell,
-                            cell.getContext(),
-                          )}
-                        </TableCell>
-                      ))}
-                    </TableRow>
-                  ))
+                  table.getRowModel().rows.map((row) => {
+                    return (
+                      <TableRow
+                        key={row.id}
+                        data-state={row.getIsSelected() && 'selected'}
+                        onClick={() =>
+                          router.push(`/accounts/${row.original.id}`)
+                        }
+                      >
+                        {row.getVisibleCells().map((cell) => (
+                          <TableCell key={cell.id}>
+                            {flexRender(
+                              cell.column.columnDef.cell,
+                              cell.getContext(),
+                            )}
+                          </TableCell>
+                        ))}
+                      </TableRow>
+                    )
+                  })
                 ) : (
                   <TableRow>
                     <TableCell

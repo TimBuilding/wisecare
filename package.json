@@ -66,6 +66,7 @@
     "react-day-picker": "^8.10.1",
     "react-dom": "18.2.0",
     "react-hook-form": "^7.51.4",
+    "react-initials-avatar": "^1.1.2",
     "react-nice-avatar": "^1.5.0",
     "tailwind-merge": "^2.3.0",
     "undici": "^5.28.4",
