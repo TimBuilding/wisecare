@@ -1,74 +1,87 @@
-import React from 'react'
+import React, { FC } from 'react'
+import { createBrowserClient } from '@/utils/supabase'
+import getAccountById from '@/queries/get-account-by-id'
+import { useQuery } from '@supabase-cache-helpers/postgrest-react-query'
 
-const CompanyContractInformation = () => {
+interface CompanyContractInformationProps {
+  id: string
+}
+
+const CompanyContractInformation: FC<CompanyContractInformationProps> = ({
+  id,
+}) => {
+  const supabase = createBrowserClient()
+  const { data: account } = useQuery(getAccountById(supabase, id))
   const companyContractInformation = [
     {
       name: 'Initial Contract Value:',
-      value: 'Initial Contract Value 1',
+      value: account?.initial_contract_value || '',
     },
     {
       name: 'Total Contract Value:',
-      value: 'Total Contract Value 1',
+      value: account?.total_contract_value || '',
     },
     {
       name: 'Balance:',
-      value: 'Balance 1',
+      value: account?.balance || '',
     },
     {
       name: 'Mode of Payment:',
-      value: 'Mode of Payment 1',
+      // @ts-ignore
+      value: account?.mode_of_payment.name || '',
     },
     {
       name: 'Mode of Premium:',
-      value: 'Mode of Premium 1',
+      // @ts-ignore
+      value: account?.mode_of_premium.name || '',
     },
     {
       name: 'Due Date:',
-      value: 'Due Date 1',
+      value: account?.due_date || '',
     },
     {
       name: 'Amount:',
-      value: 'Amount 1',
+      value: account?.amount || '',
     },
     {
       name: 'Renewal Date:',
-      value: 'Renewal Date 1',
+      value: account?.renewal_date || '',
     },
     {
       name: 'Expiration Date:',
-      value: 'Expiration Date 1',
+      value: account?.expiration_date || '',
     },
     {
       name: 'Effectivity Date:',
-      value: 'Effectivity Date 1',
+      value: account?.effectivity_date || '',
     },
     {
       name: 'Effective Date:',
-      value: 'Effective Date 1',
+      value: account?.effective_date || '',
     },
     {
       name: 'COC Issue Date:',
-      value: 'COC Issue Date 1',
+      value: account?.coc_issue_date || '',
     },
     {
       name: 'Delivery Date of Membership IDs:',
-      value: 'Delivery Date of Membership IDs 1',
+      value: account?.delivery_date_of_membership_ids || '',
     },
     {
       name: 'Orientation Date:',
-      value: 'Orientation Date 1',
+      value: account?.orientation_date || '',
     },
     {
       name: 'Wellness Lecture Date:',
-      value: 'Wellness Lecture Date 1',
+      value: account?.wellness_lecture_date || '',
     },
     {
       name: 'Annual Physical Examination Date:',
-      value: 'Annual Physical Examination Date 1',
+      value: account?.annual_physical_examination_date || '',
     },
     {
       name: 'Billing Period:',
-      value: 'Billing Period 1',
+      value: account?.billing_period || '',
     },
   ]
   return (

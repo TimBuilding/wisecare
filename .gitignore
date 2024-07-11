@@ -40,3 +40,5 @@ yarn-error.log*
 # swc
 .swc
 *storybook.log
+
+./.idea/*

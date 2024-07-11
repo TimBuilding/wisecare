@@ -1,22 +1,31 @@
-import React from 'react'
+import React, { FC } from 'react'
+import { createBrowserClient } from '@/utils/supabase'
+import getAccountById from '@/queries/get-account-by-id'
+import { useQuery } from '@supabase-cache-helpers/postgrest-react-query'
 
-const CompanyInformation = () => {
+interface CompanyInformationProps {
+  id: string
+}
+
+const CompanyInformation: FC<CompanyInformationProps> = ({ id }) => {
+  const supabase = createBrowserClient()
+  const { data: account } = useQuery(getAccountById(supabase, id))
   const companyInformation = [
     {
       name: 'Nature of Business:',
-      value: 'Nature of Business 1',
+      value: account?.nature_of_business || '',
     },
     {
       name: 'Contact Person:',
-      value: 'Jane Doe',
+      value: account?.contact_person || '',
     },
     {
       name: 'Contact Number:',
-      value: '09123456789',
+      value: account?.contact_number || '',
     },
     {
       name: 'Signatory Designation:',
-      value: 'Signatory Designation 1',
+      value: account?.signatory_designation || '',
     },
   ]
   return (
@@ -24,7 +33,6 @@ const CompanyInformation = () => {
       {companyInformation.map((info, index) => (
         <div className="flex flex-row pt-4" key={index}>
           <div className="text-md text-[#1e293b]">
-            {' '}
             {info.name} <span> {info.value}</span>
           </div>
         </div>

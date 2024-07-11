@@ -1,50 +1,56 @@
-import React from 'react'
+import React, { FC } from 'react'
+import { createBrowserClient } from '@/utils/supabase'
+import getAccountById from '@/queries/get-account-by-id'
+import { useQuery } from '@supabase-cache-helpers/postgrest-react-query'
 
-const CompanyHmoInformation = () => {
+interface CompanyHmoInformationProps {
+  id: string
+}
+
+const CompanyHmoInformation: FC<CompanyHmoInformationProps> = ({ id }) => {
+  const supabase = createBrowserClient()
+  const { data: account } = useQuery(getAccountById(supabase, id))
   const companyHmoInformation = [
     {
       name: 'HMO Provider:',
-      value: 'HMO Provider 1',
+      // @ts-ignore
+      value: account?.hmo_provider.name || '',
     },
     {
       name: 'Previous HMO Provider:',
-      value: 'Previous HMO Provider 1',
+      //@ts-ignore
+      value: account?.previous_hmo_provider.name || '',
     },
     {
       name: 'Current HMO Provider:',
-      value: 'Current HMO Provider 1',
+      //@ts-ignore
+      value: account?.current_hmo_provider.name || '',
     },
     {
       name: 'Principal Plan Type:',
-      value: 'Principal Plan Type 1',
+      //@ts-ignore
+      value: account?.principal_plan_type.name || '',
     },
     {
       name: 'Dependent Plan Type:',
-      value: 'Dependent Plan Type 1',
+      //@ts-ignore
+      value: account?.dependent_plan_type.name || '',
     },
     {
       name: 'Total Utilization:',
-      value: 'Total Utilization 1',
+      value: account?.total_utilization || '',
     },
     {
       name: 'Total Premium Paid:',
-      value: 'Total Premium Paid 1',
-    },
-    {
-      name: 'Total Premium Paid:',
-      value: 'Total Premium Paid 1',
-    },
-    {
-      name: 'Total Head Count:',
-      value: 'Total Head Count 1',
+      value: account?.total_premium_paid || '',
     },
     {
       name: 'Additional Benefits:',
-      value: 'Additional Benefits 1',
+      value: account?.additional_benefits || '',
     },
     {
       name: 'Special Benefits:',
-      value: 'Special Benefits 1',
+      value: account?.special_benefits || '',
     },
   ]
   return (
