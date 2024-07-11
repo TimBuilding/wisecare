@@ -43,6 +43,6 @@ const AccountsTable = () => {
       break
   }
 
-  return <DataTable columns={columns} data={data as any} />
+  return <DataTable columns={columns} data={(data as any) || []} />
 }
 export default AccountsTable
