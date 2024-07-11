@@ -5,13 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="026827f0-6b8e-4d30-b546-2e0d659878c6" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/app/(dashboard)/(home)/accounts/(Personnel)/[id]/employees-add-personnel-form.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/app/(dashboard)/(home)/accounts/(Personnel)/[id]/employees-add-personnel-schema.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/app/(dashboard)/(home)/accounts/(Personnel)/[id]/employees-add-personnel-button.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pnpm-lock.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pnpm-lock.yaml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/app/(dashboard)/(home)/accounts/(Personnel)/[id]/company-header.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/(dashboard)/(home)/accounts/(Personnel)/[id]/company-header.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/app/(dashboard)/(home)/accounts/(Personnel)/[id]/company-page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/(dashboard)/(home)/accounts/(Personnel)/[id]/company-page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/(dashboard)/(home)/accounts/(Personnel)/[id]/employees-add-personnel-form.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/(dashboard)/(home)/accounts/(Personnel)/[id]/employees-add-personnel-form.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -41,7 +41,7 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "07-10-tim-336__code__html__css__for__employees__tab",
+    "git-widget-placeholder": "07-11-tim-336__code__html__css__for__employees__tab",
     "last_opened_file_path": "//wsl.localhost/Ubuntu/home/tamrivera05/wisecare",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.standard": "true",
@@ -81,11 +81,23 @@
       <workItem from="1719885716488" duration="235000" />
       <workItem from="1720425639847" duration="6279000" />
       <workItem from="1720500564120" duration="1515000" />
-      <workItem from="1720600882992" duration="18103000" />
+      <workItem from="1720600882992" duration="23897000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/src/app/(dashboard)/(home)/accounts/(Personnel)/[id]/employees-add-personnel-button.tsx</url>
+          <line>25</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

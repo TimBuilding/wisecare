@@ -1,4 +1,5 @@
-import React from 'react'
+'use client'
+import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -55,10 +56,13 @@ const EmployeesAddPersonnelForm = () => {
     console.log(values)
   }
 
+  // const [showEmployees, setShowEmployees] = useState(false)
+  // const router = useRouter()
+  // const toggleEmployees = () => setShowEmployees(!showEmployees)
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)}>
-        <div className="mx-auto grid-cols-2 flex-col lg:flex lg:grid lg:gap-4">
+        <div className="mx-auto grid-cols-2 flex-col gap-4 lg:flex lg:grid">
           <FormField
             control={form.control}
             name="firstName"
@@ -219,7 +223,7 @@ const EmployeesAddPersonnelForm = () => {
             )}
           />
         </div>
-        <div className="mx-auto grid-cols-2 flex-col lg:flex lg:grid lg:gap-4">
+        <div className="mx-auto grid-cols-2 flex-col gap-4 lg:flex lg:grid">
           <FormField
             control={form.control}
             name="billAddress"
@@ -365,10 +369,6 @@ const EmployeesAddPersonnelForm = () => {
           />
         </div>
         <div className="mt-4 flex flex-row items-center justify-between gap-4 lg:ml-auto lg:justify-end">
-          <Button variant="default" className="w-full rounded-md lg:w-auto">
-            {' '}
-            Cancel{' '}
-          </Button>
           <Button
             type="submit"
             variant="default"
