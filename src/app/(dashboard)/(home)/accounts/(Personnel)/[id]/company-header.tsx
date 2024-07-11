@@ -40,13 +40,16 @@ const CompanyHeader: FC<CompanyHeaderProps> = ({ id }) => {
             <div className="flex flex-col">
               <div className="text-sm font-bold">200k</div>
               <div className="text-sm font-medium uppercase text-[#64748b]">
-                followers
+                Employees
               </div>
             </div>
             <div className="flex flex-col">
-              <div className="text-sm font-bold">1.2k</div>
+              {/*@ts-ignore*/}
+              <div className="text-sm font-bold">
+                {account?.hmo_provider.name || ''}
+              </div>
               <div className="text-sm font-medium uppercase text-[#64748b]">
-                following
+                HMO provider
               </div>
             </div>
           </div>
