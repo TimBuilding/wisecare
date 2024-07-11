@@ -13,6 +13,8 @@ interface CompanyHeaderProps {
 const CompanyHeader: FC<CompanyHeaderProps> = ({ id }) => {
   const supabase = createBrowserClient()
   const { data: account } = useQuery(getAccountById(supabase, id))
+  // @ts-ignore
+  // @ts-ignore
   return (
     <div className="flex w-full flex-col bg-background pb-6 drop-shadow-md xl:mb-0">
       <div className="h-40 w-full bg-slate-400 object-cover xl:h-80 "></div>

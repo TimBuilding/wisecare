@@ -4,6 +4,7 @@ import React, { FC } from 'react'
 import CompanyHeader from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/company-header'
 import { Tabs, TabsContent } from '@/components/ui/tabs'
 import CompanyAbout from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/company-about'
+import EmployeesPage from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/employees-page'
 
 interface Props {
   companyId: string
@@ -17,8 +18,7 @@ const CompanyPage: FC<Props> = ({ companyId }) => {
           <CompanyAbout companyId={companyId} />
         </TabsContent>
         <TabsContent value="employees">
-          <>hello</>
-          {/* Employee content goes here */}
+          <EmployeesPage />
         </TabsContent>
       </div>
     </Tabs>
