@@ -1,15 +1,24 @@
 'use client'
 
-import React, { FC } from 'react'
+import React, { FC, useState } from 'react'
 import CompanyHeader from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/company-header'
 import { Tabs, TabsContent } from '@/components/ui/tabs'
 import CompanyAbout from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/company-about'
 import EmployeesPage from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/employees-page'
+import { Button } from '@/components/ui/button'
+import { Plus } from 'lucide-react'
+import { useRouter } from 'next/navigation'
+import EmployeesAddPersonnelForm from './employees-add-personnel-form'
 
 interface Props {
   companyId: string
 }
+
 const CompanyPage: FC<Props> = ({ companyId }) => {
+  const [showAddPersonnel, setShowAddPersonnel] = useState(false)
+  const router = useRouter()
+
+  const toggleAddPersonnel = () => setShowAddPersonnel(!showAddPersonnel)
   return (
     <Tabs defaultValue="about">
       <CompanyHeader id={companyId} />
@@ -18,7 +27,18 @@ const CompanyPage: FC<Props> = ({ companyId }) => {
           <CompanyAbout companyId={companyId} />
         </TabsContent>
         <TabsContent value="employees">
-          <EmployeesPage />
+          <div className="ml-auto flex w-full flex-col lg:items-end lg:justify-center">
+            {!showAddPersonnel && (
+              <Button
+                className="m-4 gap-2 rounded-md"
+                onClick={toggleAddPersonnel}
+              >
+                <Plus /> <span> Add Personnel </span>
+              </Button>
+            )}
+          </div>
+          {showAddPersonnel && <EmployeesAddPersonnelForm />}
+          {!showAddPersonnel && <EmployeesPage />}
         </TabsContent>
       </div>
     </Tabs>
