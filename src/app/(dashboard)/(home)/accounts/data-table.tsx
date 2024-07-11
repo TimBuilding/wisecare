@@ -38,6 +38,7 @@ import { useRouter } from 'next/navigation'
 interface IData {
   id: string
 }
+import TableSearch from '@/components/table-search'
 
 interface DataTableProps<TData extends IData, TValue> {
   columns: ColumnDef<TData, TValue>[]
@@ -79,23 +80,7 @@ const DataTable = <TData extends IData, TValue>({
               <PageDescription>123 Accounts</PageDescription>
             </div>
             <div className="flex flex-row gap-4">
-              <div className="relative">
-                <Search className="absolute left-3.5 top-3.5 h-5 w-5 text-[#94a3b8]" />
-                <Input
-                  className="max-w-xs rounded-full pl-10"
-                  placeholder="Search accounts"
-                  value={
-                    (table
-                      .getColumn('company_name')
-                      ?.getFilterValue() as string) ?? ''
-                  }
-                  onChange={(event) =>
-                    table
-                      .getColumn('company_name')
-                      ?.setFilterValue(event.target.value)
-                  }
-                />
-              </div>
+              <TableSearch />
               <AddAccountButton />
             </div>
           </div>

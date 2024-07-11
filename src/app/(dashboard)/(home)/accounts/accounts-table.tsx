@@ -12,10 +12,13 @@ import underWritingColumns from './columns/under-writing-columns'
 import { ColumnDef } from '@tanstack/react-table'
 import financeColumns from './columns/finance-columns'
 import afterSalesColumns from './columns/after-sales-columns'
+import { useTableContext } from '@/providers/TableProvider'
 
 const AccountsTable = () => {
+  const { filter } = useTableContext()
   const supabase = createBrowserClient()
-  const { data } = useQuery(getAccounts(supabase))
+
+  const { data } = useQuery(getAccounts(supabase, filter))
 
   const { data: user } = useUser()
   let columns: ColumnDef<getAccountsResponse>[]

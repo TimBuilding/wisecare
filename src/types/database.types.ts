@@ -444,7 +444,103 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      gtrgm_compress: {
+        Args: {
+          '': unknown
+        }
+        Returns: unknown
+      }
+      gtrgm_decompress: {
+        Args: {
+          '': unknown
+        }
+        Returns: unknown
+      }
+      gtrgm_in: {
+        Args: {
+          '': unknown
+        }
+        Returns: unknown
+      }
+      gtrgm_options: {
+        Args: {
+          '': unknown
+        }
+        Returns: undefined
+      }
+      gtrgm_out: {
+        Args: {
+          '': unknown
+        }
+        Returns: unknown
+      }
+      search_accounts: {
+        Args: {
+          account_term: string
+        }
+        Returns: {
+          id: string
+          is_active: boolean
+          agent: string
+          company_name: string
+          company_address: string
+          nature_of_business: string
+          hmo_provider: string
+          previous_hmo_provider: string
+          current_hmo_provider: string
+          account_type: string
+          total_utilization: number
+          total_premium_paid: number
+          signatory_designation: string
+          contact_person: string
+          contact_number: string
+          principal_plan_type: string
+          dependent_plan_type: string
+          initial_head_count: number
+          effectivity_date: string
+          coc_issue_date: string
+          effective_date: string
+          renewal_date: string
+          expiration_date: string
+          delivery_date_of_membership_ids: string
+          orientation_date: string
+          initial_contract_value: number
+          mode_of_payment: string
+          wellness_lecture_date: string
+          annual_physical_examination_date: string
+          commision_rate: number
+          additional_benefits: string
+          special_benefits: string
+          mode_of_premium: string
+          due_date: string
+          or_number: string
+          or_date: string
+          sa_number: string
+          amount: number
+          total_contract_value: number
+          balance: number
+          billing_period: number
+          summary_of_benefits: string
+          created_at: string
+          updated_at: string
+        }[]
+      }
+      set_limit: {
+        Args: {
+          '': number
+        }
+        Returns: number
+      }
+      show_limit: {
+        Args: Record<PropertyKey, never>
+        Returns: number
+      }
+      show_trgm: {
+        Args: {
+          '': string
+        }
+        Returns: string[]
+      }
     }
     Enums: {
       [_ in never]: never

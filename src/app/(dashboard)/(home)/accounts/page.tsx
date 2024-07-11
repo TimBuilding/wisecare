@@ -9,6 +9,7 @@ import {
 } from '@tanstack/react-query'
 import { cookies } from 'next/headers'
 import AccountsTable from './accounts-table'
+import TableProvider from '@/providers/TableProvider'
 
 const AccountsPage = async () => {
   const supabase = createServerClient(cookies())
@@ -17,7 +18,9 @@ const AccountsPage = async () => {
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <AccountsTable />
+      <TableProvider>
+        <AccountsTable />
+      </TableProvider>
     </HydrationBoundary>
   )
 }

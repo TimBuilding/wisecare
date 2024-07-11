@@ -13,13 +13,13 @@ const marketingColumns: ColumnDef<getAccountsResponse>[] = [
     ),
   },
   {
-    accessorKey: 'account_type.name',
+    accessorKey: 'account_type',
     header: ({ column }) => (
       <TableHeader column={column} title="Account Type" />
     ),
   },
   {
-    accessorKey: 'agent.first_name',
+    accessorKey: 'agent',
     header: ({ column }) => <TableHeader column={column} title="Agent" />,
   },
   {
@@ -41,19 +41,19 @@ const marketingColumns: ColumnDef<getAccountsResponse>[] = [
     ),
   },
   {
-    accessorKey: 'hmo_provider.name',
+    accessorKey: 'hmo_provider',
     header: ({ column }) => (
       <TableHeader column={column} title="HMO Provider" />
     ),
   },
   {
-    accessorKey: 'previous_hmo_provider.name',
+    accessorKey: 'previous_hmo_provider',
     header: ({ column }) => (
       <TableHeader column={column} title="Previous HMO Provider" />
     ),
   },
   {
-    accessorKey: 'current_hmo_provider.name',
+    accessorKey: 'current_hmo_provider',
     header: ({ column }) => (
       <TableHeader column={column} title="Current HMO Provider" />
     ),
@@ -89,13 +89,13 @@ const marketingColumns: ColumnDef<getAccountsResponse>[] = [
     ),
   },
   {
-    accessorKey: 'principal_plan_type.name',
+    accessorKey: 'principal_plan_type',
     header: ({ column }) => (
       <TableHeader column={column} title="Principal Plan Type" />
     ),
   },
   {
-    accessorKey: 'dependent_plan_type.name',
+    accessorKey: 'dependent_plan_type',
     header: ({ column }) => (
       <TableHeader column={column} title="Dependent Plan Type" />
     ),
@@ -155,7 +155,7 @@ const marketingColumns: ColumnDef<getAccountsResponse>[] = [
     ),
   },
   {
-    accessorKey: 'mode_of_payment.name',
+    accessorKey: 'mode_of_payment',
     header: ({ column }) => (
       <TableHeader column={column} title="Mode of Payment" />
     ),
@@ -191,7 +191,7 @@ const marketingColumns: ColumnDef<getAccountsResponse>[] = [
     ),
   },
   {
-    accessorKey: 'mode_of_premium.name',
+    accessorKey: 'mode_of_premium',
     header: ({ column }) => (
       <TableHeader column={column} title="Mode of Premium" />
     ),
