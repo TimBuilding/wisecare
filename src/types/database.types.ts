@@ -275,6 +275,75 @@ export type Database = {
         }
         Relationships: []
       }
+      employees: {
+        Row: {
+          age_of_membership: number
+          birth_date: string
+          card_number: string
+          civil_status: string
+          created_at: string
+          email: string
+          employee_number: string
+          first_name: string
+          gender: string
+          id: string
+          last_name: string
+          mobile_number: string
+          original_effective_date: string
+          philhealth: string
+          plan_description: string
+          policy_number: string
+          real_description: string
+          residential_address: string
+          telepone_number: string
+          updated_at: string
+        }
+        Insert: {
+          age_of_membership: number
+          birth_date: string
+          card_number: string
+          civil_status: string
+          created_at?: string
+          email: string
+          employee_number: string
+          first_name: string
+          gender: string
+          id?: string
+          last_name: string
+          mobile_number: string
+          original_effective_date: string
+          philhealth: string
+          plan_description: string
+          policy_number: string
+          real_description: string
+          residential_address: string
+          telepone_number: string
+          updated_at?: string
+        }
+        Update: {
+          age_of_membership?: number
+          birth_date?: string
+          card_number?: string
+          civil_status?: string
+          created_at?: string
+          email?: string
+          employee_number?: string
+          first_name?: string
+          gender?: string
+          id?: string
+          last_name?: string
+          mobile_number?: string
+          original_effective_date?: string
+          philhealth?: string
+          plan_description?: string
+          policy_number?: string
+          real_description?: string
+          residential_address?: string
+          telepone_number?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       hmo_providers: {
         Row: {
           created_at: string | null
