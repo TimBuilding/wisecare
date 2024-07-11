@@ -2,7 +2,6 @@ import React from 'react'
 import { Separator } from '@/components/ui/separator'
 import InitialsAvatar from 'react-initials-avatar'
 import { TabsList, TabsTrigger } from '@/components/ui/tabs'
-import TabsContextProvider from '@/components/personnel-layout/TabsContextProvider'
 
 const CompanyHeader = () => {
   return (
@@ -15,16 +14,16 @@ const CompanyHeader = () => {
             className="h-32 w-32 translate-y-10 text-center text-5xl text-white"
           />
         </div>
-        <div className="flex w-full flex-col items-center justify-between xl:flex-row xl:gap-8 ">
-          <div className="flex w-40 flex-col">
+        <div className="flex w-full flex-col items-center justify-between xl:flex-row xl:gap-6 ">
+          <div className="flex w-40 flex-col ">
             <div className="text-lg font-bold">Tamara Company</div>
             <div className="text-sm text-[#64748b]">Makati, Philippines</div>
           </div>
           <Separator
-            className="hidden pt-12 text-muted-foreground xl:visible xl:block"
+            className="hidden pt-12 text-muted-foreground xl:visible xl:block xl:-translate-x-16"
             orientation="vertical"
           />
-          <div className="flex flex-row gap-8 pt-6 text-center xl:pt-1">
+          <div className="flex flex-row gap-8 pt-6 text-center xl:-translate-x-32 xl:pt-1">
             <div className="flex flex-col">
               <div className="text-sm font-bold">200k</div>
               <div className="text-sm font-medium uppercase text-[#64748b]">
@@ -39,24 +38,20 @@ const CompanyHeader = () => {
             </div>
           </div>
         </div>
-        <TabsContextProvider>
-          <TabsList className="gap-2 bg-transparent">
-            <TabsTrigger
-              value="about"
-              className="text-sm font-medium text-[#64748b]"
-            >
-              {' '}
-              About{' '}
-            </TabsTrigger>
-            <TabsTrigger
-              value="employees"
-              className="text-sm font-medium text-[#64748b]"
-            >
-              {' '}
-              Employees{' '}
-            </TabsTrigger>
-          </TabsList>
-        </TabsContextProvider>
+        <TabsList className="gap-2 bg-transparent">
+          <TabsTrigger
+            value="about"
+            className="text-sm font-medium text-[#64748b]"
+          >
+            About
+          </TabsTrigger>
+          <TabsTrigger
+            value="employees"
+            className="text-sm font-medium text-[#64748b]"
+          >
+            Employees
+          </TabsTrigger>
+        </TabsList>
       </div>
     </div>
   )

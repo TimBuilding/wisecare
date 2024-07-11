@@ -8,26 +8,30 @@ import CompanyContractInformation from '@/app/(dashboard)/(home)/accounts/(Perso
 
 const CompanyAbout = () => {
   return (
-    <div className="mx-auto flex w-full flex-col items-center justify-between gap-6">
-      <div className="mx-auto w-full rounded-2xl border border-slate-200 bg-background p-6 drop-shadow-md">
-        <span className="text-lg font-semibold">Company Information</span>
-        <CompanyInformation />
+    <div className="mx-auto flex w-full flex-col items-center justify-between gap-6 lg:flex-row lg:items-start ">
+      <div className="flex w-full flex-col gap-6 lg:max-w-xs">
+        <div className="mx-auto w-full rounded-2xl border border-slate-200 bg-background p-6 drop-shadow-md">
+          <span className="text-lg font-semibold">Company Information</span>
+          <CompanyInformation />
+        </div>
+        <div className="mx-auto w-full rounded-2xl border border-slate-200 bg-background p-6 drop-shadow-md">
+          <span className="text-lg font-semibold">Account Information</span>
+          <CompanyAccountInformation />
+        </div>
+        <div className="mx-auto w-full rounded-2xl border border-slate-200 bg-background p-6 drop-shadow-md">
+          <span className="text-lg font-semibold">Financial Information</span>
+          <CompanyFinancialInformation />
+        </div>
       </div>
-      <div className="mx-auto w-full rounded-2xl border border-slate-200 bg-background p-6 drop-shadow-md">
-        <span className="text-lg font-semibold">Account Information</span>
-        <CompanyAccountInformation />
-      </div>
-      <div className="mx-auto w-full rounded-2xl border border-slate-200 bg-background p-6 drop-shadow-md">
-        <span className="text-lg font-semibold">Financial Information</span>
-        <CompanyFinancialInformation />
-      </div>
-      <div className="mx-auto w-full rounded-2xl border border-slate-200 bg-background p-6 drop-shadow-md">
-        <span className="text-lg font-semibold">HMO Information</span>
-        <CompanyHMOInformation />
-      </div>
-      <div className="mx-auto w-full rounded-2xl border border-slate-200 bg-background p-6 drop-shadow-md">
-        <span className="text-lg font-semibold">Contract Information</span>
-        <CompanyContractInformation />
+      <div className="flex w-full flex-col gap-6">
+        <div className="mx-auto w-full rounded-2xl border border-slate-200 bg-background p-6 drop-shadow-md">
+          <span className="text-lg font-semibold">HMO Information</span>
+          <CompanyHMOInformation />
+        </div>
+        <div className="mx-auto w-full rounded-2xl border border-slate-200 bg-background p-6 drop-shadow-md">
+          <span className="text-lg font-semibold">Contract Information</span>
+          <CompanyContractInformation />
+        </div>
       </div>
     </div>
   )
