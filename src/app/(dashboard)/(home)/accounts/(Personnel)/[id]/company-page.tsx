@@ -9,15 +9,15 @@ import { Button } from '@/components/ui/button'
 import { Plus } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import EmployeesAddPersonnelForm from './employees-add-personnel-form'
+import { useCompanyContext } from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/company-provider'
 
 interface Props {
   companyId: string
 }
 
 const CompanyPage: FC<Props> = ({ companyId }) => {
-  const [showAddPersonnel, setShowAddPersonnel] = useState(false)
+  const { showAddPersonnel, setShowAddPersonnel } = useCompanyContext()
 
-  const toggleAddPersonnel = () => setShowAddPersonnel(!showAddPersonnel)
   return (
     <Tabs defaultValue="about">
       <CompanyHeader id={companyId} />
@@ -30,7 +30,7 @@ const CompanyPage: FC<Props> = ({ companyId }) => {
             {!showAddPersonnel && (
               <Button
                 className="m-4 gap-2 rounded-md"
-                onClick={toggleAddPersonnel}
+                onClick={() => setShowAddPersonnel(true)}
               >
                 <Plus /> <span> Add Personnel </span>
               </Button>

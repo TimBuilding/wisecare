@@ -10,6 +10,7 @@ import {
 } from '@tanstack/react-query'
 import { prefetchQuery } from '@supabase-cache-helpers/postgrest-react-query'
 import getAccountById from '@/queries/get-account-by-id'
+import CompanyProvider from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/company-provider'
 
 const Page = async ({ params }: { params: { id: string } }) => {
   const supabase = createServerClient(cookies())
@@ -18,7 +19,9 @@ const Page = async ({ params }: { params: { id: string } }) => {
   await prefetchQuery(queryClient, getAccountById(supabase, params.id))
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <CompanyPage companyId={params.id} />
+      <CompanyProvider>
+        <CompanyPage companyId={params.id} />
+      </CompanyProvider>
     </HydrationBoundary>
   )
 }
