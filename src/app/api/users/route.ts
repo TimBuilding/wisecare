@@ -35,6 +35,8 @@ export const POST = async (req: NextRequest) => {
     },
   })
 
+  // send confirmation email
+
   if (error) {
     console.log(error)
     return NextResponse.json({ error: 'User creation failed' }, { status: 500 })
