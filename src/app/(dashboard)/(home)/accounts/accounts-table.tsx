@@ -13,12 +13,17 @@ import { ColumnDef } from '@tanstack/react-table'
 import financeColumns from './columns/finance-columns'
 import afterSalesColumns from './columns/after-sales-columns'
 import { useTableContext } from '@/providers/TableProvider'
+import getPagination from '@/utils/pagination'
 
 const AccountsTable = () => {
-  const { filter } = useTableContext()
+  const { filter, pagination } = useTableContext()
   const supabase = createBrowserClient()
 
-  const { data } = useQuery(getAccounts(supabase, filter))
+  // pagination
+  const { to, from } = getPagination(pagination.pageIndex, pagination.pageSize)
+
+  const { data } = useQuery(getAccounts(supabase, filter, from, to))
+  console.log(data)
 
   const { data: user } = useUser()
   let columns: ColumnDef<getAccountsResponse>[]
@@ -43,6 +48,7 @@ const AccountsTable = () => {
       break
   }
 
+  // @ts-ignore
   return <DataTable columns={columns} data={(data as any) || []} />
 }
 export default AccountsTable

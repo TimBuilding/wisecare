@@ -39,6 +39,10 @@ interface IData {
   id: string
 }
 import TableSearch from '@/components/table-search'
+import { useTableContext } from '@/providers/TableProvider'
+import { useQuery } from '@supabase-cache-helpers/postgrest-react-query'
+import { createBrowserClient } from '@/utils/supabase'
+import { Skeleton } from '@/components/ui/skeleton'
 
 interface DataTableProps<TData extends IData, TValue> {
   columns: ColumnDef<TData, TValue>[]
@@ -49,9 +53,11 @@ const DataTable = <TData extends IData, TValue>({
   columns,
   data,
 }: DataTableProps<TData, TValue>) => {
+  const { pagination, setPagination } = useTableContext()
+
   const [sorting, setSorting] = useState<SortingState>([])
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
-  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
+
   const router = useRouter()
 
   const table = useReactTable({
@@ -62,14 +68,22 @@ const DataTable = <TData extends IData, TValue>({
     onSortingChange: setSorting,
     getSortedRowModel: getSortedRowModel(),
     onColumnVisibilityChange: setColumnVisibility,
-    onColumnFiltersChange: setColumnFilters,
     getFilteredRowModel: getFilteredRowModel(),
+    onPaginationChange: setPagination,
+    manualPagination: true,
+    rowCount: data.length,
     state: {
       sorting,
       columnVisibility,
-      columnFilters,
+      pagination,
     },
   })
+
+  const supabase = createBrowserClient()
+  const { count: totalCount, isLoading } = useQuery(
+    supabase.from('accounts').select('*', { head: true, count: 'exact' }),
+  )
+
   return (
     <AccountsProvider>
       <div className="flex flex-col">
@@ -77,7 +91,11 @@ const DataTable = <TData extends IData, TValue>({
           <div className="flex w-full flex-col gap-6 sm:flex-row sm:justify-between">
             <div>
               <PageTitle>Accounts</PageTitle>
-              <PageDescription>123 Accounts</PageDescription>
+              {isLoading ? (
+                <Skeleton className="h-4 w-20" />
+              ) : (
+                <PageDescription>{totalCount} Accounts</PageDescription>
+              )}
             </div>
             <div className="flex flex-row gap-4">
               <TableSearch />

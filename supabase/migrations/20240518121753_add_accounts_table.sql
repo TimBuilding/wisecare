@@ -89,7 +89,7 @@ create policy "allow specific departments to update accounts"
 -- fts extension
 CREATE EXTENSION pg_trgm SCHEMA public;
 
-CREATE OR REPLACE FUNCTION public.search_accounts(account_term varchar)
+CREATE OR REPLACE FUNCTION public.search_accounts(account_term varchar, start_offset integer, end_offset integer)
 RETURNS table(
   id uuid, is_active boolean, agent text, company_name text, company_address text, nature_of_business text, 
   hmo_provider text, previous_hmo_provider text, current_hmo_provider text, account_type text, total_utilization numeric, 
@@ -101,7 +101,7 @@ RETURNS table(
   commision_rate numeric, additional_benefits text, special_benefits text, mode_of_premium text, 
   due_date date, or_number text, or_date date, sa_number text, amount numeric, 
   total_contract_value numeric, balance numeric, billing_period int, summary_of_benefits text, 
-  created_at timestamptz, updated_at timestamptz
+  created_at timestamptz, updated_at timestamptz, total_count bigint
 )
 LANGUAGE plpgsql
 AS $$
@@ -117,7 +117,8 @@ AS $$
         mp.name::text as mode_of_payment, a.wellness_lecture_date, a.annual_physical_examination_date, a.commision_rate::numeric, 
         a.additional_benefits::text, a.special_benefits::text, mp2.name::text as mode_of_premium, a.due_date, a.or_number::text, 
         a.or_date, a.sa_number::text, a.amount::numeric, a.total_contract_value::numeric, a.balance::numeric, 
-        a.billing_period, a.summary_of_benefits::text, a.created_at, a.updated_at
+        a.billing_period, a.summary_of_benefits::text, a.created_at, a.updated_at,
+        COUNT(*) OVER() AS total_count
       FROM accounts a 
       LEFT JOIN user_profiles u ON a.agent_id = u.user_id -- Ensure this column exists in user_profiles
       LEFT JOIN hmo_providers h1 ON a.hmo_provider_id = h1.id
@@ -133,6 +134,7 @@ AS $$
       OR account_term % ANY(STRING_TO_ARRAY(a.nature_of_business, ' '))
       OR account_term % ANY(STRING_TO_ARRAY(a.contact_person, ' '))
       OR account_term % ANY(STRING_TO_ARRAY(a.contact_number, ' '))
-      OR account_term % ANY(STRING_TO_ARRAY(a.summary_of_benefits, ' '));
+      OR account_term % ANY(STRING_TO_ARRAY(a.summary_of_benefits, ' '))
+      OFFSET start_offset LIMIT end_offset - start_offset + 1;
   end;
 $$;
