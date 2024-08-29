@@ -55,7 +55,7 @@ const SignInForm = () => {
   }
   return (
     <div className="mx-auto flex min-w-[300px] max-w-xs flex-col gap-8 md:max-w-md">
-      <Image src={WisecareLogo} alt={'Wisecare'} />
+      <Image src={WisecareLogo} alt={'Wisecare'} width={300} height={300} />
       <h1 className="text-left text-3xl font-extrabold">Sign in</h1>
       {error && <Message variant={'error'}>{error}</Message>}
       <Form {...form}>
@@ -89,9 +89,9 @@ const SignInForm = () => {
             />
           </div>
           <div className="mt-7 flex w-full justify-start py-2.5">
-            <Link href={'#'} className="text-xs font-medium text-primary">
+            {/* <Link href={'#'} className="text-xs font-medium text-primary">
               Forgot password?
-            </Link>
+            </Link> */}
           </div>
           <Button type="submit" className="mt-8 w-full" disabled={isLoading}>
             {isLoading ? <Loader2 className="animate-spin" /> : 'Sign in'}

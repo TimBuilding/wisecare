@@ -47,7 +47,7 @@ const SplashArt = () => {
       <div className="relative z-10 w-full max-w-2xl">
         <div className="text-5xl font-bold leading-none text-gray-100">
           <div>Welcome to</div>
-          <div>Wisecare Providers Inc.</div>
+          <div>WiseCare Providers Inc.</div>
         </div>
         <div className="mt-6 text-lg leading-6 tracking-tight text-gray-400">
           <p>
