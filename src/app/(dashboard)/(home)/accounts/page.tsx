@@ -10,6 +10,7 @@ import {
 import { cookies } from 'next/headers'
 import AccountsTable from './accounts-table'
 import TableProvider from '@/providers/TableProvider'
+import Head from 'next/head'
 
 const AccountsPage = async () => {
   const supabase = createServerClient(cookies())

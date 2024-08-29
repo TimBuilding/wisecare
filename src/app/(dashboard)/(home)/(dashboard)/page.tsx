@@ -1,6 +1,10 @@
 import PageTitle from './page-title'
 import PreviousStatement from './previous-statement'
 
+export const metadata = {
+  title: 'Dashboard | WiseCare',
+}
+
 const Dashboard = () => {
   return (
     <div className="p-6">
