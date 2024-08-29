@@ -29,8 +29,6 @@ const accountsSchema = z.object({
   ),
   effectivity_date: z.date(),
   coc_issue_date: z.date(),
-  effective_date: z.date(),
-  renewal_date: z.date(),
   expiration_date: z.date(),
   delivery_date_of_membership_ids: z.date(),
   orientation_date: z.date(),
@@ -47,6 +45,9 @@ const accountsSchema = z.object({
   ),
   additional_benefits: z.string(),
   special_benefits: z.string(),
+  name_of_signatory: z.string(),
+  designation_of_contact_person: z.string(),
+  email_address_of_contact_person: z.string(),
 })
 
 export default accountsSchema

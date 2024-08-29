@@ -39,8 +39,6 @@ const AddAccountForm = () => {
       initial_head_count: 0,
       effectivity_date: new Date(),
       coc_issue_date: new Date(),
-      effective_date: new Date(),
-      renewal_date: new Date(),
       expiration_date: new Date(),
       delivery_date_of_membership_ids: new Date(),
       orientation_date: new Date(),
@@ -51,6 +49,9 @@ const AddAccountForm = () => {
       commision_rate: 0,
       additional_benefits: '',
       special_benefits: '',
+      name_of_signatory: '',
+      designation_of_contact_person: '',
+      email_address_of_contact_person: '',
     },
   })
 
@@ -68,6 +69,7 @@ const AddAccountForm = () => {
         setIsFormOpen(false)
       },
       onError: (error) => {
+        console.log(error)
         toast({
           title: 'Something went wrong',
           description: error.message,
@@ -80,7 +82,6 @@ const AddAccountForm = () => {
   const onSubmitHandler = useCallback<FormEventHandler<HTMLFormElement>>(
     (e) => {
       form.handleSubmit(async (data) => {
-        console.log(data)
         await mutateAsync([
           {
             company_name: data.company_name,
@@ -102,8 +103,6 @@ const AddAccountForm = () => {
             initial_head_count: data.initial_head_count,
             effectivity_date: data.effectivity_date,
             coc_issue_date: data.coc_issue_date,
-            effective_date: data.effective_date,
-            renewal_date: data.renewal_date,
             expiration_date: data.expiration_date,
             delivery_date_of_membership_ids:
               data.delivery_date_of_membership_ids,
@@ -116,6 +115,10 @@ const AddAccountForm = () => {
             commision_rate: data.commision_rate,
             additional_benefits: data.additional_benefits,
             special_benefits: data.special_benefits,
+            name_of_signatory: data.name_of_signatory,
+            designation_of_contact_person: data.designation_of_contact_person,
+            email_address_of_contact_person:
+              data.email_address_of_contact_person,
           },
         ])
       })(e)

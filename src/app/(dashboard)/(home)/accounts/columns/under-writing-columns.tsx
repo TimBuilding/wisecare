@@ -88,18 +88,6 @@ const underWritingColumns: ColumnDef<getAccountsResponse>[] = [
     ),
   },
   {
-    accessorKey: 'effective_date',
-    header: ({ column }) => (
-      <TableHeader column={column} title="Effective Date" />
-    ),
-  },
-  {
-    accessorKey: 'renewal_date',
-    header: ({ column }) => (
-      <TableHeader column={column} title="Renewal Date" />
-    ),
-  },
-  {
     accessorKey: 'expiration_date',
     header: ({ column }) => (
       <TableHeader column={column} title="Expiration Date" />

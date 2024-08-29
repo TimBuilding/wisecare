@@ -213,7 +213,7 @@ const MarketingInputs: FC<Props> = ({ isLoading }) => {
           )}
         />
       </div>
-      <div className="grid grid-cols-3 gap-4">
+      <div className="grid grid-cols-2 gap-4">
         <FormField
           control={form.control}
           name="total_utilization"
@@ -240,14 +240,29 @@ const MarketingInputs: FC<Props> = ({ isLoading }) => {
             </FormItem>
           )}
         />
+      </div>
+      <div className="grid grid-cols-2 gap-4">
         <FormField
           control={form.control}
-          name="signatory_designation"
+          name="name_of_signatory"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Signatory Designation</FormLabel>
               <FormControl>
                 <Input {...field} disabled={isLoading} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="designation_of_contact_person"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Designation of Contact Person</FormLabel>
+              <FormControl>
+                <Input {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -430,86 +445,26 @@ const MarketingInputs: FC<Props> = ({ isLoading }) => {
         />
         <FormField
           control={form.control}
-          name="effective_date"
+          name="name_of_signatory"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Effective Date</FormLabel>
-              <Popover>
-                <PopoverTrigger asChild>
-                  <FormControl>
-                    <Button
-                      variant={'outline'}
-                      className={cn(
-                        'flex h-12 w-full min-w-[240px] rounded-lg border border-input bg-white px-4 py-3 text-sm shadow-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50',
-                        !field.value && 'text-muted-foreground',
-                        'text-left font-normal',
-                      )}
-                      disabled={isLoading}
-                    >
-                      {field.value ? (
-                        format(field.value, 'PPP')
-                      ) : (
-                        <span>Pick a date</span>
-                      )}
-                      <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                    </Button>
-                  </FormControl>
-                </PopoverTrigger>
-                <PopoverContent className="w-auto p-0" align="start">
-                  <Calendar
-                    mode="single"
-                    selected={field.value}
-                    onSelect={field.onChange}
-                    disabled={(date) =>
-                      date > new Date() || date < new Date('1900-01-01')
-                    }
-                    initialFocus
-                  />
-                </PopoverContent>
-              </Popover>
+              <FormLabel>Name of Signatory</FormLabel>
+              <FormControl>
+                <Input {...field} />
+              </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
         <FormField
           control={form.control}
-          name="renewal_date"
+          name="email_address_of_contact_person"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Renewal Date</FormLabel>
-              <Popover>
-                <PopoverTrigger asChild>
-                  <FormControl>
-                    <Button
-                      variant={'outline'}
-                      className={cn(
-                        'flex h-12 w-full min-w-[240px] rounded-lg border border-input bg-white px-4 py-3 text-sm shadow-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50',
-                        !field.value && 'text-muted-foreground',
-                        'text-left font-normal',
-                      )}
-                      disabled={isLoading}
-                    >
-                      {field.value ? (
-                        format(field.value, 'PPP')
-                      ) : (
-                        <span>Pick a date</span>
-                      )}
-                      <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                    </Button>
-                  </FormControl>
-                </PopoverTrigger>
-                <PopoverContent className="w-auto p-0" align="start">
-                  <Calendar
-                    mode="single"
-                    selected={field.value}
-                    onSelect={field.onChange}
-                    disabled={(date) =>
-                      date > new Date() || date < new Date('1900-01-01')
-                    }
-                    initialFocus
-                  />
-                </PopoverContent>
-              </Popover>
+              <FormLabel>Email Address of Contact Person</FormLabel>
+              <FormControl>
+                <Input {...field} />
+              </FormControl>
               <FormMessage />
             </FormItem>
           )}

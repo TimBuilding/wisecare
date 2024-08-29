@@ -17,8 +17,6 @@ const AddAccountButton = () => {
     return null
   }
 
-  console.log(role)
-
   return (
     <Button
       className="space-x-2"

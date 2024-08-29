@@ -23,7 +23,6 @@ const AccountsTable = () => {
   const { to, from } = getPagination(pagination.pageIndex, pagination.pageSize)
 
   const { data } = useQuery(getAccounts(supabase, filter, from, to))
-  console.log(data)
 
   const { data: user } = useUser()
   let columns: ColumnDef<getAccountsResponse>[]
