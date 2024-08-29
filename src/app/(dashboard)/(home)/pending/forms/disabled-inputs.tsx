@@ -302,41 +302,34 @@ const DisabledInputs: FC<Props> = ({ isLoading, id }) => {
           <FormMessage />
         </FormItem>
         <FormItem>
-          <FormLabel>Effective Date</FormLabel>
+          <FormLabel>Name of Signatory</FormLabel>
           <FormControl>
-            <Button
-              variant={'outline'}
-              className={cn(
-                'flex h-12 w-full min-w-[240px] rounded-lg border border-input bg-white px-4 py-3 text-left text-sm font-normal shadow-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50',
-              )}
-              disabled={true}
-            >
-              {account?.effective_date
-                ? format(new Date(account.effective_date), 'MMM dd, yyyy')
-                : ''}
-              <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-            </Button>
+            <Input disabled={true} value={account?.name_of_signatory} />
           </FormControl>
           <FormMessage />
         </FormItem>
         <FormItem>
-          <FormLabel>Renewal Date</FormLabel>
+          <FormLabel>Designation of Contact Person</FormLabel>
           <FormControl>
-            <Button
-              variant={'outline'}
-              className={cn(
-                'flex h-12 w-full min-w-[240px] rounded-lg border border-input bg-white px-4 py-3 text-left text-sm font-normal shadow-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50',
-              )}
+            <Input
               disabled={true}
-            >
-              {account?.renewal_date
-                ? format(new Date(account.renewal_date), 'MMM dd, yyyy')
-                : ''}
-              <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-            </Button>
+              value={account?.designation_of_contact_person}
+            />
           </FormControl>
           <FormMessage />
         </FormItem>
+        <FormItem>
+          <FormLabel>Email Address of Contact Person</FormLabel>
+          <FormControl>
+            <Input
+              disabled={true}
+              value={account?.email_address_of_contact_person}
+            />
+          </FormControl>
+          <FormMessage />
+        </FormItem>
+      </div>
+      <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
         <FormItem>
           <FormLabel>Expiration Date</FormLabel>
           <FormControl>

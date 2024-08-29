@@ -44,20 +44,12 @@ const CompanyContractInformation: FC<CompanyContractInformationProps> = ({
       value: account?.amount || '',
     },
     {
-      name: 'Renewal Date:',
-      value: account?.renewal_date || '',
-    },
-    {
       name: 'Expiration Date:',
       value: account?.expiration_date || '',
     },
     {
       name: 'Effectivity Date:',
       value: account?.effectivity_date || '',
-    },
-    {
-      name: 'Effective Date:',
-      value: account?.effective_date || '',
     },
     {
       name: 'COC Issue Date:',

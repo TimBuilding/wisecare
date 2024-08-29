@@ -27,6 +27,18 @@ const CompanyInformation: FC<CompanyInformationProps> = ({ id }) => {
       name: 'Signatory Designation:',
       value: account?.signatory_designation || '',
     },
+    {
+      name: 'Name of Signatory:',
+      value: account?.name_of_signatory || '',
+    },
+    {
+      name: 'Designation of Contact Person:',
+      value: account?.designation_of_contact_person || '',
+    },
+    {
+      name: 'Email Address of Contact Person:',
+      value: account?.email_address_of_contact_person || '',
+    },
   ]
   return (
     <>
