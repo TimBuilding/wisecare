@@ -68,7 +68,7 @@ const NotificationBell: FC<Props> = ({ user }) => {
           <Bell className="text-muted-foreground/50" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-80 rounded-xl border border-border bg-card shadow-lg">
+      <PopoverContent className="z-50 mr-8 w-80 rounded-xl border border-border bg-card shadow-lg">
         <div className="grid">
           <div className="space-y-2 p-6">
             <h4 className="font-medium leading-none">Notifications</h4>
