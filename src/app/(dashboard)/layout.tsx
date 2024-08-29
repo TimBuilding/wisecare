@@ -27,7 +27,7 @@ const DashboardLayout: FC<Props> = async ({ children }) => {
       <div className="hidden md:block">
         <Navbar />
       </div>
-      <div className="w-full">
+      <div className="w-full overflow-hidden">
         <Header />
         <main>{children}</main>
       </div>

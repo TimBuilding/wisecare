@@ -5,15 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="026827f0-6b8e-4d30-b546-2e0d659878c6" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/queries/get-employee-inputs.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/(dashboard)/(home)/accounts/(Personnel)/[id]/company-header.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/(dashboard)/(home)/accounts/(Personnel)/[id]/company-header.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/(dashboard)/(home)/accounts/(Personnel)/[id]/employees-add-personnel-button.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/(dashboard)/(home)/accounts/(Personnel)/[id]/employees-add-personnel-button.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/(dashboard)/layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/(dashboard)/layout.tsx" afterDir="false" />
     </list>
-    <list id="2835efd4-2f6a-4d3d-97d1-3f7cc7b8ba2c" name="Changes by jeremyfrancisco" comment="">
-      <change beforePath="$PROJECT_DIR$/src/app/(dashboard)/(home)/accounts/(Personnel)/[id]/company-page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/(dashboard)/(home)/accounts/(Personnel)/[id]/company-page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/(dashboard)/(home)/accounts/(Personnel)/[id]/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/(dashboard)/(home)/accounts/(Personnel)/[id]/page.tsx" afterDir="false" />
-    </list>
+    <list id="2835efd4-2f6a-4d3d-97d1-3f7cc7b8ba2c" name="Changes by jeremyfrancisco" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -42,7 +37,7 @@
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;07-11-file__fix&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;dev&quot;,
     &quot;last_opened_file_path&quot;: &quot;//wsl.localhost/Ubuntu/home/tamrivera05/wisecare&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.standard&quot;: &quot;true&quot;,
@@ -86,7 +81,8 @@
       <workItem from="1720684724468" duration="3023000" />
       <workItem from="1722306120361" duration="26000" />
       <workItem from="1723092777834" duration="722000" />
-      <workItem from="1724738279888" duration="325000" />
+      <workItem from="1724738279888" duration="2984000" />
+      <workItem from="1724893421557" duration="1406000" />
     </task>
     <servers />
   </component>
