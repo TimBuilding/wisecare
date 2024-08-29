@@ -1,0 +1,101 @@
+'use client'
+
+import setPasswordSchema from '@/app/(auth)/confirm-account/set-password-schema'
+import WiseCareLogo from '@/assets/images/wisecare-logo-2 1.png'
+import { Button } from '@/components/ui/button'
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form'
+import { Input } from '@/components/ui/input'
+import Image from 'next/image'
+import { SubmitHandler, useForm } from 'react-hook-form'
+import { z } from 'zod'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useState } from 'react'
+import { Loader2 } from 'lucide-react'
+import { createBrowserClient } from '@/utils/supabase'
+import Message from '@/components/message'
+
+const SetPasswordForm = () => {
+  const form = useForm<z.infer<typeof setPasswordSchema>>({
+    resolver: zodResolver(setPasswordSchema),
+    defaultValues: {
+      password: '',
+      confirmPassword: '',
+    },
+  })
+
+  const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState<string>('')
+
+  const handleSetPassword: SubmitHandler<
+    z.infer<typeof setPasswordSchema>
+  > = async ({ password, confirmPassword }) => {
+    setIsLoading(true)
+    const supabase = createBrowserClient()
+    const { error } = await supabase.auth.updateUser({
+      password,
+    })
+
+    if (error) {
+      setIsLoading(false)
+      return setError(error.message.toString())
+    }
+  }
+
+  return (
+    <div className="flex flex-col gap-8 border-border pt-8 md:rounded-xl md:border md:bg-card md:p-12 md:shadow-sm">
+      <Image src={WiseCareLogo} alt="WiseCare Logo" />
+      <div className="flex flex-col gap-0.5">
+        <h1 className="text-3xl font-extrabold">Set your password</h1>
+        <p className="text-sm font-medium text-muted-foreground">
+          Create a password to access your account
+        </p>
+      </div>
+      {error && <Message variant="error">{error}</Message>}
+      <Form {...form}>
+        <form
+          onSubmit={form.handleSubmit(handleSetPassword)}
+          className="space-y-5"
+        >
+          <FormField
+            control={form.control}
+            name="password"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Password</FormLabel>
+                <FormControl>
+                  <Input {...field} disabled={isLoading} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="confirmPassword"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Confirm password</FormLabel>
+                <FormControl>
+                  <Input {...field} disabled={isLoading} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <Button className="w-full" disabled={isLoading}>
+            {isLoading ? <Loader2 className="animate-spin" /> : 'Set password'}
+          </Button>
+        </form>
+      </Form>
+    </div>
+  )
+}
+
+export default SetPasswordForm

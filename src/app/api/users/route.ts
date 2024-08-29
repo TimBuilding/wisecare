@@ -35,11 +35,24 @@ export const POST = async (req: NextRequest) => {
     },
   })
 
-  // send confirmation email
-
   if (error) {
-    console.log(error)
     return NextResponse.json({ error: 'User creation failed' }, { status: 500 })
+  }
+
+  // send confirmation email
+  const { error: emailConfirmationError } = await supabase.auth.resend({
+    type: 'signup',
+    email: email,
+    options: {
+      emailRedirectTo: 'http://localhost:3000/dashboard',
+    },
+  })
+
+  if (emailConfirmationError) {
+    return NextResponse.json(
+      { error: 'Email confirmation failed' },
+      { status: 500 },
+    )
   }
 
   return NextResponse.json({ message: 'User created' }, { status: 200 })
