@@ -139,8 +139,6 @@ BEGIN
             initial_head_count,
             effectivity_date,
             coc_issue_date,
-            effective_date,
-            renewal_date,
             expiration_date,
             delivery_date_of_membership_ids,
             orientation_date,
@@ -160,7 +158,10 @@ BEGIN
             total_contract_value,
             balance,
             billing_period,
-            summary_of_benefits
+            summary_of_benefits,
+            name_of_signatory,
+            designation_of_contact_person,
+            email_address_of_contact_person
         ) VALUES (
             true,
             agent_id,
@@ -181,8 +182,6 @@ BEGIN
             50 * i,
             current_date,
             current_date,
-            current_date,
-            current_date + interval '1 year',
             current_date + interval '1 year',
             current_date + interval '1 month',
             current_date + interval '2 months',
@@ -202,7 +201,10 @@ BEGIN
             5000 * i,
             3000 * i,
             12,
-            'Comprehensive health coverage'
+            'Comprehensive health coverage',
+            'Signatory ' || i,
+            'Designation ' || i,
+            'contact' || i || '@example.com'
         );
     END LOOP;
 END $$;

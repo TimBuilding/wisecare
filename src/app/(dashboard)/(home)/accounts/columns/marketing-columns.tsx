@@ -119,18 +119,6 @@ const marketingColumns: ColumnDef<getAccountsResponse>[] = [
     ),
   },
   {
-    accessorKey: 'effective_date',
-    header: ({ column }) => (
-      <TableHeader column={column} title="Effective Date" />
-    ),
-  },
-  {
-    accessorKey: 'renewal_date',
-    header: ({ column }) => (
-      <TableHeader column={column} title="Renewal Date" />
-    ),
-  },
-  {
     accessorKey: 'expiration_date',
     header: ({ column }) => (
       <TableHeader column={column} title="Expiration Date" />
@@ -239,6 +227,24 @@ const marketingColumns: ColumnDef<getAccountsResponse>[] = [
   {
     accessorKey: 'updated_at',
     header: ({ column }) => <TableHeader column={column} title="Updated At" />,
+  },
+  {
+    accessorKey: 'name_of_signatory',
+    header: ({ column }) => (
+      <TableHeader column={column} title="Name of Signatory" />
+    ),
+  },
+  {
+    accessorKey: 'designation_of_contact_person',
+    header: ({ column }) => (
+      <TableHeader column={column} title="Designation of Contact Person" />
+    ),
+  },
+  {
+    accessorKey: 'email_address_of_contact_person',
+    header: ({ column }) => (
+      <TableHeader column={column} title="Email Address of Contact Person" />
+    ),
   },
 ]
 
