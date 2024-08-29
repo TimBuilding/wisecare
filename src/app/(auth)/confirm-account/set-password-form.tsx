@@ -1,6 +1,5 @@
 'use client'
 
-import setPasswordSchema from '@/app/(auth)/confirm-account/set-password-schema'
 import WiseCareLogo from '@/assets/images/wisecare-logo-2 1.png'
 import { Button } from '@/components/ui/button'
 import {
@@ -16,12 +15,27 @@ import Image from 'next/image'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Loader2 } from 'lucide-react'
 import { createBrowserClient } from '@/utils/supabase'
 import Message from '@/components/message'
+import { useRouter } from 'next/navigation'
+import setPasswordSchema from '@/app/(auth)/confirm-account/set-password-schema'
 
 const SetPasswordForm = () => {
+  const supabase = createBrowserClient()
+
+  // retreive session
+  const urlParams = new URLSearchParams(window.location.hash.substring(1)) // Remove the leading #
+  const refreshToken = urlParams.get('refresh_token') || ''
+
+  useEffect(() => {
+    const refreshSession = async () => {
+      await supabase.auth.refreshSession({ refresh_token: refreshToken })
+    }
+    refreshSession()
+  }, [refreshToken])
+
   const form = useForm<z.infer<typeof setPasswordSchema>>({
     resolver: zodResolver(setPasswordSchema),
     defaultValues: {
@@ -32,12 +46,12 @@ const SetPasswordForm = () => {
 
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string>('')
+  const router = useRouter()
 
   const handleSetPassword: SubmitHandler<
     z.infer<typeof setPasswordSchema>
-  > = async ({ password, confirmPassword }) => {
+  > = async ({ password }) => {
     setIsLoading(true)
-    const supabase = createBrowserClient()
     const { error } = await supabase.auth.updateUser({
       password,
     })
@@ -46,6 +60,9 @@ const SetPasswordForm = () => {
       setIsLoading(false)
       return setError(error.message.toString())
     }
+
+    // if success, then redirect to home page
+    router.push('/')
   }
 
   return (
@@ -70,7 +87,7 @@ const SetPasswordForm = () => {
               <FormItem>
                 <FormLabel>Password</FormLabel>
                 <FormControl>
-                  <Input {...field} disabled={isLoading} />
+                  <Input {...field} disabled={isLoading} type="password" />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -83,7 +100,7 @@ const SetPasswordForm = () => {
               <FormItem>
                 <FormLabel>Confirm password</FormLabel>
                 <FormControl>
-                  <Input {...field} disabled={isLoading} />
+                  <Input {...field} disabled={isLoading} type="password" />
                 </FormControl>
                 <FormMessage />
               </FormItem>

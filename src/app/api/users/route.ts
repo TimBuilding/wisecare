@@ -25,35 +25,46 @@ export const POST = async (req: NextRequest) => {
     lowercase: true,
   })
 
-  const { error } = await supabase.auth.admin.createUser({
-    email,
-    password: randomPassword,
-    user_metadata: {
+  // const { error } = await supabase.auth.admin.createUser({
+  //   email,
+  //   password: randomPassword,
+  //   user_metadata: {
+  //     first_name,
+  //     last_name,
+  //     department: department,
+  //   },
+  // })
+
+  const emailRedirectTo = `${process.env.NEXT_PUBLIC_DOMAIN}/confirm-account`
+
+  const { error } = await supabase.auth.admin.inviteUserByEmail(email, {
+    data: {
       first_name,
       last_name,
       department: department,
     },
+    redirectTo: emailRedirectTo,
   })
 
   if (error) {
     return NextResponse.json({ error: 'User creation failed' }, { status: 500 })
   }
 
-  // send confirmation email
-  const { error: emailConfirmationError } = await supabase.auth.resend({
-    type: 'signup',
-    email: email,
-    options: {
-      emailRedirectTo: 'http://localhost:3000/dashboard',
-    },
-  })
+  // // send confirmation email
+  // const { error: emailConfirmationError } = await supabase.auth.resend({
+  //   type: 'signup',
+  //   email: email,
+  //   options: {
+  //     emailRedirectTo: emailRedirectTo,
+  //   },
+  // })
 
-  if (emailConfirmationError) {
-    return NextResponse.json(
-      { error: 'Email confirmation failed' },
-      { status: 500 },
-    )
-  }
+  // if (emailConfirmationError) {
+  //   return NextResponse.json(
+  //     { error: 'Email confirmation failed' },
+  //     { status: 500 },
+  //   )
+  // }
 
   return NextResponse.json({ message: 'User created' }, { status: 200 })
 }
