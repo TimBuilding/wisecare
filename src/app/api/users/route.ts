@@ -16,24 +16,35 @@ export const POST = async (req: NextRequest) => {
 
   const supabase = createServiceRoleClient()
 
-  // const randomPassword = Math.random().toString(36).slice(-8)
-  const randomPassword = generator.generate({
-    length: 12,
-    numbers: true,
-    symbols: true,
-    uppercase: true,
-    lowercase: true,
-  })
+  // check if being created is an agent
+  if (department === 'agent') {
+    const randomPassword = generator.generate({
+      length: 12,
+      numbers: true,
+      symbols: true,
+      uppercase: true,
+      lowercase: true,
+    })
 
-  // const { error } = await supabase.auth.admin.createUser({
-  //   email,
-  //   password: randomPassword,
-  //   user_metadata: {
-  //     first_name,
-  //     last_name,
-  //     department: department,
-  //   },
-  // })
+    const { error } = await supabase.auth.admin.createUser({
+      email,
+      password: randomPassword,
+      user_metadata: {
+        first_name,
+        last_name,
+        department: department,
+      },
+    })
+
+    if (error) {
+      return NextResponse.json(
+        { error: 'Agent creation failed' },
+        { status: 500 },
+      )
+    }
+
+    return NextResponse.json({ message: 'Agent created' }, { status: 200 })
+  }
 
   const emailRedirectTo = `${process.env.NEXT_PUBLIC_DOMAIN}/confirm-account`
 
