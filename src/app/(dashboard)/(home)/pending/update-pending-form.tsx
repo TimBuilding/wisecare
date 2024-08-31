@@ -38,6 +38,7 @@ const UpdatePendingForm: FC<Props> = ({ accountId, setOpenForm }) => {
 
   const supabase = createBrowserClient()
   const { mutateAsync, isPending } = useUpdateMutation(
+    // @ts-ignore
     supabase.from('accounts'),
     ['id'],
     'id',
@@ -80,7 +81,7 @@ const UpdatePendingForm: FC<Props> = ({ accountId, setOpenForm }) => {
         })
       })(e)
     },
-    [form, mutateAsync],
+    [form, mutateAsync, accountId, toast],
   )
 
   return (

@@ -573,8 +573,6 @@ export type Database = {
           initial_head_count: number
           effectivity_date: string
           coc_issue_date: string
-          effective_date: string
-          renewal_date: string
           expiration_date: string
           delivery_date_of_membership_ids: string
           orientation_date: string
@@ -595,6 +593,9 @@ export type Database = {
           balance: number
           billing_period: number
           summary_of_benefits: string
+          name_of_signatory: string
+          designation_of_contact_person: string
+          email_address_of_contact_person: string
           created_at: string
           updated_at: string
           total_count: number

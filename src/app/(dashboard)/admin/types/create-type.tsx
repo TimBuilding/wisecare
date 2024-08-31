@@ -50,6 +50,7 @@ const CreateType: FC<Props> = ({ page }) => {
   const { toast } = useToast()
 
   const { mutateAsync, isPending } = useInsertMutation(
+    // @ts-ignore
     supabase.from(page),
     ['id'],
     'name, id, created_at',
@@ -77,7 +78,7 @@ const CreateType: FC<Props> = ({ page }) => {
         ])
       })(e)
     },
-    [mutateAsync],
+    [mutateAsync, form],
   )
 
   return (

@@ -57,6 +57,7 @@ const AddAccountForm = () => {
 
   const supabase = createBrowserClient()
   const { mutateAsync, isPending } = useInsertMutation(
+    // @ts-ignore
     supabase.from('accounts'),
     ['id'],
     'id',

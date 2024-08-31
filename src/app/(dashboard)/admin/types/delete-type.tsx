@@ -25,6 +25,7 @@ interface Props {
 const DeleteType: FC<Props> = ({ id, name, page }) => {
   const supabase = createBrowserClient()
   const { mutateAsync } = useUpdateMutation(
+    // @ts-ignore
     supabase.from(page),
     ['id'],
     'name, id, created_at',

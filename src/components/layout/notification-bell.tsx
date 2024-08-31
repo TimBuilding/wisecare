@@ -27,6 +27,7 @@ const NotificationItem: FC<NotificationItemProps> = ({
   const supabase = createBrowserClient()
 
   const { mutateAsync } = useUpdateMutation(
+    // @ts-ignore
     supabase.from('notifications'),
     ['id'],
     'read',

@@ -34,7 +34,7 @@ const SetPasswordForm = () => {
       await supabase.auth.refreshSession({ refresh_token: refreshToken })
     }
     refreshSession()
-  }, [refreshToken])
+  }, [refreshToken, supabase.auth])
 
   const form = useForm<z.infer<typeof setPasswordSchema>>({
     resolver: zodResolver(setPasswordSchema),
