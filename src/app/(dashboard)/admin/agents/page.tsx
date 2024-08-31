@@ -14,12 +14,13 @@ import { cookies } from 'next/headers'
 import AgentsList from './agents-list'
 import AgentsCount from './agents-count'
 import AddAgent from './add-agent'
+import getAgents from '@/queries/get-agents'
 
 const AgentsPage = async () => {
   const queryClient = new QueryClient()
   const supabase = createServerClient(cookies())
 
-  await prefetchQuery(queryClient, supabase.from('agents').select('*'))
+  await prefetchQuery(queryClient, getAgents(supabase))
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
       <div className="space-y-8">
