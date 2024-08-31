@@ -7,7 +7,7 @@ import NavigationItem from './navigation-item'
 
 const Navigation = async () => {
   return (
-    <div className="z-50 space-y-6 px-3">
+    <div className="space-y-6 px-3">
       <div>
         <div className="flex flex-col gap-1 px-4 py-3">
           <span className="text-xs font-semibold uppercase tracking-wider text-primary">

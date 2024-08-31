@@ -102,7 +102,7 @@ const TypesNavigation: FC<Props> = ({ open }) => {
     <>
       <div
         data-open={open}
-        className="absolute -left-[600px] z-20 h-[calc(100vh-64px)] w-full border-r border-border bg-white transition-all duration-1000 data-[open=true]:left-0 sm:-left-96 sm:w-96 md:-left-24 md:-z-10 md:data-[open=true]:left-72 md:data-[open=true]:z-20 lg:relative lg:left-0 lg:transition-none "
+        className="absolute -left-[600px] z-20 h-[calc(100vh-64px)] w-full border-r border-border bg-white transition-all duration-1000 data-[open=true]:left-0 sm:-left-96 sm:w-96 md:-left-24 md:-z-10 md:data-[open=true]:left-72 md:data-[open=true]:z-20 lg:relative lg:left-0 lg:z-20 lg:transition-none"
       >
         <div className="flex flex-row items-center justify-between px-8 py-9">
           <h2 className="text-3xl font-extrabold">Manage Types</h2>
