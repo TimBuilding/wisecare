@@ -5,8 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="026827f0-6b8e-4d30-b546-2e0d659878c6" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/layout/notification-bell.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/layout/notification-bell.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/(dashboard)/(home)/accounts/(Personnel)/[id]/employees-add-personnel-form.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/(dashboard)/(home)/accounts/(Personnel)/[id]/employees-add-personnel-form.tsx" afterDir="false" />
     </list>
     <list id="2835efd4-2f6a-4d3d-97d1-3f7cc7b8ba2c" name="Changes by jeremyfrancisco" comment="" />
     <option name="SHOW_DIALOG" value="false" />
@@ -37,7 +36,7 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "08-29-tim-350__fix__overflow__in__accounts__page",
+    "git-widget-placeholder": "08-31-tim-362__create__company__employees",
     "last_opened_file_path": "//wsl.localhost/Ubuntu/home/tamrivera05/wisecare",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.standard": "true",
@@ -82,7 +81,9 @@
       <workItem from="1722306120361" duration="26000" />
       <workItem from="1723092777834" duration="722000" />
       <workItem from="1724738279888" duration="2984000" />
-      <workItem from="1724893421557" duration="2116000" />
+      <workItem from="1724893421557" duration="15406000" />
+      <workItem from="1725095340775" duration="6964000" />
+      <workItem from="1725102628733" duration="1251000" />
     </task>
     <servers />
   </component>

@@ -1,5 +1,5 @@
 'use client'
-import React, { useState } from 'react'
+import React, { useCallback, FormEventHandler } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -24,49 +24,100 @@ import {
 } from '@/components/ui/popover'
 import { Calendar } from '@/components/ui/calendar'
 import EmployeesAddPersonnelButton from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/employees-add-personnel-button'
+import { createBrowserClient } from '@/utils/supabase'
+import { useInsertMutation } from '@supabase-cache-helpers/postgrest-react-query'
+import { useToast } from '@/components/ui/use-toast'
 
 const EmployeesAddPersonnelForm = () => {
+  const { toast } = useToast()
   const form = useForm<z.infer<typeof employeesSchema>>({
     resolver: zodResolver(employeesSchema),
     defaultValues: {
-      firstName: '',
-      lastName: '',
-      employeeNumber: 0,
-      realDescription: '',
+      first_name: '',
+      last_name: '',
+      employee_number: 0,
+      real_description: '',
       gender: '',
-      civilStatus: '',
-      birthDate: new Date(),
+      civil_status: '',
+      birth_date: new Date(),
       age: 0,
-      residentialAddress: '',
-      billCareOf: '',
-      billAddress: '',
-      billCityMunicipal: '',
-      billProvince: '',
+      residential_address: '',
+      bill_care_of: '',
+      bill_address: '',
+      bill_city_municipal: '',
+      bill_province: '',
       email: '',
-      telephoneNumber: 0,
-      mobileNumber: 0,
-      agentName: '',
-      philHealth: '',
-      paymentMode: '',
-      planType: '',
-      planDescription: '',
+      telephone_number: '',
+      mobile_number: '',
+      agent_name: '',
+      philhealth: '',
+      payment_mode: '',
+      plan_type: '',
+      plan_description: '',
     },
   })
 
-  function onSubmit(values: z.infer<typeof employeesSchema>) {
-    console.log(values)
-  }
+  const supabase = createBrowserClient()
+  const { mutateAsync, isPending } = useInsertMutation(
+    //@ts-ignore
+    supabase.from('company_employees'),
+    ['id'],
+    'id',
+    {
+      onSuccess: () => {
+        form.reset()
+      },
+      onError: (error) => {
+        toast({
+          title: 'Something went wrong',
+          description: error.message,
+          variant: 'destructive',
+        })
+      },
+    },
+  )
 
-  // const [showEmployees, setShowEmployees] = useState(false)
-  // const router = useRouter()
-  // const toggleEmployees = () => setShowEmployees(!showEmployees)
+  const onSubmitHandler = useCallback<FormEventHandler<HTMLFormElement>>(
+    (e) => {
+      form.handleSubmit(async (data) => {
+        console.log(data)
+        await mutateAsync([
+          {
+            first_name: data.first_name,
+            last_name: data.last_name,
+            employee_number: data.employee_number,
+            real_description: data.real_description,
+            gender: data.gender,
+            civil_status: data.civil_status,
+            birth_date: data.birth_date,
+            age: data.age,
+            residential_address: data.residential_address,
+            bill_care_of: data.bill_care_of,
+            bill_address: data.bill_address,
+            bill_city_municipal: data.bill_city_municipal,
+            bill_province: data.bill_province,
+            email: data.email,
+            telephone_number: data.telephone_number,
+            mobile_number: data.mobile_number,
+            agent_name: data.agent_name,
+            philhealth: data.philhealth,
+            payment_mode: data.payment_mode,
+            plan_type: data.plan_type,
+            plan_description: data.plan_description,
+          },
+        ])
+      })(e)
+    },
+    [form, mutateAsync],
+  )
+
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)}>
+      <form onSubmit={onSubmitHandler}>
         <div className="mx-auto grid-cols-2 flex-col gap-4 lg:flex lg:grid">
           <FormField
             control={form.control}
-            name="firstName"
+            name="first_name"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>First Name</FormLabel>
@@ -79,7 +130,7 @@ const EmployeesAddPersonnelForm = () => {
           />
           <FormField
             control={form.control}
-            name="lastName"
+            name="last_name"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Last Name</FormLabel>
@@ -92,12 +143,12 @@ const EmployeesAddPersonnelForm = () => {
           />
           <FormField
             control={form.control}
-            name="employeeNumber"
+            name="employee_number"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Employee Number</FormLabel>
                 <FormControl>
-                  <Input {...field} />
+                  <Input {...field} type="number" />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -105,7 +156,7 @@ const EmployeesAddPersonnelForm = () => {
           />
           <FormField
             control={form.control}
-            name="realDescription"
+            name="real_description"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Real Description</FormLabel>
@@ -131,7 +182,7 @@ const EmployeesAddPersonnelForm = () => {
           />
           <FormField
             control={form.control}
-            name="civilStatus"
+            name="civil_status"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Civil Status</FormLabel>
@@ -144,7 +195,7 @@ const EmployeesAddPersonnelForm = () => {
           />
           <FormField
             control={form.control}
-            name="birthDate"
+            name="birth_date"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Birth Date</FormLabel>
@@ -199,7 +250,7 @@ const EmployeesAddPersonnelForm = () => {
           />
           <FormField
             control={form.control}
-            name="residentialAddress"
+            name="residential_address"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Residential Address</FormLabel>
@@ -212,7 +263,7 @@ const EmployeesAddPersonnelForm = () => {
           />
           <FormField
             control={form.control}
-            name="billCareOf"
+            name="bill_care_of"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Bill Care of</FormLabel>
@@ -227,7 +278,7 @@ const EmployeesAddPersonnelForm = () => {
         <div className="mx-auto grid-cols-2 flex-col gap-4 lg:flex lg:grid">
           <FormField
             control={form.control}
-            name="billAddress"
+            name="bill_address"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Bill Address</FormLabel>
@@ -240,7 +291,7 @@ const EmployeesAddPersonnelForm = () => {
           />
           <FormField
             control={form.control}
-            name="billCityMunicipal"
+            name="bill_city_municipal"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Bill City Municipal</FormLabel>
@@ -253,7 +304,7 @@ const EmployeesAddPersonnelForm = () => {
           />
           <FormField
             control={form.control}
-            name="billProvince"
+            name="bill_province"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Bill Province</FormLabel>
@@ -279,12 +330,12 @@ const EmployeesAddPersonnelForm = () => {
           />
           <FormField
             control={form.control}
-            name="telephoneNumber"
+            name="telephone_number"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Telephone Number</FormLabel>
                 <FormControl>
-                  <Input {...field} />
+                  <Input {...field} type="tel" />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -292,12 +343,12 @@ const EmployeesAddPersonnelForm = () => {
           />
           <FormField
             control={form.control}
-            name="mobileNumber"
+            name="mobile_number"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Mobile Number</FormLabel>
                 <FormControl>
-                  <Input {...field} />
+                  <Input {...field} type="tel" />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -305,7 +356,7 @@ const EmployeesAddPersonnelForm = () => {
           />
           <FormField
             control={form.control}
-            name="agentName"
+            name="agent_name"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Agent Name</FormLabel>
@@ -318,7 +369,7 @@ const EmployeesAddPersonnelForm = () => {
           />
           <FormField
             control={form.control}
-            name="philHealth"
+            name="philhealth"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>PhilHealth</FormLabel>
@@ -331,7 +382,7 @@ const EmployeesAddPersonnelForm = () => {
           />
           <FormField
             control={form.control}
-            name="paymentMode"
+            name="payment_mode"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Payment Mode</FormLabel>
@@ -344,7 +395,7 @@ const EmployeesAddPersonnelForm = () => {
           />
           <FormField
             control={form.control}
-            name="planType"
+            name="plan_type"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Plan Type</FormLabel>
@@ -357,7 +408,7 @@ const EmployeesAddPersonnelForm = () => {
           />
           <FormField
             control={form.control}
-            name="planDescription"
+            name="plan_description"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Plan Description</FormLabel>

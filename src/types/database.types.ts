@@ -263,6 +263,81 @@ export type Database = {
           },
         ]
       }
+      company_employees: {
+        Row: {
+          age: number
+          agent_name: string
+          bill_address: string
+          bill_care_of: string
+          bill_city_municipal: string
+          bill_province: string
+          birth_date: string
+          civil_status: string
+          email: string
+          employee_number: string
+          first_name: string
+          gender: string
+          id: string
+          last_name: string
+          mobile_number: string
+          payment_mode: string
+          philhealth: string
+          plan_description: string
+          plan_type: string
+          real_description: string
+          residential_address: string
+          telephone_number: string
+        }
+        Insert: {
+          age: number
+          agent_name: string
+          bill_address: string
+          bill_care_of: string
+          bill_city_municipal: string
+          bill_province: string
+          birth_date: string
+          civil_status: string
+          email: string
+          employee_number: string
+          first_name: string
+          gender: string
+          id?: string
+          last_name: string
+          mobile_number: string
+          payment_mode: string
+          philhealth: string
+          plan_description: string
+          plan_type: string
+          real_description: string
+          residential_address: string
+          telephone_number: string
+        }
+        Update: {
+          age?: number
+          agent_name?: string
+          bill_address?: string
+          bill_care_of?: string
+          bill_city_municipal?: string
+          bill_province?: string
+          birth_date?: string
+          civil_status?: string
+          email?: string
+          employee_number?: string
+          first_name?: string
+          gender?: string
+          id?: string
+          last_name?: string
+          mobile_number?: string
+          payment_mode?: string
+          philhealth?: string
+          plan_description?: string
+          plan_type?: string
+          real_description?: string
+          residential_address?: string
+          telephone_number?: string
+        }
+        Relationships: []
+      }
       departments: {
         Row: {
           id: number
@@ -275,75 +350,6 @@ export type Database = {
         Update: {
           id?: number
           name?: string | null
-        }
-        Relationships: []
-      }
-      employees: {
-        Row: {
-          age_of_membership: number
-          birth_date: string
-          card_number: string
-          civil_status: string
-          created_at: string
-          email: string
-          employee_number: string
-          first_name: string
-          gender: string
-          id: string
-          last_name: string
-          mobile_number: string
-          original_effective_date: string
-          philhealth: string
-          plan_description: string
-          policy_number: string
-          real_description: string
-          residential_address: string
-          telepone_number: string
-          updated_at: string
-        }
-        Insert: {
-          age_of_membership: number
-          birth_date: string
-          card_number: string
-          civil_status: string
-          created_at?: string
-          email: string
-          employee_number: string
-          first_name: string
-          gender: string
-          id?: string
-          last_name: string
-          mobile_number: string
-          original_effective_date: string
-          philhealth: string
-          plan_description: string
-          policy_number: string
-          real_description: string
-          residential_address: string
-          telepone_number: string
-          updated_at?: string
-        }
-        Update: {
-          age_of_membership?: number
-          birth_date?: string
-          card_number?: string
-          civil_status?: string
-          created_at?: string
-          email?: string
-          employee_number?: string
-          first_name?: string
-          gender?: string
-          id?: string
-          last_name?: string
-          mobile_number?: string
-          original_effective_date?: string
-          philhealth?: string
-          plan_description?: string
-          policy_number?: string
-          real_description?: string
-          residential_address?: string
-          telepone_number?: string
-          updated_at?: string
         }
         Relationships: []
       }

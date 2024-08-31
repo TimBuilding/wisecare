@@ -2,7 +2,7 @@ import { TypedSupabaseClient } from '@/types/typedSupabaseClient'
 
 const getEmployeeInputs = (supabase: TypedSupabaseClient, id: string) => {
   return supabase
-    .from('employees')
+    .from('company_employees')
     .select('*')
     .eq('id', id)
     .single()
