@@ -14,8 +14,13 @@ import financeColumns from './columns/finance-columns'
 import afterSalesColumns from './columns/after-sales-columns'
 import { useTableContext } from '@/providers/TableProvider'
 import getPagination from '@/utils/pagination'
+import { FC } from 'react'
 
-const AccountsTable = () => {
+interface AccountsTableProps {
+  count: number
+}
+
+const AccountsTable: FC<AccountsTableProps> = ({ count }) => {
   const { filter, pagination } = useTableContext()
   const supabase = createBrowserClient()
 
@@ -47,7 +52,9 @@ const AccountsTable = () => {
       break
   }
 
-  // @ts-ignore
-  return <DataTable columns={columns} data={(data as any) || []} />
+  return (
+    // @ts-ignore
+    <DataTable count={count} columns={columns} data={(data as any) || []} />
+  )
 }
 export default AccountsTable

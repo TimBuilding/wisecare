@@ -47,11 +47,13 @@ import { Skeleton } from '@/components/ui/skeleton'
 interface DataTableProps<TData extends IData, TValue> {
   columns: ColumnDef<TData, TValue>[]
   data: TData[]
+  count: number
 }
 
 const DataTable = <TData extends IData, TValue>({
   columns,
   data,
+  count,
 }: DataTableProps<TData, TValue>) => {
   const { pagination, setPagination } = useTableContext()
 
@@ -71,7 +73,7 @@ const DataTable = <TData extends IData, TValue>({
     getFilteredRowModel: getFilteredRowModel(),
     onPaginationChange: setPagination,
     manualPagination: true,
-    rowCount: data.length,
+    rowCount: count,
     state: {
       sorting,
       columnVisibility,
