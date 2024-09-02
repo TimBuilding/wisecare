@@ -1,3 +1,4 @@
+import DeleteUser from '@/app/(dashboard)/admin/users/edit/delete-user'
 import userSchema from '@/app/(dashboard)/admin/users/user-schema'
 import Message from '@/components/message'
 import { Button } from '@/components/ui/button'
@@ -99,8 +100,6 @@ const EditUserForm: FC<Props> = ({
     await queryClient.invalidateQueries()
 
     // clear form
-    // form.reset()
-    // onOpenChange(false)
     setIsLoading(false)
   }
   return (
@@ -181,14 +180,14 @@ const EditUserForm: FC<Props> = ({
           />
         </div>
         <div className="fixed bottom-0 flex w-full flex-row items-center justify-between gap-2 bg-[#f1f5f9] px-4 py-3 md:max-w-2xl">
-          <Button
-            type="button"
-            variant="ghost"
-            className="text-destructive"
-            disabled={isLoading}
-          >
-            Delete
-          </Button>
+          <DeleteUser
+            isLoading={isLoading}
+            userId={userId}
+            setIsLoading={setIsLoading}
+            setOpen={onOpenChange}
+            firstName={firstName}
+            lastName={lastName}
+          />
           <div className="flex flex-row items-center justify-center">
             <SheetClose asChild={true}>
               <Button type="button" variant="ghost" disabled={isLoading}>

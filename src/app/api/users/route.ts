@@ -106,3 +106,23 @@ export const PUT = async (req: NextRequest) => {
 
   return NextResponse.json({ message: 'User updated' }, { status: 200 })
 }
+
+export const DELETE = async (req: NextRequest) => {
+  // check if admin
+  const supabaseUser = createServerClient(cookies())
+  if (!(await isAdmin(supabaseUser))) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  }
+
+  const { user_id } = await req.json()
+
+  const supabase = createServiceRoleClient()
+
+  const { error } = await supabase.auth.admin.deleteUser(user_id, true)
+
+  if (error) {
+    return NextResponse.json({ error: 'User deletion failed' }, { status: 500 })
+  }
+
+  return NextResponse.json({ message: 'User deleted' }, { status: 200 })
+}
