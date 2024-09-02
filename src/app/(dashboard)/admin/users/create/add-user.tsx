@@ -12,8 +12,22 @@ import { useState } from 'react'
 import Avatar, { genConfig } from 'react-nice-avatar'
 
 const AddUser = () => {
-  const uid = '123'
-  const config = genConfig(uid)
+  const config = genConfig({
+    sex: 'man',
+    faceColor: '#B0B0B0',
+    earSize: 'small',
+    hairColor: '#808080',
+    hairStyle: 'normal',
+    hatColor: '#808080',
+    hatStyle: 'none',
+    eyeBrowStyle: 'up',
+    glassesStyle: 'none',
+    noseStyle: 'short',
+    mouthStyle: 'smile',
+    shirtStyle: 'hoody',
+    shirtColor: '#C0C0C0',
+    bgColor: '#D3D3D3',
+  })
   const [isFormOpen, setIsFormOpen] = useState(false)
 
   return (

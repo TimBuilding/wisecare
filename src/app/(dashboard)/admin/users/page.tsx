@@ -1,5 +1,4 @@
 'use server'
-import AddUser from '@/app/(dashboard)/admin/users/add-user'
 import {
   PageDescription,
   PageHeader,
@@ -15,6 +14,7 @@ import {
 } from '@tanstack/react-query'
 import { cookies } from 'next/headers'
 import UserList from './user-list'
+import AddUser from '@/app/(dashboard)/admin/users/create/add-user'
 
 const UsersPage = async () => {
   const queryClient = new QueryClient()
