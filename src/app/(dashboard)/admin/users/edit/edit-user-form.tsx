@@ -18,7 +18,9 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { SheetClose } from '@/components/ui/sheet'
+import { useToast } from '@/components/ui/use-toast'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useQueryClient } from '@tanstack/react-query'
 import { Loader2 } from 'lucide-react'
 import { FC, useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
@@ -60,12 +62,47 @@ const EditUserForm: FC<Props> = ({
     },
   })
 
+  const queryClient = useQueryClient()
+  const { toast } = useToast()
+
   const handleSubmit: SubmitHandler<z.infer<typeof userSchema>> = async ({
     email,
     firstName,
     lastName,
     department,
-  }) => {}
+  }) => {
+    setIsLoading(true)
+
+    const res = await fetch('/api/users', {
+      method: 'PUT',
+      body: JSON.stringify({
+        user_id: userId,
+        first_name: firstName,
+        last_name: lastName,
+        email: email,
+        department: department,
+      }),
+    })
+
+    const data = await res.json()
+
+    if (data.error) {
+      setError(data.error)
+    }
+
+    toast({
+      title: 'User updated',
+      description: 'User has been updated',
+    })
+
+    // clear cache
+    await queryClient.invalidateQueries()
+
+    // clear form
+    // form.reset()
+    // onOpenChange(false)
+    setIsLoading(false)
+  }
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(handleSubmit)}>
@@ -78,7 +115,7 @@ const EditUserForm: FC<Props> = ({
               <FormItem>
                 <FormLabel>First Name</FormLabel>
                 <FormControl>
-                  <Input {...field} />
+                  <Input {...field} disabled={isLoading} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -91,7 +128,7 @@ const EditUserForm: FC<Props> = ({
               <FormItem>
                 <FormLabel>Last Name</FormLabel>
                 <FormControl>
-                  <Input {...field} />
+                  <Input {...field} disabled={isLoading} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -104,7 +141,7 @@ const EditUserForm: FC<Props> = ({
               <FormItem>
                 <FormLabel>Email</FormLabel>
                 <FormControl>
-                  <Input {...field} />
+                  <Input {...field} disabled={isLoading} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -120,6 +157,7 @@ const EditUserForm: FC<Props> = ({
                   <Select
                     onValueChange={field.onChange}
                     defaultValue={department}
+                    disabled={isLoading}
                   >
                     <FormControl>
                       <SelectTrigger disabled={isLoading}>

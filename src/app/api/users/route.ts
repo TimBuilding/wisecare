@@ -79,3 +79,30 @@ export const POST = async (req: NextRequest) => {
 
   return NextResponse.json({ message: 'User created' }, { status: 200 })
 }
+
+export const PUT = async (req: NextRequest) => {
+  // check if admin
+  const supabaseUser = createServerClient(cookies())
+  if (!(await isAdmin(supabaseUser))) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  }
+
+  const { user_id, first_name, last_name, email, department } = await req.json()
+
+  const supabase = createServiceRoleClient()
+
+  const { error } = await supabase.auth.admin.updateUserById(user_id, {
+    email: email,
+    user_metadata: {
+      first_name: first_name,
+      last_name: last_name,
+      department: department,
+    },
+  })
+
+  if (error) {
+    return NextResponse.json({ error: 'User update failed' }, { status: 500 })
+  }
+
+  return NextResponse.json({ message: 'User updated' }, { status: 200 })
+}
