@@ -263,6 +263,44 @@ export type Database = {
           },
         ]
       }
+      activity_logs: {
+        Row: {
+          action: string | null
+          created_at: string
+          description: string | null
+          id: number
+          table_name: string | null
+          updated_at: string
+          user_id: string | null
+        }
+        Insert: {
+          action?: string | null
+          created_at?: string
+          description?: string | null
+          id?: number
+          table_name?: string | null
+          updated_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          action?: string | null
+          created_at?: string
+          description?: string | null
+          id?: number
+          table_name?: string | null
+          updated_at?: string
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: 'activity_logs_user_id_fkey'
+            columns: ['user_id']
+            isOneToOne: false
+            referencedRelation: 'users'
+            referencedColumns: ['id']
+          },
+        ]
+      }
       company_employees: {
         Row: {
           age: number

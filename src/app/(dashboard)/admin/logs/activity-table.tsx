@@ -1,3 +1,5 @@
+'use client'
+import { Skeleton } from '@/components/ui/skeleton'
 import {
   Table,
   TableBody,
@@ -6,8 +8,15 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
+import getActivityLog from '@/queries/get-activity-log'
+import { createBrowserClient } from '@/utils/supabase'
+import { useQuery } from '@supabase-cache-helpers/postgrest-react-query'
+import { format } from 'date-fns'
 
 const ActivityTable = () => {
+  const supabase = createBrowserClient()
+  const { data, isPending } = useQuery(getActivityLog(supabase))
+
   return (
     <Table className="border-x border-border">
       <TableHeader>
@@ -18,13 +27,28 @@ const ActivityTable = () => {
         </TableRow>
       </TableHeader>
       <TableBody>
-        {[...Array(3)].map((_, index) => (
-          <TableRow key={index}>
-            <TableCell>User</TableCell>
-            <TableCell>Action</TableCell>
-            <TableCell>Date</TableCell>
-          </TableRow>
-        ))}
+        {isPending &&
+          [1, 2, 3].map((i) => (
+            <TableRow key={i}>
+              <TableCell>
+                <Skeleton className="h-4 w-1/2" />
+              </TableCell>
+              <TableCell>
+                <Skeleton className="h-4 w-1/2" />
+              </TableCell>
+              <TableCell>
+                <Skeleton className="h-4 w-1/2" />
+              </TableCell>
+            </TableRow>
+          ))}
+        {data &&
+          data.map((log) => (
+            <TableRow key={log.id}>
+              <TableCell>{log.user_id}</TableCell>
+              <TableCell>{log.description}</TableCell>
+              <TableCell>{format(new Date(log.created_at), 'PPpp')}</TableCell>
+            </TableRow>
+          ))}
       </TableBody>
     </Table>
   )
