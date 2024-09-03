@@ -28,10 +28,12 @@ import EmployeesAddPersonnelButton from '@/app/(dashboard)/(home)/accounts/(Pers
 import { createBrowserClient } from '@/utils/supabase'
 import { useInsertMutation } from '@supabase-cache-helpers/postgrest-react-query'
 import { useToast } from '@/components/ui/use-toast'
+import { useCompanyContext } from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/company-provider'
 
 const EmployeesAddPersonnelForm = () => {
   const { toast } = useToast()
   const params = useParams<{ id: string }>()
+  const { showAddPersonnel, setShowAddPersonnel } = useCompanyContext()
 
   const form = useForm<z.infer<typeof employeesSchema>>({
     resolver: zodResolver(employeesSchema),
@@ -69,6 +71,8 @@ const EmployeesAddPersonnelForm = () => {
     {
       onSuccess: () => {
         form.reset()
+
+        setShowAddPersonnel(false)
       },
       onError: (error) => {
         toast({
