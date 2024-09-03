@@ -40,7 +40,7 @@ const AddUserForm = ({ onOpenChange }: Props) => {
       firstName: '',
       lastName: '',
       email: '',
-      department: 'marketing',
+      department: undefined,
       // password: '',
     },
   })
@@ -91,7 +91,7 @@ const AddUserForm = ({ onOpenChange }: Props) => {
               <FormItem>
                 <FormLabel>First Name</FormLabel>
                 <FormControl>
-                  <Input {...field} />
+                  <Input {...field} disabled={isLoading} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
