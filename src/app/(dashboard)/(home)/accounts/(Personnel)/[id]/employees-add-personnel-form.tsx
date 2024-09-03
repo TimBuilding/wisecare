@@ -29,6 +29,13 @@ import { createBrowserClient } from '@/utils/supabase'
 import { useInsertMutation } from '@supabase-cache-helpers/postgrest-react-query'
 import { useToast } from '@/components/ui/use-toast'
 import { useCompanyContext } from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/company-provider'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
 
 const EmployeesAddPersonnelForm = () => {
   const { toast } = useToast()
@@ -42,8 +49,8 @@ const EmployeesAddPersonnelForm = () => {
       last_name: '',
       employee_number: 0,
       real_description: '',
-      gender: '',
-      civil_status: '',
+      gender: 'male',
+      civil_status: 'single',
       birth_date: new Date(),
       age: 0,
       residential_address: '',
@@ -182,7 +189,16 @@ const EmployeesAddPersonnelForm = () => {
               <FormItem>
                 <FormLabel>Gender</FormLabel>
                 <FormControl>
-                  <Input {...field} />
+                  <Select>
+                    <SelectTrigger className="w-full">
+                      <SelectValue placeholder="Select Gender" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="male">male</SelectItem>
+                      <SelectItem value="female">female</SelectItem>
+                      <SelectItem value="other">other</SelectItem>
+                    </SelectContent>
+                  </Select>
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -195,7 +211,17 @@ const EmployeesAddPersonnelForm = () => {
               <FormItem>
                 <FormLabel>Civil Status</FormLabel>
                 <FormControl>
-                  <Input {...field} />
+                  <Select>
+                    <SelectTrigger className="w-full">
+                      <SelectValue placeholder="Select Civil Status" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="single">single</SelectItem>
+                      <SelectItem value="married">married</SelectItem>
+                      <SelectItem value="divorced">divorced</SelectItem>
+                      <SelectItem value="widowed">widowed</SelectItem>
+                    </SelectContent>
+                  </Select>
                 </FormControl>
                 <FormMessage />
               </FormItem>

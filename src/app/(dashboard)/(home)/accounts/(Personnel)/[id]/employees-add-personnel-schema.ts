@@ -2,13 +2,16 @@
 
 import { z } from 'zod'
 
+// const gender = ['male', 'female', 'other'] as const
+// const civilStatus = ['single', 'married', 'divorced', 'widowed'] as const
+
 const employeesSchema = z.object({
   first_name: z.string().min(1),
   last_name: z.string().min(1),
   employee_number: z.preprocess((val) => parseFloat(val as string), z.number()),
   real_description: z.string().min(1),
-  gender: z.string().min(1),
-  civil_status: z.string().min(1),
+  gender: z.enum(['male', 'female', 'other']),
+  civil_status: z.enum(['single', 'married', 'divorced', 'widowed']),
   birth_date: z.date(),
   age: z.preprocess((val) => parseFloat(val as string), z.number()),
   residential_address: z.string().min(1),
