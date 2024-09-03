@@ -2,6 +2,7 @@ DROP TABLE IF EXISTS employees;
 
 CREATE TABLE company_employees (
     id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
+    account_id uuid references accounts(id) ON DELETE SET NULL,
     first_name text NOT NULL,
     last_name text NOT NULL,
     employee_number text NOT NULL,
@@ -22,7 +23,9 @@ CREATE TABLE company_employees (
     philhealth text NOT NULL,
     payment_mode text NOT NULL,
     plan_type text NOT NULL,
-    plan_description text NOT NULL
+    plan_description text NOT NULL,
+    created_at timestamptz not null default now(),
+    updated_at timestamptz not null default now()
 );
 
 ALTER TABLE company_employees ENABLE ROW LEVEL SECURITY;
@@ -30,7 +33,8 @@ ALTER TABLE company_employees ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "allow read for authenticated users"
 ON company_employees
     FOR SELECT
-    USING (auth.uid() = auth.uid());
+    TO AUTHENTICATED
+    USING (true);
 
 CREATE POLICY "allow insert for under-writing department"
 ON company_employees

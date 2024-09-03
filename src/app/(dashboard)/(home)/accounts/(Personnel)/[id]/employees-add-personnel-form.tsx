@@ -1,5 +1,6 @@
 'use client'
 import React, { useCallback, FormEventHandler } from 'react'
+import { useParams } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -30,6 +31,8 @@ import { useToast } from '@/components/ui/use-toast'
 
 const EmployeesAddPersonnelForm = () => {
   const { toast } = useToast()
+  const params = useParams<{ id: string }>()
+
   const form = useForm<z.infer<typeof employeesSchema>>({
     resolver: zodResolver(employeesSchema),
     defaultValues: {
@@ -83,6 +86,7 @@ const EmployeesAddPersonnelForm = () => {
         console.log(data)
         await mutateAsync([
           {
+            account_id: params.id || '',
             first_name: data.first_name,
             last_name: data.last_name,
             employee_number: data.employee_number,

@@ -37,7 +37,7 @@ const CompanyPage: FC<Props> = ({ companyId }) => {
             )}
           </div>
           {showAddPersonnel && <EmployeesAddPersonnelForm />}
-          {!showAddPersonnel && <EmployeesPage />}
+          {!showAddPersonnel && <EmployeesPage companyId={companyId} />}
         </TabsContent>
       </div>
     </Tabs>

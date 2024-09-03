@@ -303,6 +303,7 @@ export type Database = {
       }
       company_employees: {
         Row: {
+          account_id: string | null
           age: number
           agent_name: string
           bill_address: string
@@ -311,6 +312,7 @@ export type Database = {
           bill_province: string
           birth_date: string
           civil_status: string
+          created_at: string
           email: string
           employee_number: string
           first_name: string
@@ -325,8 +327,10 @@ export type Database = {
           real_description: string
           residential_address: string
           telephone_number: string
+          updated_at: string
         }
         Insert: {
+          account_id?: string | null
           age: number
           agent_name: string
           bill_address: string
@@ -335,6 +339,7 @@ export type Database = {
           bill_province: string
           birth_date: string
           civil_status: string
+          created_at?: string
           email: string
           employee_number: string
           first_name: string
@@ -349,8 +354,10 @@ export type Database = {
           real_description: string
           residential_address: string
           telephone_number: string
+          updated_at?: string
         }
         Update: {
+          account_id?: string | null
           age?: number
           agent_name?: string
           bill_address?: string
@@ -359,6 +366,7 @@ export type Database = {
           bill_province?: string
           birth_date?: string
           civil_status?: string
+          created_at?: string
           email?: string
           employee_number?: string
           first_name?: string
@@ -373,8 +381,17 @@ export type Database = {
           real_description?: string
           residential_address?: string
           telephone_number?: string
+          updated_at?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: 'company_employees_account_id_fkey'
+            columns: ['account_id']
+            isOneToOne: false
+            referencedRelation: 'accounts'
+            referencedColumns: ['id']
+          },
+        ]
       }
       departments: {
         Row: {
