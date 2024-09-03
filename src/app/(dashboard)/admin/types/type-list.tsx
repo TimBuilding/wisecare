@@ -6,6 +6,7 @@ import { FC } from 'react'
 import DeleteType from './delete-type'
 import { TypeTabs } from './type-card'
 import EditType from '@/app/(dashboard)/admin/types/edit-type'
+import { format } from 'date-fns'
 
 const TypeListItem = ({
   name,
@@ -31,13 +32,13 @@ const TypeListItem = ({
             {isLoading && <Skeleton className="h-4 w-20" />}
           </span>
           <span className="text-xs text-[#64748b]">
-            Created at {created_at}
+            Created at {created_at ? format(new Date(created_at), 'PPpp') : ''}
             {isLoading && <Skeleton className="mt-1 h-4 w-24" />}
           </span>
         </div>
       </div>
       <div>
-        <EditType />
+        {id && <EditType id={id} name={name || ''} page={page} />}
         {id && <DeleteType id={id} name={name || ''} page={page} />}
       </div>
       {isLoading && <Skeleton className="h-10 w-10 rounded-full" />}
