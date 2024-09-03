@@ -5,6 +5,7 @@ import { useQuery } from '@supabase-cache-helpers/postgrest-react-query'
 import { FC } from 'react'
 import DeleteType from './delete-type'
 import { TypeTabs } from './type-card'
+import EditType from '@/app/(dashboard)/admin/types/edit-type'
 
 const TypeListItem = ({
   name,
@@ -35,7 +36,10 @@ const TypeListItem = ({
           </span>
         </div>
       </div>
-      {id && <DeleteType id={id} name={name || ''} page={page} />}
+      <div>
+        <EditType />
+        {id && <DeleteType id={id} name={name || ''} page={page} />}
+      </div>
       {isLoading && <Skeleton className="h-10 w-10 rounded-full" />}
     </div>
   )
