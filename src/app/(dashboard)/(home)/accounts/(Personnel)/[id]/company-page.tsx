@@ -10,6 +10,7 @@ import { Plus } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import EmployeesAddPersonnelForm from './employees-add-personnel-form'
 import { useCompanyContext } from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/company-provider'
+import AddPersonnelButtonForm from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/employees-add-personnel-button-form'
 
 interface Props {
   companyId: string
@@ -27,14 +28,7 @@ const CompanyPage: FC<Props> = ({ companyId }) => {
         </TabsContent>
         <TabsContent value="employees">
           <div className="ml-auto flex w-full flex-col lg:items-end lg:justify-center">
-            {!showAddPersonnel && (
-              <Button
-                className="m-4 gap-2 rounded-md"
-                onClick={() => setShowAddPersonnel(true)}
-              >
-                <Plus /> <span> Add Personnel </span>
-              </Button>
-            )}
+            <AddPersonnelButtonForm />
           </div>
           {showAddPersonnel && <EmployeesAddPersonnelForm />}
           {!showAddPersonnel && <EmployeesPage companyId={companyId} />}
