@@ -9,7 +9,11 @@ const AgentsCount = () => {
 
   const { data } = useQuery(getAgents(supabase))
 
-  return <PageDescription>{data?.length} Agents</PageDescription>
+  return (
+    <PageDescription>
+      {data && data[0].user_profiles.length} Agents
+    </PageDescription>
+  )
 }
 
 export default AgentsCount
