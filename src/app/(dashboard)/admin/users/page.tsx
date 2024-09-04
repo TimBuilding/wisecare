@@ -1,9 +1,5 @@
 'use server'
-import {
-  PageDescription,
-  PageHeader,
-  PageTitle,
-} from '@/components/page-header'
+import UserListHeader from '@/app/(dashboard)/admin/users/user-list-header'
 import getUsers from '@/queries/get-users'
 import { createServerClient } from '@/utils/supabase'
 import { prefetchQuery } from '@supabase-cache-helpers/postgrest-react-query'
@@ -14,7 +10,6 @@ import {
 } from '@tanstack/react-query'
 import { cookies } from 'next/headers'
 import UserList from './user-list'
-import AddUser from '@/app/(dashboard)/admin/users/create/add-user'
 
 const UsersPage = async () => {
   const queryClient = new QueryClient()
@@ -25,14 +20,7 @@ const UsersPage = async () => {
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
       <div className="space-y-8">
-        <PageHeader>
-          <div>
-            <PageTitle>Users</PageTitle>
-            <PageDescription>81 Users</PageDescription>
-          </div>
-          <AddUser />
-        </PageHeader>
-
+        <UserListHeader />
         <UserList />
       </div>
     </HydrationBoundary>
