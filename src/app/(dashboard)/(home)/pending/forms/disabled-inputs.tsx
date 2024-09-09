@@ -42,7 +42,7 @@ const DisabledInputs: FC<Props> = ({ isLoading, id }) => {
       <FormItem>
         <FormLabel>Company Name</FormLabel>
         <FormControl>
-          <Input disabled={true} value={account?.company_name} />
+          <Input disabled={true} value={account?.company_name || ''} />
         </FormControl>
         <FormMessage />
       </FormItem>
@@ -50,7 +50,7 @@ const DisabledInputs: FC<Props> = ({ isLoading, id }) => {
       <FormItem>
         <FormLabel>Company Address</FormLabel>
         <FormControl>
-          <Input disabled={true} value={account?.company_address} />
+          <Input disabled={true} value={account?.company_address || ''} />
         </FormControl>
         <FormMessage />
       </FormItem>
@@ -58,7 +58,7 @@ const DisabledInputs: FC<Props> = ({ isLoading, id }) => {
       <FormItem>
         <FormLabel>Nature of Business</FormLabel>
         <FormControl>
-          <Input disabled={true} value={account?.nature_of_business} />
+          <Input disabled={true} value={account?.nature_of_business || ''} />
         </FormControl>
         <FormMessage />
       </FormItem>
@@ -167,7 +167,7 @@ const DisabledInputs: FC<Props> = ({ isLoading, id }) => {
             <Input
               type="number"
               disabled={true}
-              value={account?.total_utilization}
+              value={account?.total_utilization || ''}
             />
           </FormControl>
           <FormMessage />
@@ -178,7 +178,7 @@ const DisabledInputs: FC<Props> = ({ isLoading, id }) => {
             <Input
               type="number"
               disabled={true}
-              value={account?.total_premium_paid}
+              value={account?.total_premium_paid || ''}
             />
           </FormControl>
           <FormMessage />
@@ -186,7 +186,10 @@ const DisabledInputs: FC<Props> = ({ isLoading, id }) => {
         <FormItem>
           <FormLabel>Signatory Designation</FormLabel>
           <FormControl>
-            <Input disabled={true} value={account?.signatory_designation} />
+            <Input
+              disabled={true}
+              value={account?.signatory_designation || ''}
+            />
           </FormControl>
           <FormMessage />
         </FormItem>
@@ -195,14 +198,18 @@ const DisabledInputs: FC<Props> = ({ isLoading, id }) => {
         <FormItem>
           <FormLabel>Contact Person</FormLabel>
           <FormControl>
-            <Input disabled={true} value={account?.contact_person} />
+            <Input disabled={true} value={account?.contact_person || ''} />
           </FormControl>
           <FormMessage />
         </FormItem>
         <FormItem>
           <FormLabel>Contact Number</FormLabel>
           <FormControl>
-            <Input type="tel" disabled={true} value={account?.contact_number} />
+            <Input
+              type="tel"
+              disabled={true}
+              value={account?.contact_number || ''}
+            />
           </FormControl>
           <FormMessage />
         </FormItem>
@@ -260,7 +267,7 @@ const DisabledInputs: FC<Props> = ({ isLoading, id }) => {
             <Input
               type="number"
               disabled={true}
-              value={account?.initial_head_count}
+              value={account?.initial_head_count || ''}
             />
           </FormControl>
           <FormMessage />
@@ -304,7 +311,7 @@ const DisabledInputs: FC<Props> = ({ isLoading, id }) => {
         <FormItem>
           <FormLabel>Name of Signatory</FormLabel>
           <FormControl>
-            <Input disabled={true} value={account?.name_of_signatory} />
+            <Input disabled={true} value={account?.name_of_signatory || ''} />
           </FormControl>
           <FormMessage />
         </FormItem>
@@ -313,7 +320,7 @@ const DisabledInputs: FC<Props> = ({ isLoading, id }) => {
           <FormControl>
             <Input
               disabled={true}
-              value={account?.designation_of_contact_person}
+              value={account?.designation_of_contact_person || ''}
             />
           </FormControl>
           <FormMessage />
@@ -323,7 +330,7 @@ const DisabledInputs: FC<Props> = ({ isLoading, id }) => {
           <FormControl>
             <Input
               disabled={true}
-              value={account?.email_address_of_contact_person}
+              value={account?.email_address_of_contact_person || ''}
             />
           </FormControl>
           <FormMessage />

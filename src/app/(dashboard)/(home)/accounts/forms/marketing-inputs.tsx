@@ -7,7 +7,7 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form'
-import { Input } from '@/components/ui/input'
+import { Input, InputProps } from '@/components/ui/input'
 import {
   Popover,
   PopoverContent,
@@ -27,7 +27,7 @@ import { cn } from '@/utils/tailwind'
 import { useQuery } from '@supabase-cache-helpers/postgrest-react-query'
 import { format } from 'date-fns'
 import { CalendarIcon } from 'lucide-react'
-import { useFormContext } from 'react-hook-form'
+import { ControllerRenderProps, useFormContext } from 'react-hook-form'
 import { z } from 'zod'
 import accountsSchema from '../accounts-schema'
 import { FC } from 'react'
@@ -47,6 +47,14 @@ const MarketingInputs: FC<Props> = ({ isLoading }) => {
   const { data: modeOfPayments } = useQuery(
     getTypes(supabase, 'mode_of_payments'),
   )
+
+  const handleInputChange = (
+    field: ControllerRenderProps<z.infer<typeof accountsSchema>, any>,
+    e: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    const value = e.target.value === '' ? null : e.target.value
+    field.onChange(value)
+  }
 
   return (
     <>
@@ -82,7 +90,12 @@ const MarketingInputs: FC<Props> = ({ isLoading }) => {
           <FormItem>
             <FormLabel>Company Name</FormLabel>
             <FormControl>
-              <Input {...field} disabled={isLoading} />
+              <Input
+                {...field}
+                value={field.value ?? ''}
+                onChange={(e) => handleInputChange(field, e)}
+                disabled={isLoading}
+              />
             </FormControl>
             <FormMessage />
           </FormItem>
@@ -95,7 +108,12 @@ const MarketingInputs: FC<Props> = ({ isLoading }) => {
           <FormItem>
             <FormLabel>Company Address</FormLabel>
             <FormControl>
-              <Input {...field} disabled={isLoading} />
+              <Input
+                {...field}
+                value={field.value ?? ''}
+                onChange={(e) => handleInputChange(field, e)}
+                disabled={isLoading}
+              />
             </FormControl>
             <FormMessage />
           </FormItem>
@@ -108,7 +126,12 @@ const MarketingInputs: FC<Props> = ({ isLoading }) => {
           <FormItem>
             <FormLabel>Nature of Business</FormLabel>
             <FormControl>
-              <Input {...field} disabled={isLoading} />
+              <Input
+                {...field}
+                value={field.value ?? ''}
+                onChange={(e) => handleInputChange(field, e)}
+                disabled={isLoading}
+              />
             </FormControl>
             <FormMessage />
           </FormItem>
@@ -222,7 +245,13 @@ const MarketingInputs: FC<Props> = ({ isLoading }) => {
             <FormItem>
               <FormLabel>Total Utilization</FormLabel>
               <FormControl>
-                <Input {...field} type="number" disabled={isLoading} />
+                <Input
+                  {...field}
+                  type="number"
+                  value={field.value ?? ''}
+                  onChange={(e) => handleInputChange(field, e)}
+                  disabled={isLoading}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -235,7 +264,13 @@ const MarketingInputs: FC<Props> = ({ isLoading }) => {
             <FormItem>
               <FormLabel>Total Premium Paid</FormLabel>
               <FormControl>
-                <Input {...field} type="number" disabled={isLoading} />
+                <Input
+                  {...field}
+                  type="number"
+                  value={field.value ?? ''}
+                  onChange={(e) => handleInputChange(field, e)}
+                  disabled={isLoading}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -250,7 +285,12 @@ const MarketingInputs: FC<Props> = ({ isLoading }) => {
             <FormItem>
               <FormLabel>Signatory Designation</FormLabel>
               <FormControl>
-                <Input {...field} disabled={isLoading} />
+                <Input
+                  {...field}
+                  value={field.value ?? ''}
+                  onChange={(e) => handleInputChange(field, e)}
+                  disabled={isLoading}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -263,7 +303,11 @@ const MarketingInputs: FC<Props> = ({ isLoading }) => {
             <FormItem>
               <FormLabel>Designation of Contact Person</FormLabel>
               <FormControl>
-                <Input {...field} />
+                <Input
+                  {...field}
+                  value={field.value ?? ''}
+                  onChange={(e) => handleInputChange(field, e)}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -278,7 +322,12 @@ const MarketingInputs: FC<Props> = ({ isLoading }) => {
             <FormItem>
               <FormLabel>Contact Person</FormLabel>
               <FormControl>
-                <Input {...field} disabled={isLoading} />
+                <Input
+                  {...field}
+                  value={field.value ?? ''}
+                  onChange={(e) => handleInputChange(field, e)}
+                  disabled={isLoading}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -291,7 +340,13 @@ const MarketingInputs: FC<Props> = ({ isLoading }) => {
             <FormItem>
               <FormLabel>Contact Number</FormLabel>
               <FormControl>
-                <Input {...field} type="tel" disabled={isLoading} />
+                <Input
+                  {...field}
+                  type="tel"
+                  value={field.value ?? ''}
+                  onChange={(e) => handleInputChange(field, e)}
+                  disabled={isLoading}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -352,7 +407,13 @@ const MarketingInputs: FC<Props> = ({ isLoading }) => {
             <FormItem>
               <FormLabel>Initial Head Count</FormLabel>
               <FormControl>
-                <Input {...field} type="number" disabled={isLoading} />
+                <Input
+                  {...field}
+                  type="number"
+                  value={field.value ?? ''}
+                  onChange={(e) => handleInputChange(field, e)}
+                  disabled={isLoading}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -388,7 +449,7 @@ const MarketingInputs: FC<Props> = ({ isLoading }) => {
                 <PopoverContent className="w-auto p-0" align="start">
                   <Calendar
                     mode="single"
-                    selected={field.value}
+                    selected={field.value ?? undefined}
                     onSelect={field.onChange}
                     disabled={(date) =>
                       date > new Date() || date < new Date('1900-01-01')
@@ -431,7 +492,7 @@ const MarketingInputs: FC<Props> = ({ isLoading }) => {
                 <PopoverContent className="w-auto p-0" align="start">
                   <Calendar
                     mode="single"
-                    selected={field.value}
+                    selected={field.value ?? undefined}
                     onSelect={field.onChange}
                     disabled={(date) =>
                       date > new Date() || date < new Date('1900-01-01')
@@ -451,7 +512,11 @@ const MarketingInputs: FC<Props> = ({ isLoading }) => {
             <FormItem>
               <FormLabel>Name of Signatory</FormLabel>
               <FormControl>
-                <Input {...field} />
+                <Input
+                  {...field}
+                  value={field.value ?? ''}
+                  onChange={(e) => handleInputChange(field, e)}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -464,7 +529,11 @@ const MarketingInputs: FC<Props> = ({ isLoading }) => {
             <FormItem>
               <FormLabel>Email Address of Contact Person</FormLabel>
               <FormControl>
-                <Input {...field} />
+                <Input
+                  {...field}
+                  value={field.value ?? ''}
+                  onChange={(e) => handleInputChange(field, e)}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -500,7 +569,7 @@ const MarketingInputs: FC<Props> = ({ isLoading }) => {
                 <PopoverContent className="w-auto p-0" align="start">
                   <Calendar
                     mode="single"
-                    selected={field.value}
+                    selected={field.value ?? undefined}
                     onSelect={field.onChange}
                     disabled={(date) =>
                       date > new Date() || date < new Date('1900-01-01')
@@ -543,7 +612,7 @@ const MarketingInputs: FC<Props> = ({ isLoading }) => {
                 <PopoverContent className="w-auto p-0" align="start">
                   <Calendar
                     mode="single"
-                    selected={field.value}
+                    selected={field.value ?? undefined}
                     onSelect={field.onChange}
                     disabled={(date) =>
                       date > new Date() || date < new Date('1900-01-01')
@@ -586,7 +655,7 @@ const MarketingInputs: FC<Props> = ({ isLoading }) => {
                 <PopoverContent className="w-auto p-0" align="start">
                   <Calendar
                     mode="single"
-                    selected={field.value}
+                    selected={field.value ?? undefined}
                     onSelect={field.onChange}
                     disabled={(date) =>
                       date > new Date() || date < new Date('1900-01-01')
@@ -612,6 +681,8 @@ const MarketingInputs: FC<Props> = ({ isLoading }) => {
                   {...field}
                   type="number"
                   placeholder="Enter initial contract value"
+                  value={field.value ?? ''}
+                  onChange={(e) => handleInputChange(field, e)}
                   disabled={isLoading}
                 />
               </FormControl>
@@ -656,6 +727,8 @@ const MarketingInputs: FC<Props> = ({ isLoading }) => {
                   min="0"
                   step="0.01"
                   placeholder="Enter commission rate"
+                  value={field.value ?? ''}
+                  onChange={(e) => handleInputChange(field, e)}
                 />
               </FormControl>
               <FormMessage />
@@ -694,7 +767,7 @@ const MarketingInputs: FC<Props> = ({ isLoading }) => {
                 <PopoverContent className="w-auto p-0" align="start">
                   <Calendar
                     mode="single"
-                    selected={field.value}
+                    selected={field.value ?? undefined}
                     onSelect={field.onChange}
                     disabled={(date) =>
                       date > new Date() || date < new Date('1900-01-01')
@@ -737,7 +810,7 @@ const MarketingInputs: FC<Props> = ({ isLoading }) => {
                 <PopoverContent className="w-auto p-0" align="start">
                   <Calendar
                     mode="single"
-                    selected={field.value}
+                    selected={field.value ?? undefined}
                     onSelect={field.onChange}
                     disabled={(date) =>
                       date > new Date() || date < new Date('1900-01-01')
@@ -757,7 +830,12 @@ const MarketingInputs: FC<Props> = ({ isLoading }) => {
             <FormItem>
               <FormLabel>Additional Benefits</FormLabel>
               <FormControl>
-                <Input {...field} placeholder="Enter additional benefits" />
+                <Input
+                  {...field}
+                  placeholder="Enter additional benefits"
+                  value={field.value ?? ''}
+                  onChange={(e) => handleInputChange(field, e)}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -770,7 +848,12 @@ const MarketingInputs: FC<Props> = ({ isLoading }) => {
             <FormItem>
               <FormLabel>Special Benefits</FormLabel>
               <FormControl>
-                <Input {...field} placeholder="Enter special benefits" />
+                <Input
+                  {...field}
+                  placeholder="Enter special benefits"
+                  value={field.value ?? ''}
+                  onChange={(e) => handleInputChange(field, e)}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>

@@ -31,6 +31,7 @@ import { CalendarIcon } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Calendar } from '@/components/ui/calendar'
 import { FC } from 'react'
+import { ControllerRenderProps } from 'react-hook-form'
 
 interface Props {
   isLoading: boolean
@@ -43,6 +44,14 @@ const PendingInputs: FC<Props> = ({ isLoading }) => {
   const { data: modeOfPremiums, isLoading: isModeOfPremiumLoading } = useQuery(
     getTypes(supabase, 'mode_of_premium'),
   )
+
+  const handleInputChange = (
+    field: ControllerRenderProps<z.infer<typeof pendingSchema>, any>,
+    e: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    const value = e.target.value === '' ? null : e.target.value
+    field.onChange(value)
+  }
 
   return (
     <>
@@ -101,7 +110,7 @@ const PendingInputs: FC<Props> = ({ isLoading }) => {
                 <PopoverContent className="w-auto p-0" align="start">
                   <Calendar
                     mode="single"
-                    selected={field.value}
+                    selected={field.value ?? undefined}
                     onSelect={field.onChange}
                     disabled={(date) =>
                       date > new Date() || date < new Date('1900-01-01')
@@ -122,7 +131,12 @@ const PendingInputs: FC<Props> = ({ isLoading }) => {
           <FormItem>
             <FormLabel>OR Number</FormLabel>
             <FormControl>
-              <Input {...field} disabled={isLoading} />
+              <Input
+                {...field}
+                value={field.value ?? ''}
+                onChange={(e) => handleInputChange(field, e)}
+                disabled={isLoading}
+              />
             </FormControl>
             <FormMessage />
           </FormItem>
@@ -158,7 +172,7 @@ const PendingInputs: FC<Props> = ({ isLoading }) => {
               <PopoverContent className="w-auto p-0" align="start">
                 <Calendar
                   mode="single"
-                  selected={field.value}
+                  selected={field.value ?? undefined}
                   onSelect={field.onChange}
                   disabled={(date) =>
                     date > new Date() || date < new Date('1900-01-01')
@@ -178,7 +192,12 @@ const PendingInputs: FC<Props> = ({ isLoading }) => {
           <FormItem>
             <FormLabel>SA Number</FormLabel>
             <FormControl>
-              <Input {...field} disabled={isLoading} />
+              <Input
+                {...field}
+                value={field.value ?? ''}
+                onChange={(e) => handleInputChange(field, e)}
+                disabled={isLoading}
+              />
             </FormControl>
             <FormMessage />
           </FormItem>
@@ -191,7 +210,13 @@ const PendingInputs: FC<Props> = ({ isLoading }) => {
           <FormItem>
             <FormLabel>Amount</FormLabel>
             <FormControl>
-              <Input {...field} type="number" disabled={isLoading} />
+              <Input
+                {...field}
+                type="number"
+                value={field.value ?? ''}
+                onChange={(e) => handleInputChange(field, e)}
+                disabled={isLoading}
+              />
             </FormControl>
             <FormMessage />
           </FormItem>
@@ -204,7 +229,13 @@ const PendingInputs: FC<Props> = ({ isLoading }) => {
           <FormItem>
             <FormLabel>Total Contract Value</FormLabel>
             <FormControl>
-              <Input {...field} type="number" disabled={isLoading} />
+              <Input
+                {...field}
+                type="number"
+                value={field.value ?? ''}
+                onChange={(e) => handleInputChange(field, e)}
+                disabled={isLoading}
+              />
             </FormControl>
             <FormMessage />
           </FormItem>
@@ -217,7 +248,13 @@ const PendingInputs: FC<Props> = ({ isLoading }) => {
           <FormItem>
             <FormLabel>Balance</FormLabel>
             <FormControl>
-              <Input {...field} type="number" disabled={isLoading} />
+              <Input
+                {...field}
+                type="number"
+                value={field.value ?? ''}
+                onChange={(e) => handleInputChange(field, e)}
+                disabled={isLoading}
+              />
             </FormControl>
             <FormMessage />
           </FormItem>
@@ -230,7 +267,14 @@ const PendingInputs: FC<Props> = ({ isLoading }) => {
           <FormItem>
             <FormLabel>Billing Period</FormLabel>
             <FormControl>
-              <Input {...field} type="number" min="1" disabled={isLoading} />
+              <Input
+                {...field}
+                type="number"
+                min="1"
+                value={field.value ?? ''}
+                onChange={(e) => handleInputChange(field, e)}
+                disabled={isLoading}
+              />
             </FormControl>
             <FormMessage />
           </FormItem>

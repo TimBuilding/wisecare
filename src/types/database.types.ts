@@ -57,145 +57,145 @@ export type Database = {
       }
       accounts: {
         Row: {
-          account_type_id: string
-          additional_benefits: string
-          agent_id: string
+          account_type_id: string | null
+          additional_benefits: string | null
+          agent_id: string | null
           amount: number | null
-          annual_physical_examination_date: string
+          annual_physical_examination_date: string | null
           balance: number | null
           billing_period: number | null
-          coc_issue_date: string
-          commision_rate: number
-          company_address: string
-          company_name: string
-          contact_number: string
-          contact_person: string
+          coc_issue_date: string | null
+          commision_rate: number | null
+          company_address: string | null
+          company_name: string | null
+          contact_number: string | null
+          contact_person: string | null
           created_at: string
-          current_hmo_provider_id: string
-          delivery_date_of_membership_ids: string
-          dependent_plan_type_id: string
-          designation_of_contact_person: string
+          current_hmo_provider_id: string | null
+          delivery_date_of_membership_ids: string | null
+          dependent_plan_type_id: string | null
+          designation_of_contact_person: string | null
           due_date: string | null
-          effectivity_date: string
-          email_address_of_contact_person: string
-          expiration_date: string
-          hmo_provider_id: string
+          effectivity_date: string | null
+          email_address_of_contact_person: string | null
+          expiration_date: string | null
+          hmo_provider_id: string | null
           id: string
-          initial_contract_value: number
-          initial_head_count: number
-          is_active: boolean
-          mode_of_payment_id: string
+          initial_contract_value: number | null
+          initial_head_count: number | null
+          is_active: boolean | null
+          mode_of_payment_id: string | null
           mode_of_premium_id: string | null
-          name_of_signatory: string
-          nature_of_business: string
+          name_of_signatory: string | null
+          nature_of_business: string | null
           or_date: string | null
           or_number: string | null
-          orientation_date: string
-          previous_hmo_provider_id: string
-          principal_plan_type_id: string
+          orientation_date: string | null
+          previous_hmo_provider_id: string | null
+          principal_plan_type_id: string | null
           sa_number: string | null
-          signatory_designation: string
-          special_benefits: string
+          signatory_designation: string | null
+          special_benefits: string | null
           summary_of_benefits: string | null
           total_contract_value: number | null
-          total_premium_paid: number
-          total_utilization: number
+          total_premium_paid: number | null
+          total_utilization: number | null
           updated_at: string
-          wellness_lecture_date: string
+          wellness_lecture_date: string | null
         }
         Insert: {
-          account_type_id: string
-          additional_benefits: string
-          agent_id: string
+          account_type_id?: string | null
+          additional_benefits?: string | null
+          agent_id?: string | null
           amount?: number | null
-          annual_physical_examination_date: string
+          annual_physical_examination_date?: string | null
           balance?: number | null
           billing_period?: number | null
-          coc_issue_date: string
-          commision_rate: number
-          company_address: string
-          company_name: string
-          contact_number: string
-          contact_person: string
+          coc_issue_date?: string | null
+          commision_rate?: number | null
+          company_address?: string | null
+          company_name?: string | null
+          contact_number?: string | null
+          contact_person?: string | null
           created_at?: string
-          current_hmo_provider_id: string
-          delivery_date_of_membership_ids: string
-          dependent_plan_type_id: string
-          designation_of_contact_person: string
+          current_hmo_provider_id?: string | null
+          delivery_date_of_membership_ids?: string | null
+          dependent_plan_type_id?: string | null
+          designation_of_contact_person?: string | null
           due_date?: string | null
-          effectivity_date: string
-          email_address_of_contact_person: string
-          expiration_date: string
-          hmo_provider_id: string
+          effectivity_date?: string | null
+          email_address_of_contact_person?: string | null
+          expiration_date?: string | null
+          hmo_provider_id?: string | null
           id?: string
-          initial_contract_value: number
-          initial_head_count: number
-          is_active?: boolean
-          mode_of_payment_id: string
+          initial_contract_value?: number | null
+          initial_head_count?: number | null
+          is_active?: boolean | null
+          mode_of_payment_id?: string | null
           mode_of_premium_id?: string | null
-          name_of_signatory: string
-          nature_of_business: string
+          name_of_signatory?: string | null
+          nature_of_business?: string | null
           or_date?: string | null
           or_number?: string | null
-          orientation_date: string
-          previous_hmo_provider_id: string
-          principal_plan_type_id: string
+          orientation_date?: string | null
+          previous_hmo_provider_id?: string | null
+          principal_plan_type_id?: string | null
           sa_number?: string | null
-          signatory_designation: string
-          special_benefits: string
+          signatory_designation?: string | null
+          special_benefits?: string | null
           summary_of_benefits?: string | null
           total_contract_value?: number | null
-          total_premium_paid: number
-          total_utilization: number
+          total_premium_paid?: number | null
+          total_utilization?: number | null
           updated_at?: string
-          wellness_lecture_date: string
+          wellness_lecture_date?: string | null
         }
         Update: {
-          account_type_id?: string
-          additional_benefits?: string
-          agent_id?: string
+          account_type_id?: string | null
+          additional_benefits?: string | null
+          agent_id?: string | null
           amount?: number | null
-          annual_physical_examination_date?: string
+          annual_physical_examination_date?: string | null
           balance?: number | null
           billing_period?: number | null
-          coc_issue_date?: string
-          commision_rate?: number
-          company_address?: string
-          company_name?: string
-          contact_number?: string
-          contact_person?: string
+          coc_issue_date?: string | null
+          commision_rate?: number | null
+          company_address?: string | null
+          company_name?: string | null
+          contact_number?: string | null
+          contact_person?: string | null
           created_at?: string
-          current_hmo_provider_id?: string
-          delivery_date_of_membership_ids?: string
-          dependent_plan_type_id?: string
-          designation_of_contact_person?: string
+          current_hmo_provider_id?: string | null
+          delivery_date_of_membership_ids?: string | null
+          dependent_plan_type_id?: string | null
+          designation_of_contact_person?: string | null
           due_date?: string | null
-          effectivity_date?: string
-          email_address_of_contact_person?: string
-          expiration_date?: string
-          hmo_provider_id?: string
+          effectivity_date?: string | null
+          email_address_of_contact_person?: string | null
+          expiration_date?: string | null
+          hmo_provider_id?: string | null
           id?: string
-          initial_contract_value?: number
-          initial_head_count?: number
-          is_active?: boolean
-          mode_of_payment_id?: string
+          initial_contract_value?: number | null
+          initial_head_count?: number | null
+          is_active?: boolean | null
+          mode_of_payment_id?: string | null
           mode_of_premium_id?: string | null
-          name_of_signatory?: string
-          nature_of_business?: string
+          name_of_signatory?: string | null
+          nature_of_business?: string | null
           or_date?: string | null
           or_number?: string | null
-          orientation_date?: string
-          previous_hmo_provider_id?: string
-          principal_plan_type_id?: string
+          orientation_date?: string | null
+          previous_hmo_provider_id?: string | null
+          principal_plan_type_id?: string | null
           sa_number?: string | null
-          signatory_designation?: string
-          special_benefits?: string
+          signatory_designation?: string | null
+          special_benefits?: string | null
           summary_of_benefits?: string | null
           total_contract_value?: number | null
-          total_premium_paid?: number
-          total_utilization?: number
+          total_premium_paid?: number | null
+          total_utilization?: number | null
           updated_at?: string
-          wellness_lecture_date?: string
+          wellness_lecture_date?: string | null
         }
         Relationships: [
           {
