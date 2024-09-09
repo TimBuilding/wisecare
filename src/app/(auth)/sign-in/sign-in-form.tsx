@@ -88,11 +88,9 @@ const SignInForm = () => {
               )}
             />
           </div>
-          <div className="mt-7 flex w-full justify-start py-2.5">
-            {/* <Link href={'#'} className="text-xs font-medium text-primary">
-              Forgot password?
-            </Link> */}
-          </div>
+          <Button variant={'link'}>
+            <Link href={'/forgot-password'}>Forgot password?</Link>
+          </Button>
           <Button type="submit" className="mt-8 w-full" disabled={isLoading}>
             {isLoading ? <Loader2 className="animate-spin" /> : 'Sign in'}
           </Button>
