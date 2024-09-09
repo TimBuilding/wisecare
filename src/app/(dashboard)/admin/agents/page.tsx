@@ -13,8 +13,9 @@ import {
 import { cookies } from 'next/headers'
 import AgentsList from './agents-list'
 import AgentsCount from './agents-count'
-import AddAgent from './add-agent'
+
 import getAgents from '@/queries/get-agents'
+import AddAgent from '@/app/(dashboard)/admin/agents/create/add-agent'
 
 const AgentsPage = async () => {
   const queryClient = new QueryClient()

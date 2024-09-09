@@ -1,3 +1,4 @@
+import agentSchema from '@/app/(dashboard)/admin/agents/agent-schema'
 import Message from '@/components/message'
 import { Button } from '@/components/ui/button'
 import {
@@ -15,11 +16,10 @@ import { Loader2 } from 'lucide-react'
 import { useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { z } from 'zod'
-import agentSchema from './agent-schema'
 
-const AddAgentForm = () => {
+const EditAgentForm = () => {
+  const [error, setError] = useState<string | null>(null)
   const [isLoading, setIsLoading] = useState<boolean>(false)
-  const [error, setError] = useState<string>('')
   const form = useForm<z.infer<typeof agentSchema>>({
     resolver: zodResolver(agentSchema),
     defaultValues: {
@@ -30,34 +30,16 @@ const AddAgentForm = () => {
   })
 
   const handleSubmit: SubmitHandler<z.infer<typeof agentSchema>> = async ({
-    email,
     firstName,
     lastName,
+    email,
   }) => {
     setIsLoading(true)
-
-    const res = await fetch('/api/users', {
-      method: 'POST',
-      body: JSON.stringify({
-        email,
-        first_name: firstName,
-        last_name: lastName,
-        department: 'agent',
-      }),
-    })
-
-    const data = await res.json()
-
-    if (data.error) {
-      setError(data.error)
-    }
-
-    form.reset()
-    setIsLoading(false)
   }
+
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(handleSubmit)}>
+      <form>
         <div className="space-y-8 px-6 pb-10">
           {error && <Message variant={'error'}>{error}</Message>}
           <FormField
@@ -67,7 +49,7 @@ const AddAgentForm = () => {
               <FormItem>
                 <FormLabel>First Name</FormLabel>
                 <FormControl>
-                  <Input {...field} />
+                  <Input {...field} disabled={isLoading} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -100,15 +82,15 @@ const AddAgentForm = () => {
             )}
           />
         </div>
-        <div className="fixed bottom-0 flex w-full flex-row items-center justify-end gap-2 bg-[#f1f5f9] px-4 py-3 md:max-w-2xl">
-          {/* <Button
+        <div className="fixed bottom-0 flex w-full flex-row items-center justify-between gap-2 bg-[#f1f5f9] px-4 py-3 md:max-w-2xl">
+          <Button
             type="button"
             variant="ghost"
             className="text-destructive"
             disabled={isLoading}
           >
             Delete
-          </Button> */}
+          </Button>
           <div className="flex flex-row items-center justify-center">
             <SheetClose asChild={true}>
               <Button type="button" variant="ghost" disabled={isLoading}>
@@ -125,4 +107,4 @@ const AddAgentForm = () => {
   )
 }
 
-export default AddAgentForm
+export default EditAgentForm
