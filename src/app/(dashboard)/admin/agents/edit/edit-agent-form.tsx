@@ -11,21 +11,40 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { SheetClose } from '@/components/ui/sheet'
+import { useToast } from '@/components/ui/use-toast'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useQueryClient } from '@tanstack/react-query'
 import { Loader2 } from 'lucide-react'
-import { useState } from 'react'
+import { FC, useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { z } from 'zod'
 
-const EditAgentForm = () => {
+interface Props {
+  onOpenChange: (open: boolean) => void
+  userId?: string
+  firstName?: string
+  lastName?: string
+  email?: string
+}
+
+const EditAgentForm: FC<Props> = ({
+  onOpenChange,
+  userId,
+  firstName,
+  lastName,
+  email,
+}) => {
   const [error, setError] = useState<string | null>(null)
   const [isLoading, setIsLoading] = useState<boolean>(false)
+  const { toast } = useToast()
+  const queryClient = useQueryClient()
+
   const form = useForm<z.infer<typeof agentSchema>>({
     resolver: zodResolver(agentSchema),
     defaultValues: {
-      firstName: '',
-      lastName: '',
-      email: '',
+      firstName: firstName || '',
+      lastName: lastName || '',
+      email: email || '',
     },
   })
 
@@ -35,11 +54,39 @@ const EditAgentForm = () => {
     email,
   }) => {
     setIsLoading(true)
+
+    const res = await fetch('/api/users', {
+      method: 'PUT',
+      body: JSON.stringify({
+        user_id: userId,
+        first_name: firstName,
+        last_name: lastName,
+        email: email,
+        department: 'agent',
+      }),
+    })
+
+    const data = await res.json()
+
+    if (data.error) {
+      setError(data.error)
+    }
+
+    toast({
+      title: 'Agent updated',
+      description: 'Agent has been updated',
+    })
+
+    // clear cache
+    await queryClient.invalidateQueries()
+
+    // clear form
+    setIsLoading(false)
   }
 
   return (
     <Form {...form}>
-      <form>
+      <form onSubmit={form.handleSubmit(handleSubmit)}>
         <div className="space-y-8 px-6 pb-10">
           {error && <Message variant={'error'}>{error}</Message>}
           <FormField
@@ -98,7 +145,11 @@ const EditAgentForm = () => {
               </Button>
             </SheetClose>
             <Button type="submit" disabled={isLoading}>
-              {isLoading ? <Loader2 className="animate-spin" /> : 'Add User'}
+              {isLoading ? (
+                <Loader2 className="animate-spin" />
+              ) : (
+                'Update Agent'
+              )}
             </Button>
           </div>
         </div>

@@ -21,12 +21,14 @@ const AgentsListItem = ({
   firstName,
   lastName,
   createdAt,
+  email,
   isLoading,
 }: {
   userId: string
   firstName: string
   lastName: string
   createdAt: string
+  email: string
   isLoading?: boolean
 }) => {
   const config = genConfig(userId || '')
@@ -74,7 +76,13 @@ const AgentsListItem = ({
             className="mx-6 h-32 w-32 -translate-y-16 rounded-full border-4 border-card"
             {...config}
           />
-          <EditAgentForm />
+          <EditAgentForm
+            userId={userId}
+            firstName={firstName}
+            lastName={lastName}
+            email={email}
+            onOpenChange={setIsEditOpen}
+          />
         </div>
       </SheetContent>
     </Sheet>
@@ -97,6 +105,7 @@ const AgentsList = () => {
             firstName={''}
             lastName={''}
             createdAt={''}
+            email={''}
           />
         ))}
       {data &&
@@ -107,6 +116,7 @@ const AgentsList = () => {
             firstName={agent.first_name || ''}
             lastName={agent.last_name || ''}
             createdAt={agent.created_at || ''}
+            email={agent.email || ''}
           />
         ))}
     </div>
