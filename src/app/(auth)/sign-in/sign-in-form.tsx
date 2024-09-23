@@ -14,13 +14,14 @@ import { Input } from '@/components/ui/input'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { createBrowserClient } from '@/utils/supabase'
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import WisecareLogo from '@/assets/images/wisecare-logo-2 1.png'
 import Image from 'next/image'
 import Message from '@/components/message'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Loader2 } from 'lucide-react'
+import HCaptcha from '@hcaptcha/react-hcaptcha'
 
 const SignInForm = () => {
   const form = useForm<z.infer<typeof signInSchema>>({
@@ -33,6 +34,8 @@ const SignInForm = () => {
   const [error, setError] = useState<string>('')
   const router = useRouter()
   const [isLoading, setIsLoading] = useState(false)
+  const [captchaToken, setCaptchaToken] = useState<string>('')
+  const captcha = useRef<HCaptcha>(null)
 
   const handleSignIn: SubmitHandler<z.infer<typeof signInSchema>> = async ({
     email,
@@ -43,15 +46,20 @@ const SignInForm = () => {
     const { error } = await supabase.auth.signInWithPassword({
       email,
       password,
+      options: {
+        captchaToken,
+      },
     })
 
     if (error) {
       setIsLoading(false)
+      captcha.current?.resetCaptcha()
       return setError(error.message.toString())
     }
 
     // if success, then redirect to home page
     router.push('/')
+    captcha.current?.resetCaptcha()
   }
   return (
     <div className="mx-auto flex min-w-[300px] max-w-xs flex-col gap-8 md:max-w-md">
@@ -86,6 +94,15 @@ const SignInForm = () => {
                   <FormMessage />
                 </FormItem>
               )}
+            />
+          </div>
+          <div className="mt-4">
+            <HCaptcha
+              ref={captcha}
+              sitekey={process.env.NEXT_PUBLIC_HCAPTCHA_SITE_KEY || ''}
+              onVerify={(token) => {
+                setCaptchaToken(token)
+              }}
             />
           </div>
           <Button variant={'link'}>
