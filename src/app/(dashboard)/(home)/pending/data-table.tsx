@@ -83,7 +83,7 @@ const DataTable = <TData, TValue>({
           </div>
         </div>
       </PageHeader>
-      <TableViewOptions table={table} />
+      {/* <TableViewOptions table={table} /> */}
       <div className="flex h-full flex-col justify-between bg-card">
         <div className="h-full rounded-md border">
           <Table>

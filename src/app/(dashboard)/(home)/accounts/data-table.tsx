@@ -28,7 +28,7 @@ import {
   useReactTable,
 } from '@tanstack/react-table'
 import { Search } from 'lucide-react'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import AccountsProvider from './accounts-provider'
 import AddAccountButton from './add-account-button'
 import AddAccountForm from './add-account-form'
@@ -43,6 +43,7 @@ import { useTableContext } from '@/providers/TableProvider'
 import { useQuery } from '@supabase-cache-helpers/postgrest-react-query'
 import { createBrowserClient } from '@/utils/supabase'
 import { Skeleton } from '@/components/ui/skeleton'
+import { useToast } from '@/components/ui/use-toast'
 
 interface DataTableProps<TData extends IData, TValue> {
   columns: ColumnDef<TData, TValue>[]
@@ -61,6 +62,7 @@ const DataTable = <TData extends IData, TValue>({
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
 
   const router = useRouter()
+  const { toast } = useToast()
 
   const table = useReactTable({
     data,
@@ -90,6 +92,62 @@ const DataTable = <TData extends IData, TValue>({
         { head: true, count: 'exact' },
       ),
   )
+
+  useEffect(() => {
+    const upsertColumnVisibility = async () => {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser()
+      if (!user) return
+
+      const { error } = await supabase
+        .from('accounts_column_visibility')
+        .upsert(
+          {
+            user_id: user.id,
+            columns: columnVisibility,
+          },
+          {
+            onConflict: 'user_id',
+          },
+        )
+
+      if (error) {
+        return toast({
+          title: 'Error',
+          description: error.message,
+          variant: 'destructive',
+        })
+      }
+    }
+    upsertColumnVisibility()
+  }, [columnVisibility])
+
+  useEffect(() => {
+    const getAccountsColumnVisibility = async () => {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser()
+      if (!user) return
+
+      const { data, error } = await supabase
+        .from('accounts_column_visibility')
+        .select('columns')
+        .eq('user_id', user.id)
+        .single()
+      if (error) {
+        return toast({
+          title: 'Error',
+          description: error.message,
+          variant: 'destructive',
+        })
+      }
+      if (data) {
+        setColumnVisibility(data.columns)
+      }
+    }
+    getAccountsColumnVisibility()
+  }, [])
 
   return (
     <AccountsProvider>

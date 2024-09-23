@@ -263,6 +263,38 @@ export type Database = {
           },
         ]
       }
+      accounts_column_visibility: {
+        Row: {
+          columns: string[]
+          created_at: string | null
+          id: string
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          columns: string[]
+          created_at?: string | null
+          id?: string
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          columns?: string[]
+          created_at?: string | null
+          id?: string
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: 'accounts_column_visibility_user_id_fkey'
+            columns: ['user_id']
+            isOneToOne: true
+            referencedRelation: 'users'
+            referencedColumns: ['id']
+          },
+        ]
+      }
       activity_logs: {
         Row: {
           action: string | null
@@ -501,6 +533,38 @@ export type Database = {
             foreignKeyName: 'notifications_user_id_fkey'
             columns: ['user_id']
             isOneToOne: false
+            referencedRelation: 'users'
+            referencedColumns: ['id']
+          },
+        ]
+      }
+      pending_column_visibility: {
+        Row: {
+          columns: string[]
+          created_at: string | null
+          id: string
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          columns: string[]
+          created_at?: string | null
+          id?: string
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          columns?: string[]
+          created_at?: string | null
+          id?: string
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: 'pending_column_visibility_user_id_fkey'
+            columns: ['user_id']
+            isOneToOne: true
             referencedRelation: 'users'
             referencedColumns: ['id']
           },
