@@ -14,10 +14,11 @@ import {
 import { Input } from '@/components/ui/input'
 import { toast } from '@/components/ui/use-toast'
 import { createBrowserClient } from '@/utils/supabase'
+import HCaptcha from '@hcaptcha/react-hcaptcha'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Loader2 } from 'lucide-react'
 import Image from 'next/image'
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { z } from 'zod'
 
@@ -25,6 +26,9 @@ const ForgotPasswordForm = () => {
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string>('')
   const supabase = createBrowserClient()
+
+  const [captchaToken, setCaptchaToken] = useState<string>('')
+  const captcha = useRef<HCaptcha>(null)
 
   const form = useForm<z.infer<typeof ForgotPasswordSchema>>({
     resolver: zodResolver(ForgotPasswordSchema),
@@ -42,10 +46,12 @@ const ForgotPasswordForm = () => {
 
     const { error } = await supabase.auth.resetPasswordForEmail(email, {
       redirectTo: emailRedirectTo,
+      captchaToken,
     })
 
     if (error) {
       setIsLoading(false)
+      captcha.current?.resetCaptcha()
       return setError(error.message)
     }
 
@@ -57,6 +63,7 @@ const ForgotPasswordForm = () => {
     })
 
     setIsLoading(false)
+    captcha.current?.resetCaptcha()
   }
 
   return (
@@ -85,6 +92,15 @@ const ForgotPasswordForm = () => {
               </FormItem>
             )}
           />
+          <div className="mt-4">
+            <HCaptcha
+              ref={captcha}
+              sitekey={process.env.NEXT_PUBLIC_HCAPTCHA_SITE_KEY || ''}
+              onVerify={(token) => {
+                setCaptchaToken(token)
+              }}
+            />
+          </div>
           <Button className="mt-8 w-full" disabled={isLoading}>
             {isLoading ? (
               <Loader2 className="animate-spin" />
