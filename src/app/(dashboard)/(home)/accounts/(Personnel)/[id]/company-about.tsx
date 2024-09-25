@@ -8,33 +8,34 @@ import CompanyContractInformation from '@/app/(dashboard)/(home)/accounts/(Perso
 
 interface Props {
   companyId: string
+  editMode: boolean
 }
 
-const CompanyAbout: FC<Props> = ({ companyId }) => {
+const CompanyAbout: FC<Props> = ({ companyId, editMode }) => {
   return (
     <div className="mx-auto flex w-full flex-col items-center justify-between gap-6 lg:flex-row lg:items-start ">
       <div className="flex w-full flex-col gap-6 lg:max-w-xs">
         <div className="mx-auto w-full rounded-2xl border border-slate-200 bg-background p-6 drop-shadow-md">
           <span className="text-lg font-semibold">Company Information</span>
-          <CompanyInformation id={companyId} />
+          <CompanyInformation id={companyId} editMode={editMode} />
         </div>
         <div className="mx-auto w-full rounded-2xl border border-slate-200 bg-background p-6 drop-shadow-md">
           <span className="text-lg font-semibold">Account Information</span>
-          <CompanyAccountInformation id={companyId} />
+          <CompanyAccountInformation id={companyId} editMode={editMode} />
         </div>
         <div className="mx-auto w-full rounded-2xl border border-slate-200 bg-background p-6 drop-shadow-md">
           <span className="text-lg font-semibold">Financial Information</span>
-          <CompanyFinancialInformation id={companyId} />
+          <CompanyFinancialInformation id={companyId} editMode={editMode} />
         </div>
       </div>
       <div className="flex w-full flex-col gap-6">
         <div className="mx-auto w-full rounded-2xl border border-slate-200 bg-background p-6 drop-shadow-md">
           <span className="text-lg font-semibold">HMO Information</span>
-          <CompanyHMOInformation id={companyId} />
+          <CompanyHMOInformation id={companyId} editMode={editMode} />
         </div>
         <div className="mx-auto w-full rounded-2xl border border-slate-200 bg-background p-6 drop-shadow-md">
           <span className="text-lg font-semibold">Contract Information</span>
-          <CompanyContractInformation id={companyId} />
+          <CompanyContractInformation id={companyId} editMode={editMode} />
         </div>
       </div>
     </div>
