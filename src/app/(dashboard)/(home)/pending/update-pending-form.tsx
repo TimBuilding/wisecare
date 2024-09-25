@@ -24,15 +24,15 @@ const UpdatePendingForm: FC<Props> = ({ accountId, setOpenForm }) => {
   const form = useForm<z.infer<typeof pendingSchema>>({
     resolver: zodResolver(pendingSchema),
     defaultValues: {
-      mode_of_premium_id: '',
-      due_date: new Date(),
-      or_number: '',
-      or_date: new Date(),
-      sa_number: '',
-      amount: 0,
-      total_contract_value: 0,
-      balance: 0,
-      billing_period: 1,
+      mode_of_premium_id: null,
+      due_date: null,
+      or_number: null,
+      or_date: null,
+      sa_number: null,
+      amount: null,
+      total_contract_value: null,
+      balance: null,
+      billing_period: null,
     },
   })
 
