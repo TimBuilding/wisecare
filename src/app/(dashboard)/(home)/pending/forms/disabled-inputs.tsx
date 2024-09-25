@@ -66,8 +66,12 @@ const DisabledInputs: FC<Props> = ({ isLoading, id }) => {
         <FormItem>
           <FormLabel>HMO Provider</FormLabel>
           <Select
-            // @ts-ignore
-            value={account?.hmo_provider.name || 'hmoProvider'}
+            value={
+              account?.hmo_provider
+                ? // @ts-ignore
+                  account?.hmo_provider.name
+                : 'hmoProvider'
+            }
             disabled={true}
           >
             <FormControl>
@@ -76,10 +80,18 @@ const DisabledInputs: FC<Props> = ({ isLoading, id }) => {
               </SelectTrigger>
             </FormControl>
             <SelectContent>
-              {/* @ts-ignore */}
-              <SelectItem value={account?.hmo_provider.name || 'hmoProvider'}>
-                {/* @ts-ignore */}
-                {account?.hmo_provider.name || ''}
+              <SelectItem
+                value={
+                  account?.hmo_provider
+                    ? // @ts-ignore
+                      account?.hmo_provider.name
+                    : 'hmoProvider'
+                }
+              >
+                {account?.hmo_provider
+                  ? // @ts-ignore
+                    account?.hmo_provider.name
+                  : ''}
               </SelectItem>
             </SelectContent>
           </Select>
@@ -88,8 +100,12 @@ const DisabledInputs: FC<Props> = ({ isLoading, id }) => {
         <FormItem>
           <FormLabel>Previous HMO Provider</FormLabel>
           <Select
-            // @ts-ignore
-            value={account?.previous_hmo_provider.name || 'previousHmoProvider'}
+            value={
+              account?.previous_hmo_provider
+                ? // @ts-ignore
+                  account?.previous_hmo_provider.name
+                : 'previousHmoProvider'
+            }
             disabled={true}
           >
             <FormControl>
@@ -100,12 +116,16 @@ const DisabledInputs: FC<Props> = ({ isLoading, id }) => {
             <SelectContent>
               <SelectItem
                 value={
-                  // @ts-ignore
-                  account?.previous_hmo_provider?.name || 'prevHmoProvider'
+                  account?.previous_hmo_provider
+                    ? // @ts-ignore
+                      account?.previous_hmo_provider.name
+                    : 'prevHmoProvider'
                 }
               >
-                {/* @ts-ignore */}
-                {account?.previous_hmo_provider.name || ''}
+                {account?.previous_hmo_provider
+                  ? // @ts-ignore
+                    account?.previous_hmo_provider.name
+                  : ''}
               </SelectItem>
             </SelectContent>
           </Select>
@@ -116,8 +136,12 @@ const DisabledInputs: FC<Props> = ({ isLoading, id }) => {
         <FormItem>
           <FormLabel>Current HMO Provider</FormLabel>
           <Select
-            // @ts-ignore
-            value={account?.hmo_provider.name || 'currentHmoProvider'}
+            value={
+              account?.hmo_provider
+                ? // @ts-ignore
+                  account?.hmo_provider.name
+                : 'currentHmoProvider'
+            }
             disabled={true}
           >
             <FormControl>
@@ -127,11 +151,17 @@ const DisabledInputs: FC<Props> = ({ isLoading, id }) => {
             </FormControl>
             <SelectContent>
               <SelectItem
-                // @ts-ignore
-                value={account?.hmo_provider.name || 'currentHmoProvider'}
+                value={
+                  account?.hmo_provider
+                    ? // @ts-ignore
+                      account?.hmo_provider.name
+                    : 'currentHmoProvider'
+                }
               >
-                {/* @ts-ignore */}
-                {account?.hmo_provider.name || ''}
+                {account?.hmo_provider
+                  ? // @ts-ignore
+                    account?.hmo_provider.name
+                  : ''}
               </SelectItem>
             </SelectContent>
           </Select>
@@ -140,8 +170,12 @@ const DisabledInputs: FC<Props> = ({ isLoading, id }) => {
         <FormItem>
           <FormLabel>Account Type</FormLabel>
           <Select
-            // @ts-ignore
-            value={account?.account_type.name || 'accountType'}
+            value={
+              account?.account_type
+                ? // @ts-ignore
+                  account?.account_type.name
+                : 'accountType'
+            }
             disabled={true}
           >
             <FormControl>
@@ -150,10 +184,18 @@ const DisabledInputs: FC<Props> = ({ isLoading, id }) => {
               </SelectTrigger>
             </FormControl>
             <SelectContent>
-              {/* @ts-ignore */}
-              <SelectItem value={account?.account_type.name || 'accountType'}>
-                {/* @ts-ignore */}
-                {account?.account_type.name || ''}
+              <SelectItem
+                value={
+                  account?.account_type
+                    ? // @ts-ignore
+                      account?.account_type.name
+                    : 'accountType'
+                }
+              >
+                {account?.account_type
+                  ? // @ts-ignore
+                    account?.account_type.name
+                  : ''}
               </SelectItem>
             </SelectContent>
           </Select>
@@ -216,8 +258,12 @@ const DisabledInputs: FC<Props> = ({ isLoading, id }) => {
         <FormItem>
           <FormLabel>Principal Plan Type</FormLabel>
           <Select
-            // @ts-ignore
-            value={account?.principal_plan_type.name || 'principalPlanType'}
+            value={
+              account?.principal_plan_type
+                ? // @ts-ignore
+                  account?.principal_plan_type.name
+                : 'principalPlanType'
+            }
             disabled={true}
           >
             <FormControl>
@@ -227,11 +273,17 @@ const DisabledInputs: FC<Props> = ({ isLoading, id }) => {
             </FormControl>
             <SelectContent>
               <SelectItem
-                // @ts-ignore
-                value={account?.principal_plan_type.name || 'principalPlanType'}
+                value={
+                  account?.principal_plan_type
+                    ? // @ts-ignore
+                      account?.principal_plan_type.name
+                    : 'principalPlanType'
+                }
               >
-                {/* @ts-ignore */}
-                {account?.principal_plan_type.name || ''}
+                {account?.principal_plan_type
+                  ? // @ts-ignore
+                    account?.principal_plan_type.name
+                  : ''}
               </SelectItem>
             </SelectContent>
           </Select>
@@ -240,8 +292,12 @@ const DisabledInputs: FC<Props> = ({ isLoading, id }) => {
         <FormItem>
           <FormLabel>Dependent Plan Type</FormLabel>
           <Select
-            // @ts-ignore
-            value={account?.dependent_plan_type.name || 'dependentPlanType'}
+            value={
+              account?.dependent_plan_type
+                ? // @ts-ignore
+                  account?.dependent_plan_type.name
+                : 'dependentPlanType'
+            }
             disabled={true}
           >
             <FormControl>
@@ -251,11 +307,17 @@ const DisabledInputs: FC<Props> = ({ isLoading, id }) => {
             </FormControl>
             <SelectContent>
               <SelectItem
-                // @ts-ignore
-                value={account?.dependent_plan_type.name || 'dependentPlanType'}
+                value={
+                  account?.dependent_plan_type
+                    ? // @ts-ignore
+                      account?.dependent_plan_type.name
+                    : 'dependentPlanType'
+                }
               >
-                {/* @ts-ignore */}
-                {account?.dependent_plan_type.name || ''}
+                {account?.dependent_plan_type
+                  ? // @ts-ignore
+                    account?.dependent_plan_type.name
+                  : ''}
               </SelectItem>
             </SelectContent>
           </Select>
