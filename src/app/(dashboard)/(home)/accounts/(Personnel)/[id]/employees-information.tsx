@@ -14,106 +14,52 @@ const EmployeesInformation: FC<EmployeesInformationProps> = ({ data }) => {
       {/* <div className="col-span-4 flex grid-cols-6 flex-col pt-4 lg:grid lg:p-2">
         <div className="flex flex-col gap-2 lg:col-span-2">
           <span className="text-md font-semibold text-[#161a1d]">
-            {data.employee_number}
+            {data.card_number}
           </span>
           <span className="text-sm font-medium text-[#64748b]">
             EMPLOYEE NUMBER
           </span>
           <span className="text-md font-semibold text-[#161a1d]">
-            {data?.real_description}
-          </span>
-          <span className="text-sm font-medium text-[#64748b]">
-            REAL DESCRIPTION
-          </span>
-          <span className="text-md font-semibold text-[#161a1d]">
-            {data?.age}
-          </span>
-          <span className="text-sm font-medium text-[#64748b]">
-            AGE AS OF COVERAGE START
-          </span>
-          <span className="text-md font-semibold text-[#161a1d]">
-            {data.birth_date}
-          </span>
-          <span className="text-sm font-medium text-[#64748b]">BIRTHDATE</span>
-          <span className="text-md font-semibold text-[#161a1d]">
             {data.gender}
           </span>
           <span className="text-sm font-medium text-[#64748b]">GENDER</span>
           <span className="text-md font-semibold text-[#161a1d]">
-            {data.civil_status}
+            {data.birth_date}
           </span>
-          <span className="text-sm font-medium text-[#64748b]">
-            CIVIL STATUS
+          <span className="text-sm font-medium text-[#64748b]">BIRTH DATE</span>
+          <span className="text-md font-semibold text-[#161a1d]">
+            {(() => {
+              const birthDate = new Date(data.birth_date || '')
+              const today = new Date()
+              let age = today.getFullYear() - birthDate.getFullYear()
+              const monthDifference = today.getMonth() - birthDate.getMonth()
+              if (
+                monthDifference < 0 ||
+                (monthDifference === 0 && today.getDate() < birthDate.getDate())
+              ) {
+                age--
+              }
+              return age
+            })()}
           </span>
+          <span className="text-sm font-medium text-[#64748b]">AGE</span>
         </div>
         <div className="flex flex-col gap-2 lg:col-span-2">
           <span className="text-md font-semibold text-[#161a1d]">
-            {data.bill_care_of}
+            {data.effective_date}
           </span>
           <span className="text-sm font-medium text-[#64748b]">
-            BILL CARE OF
+            EFFECTIVE DATE
           </span>
           <span className="text-md font-semibold text-[#161a1d]">
-            {data.bill_address}
+            {data.room_plan}
+          </span>
+          <span className="text-sm font-medium text-[#64748b]">ROOM PLAN</span>
+          <span className="text-md font-semibold text-[#161a1d]">
+            {data.maximum_benefit_limit}
           </span>
           <span className="text-sm font-medium text-[#64748b]">
-            BILL ADDRESS
-          </span>
-          <span className="text-md font-semibold text-[#161a1d]">
-            {data.bill_city_municipal}
-          </span>
-          <span className="text-sm font-medium text-[#64748b]">
-            BILL MUNICIPAL
-          </span>
-          <span className="text-md font-semibold text-[#161a1d]">
-            {data.bill_province}
-          </span>
-          <span className="text-sm font-medium text-[#64748b]">
-            BILL PROVINCE
-          </span>
-          <span className="text-md font-semibold text-[#161a1d]">
-            {data.email}
-          </span>
-          <span className="text-sm font-medium text-[#64748b]">
-            EMAIL ADDRESS
-          </span>
-          <span className="text-md font-semibold text-[#161a1d]">
-            {data.telephone_number}
-          </span>
-          <span className="text-sm font-medium text-[#64748b]">
-            TELEPHONE NUMBER
-          </span>
-        </div>
-        <div className="flex flex-col gap-2 lg:col-span-2">
-          <span className="text-md font-semibold text-[#161a1d]">
-            {data.mobile_number}
-          </span>
-          <span className="text-sm font-medium text-[#64748b]">
-            MOBILE NUMBER
-          </span>
-          <span className="text-md font-semibold text-[#161a1d]">
-            {data.agent_name}
-          </span>
-          <span className="text-sm font-medium text-[#64748b]">AGENT NAME</span>
-          <span className="text-md font-semibold text-[#161a1d]">
-            {data.philhealth}
-          </span>
-          <span className="text-sm font-medium text-[#64748b]">PHILHEALTH</span>
-          <span className="text-md font-semibold text-[#161a1d]">
-            {data.payment_mode}
-          </span>
-          <span className="text-sm font-medium text-[#64748b]">
-            PAYMENT MODE
-          </span>
-          <span className="text-md font-semibold text-[#161a1d]">
-            {data.plan_type}
-          </span>
-          <span className="text-sm font-medium text-[#64748b]">PLAN TYPE</span>
-          <span className="text-md font-semibold text-[#161a1d]">
-            {data.plan_description}
-          </span>
-          <span className="text-sm font-medium text-[#64748b]">
-            PLAN DESCRIPTION
+            MAXIMUM BENEFIT LIMIT
           </span>
         </div>
       </div> */}

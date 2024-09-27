@@ -4,7 +4,7 @@ const getEmployeeInputs = (supabase: TypedSupabaseClient, id: string) => {
   return supabase
     .from('company_employees')
     .select(
-      'id, first_name, last_name, employee_number, real_description, gender, civil_status, birth_date, age, residential_address, bill_care_of, bill_address, bill_city_municipal, bill_province, email, telephone_number, mobile_number, agent_name, philhealth, payment_mode, plan_type, plan_description, created_at, updated_at',
+      'id, first_name, last_name, birth_date, gender, civil_status, card_number, effective_date, room_plan, maximum_benefit_limit',
     )
     .eq('account_id', id)
     .throwOnError()

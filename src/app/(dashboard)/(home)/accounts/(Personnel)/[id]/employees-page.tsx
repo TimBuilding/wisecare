@@ -46,7 +46,7 @@ const EmployeesPage: FC<Props> = ({ companyId }) => {
                 variant="ghost"
                 className="w-full max-w-5xl items-center justify-between p-0 hover:bg-transparent "
               >
-                <span className="text-lg font-semibold">
+                <span className="text-lg font-semibold capitalize">
                   {employee.first_name} {employee.last_name}
                 </span>
                 <ChevronsUpDown className="justify-end" />
