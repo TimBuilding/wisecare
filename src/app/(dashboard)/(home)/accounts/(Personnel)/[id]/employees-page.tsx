@@ -33,7 +33,7 @@ const EmployeesPage: FC<Props> = ({ companyId }) => {
             }
           ></Collapsible>
         ))}
-      {employees &&
+      {/* {employees &&
         employees.map((employee) => (
           <Collapsible
             key={employee.id}
@@ -60,7 +60,7 @@ const EmployeesPage: FC<Props> = ({ companyId }) => {
               </div>
             </CollapsibleContent>
           </Collapsible>
-        ))}
+        ))} */}
     </div>
   )
 }

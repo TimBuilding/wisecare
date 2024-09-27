@@ -265,21 +265,21 @@ export type Database = {
       }
       accounts_column_visibility: {
         Row: {
-          columns: string[]
+          columns: Json | null
           created_at: string | null
           id: string
           updated_at: string | null
           user_id: string
         }
         Insert: {
-          columns: string[]
+          columns?: Json | null
           created_at?: string | null
           id?: string
           updated_at?: string | null
           user_id: string
         }
         Update: {
-          columns?: string[]
+          columns?: Json | null
           created_at?: string | null
           id?: string
           updated_at?: string | null
@@ -336,83 +336,53 @@ export type Database = {
       company_employees: {
         Row: {
           account_id: string | null
-          age: number
-          agent_name: string
-          bill_address: string
-          bill_care_of: string
-          bill_city_municipal: string
-          bill_province: string
-          birth_date: string
-          civil_status: string
+          birth_date: string | null
+          card_number: string | null
+          civil_status: string | null
           created_at: string
-          email: string
-          employee_number: string
-          first_name: string
-          gender: string
+          created_by: string | null
+          effective_date: string | null
+          first_name: string | null
+          gender: string | null
           id: string
-          last_name: string
-          mobile_number: string
-          payment_mode: string
-          philhealth: string
-          plan_description: string
-          plan_type: string
-          real_description: string
-          residential_address: string
-          telephone_number: string
+          is_active: boolean
+          last_name: string | null
+          maximum_benefit_limit: number | null
+          room_plan: string | null
           updated_at: string
         }
         Insert: {
           account_id?: string | null
-          age: number
-          agent_name: string
-          bill_address: string
-          bill_care_of: string
-          bill_city_municipal: string
-          bill_province: string
-          birth_date: string
-          civil_status: string
+          birth_date?: string | null
+          card_number?: string | null
+          civil_status?: string | null
           created_at?: string
-          email: string
-          employee_number: string
-          first_name: string
-          gender: string
+          created_by?: string | null
+          effective_date?: string | null
+          first_name?: string | null
+          gender?: string | null
           id?: string
-          last_name: string
-          mobile_number: string
-          payment_mode: string
-          philhealth: string
-          plan_description: string
-          plan_type: string
-          real_description: string
-          residential_address: string
-          telephone_number: string
+          is_active?: boolean
+          last_name?: string | null
+          maximum_benefit_limit?: number | null
+          room_plan?: string | null
           updated_at?: string
         }
         Update: {
           account_id?: string | null
-          age?: number
-          agent_name?: string
-          bill_address?: string
-          bill_care_of?: string
-          bill_city_municipal?: string
-          bill_province?: string
-          birth_date?: string
-          civil_status?: string
+          birth_date?: string | null
+          card_number?: string | null
+          civil_status?: string | null
           created_at?: string
-          email?: string
-          employee_number?: string
-          first_name?: string
-          gender?: string
+          created_by?: string | null
+          effective_date?: string | null
+          first_name?: string | null
+          gender?: string | null
           id?: string
-          last_name?: string
-          mobile_number?: string
-          payment_mode?: string
-          philhealth?: string
-          plan_description?: string
-          plan_type?: string
-          real_description?: string
-          residential_address?: string
-          telephone_number?: string
+          is_active?: boolean
+          last_name?: string | null
+          maximum_benefit_limit?: number | null
+          room_plan?: string | null
           updated_at?: string
         }
         Relationships: [
@@ -421,6 +391,13 @@ export type Database = {
             columns: ['account_id']
             isOneToOne: false
             referencedRelation: 'accounts'
+            referencedColumns: ['id']
+          },
+          {
+            foreignKeyName: 'company_employees_created_by_fkey'
+            columns: ['created_by']
+            isOneToOne: false
+            referencedRelation: 'users'
             referencedColumns: ['id']
           },
         ]
@@ -533,38 +510,6 @@ export type Database = {
             foreignKeyName: 'notifications_user_id_fkey'
             columns: ['user_id']
             isOneToOne: false
-            referencedRelation: 'users'
-            referencedColumns: ['id']
-          },
-        ]
-      }
-      pending_column_visibility: {
-        Row: {
-          columns: string[]
-          created_at: string | null
-          id: string
-          updated_at: string | null
-          user_id: string
-        }
-        Insert: {
-          columns: string[]
-          created_at?: string | null
-          id?: string
-          updated_at?: string | null
-          user_id: string
-        }
-        Update: {
-          columns?: string[]
-          created_at?: string | null
-          id?: string
-          updated_at?: string | null
-          user_id?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: 'pending_column_visibility_user_id_fkey'
-            columns: ['user_id']
-            isOneToOne: true
             referencedRelation: 'users'
             referencedColumns: ['id']
           },

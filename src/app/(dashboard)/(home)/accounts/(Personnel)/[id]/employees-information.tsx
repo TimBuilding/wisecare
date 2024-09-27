@@ -11,7 +11,7 @@ interface EmployeesInformationProps {
 const EmployeesInformation: FC<EmployeesInformationProps> = ({ data }) => {
   return (
     <>
-      <div className="col-span-4 flex grid-cols-6 flex-col pt-4 lg:grid lg:p-2">
+      {/* <div className="col-span-4 flex grid-cols-6 flex-col pt-4 lg:grid lg:p-2">
         <div className="flex flex-col gap-2 lg:col-span-2">
           <span className="text-md font-semibold text-[#161a1d]">
             {data.employee_number}
@@ -116,7 +116,7 @@ const EmployeesInformation: FC<EmployeesInformationProps> = ({ data }) => {
             PLAN DESCRIPTION
           </span>
         </div>
-      </div>
+      </div> */}
     </>
   )
 }
