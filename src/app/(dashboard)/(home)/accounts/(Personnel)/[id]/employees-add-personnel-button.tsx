@@ -5,10 +5,10 @@ import EmployeesPage from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/em
 import { useCompanyContext } from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/company-provider'
 
 const EmployeesAddPersonnelButton = () => {
-  const { showAddPersonnel, setShowAddPersonnel } = useCompanyContext()
+  const { setShowAddPersonnel } = useCompanyContext()
   return (
     <Button
-      variant="default"
+      variant="outline"
       className="w-full rounded-md lg:w-auto"
       type="button"
       onClick={() => setShowAddPersonnel(false)}
