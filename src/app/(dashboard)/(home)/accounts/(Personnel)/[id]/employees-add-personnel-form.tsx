@@ -40,7 +40,7 @@ import {
 const EmployeesAddPersonnelForm = () => {
   const { toast } = useToast()
   const params = useParams<{ id: string }>()
-  const { showAddPersonnel, setShowAddPersonnel } = useCompanyContext()
+  const { setShowAddPersonnel } = useCompanyContext()
 
   const form = useForm<z.infer<typeof employeesSchema>>({
     resolver: zodResolver(employeesSchema),
@@ -110,7 +110,7 @@ const EmployeesAddPersonnelForm = () => {
               <FormItem>
                 <FormLabel>First Name</FormLabel>
                 <FormControl>
-                  <Input {...field} />
+                  <Input {...field} disabled={isPending} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -123,7 +123,7 @@ const EmployeesAddPersonnelForm = () => {
               <FormItem>
                 <FormLabel>Last Name</FormLabel>
                 <FormControl>
-                  <Input {...field} className="-mt-8" />
+                  <Input {...field} disabled={isPending} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -140,6 +140,7 @@ const EmployeesAddPersonnelForm = () => {
                     <FormControl>
                       <Button
                         variant={'outline'}
+                        disabled={isPending}
                         className={cn(
                           'flex h-12 w-full min-w-[240px] rounded-lg border border-input bg-white px-4 py-3 text-sm shadow-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50',
                           !field.value && 'text-muted-foreground',
@@ -178,7 +179,7 @@ const EmployeesAddPersonnelForm = () => {
               <FormItem>
                 <FormLabel>Gender</FormLabel>
                 <FormControl>
-                  <Select>
+                  <Select disabled={isPending}>
                     <SelectTrigger className="w-full">
                       <SelectValue placeholder="Select Gender" />
                     </SelectTrigger>
@@ -200,7 +201,7 @@ const EmployeesAddPersonnelForm = () => {
               <FormItem>
                 <FormLabel>Civil Status</FormLabel>
                 <FormControl>
-                  <Select>
+                  <Select disabled={isPending}>
                     <SelectTrigger className="w-full">
                       <SelectValue placeholder="Select Civil Status" />
                     </SelectTrigger>
@@ -223,7 +224,7 @@ const EmployeesAddPersonnelForm = () => {
               <FormItem>
                 <FormLabel>Card Number</FormLabel>
                 <FormControl>
-                  <Input {...field} />
+                  <Input {...field} disabled={isPending} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -240,6 +241,7 @@ const EmployeesAddPersonnelForm = () => {
                     <FormControl>
                       <Button
                         variant={'outline'}
+                        disabled={isPending}
                         className={cn(
                           'flex h-12 w-full min-w-[240px] rounded-lg border border-input bg-white px-4 py-3 text-sm shadow-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50',
                           !field.value && 'text-muted-foreground',
@@ -278,7 +280,7 @@ const EmployeesAddPersonnelForm = () => {
               <FormItem>
                 <FormLabel>Room Plan</FormLabel>
                 <FormControl>
-                  <Input {...field} />
+                  <Input {...field} disabled={isPending} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -291,7 +293,7 @@ const EmployeesAddPersonnelForm = () => {
               <FormItem>
                 <FormLabel>Maximum Benefit Limit</FormLabel>
                 <FormControl>
-                  <Input {...field} type="number" />
+                  <Input {...field} type="number" disabled={isPending} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -299,7 +301,7 @@ const EmployeesAddPersonnelForm = () => {
           />
         </div>
         <div className="mt-4 flex flex-row items-center justify-between gap-4 lg:ml-auto lg:justify-end">
-          <EmployeesAddPersonnelButton />
+          <EmployeesAddPersonnelButton isPending={isPending} />
           <Button
             type="submit"
             variant="default"

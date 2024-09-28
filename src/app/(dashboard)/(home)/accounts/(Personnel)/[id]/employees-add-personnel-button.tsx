@@ -4,7 +4,13 @@ import { Button } from '@/components/ui/button'
 import EmployeesPage from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/employees-page'
 import { useCompanyContext } from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/company-provider'
 
-const EmployeesAddPersonnelButton = () => {
+interface EmployeesAddPersonnelButtonProps {
+  isPending: boolean
+}
+
+const EmployeesAddPersonnelButton = ({
+  isPending,
+}: EmployeesAddPersonnelButtonProps) => {
   const { setShowAddPersonnel } = useCompanyContext()
   return (
     <Button
@@ -12,6 +18,7 @@ const EmployeesAddPersonnelButton = () => {
       className="w-full rounded-md lg:w-auto"
       type="button"
       onClick={() => setShowAddPersonnel(false)}
+      disabled={isPending}
     >
       Cancel
     </Button>
