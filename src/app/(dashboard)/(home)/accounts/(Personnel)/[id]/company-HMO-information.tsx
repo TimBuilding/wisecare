@@ -23,30 +23,30 @@ const CompanyHmoInformation: FC<CompanyHmoInformationProps> = ({
     },
     {
       name: 'Previous HMO Provider:',
-      //@ts-ignore
       value: account?.previous_hmo_provider
-        ? account?.previous_hmo_provider.name
+        ? //@ts-ignore
+          account?.previous_hmo_provider.name
         : '',
     },
     {
       name: 'Current HMO Provider:',
-      //@ts-ignore
       value: account?.current_hmo_provider
-        ? account?.current_hmo_provider.name
+        ? //@ts-ignore
+          account?.current_hmo_provider.name
         : '',
     },
     {
       name: 'Principal Plan Type:',
-      //@ts-ignore
       value: account?.principal_plan_type
-        ? account?.principal_plan_type.name
+        ? //@ts-ignore
+          account?.principal_plan_type.name
         : '',
     },
     {
       name: 'Dependent Plan Type:',
-      //@ts-ignore
       value: account?.dependent_plan_type
-        ? account?.dependent_plan_type.name
+        ? //@ts-ignore
+          account?.dependent_plan_type.name
         : '',
     },
     {
