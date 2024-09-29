@@ -11,20 +11,20 @@ interface EmployeesInformationProps {
 const EmployeesInformation: FC<EmployeesInformationProps> = ({ data }) => {
   return (
     <>
-      {/* <div className="col-span-4 flex grid-cols-6 flex-col pt-4 lg:grid lg:p-2">
+      <div className="col-span-4 flex grid-cols-6 flex-col pt-4 lg:grid lg:p-2">
         <div className="flex flex-col gap-2 lg:col-span-2">
           <span className="text-md font-semibold text-[#161a1d]">
-            {data.card_number}
+            {data.card_number || 'N/A'}
           </span>
           <span className="text-sm font-medium text-[#64748b]">
             EMPLOYEE NUMBER
           </span>
           <span className="text-md font-semibold text-[#161a1d]">
-            {data.gender}
+            {data.gender || 'N/A'}
           </span>
           <span className="text-sm font-medium text-[#64748b]">GENDER</span>
           <span className="text-md font-semibold text-[#161a1d]">
-            {data.birth_date}
+            {data.birth_date || 'N/A'}
           </span>
           <span className="text-sm font-medium text-[#64748b]">BIRTH DATE</span>
           <span className="text-md font-semibold text-[#161a1d]">
@@ -46,23 +46,23 @@ const EmployeesInformation: FC<EmployeesInformationProps> = ({ data }) => {
         </div>
         <div className="flex flex-col gap-2 lg:col-span-2">
           <span className="text-md font-semibold text-[#161a1d]">
-            {data.effective_date}
+            {data.effective_date || 'N/A'}
           </span>
           <span className="text-sm font-medium text-[#64748b]">
             EFFECTIVE DATE
           </span>
           <span className="text-md font-semibold text-[#161a1d]">
-            {data.room_plan}
+            {data.room_plan || 'N/A'}
           </span>
           <span className="text-sm font-medium text-[#64748b]">ROOM PLAN</span>
           <span className="text-md font-semibold text-[#161a1d]">
-            {data.maximum_benefit_limit}
+            {data.maximum_benefit_limit || 'N/A'}
           </span>
           <span className="text-sm font-medium text-[#64748b]">
             MAXIMUM BENEFIT LIMIT
           </span>
         </div>
-      </div> */}
+      </div>
     </>
   )
 }

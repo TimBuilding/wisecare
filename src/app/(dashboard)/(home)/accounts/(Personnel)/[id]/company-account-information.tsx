@@ -16,7 +16,6 @@ const CompanyAccountInformation: FC<CompanyAccountInformationProps> = ({
   const supabase = createBrowserClient()
   const { data: account } = useQuery(getAccountById(supabase, id))
 
-  console.log(account)
   const companyAccountInformation = [
     {
       name: 'Account Type:',
