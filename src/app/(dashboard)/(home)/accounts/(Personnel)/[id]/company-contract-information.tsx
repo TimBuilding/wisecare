@@ -31,12 +31,12 @@ const CompanyContractInformation: FC<CompanyContractInformationProps> = ({
     {
       name: 'Mode of Payment:',
       // @ts-ignore
-      value: account?.mode_of_payment.name || '',
+      value: account?.mode_of_payment ? account?.mode_of_payment.name : '',
     },
     {
       name: 'Mode of Premium:',
       // @ts-ignore
-      value: account?.mode_of_premium.name || '',
+      value: account?.mode_of_premium ? account?.mode_of_premium.name : '',
     },
     {
       name: 'Due Date:',
@@ -84,7 +84,7 @@ const CompanyContractInformation: FC<CompanyContractInformationProps> = ({
       {companyContractInformation.map((info, index) => (
         <div className="flex flex-row pt-4" key={index}>
           {editMode ? (
-            <div className="text-md flex grid w-full flex-row text-[#1e293b] md:grid-cols-2 lg:grid-cols-1">
+            <div className="text-md flex w-full flex-row text-[#1e293b] md:grid md:grid-cols-2 lg:grid-cols-1">
               {info.name} <Input className="w-full" defaultValue={info.value} />
             </div>
           ) : (

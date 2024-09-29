@@ -19,43 +19,51 @@ const CompanyHmoInformation: FC<CompanyHmoInformationProps> = ({
     {
       name: 'HMO Provider:',
       // @ts-ignore
-      value: account?.hmo_provider.name || '',
+      value: account?.hmo_provider ? account?.hmo_provider.name : '',
     },
     {
       name: 'Previous HMO Provider:',
       //@ts-ignore
-      value: account?.previous_hmo_provider.name || '',
+      value: account?.previous_hmo_provider
+        ? account?.previous_hmo_provider.name
+        : '',
     },
     {
       name: 'Current HMO Provider:',
       //@ts-ignore
-      value: account?.current_hmo_provider.name || '',
+      value: account?.current_hmo_provider
+        ? account?.current_hmo_provider.name
+        : '',
     },
     {
       name: 'Principal Plan Type:',
       //@ts-ignore
-      value: account?.principal_plan_type.name || '',
+      value: account?.principal_plan_type
+        ? account?.principal_plan_type.name
+        : '',
     },
     {
       name: 'Dependent Plan Type:',
       //@ts-ignore
-      value: account?.dependent_plan_type.name || '',
+      value: account?.dependent_plan_type
+        ? account?.dependent_plan_type.name
+        : '',
     },
     {
       name: 'Total Utilization:',
-      value: account?.total_utilization || '',
+      value: account?.total_utilization ? account?.total_utilization : '',
     },
     {
       name: 'Total Premium Paid:',
-      value: account?.total_premium_paid || '',
+      value: account?.total_premium_paid ? account?.total_premium_paid : '',
     },
     {
       name: 'Additional Benefits:',
-      value: account?.additional_benefits || '',
+      value: account?.additional_benefits ? account?.additional_benefits : '',
     },
     {
       name: 'Special Benefits:',
-      value: account?.special_benefits || '',
+      value: account?.special_benefits ? account?.special_benefits : '',
     },
   ]
   return (
@@ -63,7 +71,7 @@ const CompanyHmoInformation: FC<CompanyHmoInformationProps> = ({
       {companyHmoInformation.map((info, index) => (
         <div className="flex flex-row pt-4" key={index}>
           {editMode ? (
-            <div className="text-md flex grid w-full flex-row text-[#1e293b] md:grid-cols-2 lg:grid-cols-1">
+            <div className="text-md flex w-full flex-row text-[#1e293b] md:grid md:grid-cols-2 lg:grid-cols-1">
               {info.name} <Input className="w-full" defaultValue={info.value} />
             </div>
           ) : (

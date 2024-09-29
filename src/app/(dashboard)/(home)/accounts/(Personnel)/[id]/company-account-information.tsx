@@ -21,12 +21,12 @@ const CompanyAccountInformation: FC<CompanyAccountInformationProps> = ({
     {
       name: 'Account Type:',
       // @ts-ignore
-      value: account?.account_type.name || '',
+      value: account?.account_type ? account?.account_type.name : '',
     },
     {
       name: 'Agent:',
       // @ts-ignore
-      value: account?.agent.first_name || '',
+      value: account?.agent ? account?.agent.first_name : '',
     },
     {
       name: 'Active Status:',
@@ -34,7 +34,7 @@ const CompanyAccountInformation: FC<CompanyAccountInformationProps> = ({
     },
     {
       name: 'Commission Rate:',
-      value: account?.commision_rate || '',
+      value: account?.commision_rate ? account?.commision_rate : '',
     },
   ]
 
@@ -43,7 +43,7 @@ const CompanyAccountInformation: FC<CompanyAccountInformationProps> = ({
       {companyAccountInformation.map((info, index) => (
         <div className="flex flex-row pt-4" key={index}>
           {editMode ? (
-            <div className="text-md flex grid w-full flex-row text-[#1e293b] md:grid-cols-2 lg:grid-cols-1">
+            <div className="text-md flex w-full flex-row text-[#1e293b] md:grid md:grid-cols-2 lg:grid-cols-1">
               {info.name} <Input className="w-full" defaultValue={info.value} />
             </div>
           ) : (
