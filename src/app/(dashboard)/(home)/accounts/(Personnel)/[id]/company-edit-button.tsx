@@ -1,18 +1,25 @@
-import React from 'react'
+'use client'
+
 import { Button } from '@/components/ui/button'
-import { Pencil } from 'lucide-react'
+import React from 'react'
+import { Pencil, Plus } from 'lucide-react'
+import { useCompanyEditContext } from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/company-edit-provider'
 
-// const CompanyEditButton = ({ setEditMode }) => {
-//   return (
-//     <>
-//       <Button
-//         className="m-4 gap-2 rounded-md"
-//         onClick={() => setEditMode(true)}
-//       >
-//         <Pencil /> <span> Edit Company Details </span>
-//       </Button>
-//     </>
-//   )
-// }
+const CompanyEditButton = () => {
+  const { editMode, setEditMode } = useCompanyEditContext()
 
-// export default CompanyEditButton
+  return (
+    <>
+      {!editMode && (
+        <Button
+          className="m-4 gap-2 rounded-md"
+          onClick={() => setEditMode(true)}
+        >
+          <Pencil /> <span> Edit Company Details </span>
+        </Button>
+      )}
+    </>
+  )
+}
+
+export default CompanyEditButton

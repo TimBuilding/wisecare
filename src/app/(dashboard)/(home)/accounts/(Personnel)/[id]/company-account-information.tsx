@@ -3,16 +3,16 @@ import { createBrowserClient } from '@/utils/supabase'
 import { useQuery } from '@supabase-cache-helpers/postgrest-react-query'
 import getAccountById from '@/queries/get-account-by-id'
 import { Input } from '@/components/ui/input'
+import { useCompanyEditContext } from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/company-edit-provider'
 
 interface CompanyAccountInformationProps {
   id: string
-  editMode: boolean
 }
 
 const CompanyAccountInformation: FC<CompanyAccountInformationProps> = ({
   id,
-  editMode,
 }) => {
+  const { editMode, setEditMode } = useCompanyEditContext()
   const supabase = createBrowserClient()
   const { data: account } = useQuery(getAccountById(supabase, id))
 
