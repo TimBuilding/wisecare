@@ -42,7 +42,7 @@ const CompanyAccountInformation: FC<CompanyAccountInformationProps> = ({
       {companyAccountInformation.map((info, index) => (
         <div className="flex flex-row pt-4" key={index}>
           {editMode ? (
-            <div className="text-md flex w-full flex-row text-[#1e293b] md:grid md:grid-cols-2 lg:grid-cols-1">
+            <div className="text-md flex grid w-full flex-row text-[#1e293b] md:grid-cols-2 lg:grid-cols-1">
               {info.name} <Input className="w-full" defaultValue={info.value} />
             </div>
           ) : (

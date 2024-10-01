@@ -42,30 +42,48 @@ const CompanyAbout: FC<Props> = ({ companyId }) => {
       email_address_of_contact_person:
         account?.email_address_of_contact_person || '',
       // @ts-ignore
-      account_type_id: account?.account_type.name || '',
+      account_type_id: account?.account_type ? account?.account_type.name : '',
       // @ts-ignore
-      agent_id: account?.agent.first_name || '',
+      agent_id: account?.agent ? account?.agent.first_name : '',
       is_active: account?.is_active ? true : false,
       commision_rate: account?.commision_rate || 0,
       // @ts-ignore
-      hmo_provider_id: account?.hmo_provider.name || '',
-      // @ts-ignore
-      previous_hmo_provider_id: account?.previous_hmo_provider.name || '',
-      // @ts-ignore
-      current_hmo_provider_id: account?.current_hmo_provider.name || '',
-      // @ts-ignore
-      principal_plan_type_id: account?.principal_plan_type.name || '',
-      // @ts-ignore
-      dependent_plan_type_id: account?.dependent_plan_type.name || '',
+      hmo_provider_id: account?.hmo_provider ? account?.hmo_provider.name : '',
+
+      previous_hmo_provider_id: account?.previous_hmo_provider
+        ? // @ts-ignore
+          account?.previous_hmo_provider.name
+        : '',
+
+      current_hmo_provider_id: account?.current_hmo_provider
+        ? // @ts-ignore
+          account?.current_hmo_provider.name
+        : '',
+
+      principal_plan_type_id: account?.principal_plan_type
+        ? // @ts-ignore
+          account?.principal_plan_type.name
+        : '',
+
+      dependent_plan_type_id: account?.dependent_plan_type
+        ? // @ts-ignore
+          account?.dependent_plan_type.name
+        : '',
       total_utilization: account?.total_utilization || 0,
       total_premium_paid: account?.total_premium_paid || 0,
       additional_benefits: account?.additional_benefits || '',
       special_benefits: account?.special_benefits || '',
       initial_contract_value: account?.initial_contract_value || 0,
       // @ts-ignore
-      mode_of_payment_id: account?.mode_of_payment.name || '',
+      mode_of_payment_id: account?.mode_of_payment
+        ? // @ts-ignore
+          account?.mode_of_payment.name
+        : '',
       // @ts-ignore
-      mode_of_premium_id: account?.mode_of_premium.name || '',
+      mode_of_premium_id: account?.mode_of_premium_id
+        ? // @ts-ignore
+          account?.mode_of_premium.name
+        : '',
       expiration_date: account?.expiration_date
         ? new Date(account.expiration_date)
         : new Date(),
