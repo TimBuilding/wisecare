@@ -28,12 +28,12 @@ const CompanyHeader: FC<CompanyHeaderProps> = ({ id }) => {
           />
         </div>
         <div className="flex w-full flex-col items-center justify-between xl:flex-row xl:gap-6 ">
-          <div className="flex w-40 flex-col ">
-            <div className="text-lg font-bold">
+          <div className="flex w-36 flex-col ">
+            <div className="text-lg font-bold lg:truncate lg:text-clip ">
               {account?.company_name || ''}
             </div>
-            <div className="text-sm text-[#64748b]">
-              {account?.company_address || ''}
+            <div className="text-sm text-[#64748b] lg:truncate lg:text-clip">
+              Philippines
             </div>
           </div>
           <Separator
