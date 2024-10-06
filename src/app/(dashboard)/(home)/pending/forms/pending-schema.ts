@@ -1,7 +1,7 @@
 import { z } from 'zod'
 
 const pendingSchema = z.object({
-  mode_of_premium_id: z.string().nullable(),
+  mode_of_payment_id: z.string().nullable(),
   due_date: z.date().nullable(),
   or_number: z.string().nullable(),
   or_date: z.date().nullable(),

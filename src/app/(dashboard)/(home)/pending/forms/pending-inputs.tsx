@@ -41,8 +41,8 @@ const PendingInputs: FC<Props> = ({ isLoading }) => {
   const form = useFormContext<z.infer<typeof pendingSchema>>()
   const supabase = createBrowserClient()
 
-  const { data: modeOfPremiums, isLoading: isModeOfPremiumLoading } = useQuery(
-    getTypes(supabase, 'mode_of_premium'),
+  const { data: modeOfPayments, isLoading: isModeOfPaymentLoading } = useQuery(
+    getTypes(supabase, 'mode_of_payments'),
   )
 
   const handleInputChange = (
@@ -58,18 +58,18 @@ const PendingInputs: FC<Props> = ({ isLoading }) => {
       <div className="grid grid-cols-2 gap-4">
         <FormField
           control={form.control}
-          name="mode_of_premium_id"
+          name="mode_of_payment_id"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Mode of Premium</FormLabel>
+              <FormLabel>Mode of Payment</FormLabel>
               <Select onValueChange={field.onChange}>
                 <FormControl>
-                  <SelectTrigger disabled={isModeOfPremiumLoading || isLoading}>
-                    <SelectValue placeholder="Select HMO Provider" />
+                  <SelectTrigger disabled={isModeOfPaymentLoading || isLoading}>
+                    <SelectValue placeholder="Select Mode of Payment" />
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
-                  {modeOfPremiums?.map((mode) => (
+                  {modeOfPayments?.map((mode) => (
                     <SelectItem key={mode.id} value={mode.id}>
                       {mode.name}
                     </SelectItem>

@@ -24,7 +24,7 @@ const UpdatePendingForm: FC<Props> = ({ accountId, setOpenForm }) => {
   const form = useForm<z.infer<typeof pendingSchema>>({
     resolver: zodResolver(pendingSchema),
     defaultValues: {
-      mode_of_premium_id: null,
+      mode_of_payment_id: null,
       due_date: null,
       or_number: null,
       or_date: null,
@@ -66,12 +66,12 @@ const UpdatePendingForm: FC<Props> = ({ accountId, setOpenForm }) => {
   const onUpdateHandler = useCallback<FormEventHandler<HTMLFormElement>>(
     (e) => {
       form.handleSubmit(async (data) => {
-        // check if mode_of_premium_id is not empty
-        if (data.mode_of_premium_id === '') {
+        // check if mode_of_payment_id is not empty
+        if (data.mode_of_payment_id === '') {
           toast({
             variant: 'destructive',
             title: 'Something went wrong',
-            description: 'Mode of premium is required',
+            description: 'Mode of payment is required',
           })
           return
         }
