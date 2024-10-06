@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import React, { FC, FormEventHandler } from 'react'
 import { createBrowserClient } from '@/utils/supabase'
 import getAccountById from '@/queries/get-account-by-id'
 import { useQuery } from '@supabase-cache-helpers/postgrest-react-query'
@@ -14,6 +14,7 @@ import { useFormContext } from 'react-hook-form'
 import { z } from 'zod'
 import accountsSchema from '@/app/(dashboard)/(home)/accounts/accounts-schema'
 import { useCompanyEditContext } from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/company-edit-provider'
+import companyEditsSchema from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/company-edits-schema'
 
 interface CompanyInformationProps {
   id: string
@@ -21,10 +22,20 @@ interface CompanyInformationProps {
 
 const CompanyInformation: FC<CompanyInformationProps> = ({ id }) => {
   const { editMode, setEditMode } = useCompanyEditContext()
-  const form = useFormContext<z.infer<typeof accountsSchema>>()
+  const form = useFormContext<z.infer<typeof companyEditsSchema>>()
   const supabase = createBrowserClient()
   const { data: account } = useQuery(getAccountById(supabase, id))
   const companyInformation = [
+    {
+      key: 'company_name',
+      name: 'Company Name:',
+      value: account?.company_name || '',
+    },
+    {
+      key: 'company_address',
+      name: 'Company Address:',
+      value: account?.company_address || '',
+    },
     {
       key: 'nature_of_business',
       name: 'Nature of Business:',
@@ -68,7 +79,7 @@ const CompanyInformation: FC<CompanyInformationProps> = ({ id }) => {
         <FormField
           key={index}
           control={form.control}
-          name={info.key as keyof z.infer<typeof accountsSchema>}
+          name={info.key as keyof z.infer<typeof companyEditsSchema>}
           render={({ field }) => (
             <FormItem>
               <FormControl>

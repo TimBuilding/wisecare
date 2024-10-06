@@ -19,6 +19,7 @@ import { Form } from '@/components/ui/form'
 import { Button } from '@/components/ui/button'
 import CompanyCancelButton from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/company-cancel-button'
 import { useCompanyEditContext } from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/company-edit-provider'
+import companyEditsSchema from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/company-edits-schema'
 
 interface Props {
   companyId: string
@@ -29,8 +30,8 @@ const CompanyAbout: FC<Props> = ({ companyId }) => {
   const supabase = createBrowserClient()
   const { data: account } = useQuery(getAccountById(supabase, companyId))
 
-  const form = useForm<z.infer<typeof accountsSchema>>({
-    resolver: zodResolver(accountsSchema),
+  const form = useForm<z.infer<typeof companyEditsSchema>>({
+    resolver: zodResolver(companyEditsSchema),
     defaultValues: {
       nature_of_business: account?.nature_of_business || '',
       contact_person: account?.contact_person || '',
@@ -45,7 +46,7 @@ const CompanyAbout: FC<Props> = ({ companyId }) => {
       account_type_id: account?.account_type ? account?.account_type.name : '',
       // @ts-ignore
       agent_id: account?.agent ? account?.agent.first_name : '',
-      is_active: account?.is_active ? true : false,
+      is_active: account?.is_active ? 'true' : 'false',
       commision_rate: account?.commision_rate || 0,
       // @ts-ignore
       hmo_provider_id: account?.hmo_provider ? account?.hmo_provider.name : '',
@@ -80,7 +81,7 @@ const CompanyAbout: FC<Props> = ({ companyId }) => {
           account?.mode_of_payment.name
         : '',
       // @ts-ignore
-      mode_of_premium_id: account?.mode_of_premium_id
+      mode_of_premium_id: account?.mode_of_premium
         ? // @ts-ignore
           account?.mode_of_premium.name
         : '',
@@ -106,8 +107,18 @@ const CompanyAbout: FC<Props> = ({ companyId }) => {
         account?.annual_physical_examination_date
           ? new Date(account.annual_physical_examination_date)
           : new Date(),
+      due_date: account?.due_date ? new Date(account.due_date) : new Date(),
+      or_number: account?.or_number || '',
+      or_date: account?.or_date ? new Date(account.or_date) : new Date(),
+      sa_number: account?.sa_number || '',
+      amount: account?.amount || 0,
+      total_contract_value: account?.total_contract_value || 0,
+      balance: account?.balance || 0,
+      billing_period: account?.billing_period || 0,
     },
   })
+
+  console.log(form.formState.errors)
 
   const { mutateAsync, isPending } = useInsertMutation(
     //@ts-ignore
@@ -126,6 +137,7 @@ const CompanyAbout: FC<Props> = ({ companyId }) => {
           description: error.message,
           variant: 'destructive',
         })
+        console.log(error)
       },
     },
   )
@@ -133,6 +145,7 @@ const CompanyAbout: FC<Props> = ({ companyId }) => {
   const onSubmitHandler = useCallback<FormEventHandler<HTMLFormElement>>(
     (e) => {
       form.handleSubmit(async (data) => {
+        console.log(data)
         await mutateAsync([
           {
             id: companyId,
@@ -145,30 +158,22 @@ const CompanyAbout: FC<Props> = ({ companyId }) => {
             email_address_of_contact_person:
               data.email_address_of_contact_person,
             // @ts-ignore
-            account_type_id: data.account_type.name,
+            account_type_id: data.account_type.id,
             // @ts-ignore
-            agent_id: data.agent.first_name,
+            agent_id: data.agent.id,
             is_active: data.is_active,
             commision_rate: data.commision_rate,
             // @ts-ignore
-            hmo_provider_id: data.hmo_provider.name,
-            // @ts-ignore
-            previous_hmo_provider_id: data.previous_hmo_provider.name,
-            // @ts-ignore
-            current_hmo_provider_id: data.current_hmo_provider.name,
-            // @ts-ignore
-            principal_plan_type_id: data.principal_plan_type.name,
-            // @ts-ignore
-            dependent_plan_type_id: data.dependent_plan_type.name,
+
             total_utilization: data.total_utilization,
             total_premium_paid: data.total_premium_paid,
             additional_benefits: data.additional_benefits,
             special_benefits: data.special_benefits,
             initial_contract_value: data.initial_contract_value,
             // @ts-ignore
-            mode_of_payment_id: data.mode_of_payment.name,
+            mode_of_payment_id: data.mode_of_payment.id,
             // @ts-ignore
-            mode_of_premium_id: data.mode_of_premium.name,
+            mode_of_premium_id: data.mode_of_premium.id,
             expiration_date: data.expiration_date,
             effectivity_date: data.effectivity_date,
             coc_issue_date: data.coc_issue_date,
@@ -178,6 +183,14 @@ const CompanyAbout: FC<Props> = ({ companyId }) => {
             wellness_lecture_date: data.wellness_lecture_date,
             annual_physical_examination_date:
               data.annual_physical_examination_date,
+            due_date: data.due_date,
+            or_number: data.or_number,
+            or_date: data.or_date,
+            sa_number: data.sa_number,
+            amount: data.amount,
+            total_contract_value: data.total_contract_value,
+            balance: data.balance,
+            billing_period: data.billing_period,
           },
         ])
       })(e)
@@ -186,54 +199,60 @@ const CompanyAbout: FC<Props> = ({ companyId }) => {
   )
 
   return (
-    <Form {...form}>
-      <form onSubmit={onSubmitHandler}>
-        <div className="mx-auto flex w-full flex-col items-center justify-between gap-6 lg:flex-row lg:items-start ">
-          <div className="flex w-full flex-col gap-6 lg:max-w-xs">
-            <div className="mx-auto w-full rounded-2xl border border-slate-200 bg-background p-6 drop-shadow-md">
-              <span className="text-lg font-semibold">Company Information</span>
-              <CompanyInformation id={companyId} />
+    <FormProvider {...form}>
+      <Form {...form}>
+        <form onSubmit={onSubmitHandler}>
+          <div className="mx-auto flex w-full flex-col items-center justify-between gap-6 lg:flex-row lg:items-start ">
+            <div className="flex w-full flex-col gap-6 lg:max-w-xs">
+              <div className="mx-auto w-full rounded-2xl border border-slate-200 bg-background p-6 drop-shadow-md">
+                <span className="text-lg font-semibold">
+                  Company Information
+                </span>
+                <CompanyInformation id={companyId} />
+              </div>
+              <div className="mx-auto w-full rounded-2xl border border-slate-200 bg-background p-6 drop-shadow-md">
+                <span className="text-lg font-semibold">
+                  Account Information
+                </span>
+                <CompanyAccountInformation id={companyId} />
+              </div>
+              <div className="mx-auto w-full rounded-2xl border border-slate-200 bg-background p-6 drop-shadow-md">
+                <span className="text-lg font-semibold">
+                  Financial Information
+                </span>
+                <CompanyFinancialInformation id={companyId} />
+              </div>
             </div>
-            <div className="mx-auto w-full rounded-2xl border border-slate-200 bg-background p-6 drop-shadow-md">
-              <span className="text-lg font-semibold">Account Information</span>
-              <CompanyAccountInformation id={companyId} />
-            </div>
-            <div className="mx-auto w-full rounded-2xl border border-slate-200 bg-background p-6 drop-shadow-md">
-              <span className="text-lg font-semibold">
-                Financial Information
-              </span>
-              <CompanyFinancialInformation id={companyId} />
+            <div className="flex w-full flex-col gap-6">
+              <div className="mx-auto w-full rounded-2xl border border-slate-200 bg-background p-6 drop-shadow-md">
+                <span className="text-lg font-semibold">HMO Information</span>
+                <CompanyHMOInformation id={companyId} />
+              </div>
+              <div className="mx-auto w-full rounded-2xl border border-slate-200 bg-background p-6 drop-shadow-md">
+                <span className="text-lg font-semibold">
+                  Contract Information
+                </span>
+                <CompanyContractInformation id={companyId} />
+              </div>
             </div>
           </div>
-          <div className="flex w-full flex-col gap-6">
-            <div className="mx-auto w-full rounded-2xl border border-slate-200 bg-background p-6 drop-shadow-md">
-              <span className="text-lg font-semibold">HMO Information</span>
-              <CompanyHMOInformation id={companyId} />
-            </div>
-            <div className="mx-auto w-full rounded-2xl border border-slate-200 bg-background p-6 drop-shadow-md">
-              <span className="text-lg font-semibold">
-                Contract Information
-              </span>
-              <CompanyContractInformation id={companyId} />
-            </div>
+          <div className="mt-4 flex flex-row items-center justify-between gap-4 lg:ml-auto lg:justify-end">
+            {editMode && (
+              <>
+                <CompanyCancelButton />
+                <Button
+                  type="submit"
+                  variant="default"
+                  className="w-full rounded-md lg:w-auto"
+                >
+                  Submit
+                </Button>
+              </>
+            )}
           </div>
-        </div>
-        <div className="mt-4 flex flex-row items-center justify-between gap-4 lg:ml-auto lg:justify-end">
-          {editMode && (
-            <>
-              <CompanyCancelButton />
-              <Button
-                type="submit"
-                variant="default"
-                className="w-full rounded-md lg:w-auto"
-              >
-                Submit
-              </Button>
-            </>
-          )}
-        </div>
-      </form>
-    </Form>
+        </form>
+      </Form>
+    </FormProvider>
   )
 }
 

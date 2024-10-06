@@ -5,6 +5,15 @@ import { FC } from 'react'
 import getAccountById from '@/queries/get-account-by-id'
 import { Input } from '@/components/ui/input'
 import { useCompanyEditContext } from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/company-edit-provider'
+import { useFormContext } from 'react-hook-form'
+import { z } from 'zod'
+import companyEditsSchema from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/company-edits-schema'
+import {
+  FormControl,
+  FormField,
+  FormItem,
+  FormMessage,
+} from '@/components/ui/form'
 
 interface Props {
   id: string
@@ -13,36 +22,76 @@ interface Props {
 const CompanyFinancialInformation: FC<Props> = ({ id }) => {
   const { editMode, setEditMode } = useCompanyEditContext()
   const supabase = createBrowserClient()
+  const form = useFormContext<z.infer<typeof companyEditsSchema>>()
   const { data: account, error } = useQuery(getAccountById(supabase, id))
 
   return (
     <>
       {editMode ? (
         <>
-          <div className="flex flex-row pt-4">
-            <div className="text-md flex grid w-full flex-row text-[#1e293b] md:grid-cols-2 lg:grid-cols-1">
-              OR Number:{' '}
-              <Input
-                className="w-full"
-                defaultValue={account?.or_number || ''}
-              />
-            </div>
-          </div>
-          <div className="flex flex-row pt-4">
-            <div className="text-md flex grid w-full flex-row text-[#1e293b] md:grid-cols-2 lg:grid-cols-1">
-              OR Date:{' '}
-              <Input className="w-full" defaultValue={account?.or_date || ''} />
-            </div>
-          </div>
-          <div className="flex flex-row pt-4">
-            <div className="text-md flex grid w-full flex-row text-[#1e293b] md:grid-cols-2 lg:grid-cols-1">
-              SA Number:{' '}
-              <Input
-                className="w-full"
-                defaultValue={account?.sa_number || ''}
-              />
-            </div>
-          </div>
+          <FormField
+            control={form.control}
+            name="or_number"
+            render={({ field }) => (
+              <FormItem>
+                <FormControl>
+                  <div className="flex flex-row pt-4">
+                    <div className="text-md flex grid w-full flex-row text-[#1e293b] md:grid-cols-2 lg:grid-cols-1">
+                      OR Number:{' '}
+                      <Input
+                        className="w-full"
+                        {...field}
+                        value={String(field.value ?? '')}
+                      />
+                    </div>
+                  </div>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="or_date"
+            render={({ field }) => (
+              <FormItem>
+                <FormControl>
+                  <div className="flex flex-row pt-4">
+                    <div className="text-md flex grid w-full flex-row text-[#1e293b] md:grid-cols-2 lg:grid-cols-1">
+                      OR Date:{' '}
+                      <Input
+                        className="w-full"
+                        {...field}
+                        value={field.value ? String(field.value) : ''}
+                      />
+                    </div>
+                  </div>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="sa_number"
+            render={({ field }) => (
+              <FormItem>
+                <FormControl>
+                  <div className="flex flex-row pt-4">
+                    <div className="text-md flex grid w-full flex-row text-[#1e293b] md:grid-cols-2 lg:grid-cols-1">
+                      SA Number:{' '}
+                      <Input
+                        className="w-full"
+                        {...field}
+                        value={String(field.value ?? '')}
+                      />
+                    </div>
+                  </div>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
         </>
       ) : (
         <>
