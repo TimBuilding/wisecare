@@ -11,16 +11,19 @@ import {
 import { prefetchQuery } from '@supabase-cache-helpers/postgrest-react-query'
 import getAccountById from '@/queries/get-account-by-id'
 import CompanyProvider from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/company-provider'
+import getRole from '@/utils/get-role'
 
 const Page = async ({ params }: { params: { id: string } }) => {
   const supabase = createServerClient(cookies())
   const queryClient = new QueryClient()
 
   await prefetchQuery(queryClient, getAccountById(supabase, params.id))
+
+  const role = await getRole()
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
       <CompanyProvider>
-        <CompanyPage companyId={params.id} />
+        <CompanyPage companyId={params.id} role={role} />
       </CompanyProvider>
     </HydrationBoundary>
   )

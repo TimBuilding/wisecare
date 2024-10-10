@@ -1,25 +1,24 @@
-import React, { FC, useCallback, FormEventHandler } from 'react'
-import CompanyInformation from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/company-information'
 import CompanyAccountInformation from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/company-account-information'
+import CompanyCancelButton from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/company-cancel-button'
+import CompanyContractInformation from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/company-contract-information'
+import { useCompanyEditContext } from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/company-edit-provider'
+import companyEditsSchema from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/company-edits-schema'
 import CompanyFinancialInformation from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/company-financial-information'
 import CompanyHMOInformation from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/company-HMO-information'
-import CompanyContractInformation from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/company-contract-information'
-import { createBrowserClient } from '@/utils/supabase'
+import CompanyInformation from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/company-information'
+import { Button } from '@/components/ui/button'
+import { Form } from '@/components/ui/form'
+import { toast } from '@/components/ui/use-toast'
 import getAccountById from '@/queries/get-account-by-id'
-import accountsSchema from '@/app/(dashboard)/(home)/accounts/accounts-schema'
-import { FormProvider, useForm, useFormContext } from 'react-hook-form'
+import { createBrowserClient } from '@/utils/supabase'
+import { zodResolver } from '@hookform/resolvers/zod'
 import {
   useInsertMutation,
   useQuery,
 } from '@supabase-cache-helpers/postgrest-react-query'
-import { zodResolver } from '@hookform/resolvers/zod'
+import { FC, FormEventHandler, useCallback } from 'react'
+import { FormProvider, useForm } from 'react-hook-form'
 import { z } from 'zod'
-import { toast } from '@/components/ui/use-toast'
-import { Form } from '@/components/ui/form'
-import { Button } from '@/components/ui/button'
-import CompanyCancelButton from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/company-cancel-button'
-import { useCompanyEditContext } from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/company-edit-provider'
-import companyEditsSchema from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/company-edits-schema'
 
 interface Props {
   companyId: string

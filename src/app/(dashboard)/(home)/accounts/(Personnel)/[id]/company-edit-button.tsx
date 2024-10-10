@@ -12,7 +12,7 @@ const CompanyEditButton = () => {
     <>
       {!editMode && (
         <Button
-          className="m-4 gap-2 rounded-md"
+          className="w-full gap-2 rounded-md md:max-w-xs"
           onClick={() => setEditMode(true)}
         >
           <Pencil /> <span> Edit Company Details </span>

@@ -1,26 +1,24 @@
 'use client'
 
-import React, { FC, useState } from 'react'
-import CompanyHeader from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/company-header'
-import { Tabs, TabsContent } from '@/components/ui/tabs'
 import CompanyAbout from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/company-about'
-import EmployeesPage from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/employees-page'
-import EmployeesAddPersonnelForm from './employees-add-personnel-form'
+import CompanyEditButton from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/company-edit-button'
+import CompanyEditProvider from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/company-edit-provider'
+import CompanyHeader from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/company-header'
 import { useCompanyContext } from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/company-provider'
 import AddPersonnelButtonForm from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/employees-add-personnel-button-form'
-import { Button } from '@/components/ui/button'
-import { Pencil } from 'lucide-react'
-import CompanyEditProvider, {
-  useCompanyEditContext,
-} from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/company-edit-provider'
-import CompanyEditButton from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/company-edit-button'
+import EmployeesPage from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/employees-page'
+import { Tabs, TabsContent } from '@/components/ui/tabs'
+import { FC } from 'react'
+import EmployeesAddPersonnelForm from './employees-add-personnel-form'
+import CompanyDeleteButton from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/company-delete-button'
 
 interface Props {
   companyId: string
+  role: string | null
 }
 
-const CompanyPage: FC<Props> = ({ companyId }) => {
-  const { showAddPersonnel, setShowAddPersonnel } = useCompanyContext()
+const CompanyPage: FC<Props> = ({ companyId, role }) => {
+  const { showAddPersonnel } = useCompanyContext()
 
   return (
     <Tabs defaultValue="about">
@@ -28,8 +26,11 @@ const CompanyPage: FC<Props> = ({ companyId }) => {
       <div className="p-8 lg:mx-auto lg:max-w-5xl">
         <TabsContent value="about">
           <CompanyEditProvider>
-            <div className="ml-auto flex w-full flex-col lg:items-end lg:justify-center">
+            <div className="flex w-full flex-row items-center gap-4 pb-4 md:justify-end">
               <CompanyEditButton />
+              {role === 'marketing' && (
+                <CompanyDeleteButton accountId={companyId} />
+              )}
             </div>
             <CompanyAbout companyId={companyId} />
           </CompanyEditProvider>
