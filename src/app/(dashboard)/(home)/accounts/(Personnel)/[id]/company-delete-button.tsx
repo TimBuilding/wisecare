@@ -1,15 +1,14 @@
 'use client'
 import { DeleteCompanySchema } from '@/app/(dashboard)/(home)/accounts/(Personnel)/delete-company-schema'
 import {
-  AlertDialogHeader,
   AlertDialog,
+  AlertDialogCancel,
   AlertDialogContent,
-  AlertDialogTrigger,
-  AlertDialogTitle,
   AlertDialogDescription,
   AlertDialogFooter,
-  AlertDialogCancel,
-  AlertDialogAction,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
 } from '@/components/ui/alert-dialog'
 import { Button } from '@/components/ui/button'
 import {
@@ -137,7 +136,8 @@ const CompanyDeleteButton: FC<Props> = ({ accountId }) => {
             />
             <AlertDialogFooter className="mt-3">
               <Button
-                className="w-full bg-destructive text-destructive-foreground hover:bg-destructive/90"
+                variant={'destructive'}
+                className="w-full"
                 type="submit"
                 disabled={isPending}
               >

@@ -20,6 +20,7 @@
     --accent-foreground: 210 5% 20%;
     --destructive: 0 79% 47%;
     --destructive-foreground: 0 0% 100%;
+    --destructive-hover: 0 79% 47% / 90%;
     --border: 210 10% 90%;
     --input: 210 10% 90%;
     --ring: 210 50% 90%;
