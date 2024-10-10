@@ -1,12 +1,21 @@
 'use client'
 
-import { Button } from '@/components/ui/button'
-import React from 'react'
-import { Pencil, Plus } from 'lucide-react'
 import { useCompanyEditContext } from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/company-edit-provider'
+import { Button } from '@/components/ui/button'
+import { Pencil } from 'lucide-react'
+import { FC } from 'react'
 
-const CompanyEditButton = () => {
+interface Props {
+  role: string | null
+}
+
+const CompanyEditButton: FC<Props> = ({ role }) => {
   const { editMode, setEditMode } = useCompanyEditContext()
+  const allowedRole = ['marketing', 'finance']
+
+  if (!role || !allowedRole.includes(role)) {
+    return null
+  }
 
   return (
     <>

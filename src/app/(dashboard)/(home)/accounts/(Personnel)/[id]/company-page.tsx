@@ -27,7 +27,7 @@ const CompanyPage: FC<Props> = ({ companyId, role }) => {
         <TabsContent value="about">
           <CompanyEditProvider>
             <div className="flex w-full flex-row items-center gap-4 pb-4 md:justify-end">
-              <CompanyEditButton />
+              <CompanyEditButton role={role} />
               {role === 'marketing' && (
                 <CompanyDeleteButton accountId={companyId} />
               )}

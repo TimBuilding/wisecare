@@ -14,8 +14,9 @@ import { createBrowserClient } from '@/utils/supabase'
 import { zodResolver } from '@hookform/resolvers/zod'
 import {
   useQuery,
-  useUpdateMutation,
+  useUpdateMutation
 } from '@supabase-cache-helpers/postgrest-react-query'
+import { useQueryClient } from '@tanstack/react-query'
 import { FC, FormEventHandler, useCallback } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
@@ -28,6 +29,9 @@ const CompanyAbout: FC<Props> = ({ companyId }) => {
   const { editMode, setEditMode } = useCompanyEditContext()
   const supabase = createBrowserClient()
   const { data: account } = useQuery(getAccountById(supabase, companyId))
+  const queryClient = useQueryClient()
+
+  console.log(account)
 
   const form = useForm<z.infer<typeof companyEditsSchema>>({
     resolver: zodResolver(companyEditsSchema),
@@ -130,6 +134,7 @@ const CompanyAbout: FC<Props> = ({ companyId }) => {
         form.reset()
 
         setEditMode(false)
+        // queryClient.invalidateQueries({queryKey: ['id', companyId]})
       },
       onError: (error) => {
         toast({
@@ -145,7 +150,6 @@ const CompanyAbout: FC<Props> = ({ companyId }) => {
   const onSubmitHandler = useCallback<FormEventHandler<HTMLFormElement>>(
     (e) => {
       form.handleSubmit(async (data) => {
-        console.log(data)
         await mutateAsync({
           id: companyId,
           company_name: data.company_name,

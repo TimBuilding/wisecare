@@ -17,9 +17,10 @@ const Page = async ({ params }: { params: { id: string } }) => {
   const supabase = createServerClient(cookies())
   const queryClient = new QueryClient()
 
+  const role = await getRole()
+
   await prefetchQuery(queryClient, getAccountById(supabase, params.id))
 
-  const role = await getRole()
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
       <CompanyProvider>
