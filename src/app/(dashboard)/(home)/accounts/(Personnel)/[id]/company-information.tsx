@@ -197,7 +197,7 @@ const CompanyInformation: FC<CompanyInformationProps> = ({ id }) => {
           </div>
           <div className="flex flex-row pt-4">
             <div className="text-md text-[#1e293b]">
-              Nature of Business <span>{account?.nature_of_business}</span>
+              Nature of Business: <span>{account?.nature_of_business}</span>
             </div>
           </div>
           <div className="flex flex-row pt-4">

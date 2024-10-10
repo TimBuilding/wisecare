@@ -45,18 +45,18 @@ const CompanyAbout: FC<Props> = ({ companyId }) => {
       email_address_of_contact_person:
         account?.email_address_of_contact_person || '',
       // @ts-ignore
-      account_type_id: account?.account_type ? account?.account_type.id : '',
+      account_type_id: account?.account_type ? account?.account_type.id : null,
       // @ts-ignore
       agent_id: account?.agent.user_id || null,
       is_active: account?.is_active ? 'true' : 'false',
       commision_rate: account?.commision_rate || 0,
       // @ts-ignore
-      hmo_provider_id: account?.hmo_provider ? account?.hmo_provider.id : '',
+      hmo_provider_id: account?.hmo_provider ? account?.hmo_provider.id : null,
 
       previous_hmo_provider_id: account?.previous_hmo_provider
         ? // @ts-ignore
           account?.previous_hmo_provider.id
-        : ' ',
+        : null,
 
       current_hmo_provider_id: account?.current_hmo_provider
         ? // @ts-ignore
@@ -66,7 +66,7 @@ const CompanyAbout: FC<Props> = ({ companyId }) => {
       principal_plan_type_id: account?.principal_plan_type
         ? // @ts-ignore
           account?.principal_plan_type.id
-        : '',
+        : null,
 
       dependent_plan_type_id: account?.dependent_plan_type
         ? // @ts-ignore
@@ -159,13 +159,13 @@ const CompanyAbout: FC<Props> = ({ companyId }) => {
           designation_of_contact_person: data.designation_of_contact_person,
           email_address_of_contact_person: data.email_address_of_contact_person,
           // @ts-ignore
-          account_type_id: data?.account_type ? data?.account_type.id : '',
+          account_type_id: data?.account_type_id,
           // @ts-ignore
           agent_id: data.agent_id,
           is_active: data.is_active,
           commision_rate: data.commision_rate,
           // @ts-ignore
-          hmo_provider_id: data?.hmo_provider ? data?.hmo_provider.id : '',
+          hmo_provider_id: data?.hmo_provider_id,
           // @ts-ignore
           previous_hmo_provider_id: data?.previous_hmo_provider_id,
           // @ts-ignore
@@ -199,8 +199,6 @@ const CompanyAbout: FC<Props> = ({ companyId }) => {
           total_contract_value: data.total_contract_value,
           balance: data.balance,
           billing_period: data.billing_period,
-        }).catch((error) => {
-          console.log(error.message)
         })
       })(e)
     },

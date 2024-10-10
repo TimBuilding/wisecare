@@ -278,7 +278,7 @@ const CompanyHmoInformation: FC<CompanyHmoInformationProps> = ({ id }) => {
               HMO Provider:{' '}
               <span>
                 {/*@ts-ignore*/}
-                {account?.hmo_provider ? account?.hmo_provider.name : ''}
+                {account?.hmo_provider ? account?.hmo_provider.name : null}
               </span>
             </div>
           </div>
@@ -289,7 +289,7 @@ const CompanyHmoInformation: FC<CompanyHmoInformationProps> = ({ id }) => {
                 {account?.previous_hmo_provider
                   ? // @ts-ignore
                     account?.previous_hmo_provider.name
-                  : ''}
+                  : null}
               </span>
             </div>
           </div>
@@ -300,7 +300,7 @@ const CompanyHmoInformation: FC<CompanyHmoInformationProps> = ({ id }) => {
                 {account?.current_hmo_provider
                   ? // @ts-ignore
                     account?.current_hmo_provider.name
-                  : ''}
+                  : null}
               </span>
             </div>
           </div>
@@ -322,7 +322,7 @@ const CompanyHmoInformation: FC<CompanyHmoInformationProps> = ({ id }) => {
                 {account?.dependent_plan_type
                   ? // @ts-ignore
                     account?.dependent_plan_type.name
-                  : ''}
+                  : null}
               </span>
             </div>
           </div>

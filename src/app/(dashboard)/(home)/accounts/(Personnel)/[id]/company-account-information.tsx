@@ -140,7 +140,7 @@ const CompanyAccountInformation: FC<CompanyAccountInformationProps> = ({
               Account Type:{' '}
               <span>
                 {/*@ts-ignore*/}
-                {account?.account_type ? account?.account_type.name : ''}
+                {account?.account_type ? account?.account_type.name : null}
               </span>
             </div>
           </div>
@@ -149,9 +149,9 @@ const CompanyAccountInformation: FC<CompanyAccountInformationProps> = ({
               Agent:{' '}
               <span>
                 {/*@ts-ignore*/}
-                {account?.agent ? account?.agent.first_name : ''}{' '}
+                {account?.agent ? account?.agent.first_name : null}{' '}
                 {/*@ts-ignore*/}
-                {account?.agent ? account?.agent.last_name : ''}
+                {account?.agent ? account?.agent.last_name : null}
               </span>
             </div>
           </div>
@@ -160,7 +160,7 @@ const CompanyAccountInformation: FC<CompanyAccountInformationProps> = ({
               {/*@ts-ignore*/}
               Commission Rate:{' '}
               <span>
-                {account?.commision_rate ? account?.commision_rate : ''}
+                {account?.commision_rate ? account?.commision_rate : null}
               </span>
             </div>
           </div>
