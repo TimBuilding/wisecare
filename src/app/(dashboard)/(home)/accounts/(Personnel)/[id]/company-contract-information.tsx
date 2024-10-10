@@ -9,10 +9,30 @@ import {
   FormControl,
   FormField,
   FormItem,
+  FormLabel,
   FormMessage,
 } from '@/components/ui/form'
-import { useFormContext } from 'react-hook-form'
+import { ControllerRenderProps, useFormContext } from 'react-hook-form'
 import { z } from 'zod'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
+import getTypes from '@/queries/get-types'
+import { Calendar } from '@/components/ui/calendar'
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/components/ui/popover'
+import { Button } from '@/components/ui/button'
+import { cn } from '@/utils/tailwind'
+import { CalendarIcon } from 'lucide-react'
+import { format } from 'date-fns'
+import pendingSchema from '@/app/(dashboard)/(home)/pending/forms/pending-schema'
 
 interface CompanyContractInformationProps {
   id: string
@@ -25,122 +45,662 @@ const CompanyContractInformation: FC<CompanyContractInformationProps> = ({
   const form = useFormContext<z.infer<typeof companyEditsSchema>>()
   const supabase = createBrowserClient()
   const { data: account } = useQuery(getAccountById(supabase, id))
-  const companyContractInformation = [
-    {
-      key: 'initial_contract_value',
-      name: 'Initial Contract Value:',
-      value: account?.initial_contract_value || '',
-    },
-    {
-      key: 'initial_head_count',
-      name: 'Initial Head Count:',
-      value: account?.initial_head_count || '',
-    },
-    {
-      key: 'total_contract_value',
-      name: 'Total Contract Value:',
-      value: account?.total_contract_value || '',
-    },
-    {
-      key: 'total_utilization',
-      name: 'Balance:',
-      value: account?.balance || '',
-    },
-    {
-      key: 'mode_of_payment_id',
-      name: 'Mode of Payment:',
-      // @ts-ignore
-      value: account?.mode_of_payment ? account?.mode_of_payment.name : '',
-    },
-    {
-      key: 'mode_of_premium_id',
-      name: 'Mode of Premium:',
-      // @ts-ignore
-      value: account?.mode_of_premium ? account?.mode_of_premium.name : '',
-    },
-    {
-      key: 'due_date',
-      name: 'Due Date:',
-      value: account?.due_date || '',
-    },
-    {
-      key: 'amount',
-      name: 'Amount:',
-      value: account?.amount || '',
-    },
-    {
-      key: 'expiration_date',
-      name: 'Expiration Date:',
-      value: account?.expiration_date || '',
-    },
-    {
-      key: 'effectivity_date',
-      name: 'Effectivity Date:',
-      value: account?.effectivity_date || '',
-    },
-    {
-      key: 'coc_issue_date',
-      name: 'COC Issue Date:',
-      value: account?.coc_issue_date || '',
-    },
-    {
-      key: 'delivery_date_of_membership_ids',
-      name: 'Delivery Date of Membership IDs:',
-      value: account?.delivery_date_of_membership_ids || '',
-    },
-    {
-      key: 'orientation_date',
-      name: 'Orientation Date:',
-      value: account?.orientation_date || '',
-    },
-    {
-      key: 'wellness_lecture_date',
-      name: 'Wellness Lecture Date:',
-      value: account?.wellness_lecture_date || '',
-    },
-    {
-      key: 'annual_physical_examination_date',
-      name: 'Annual Physical Examination Date:',
-      value: account?.annual_physical_examination_date || '',
-    },
-    {
-      key: 'billing_period',
-      name: 'Billing Period:',
-      value: account?.billing_period || '',
-    },
-  ]
+  const { data: modeOfPayments } = useQuery(
+    getTypes(supabase, 'mode_of_payments'),
+  )
+  const { data: modeOfPremiums, isLoading: isModeOfPremiumLoading } = useQuery(
+    getTypes(supabase, 'mode_of_premium'),
+  )
+
   return (
     <>
-      {companyContractInformation.map((info, index) => (
-        <FormField
-          key={index}
-          control={form.control}
-          name={info.key as keyof z.infer<typeof companyEditsSchema>}
-          render={({ field }) => (
-            <FormItem>
-              <FormControl>
-                <div className="flex flex-row pt-4" key={index}>
-                  {editMode ? (
+      {editMode ? (
+        <>
+          <FormField
+            control={form.control}
+            name="initial_contract_value"
+            render={({ field }) => (
+              <FormItem>
+                <div className="flex flex-row pt-4">
+                  <div className="text-md flex grid w-full flex-row text-[#1e293b] md:grid-cols-2 lg:grid-cols-1">
+                    Initial Contract Value:
+                    <Input className="w-full" {...field} type="number" />
+                  </div>
+                </div>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="initial_head_count"
+            render={({ field }) => (
+              <FormItem>
+                <FormControl>
+                  <div className="flex flex-row pt-4">
                     <div className="text-md flex grid w-full flex-row text-[#1e293b] md:grid-cols-2 lg:grid-cols-1">
-                      {info.name}{' '}
+                      Initial Head Count:
+                      <Input className="w-full" {...field} type="number" />
+                    </div>
+                  </div>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="total_contract_value"
+            render={({ field }) => (
+              <FormItem>
+                <FormControl>
+                  <div className="flex flex-row pt-4">
+                    <div className="text-md flex grid w-full flex-row text-[#1e293b] md:grid-cols-2 lg:grid-cols-1">
+                      Total Contract Value:
+                      <Input className="w-full" {...field} type="number" />
+                    </div>
+                  </div>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="balance"
+            render={({ field }) => (
+              <FormItem>
+                <FormControl>
+                  <div className="flex flex-row pt-4">
+                    <div className="text-md flex grid w-full flex-row text-[#1e293b] md:grid-cols-2 lg:grid-cols-1">
+                      Balance:
+                      <Input className="w-full" {...field} type="number" />
+                    </div>
+                  </div>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="mode_of_payment_id"
+            render={({ field }) => (
+              <FormItem>
+                <div className="flex flex-row pt-4">
+                  <div className="text-md flex grid w-full flex-row text-[#1e293b] md:grid-cols-2 lg:grid-cols-1">
+                    Mode of Payment:
+                    <Select
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                    >
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        {modeOfPayments?.map((mode) => (
+                          <SelectItem key={mode.id} value={mode.id}>
+                            {mode.name}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                </div>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="mode_of_premium_id"
+            render={({ field }) => (
+              <FormItem>
+                <FormControl>
+                  <div className="flex flex-row pt-4">
+                    <div className="text-md flex grid w-full flex-row text-[#1e293b] md:grid-cols-2 lg:grid-cols-1">
+                      Mode of Premium:
+                      <Select
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}
+                      >
+                        <FormControl>
+                          <SelectTrigger>
+                            <SelectValue />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          {modeOfPremiums?.map((mode) => (
+                            <SelectItem key={mode.id} value={mode.id}>
+                              {mode.name}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
+                  </div>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="due_date"
+            render={({ field }) => (
+              <FormItem>
+                <div className="flex flex-row pt-4">
+                  <div className="text-md flex grid w-full flex-row text-[#1e293b] md:grid-cols-2 lg:grid-cols-1">
+                    Due date:{' '}
+                    <Popover>
+                      <PopoverTrigger asChild>
+                        <FormControl>
+                          <Button
+                            variant={'outline'}
+                            className={cn(
+                              'flex h-12 w-full min-w-[240px] rounded-lg border border-input bg-white px-4 py-3 text-sm shadow-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50',
+                              !field.value && 'text-muted-foreground',
+                              'text-left font-normal',
+                            )}
+                          >
+                            {field.value ? (
+                              format(field.value, 'PPP')
+                            ) : (
+                              <span>Pick a date</span>
+                            )}
+                            <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                          </Button>
+                        </FormControl>
+                      </PopoverTrigger>
+                      <PopoverContent className="w-auto p-0" align="start">
+                        <Calendar
+                          mode="single"
+                          selected={field.value ?? undefined}
+                          onSelect={field.onChange}
+                          disabled={(date) =>
+                            date > new Date() || date < new Date('1900-01-01')
+                          }
+                          initialFocus
+                        />
+                      </PopoverContent>
+                    </Popover>
+                  </div>
+                </div>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="amount"
+            render={({ field }) => (
+              <FormItem>
+                <FormControl>
+                  <div className="flex flex-row pt-4">
+                    <div className="text-md flex grid w-full flex-row text-[#1e293b] md:grid-cols-2 lg:grid-cols-1">
+                      Amount:
+                      <Input className="w-full" {...field} type="number" />
+                    </div>
+                  </div>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="expiration_date"
+            render={({ field }) => (
+              <FormItem>
+                <FormControl>
+                  <div className="flex flex-row pt-4">
+                    <div className="text-md flex grid w-full flex-row text-[#1e293b] md:grid-cols-2 lg:grid-cols-1">
+                      Expiration Date:
+                      <Popover>
+                        <PopoverTrigger asChild>
+                          <FormControl>
+                            <Button
+                              variant={'outline'}
+                              className={cn(
+                                'flex h-12 w-full min-w-[240px] rounded-lg border border-input bg-white px-4 py-3 text-sm shadow-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50',
+                                !field.value && 'text-muted-foreground',
+                                'text-left font-normal',
+                              )}
+                            >
+                              {field.value ? (
+                                format(field.value, 'PPP')
+                              ) : (
+                                <span>Pick a date</span>
+                              )}
+                              <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                            </Button>
+                          </FormControl>
+                        </PopoverTrigger>
+                        <PopoverContent className="w-auto p-0" align="start">
+                          <Calendar
+                            mode="single"
+                            selected={field.value ?? undefined}
+                            onSelect={field.onChange}
+                            disabled={(date) =>
+                              date > new Date() || date < new Date('1900-01-01')
+                            }
+                            initialFocus
+                          />
+                        </PopoverContent>
+                      </Popover>
+                    </div>
+                  </div>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="effectivity_date"
+            render={({ field }) => (
+              <FormItem>
+                <FormControl>
+                  <div className="flex flex-row pt-4">
+                    <div className="text-md flex grid w-full flex-row text-[#1e293b] md:grid-cols-2 lg:grid-cols-1">
+                      Effectivity Date:
+                      <Popover>
+                        <PopoverTrigger asChild>
+                          <FormControl>
+                            <Button
+                              variant={'outline'}
+                              className={cn(
+                                'flex h-12 w-full min-w-[240px] rounded-lg border border-input bg-white px-4 py-3 text-sm shadow-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50',
+                                !field.value && 'text-muted-foreground',
+                                'text-left font-normal',
+                              )}
+                            >
+                              {field.value ? (
+                                format(field.value, 'PPP')
+                              ) : (
+                                <span>Pick a date</span>
+                              )}
+                              <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                            </Button>
+                          </FormControl>
+                        </PopoverTrigger>
+                        <PopoverContent className="w-auto p-0" align="start">
+                          <Calendar
+                            mode="single"
+                            selected={field.value ?? undefined}
+                            onSelect={field.onChange}
+                            disabled={(date) =>
+                              date > new Date() || date < new Date('1900-01-01')
+                            }
+                            initialFocus
+                          />
+                        </PopoverContent>
+                      </Popover>
+                    </div>
+                  </div>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="coc_issue_date"
+            render={({ field }) => (
+              <FormItem>
+                <FormControl>
+                  <div className="flex flex-row pt-4">
+                    <div className="text-md flex grid w-full flex-row text-[#1e293b] md:grid-cols-2 lg:grid-cols-1">
+                      COC Issue Date:
+                      <Popover>
+                        <PopoverTrigger asChild>
+                          <FormControl>
+                            <Button
+                              variant={'outline'}
+                              className={cn(
+                                'flex h-12 w-full min-w-[240px] rounded-lg border border-input bg-white px-4 py-3 text-sm shadow-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50',
+                                !field.value && 'text-muted-foreground',
+                                'text-left font-normal',
+                              )}
+                            >
+                              {field.value ? (
+                                format(field.value, 'PPP')
+                              ) : (
+                                <span>Pick a date</span>
+                              )}
+                              <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                            </Button>
+                          </FormControl>
+                        </PopoverTrigger>
+                        <PopoverContent className="w-auto p-0" align="start">
+                          <Calendar
+                            mode="single"
+                            selected={field.value ?? undefined}
+                            onSelect={field.onChange}
+                            disabled={(date) =>
+                              date > new Date() || date < new Date('1900-01-01')
+                            }
+                            initialFocus
+                          />
+                        </PopoverContent>
+                      </Popover>
+                    </div>
+                  </div>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="delivery_date_of_membership_ids"
+            render={({ field }) => (
+              <FormItem>
+                <FormControl>
+                  <div className="flex flex-row pt-4">
+                    <div className="text-md flex grid w-full flex-row text-[#1e293b] md:grid-cols-2 lg:grid-cols-1">
+                      Delivery Date of Membership IDs:
+                      <Popover>
+                        <PopoverTrigger asChild>
+                          <FormControl>
+                            <Button
+                              variant={'outline'}
+                              className={cn(
+                                'flex h-12 w-full min-w-[240px] rounded-lg border border-input bg-white px-4 py-3 text-sm shadow-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50',
+                                !field.value && 'text-muted-foreground',
+                                'text-left font-normal',
+                              )}
+                            >
+                              {field.value ? (
+                                format(field.value, 'PPP')
+                              ) : (
+                                <span>Pick a date</span>
+                              )}
+                              <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                            </Button>
+                          </FormControl>
+                        </PopoverTrigger>
+                        <PopoverContent className="w-auto p-0" align="start">
+                          <Calendar
+                            mode="single"
+                            selected={field.value ?? undefined}
+                            onSelect={field.onChange}
+                            disabled={(date) =>
+                              date > new Date() || date < new Date('1900-01-01')
+                            }
+                            initialFocus
+                          />
+                        </PopoverContent>
+                      </Popover>
+                    </div>
+                  </div>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="orientation_date"
+            render={({ field }) => (
+              <FormItem>
+                <FormControl>
+                  <div className="flex flex-row pt-4">
+                    <div className="text-md flex grid w-full flex-row text-[#1e293b] md:grid-cols-2 lg:grid-cols-1">
+                      Orientation Date:
+                      <Popover>
+                        <PopoverTrigger asChild>
+                          <FormControl>
+                            <Button
+                              variant={'outline'}
+                              className={cn(
+                                'flex h-12 w-full min-w-[240px] rounded-lg border border-input bg-white px-4 py-3 text-sm shadow-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50',
+                                !field.value && 'text-muted-foreground',
+                                'text-left font-normal',
+                              )}
+                            >
+                              {field.value ? (
+                                format(field.value, 'PPP')
+                              ) : (
+                                <span>Pick a date</span>
+                              )}
+                              <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                            </Button>
+                          </FormControl>
+                        </PopoverTrigger>
+                        <PopoverContent className="w-auto p-0" align="start">
+                          <Calendar
+                            mode="single"
+                            selected={field.value ?? undefined}
+                            onSelect={field.onChange}
+                            disabled={(date) =>
+                              date > new Date() || date < new Date('1900-01-01')
+                            }
+                            initialFocus
+                          />
+                        </PopoverContent>
+                      </Popover>
+                    </div>
+                  </div>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="wellness_lecture_date"
+            render={({ field }) => (
+              <FormItem>
+                <FormControl>
+                  <div className="flex flex-row pt-4">
+                    <div className="text-md flex grid w-full flex-row text-[#1e293b] md:grid-cols-2 lg:grid-cols-1">
+                      Wellness Lecture Date:
+                      <Popover>
+                        <PopoverTrigger asChild>
+                          <FormControl>
+                            <Button
+                              variant={'outline'}
+                              className={cn(
+                                'flex h-12 w-full min-w-[240px] rounded-lg border border-input bg-white px-4 py-3 text-sm shadow-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50',
+                                !field.value && 'text-muted-foreground',
+                                'text-left font-normal',
+                              )}
+                            >
+                              {field.value ? (
+                                format(field.value, 'PPP')
+                              ) : (
+                                <span>Pick a date</span>
+                              )}
+                              <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                            </Button>
+                          </FormControl>
+                        </PopoverTrigger>
+                        <PopoverContent className="w-auto p-0" align="start">
+                          <Calendar
+                            mode="single"
+                            selected={field.value ?? undefined}
+                            onSelect={field.onChange}
+                            disabled={(date) =>
+                              date > new Date() || date < new Date('1900-01-01')
+                            }
+                            initialFocus
+                          />
+                        </PopoverContent>
+                      </Popover>
+                    </div>
+                  </div>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="annual_physical_examination_date"
+            render={({ field }) => (
+              <FormItem>
+                <FormControl>
+                  <div className="flex flex-row pt-4">
+                    <div className="text-md flex grid w-full flex-row text-[#1e293b] md:grid-cols-2 lg:grid-cols-1">
+                      Annual Physical Examination Date:
+                      <Popover>
+                        <PopoverTrigger asChild>
+                          <FormControl>
+                            <Button
+                              variant={'outline'}
+                              className={cn(
+                                'flex h-12 w-full min-w-[240px] rounded-lg border border-input bg-white px-4 py-3 text-sm shadow-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50',
+                                !field.value && 'text-muted-foreground',
+                                'text-left font-normal',
+                              )}
+                            >
+                              {field.value ? (
+                                format(field.value, 'PPP')
+                              ) : (
+                                <span>Pick a date</span>
+                              )}
+                              <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                            </Button>
+                          </FormControl>
+                        </PopoverTrigger>
+                        <PopoverContent className="w-auto p-0" align="start">
+                          <Calendar
+                            mode="single"
+                            selected={field.value ?? undefined}
+                            onSelect={field.onChange}
+                            disabled={(date) =>
+                              date > new Date() || date < new Date('1900-01-01')
+                            }
+                            initialFocus
+                          />
+                        </PopoverContent>
+                      </Popover>
+                    </div>
+                  </div>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="billing_period"
+            render={({ field }) => (
+              <FormItem>
+                <FormControl>
+                  <div className="flex flex-row pt-4">
+                    <div className="text-md flex grid w-full flex-row text-[#1e293b] md:grid-cols-2 lg:grid-cols-1">
+                      Billing Period:
                       <Input
                         className="w-full"
                         {...field}
-                        value={String(field.value ?? '')}
+                        type="number"
+                        min="1"
                       />
                     </div>
-                  ) : (
-                    <div className="text-md text-[#1e293b]">
-                      {info.name} <span> {info.value}</span>
-                    </div>
-                  )}
-                </div>
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-      ))}
+                  </div>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </>
+      ) : (
+        <>
+          <div className="flex flex-row pt-4">
+            <div className="text-md text-[#1e293b]">
+              Initial Contract Value:{' '}
+              <span> {account?.initial_contract_value}</span>
+            </div>
+          </div>
+          <div className="flex flex-row pt-4">
+            <div className="text-md text-[#1e293b]">
+              Initial Head Count: <span> {account?.initial_head_count}</span>
+            </div>
+          </div>
+          <div className="flex flex-row pt-4">
+            <div className="text-md text-[#1e293b]">
+              Total Contract Value:{' '}
+              <span> {account?.total_contract_value}</span>
+            </div>
+          </div>
+          <div className="flex flex-row pt-4">
+            <div className="text-md text-[#1e293b]">
+              Mode of Payment:{' '}
+              <span>
+                {' '}
+                {account?.mode_of_payment
+                  ? // @ts-ignore
+                    account?.mode_of_payment.name
+                  : ''}
+              </span>
+            </div>
+          </div>
+          <div className="flex flex-row pt-4">
+            <div className="text-md text-[#1e293b]">
+              Mode of Premium:{' '}
+              <span>
+                {' '}
+                {account?.mode_of_premium
+                  ? // @ts-ignore
+                    account?.mode_of_premium.name
+                  : ''}
+              </span>
+            </div>
+          </div>
+          <div className="flex flex-row pt-4">
+            <div className="text-md text-[#1e293b]">
+              Due Date: <span>{account?.due_date}</span>
+            </div>
+          </div>
+          <div className="flex flex-row pt-4">
+            <div className="text-md text-[#1e293b]">
+              Expiration Date: <span>{account?.expiration_date}</span>
+            </div>
+          </div>
+          <div className="flex flex-row pt-4">
+            <div className="text-md text-[#1e293b]">
+              Effectivity Date: <span>{account?.effectivity_date}</span>
+            </div>
+          </div>
+          <div className="flex flex-row pt-4">
+            <div className="text-md text-[#1e293b]">
+              COC Issue Date: <span>{account?.coc_issue_date}</span>
+            </div>
+          </div>
+          <div className="flex flex-row pt-4">
+            <div className="text-md text-[#1e293b]">
+              Delivery Date of Membership IDs:{' '}
+              <span>{account?.delivery_date_of_membership_ids}</span>
+            </div>
+          </div>
+          <div className="flex flex-row pt-4">
+            <div className="text-md text-[#1e293b]">
+              Orientation Date: <span>{account?.orientation_date}</span>
+            </div>
+          </div>
+          <div className="flex flex-row pt-4">
+            <div className="text-md text-[#1e293b]">
+              Wellness Lecture Date:{' '}
+              <span>{account?.wellness_lecture_date}</span>
+            </div>
+          </div>
+          <div className="flex flex-row pt-4">
+            <div className="text-md text-[#1e293b]">
+              Annual Physical Examination Date:{' '}
+              <span>{account?.annual_physical_examination_date}</span>
+            </div>
+          </div>
+          <div className="flex flex-row pt-4">
+            <div className="text-md text-[#1e293b]">
+              Billing Period: <span>{account?.billing_period}</span>
+            </div>
+          </div>
+        </>
+      )}
     </>
   )
 }

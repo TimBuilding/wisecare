@@ -66,7 +66,7 @@ const EditType: FC<EditTypeProps> = ({ id, name, page }) => {
         mutateAsync({ id, name: data.name })
       })(e)
     },
-    [id, name, mutateAsync, form],
+    [id, mutateAsync, form],
   )
 
   return (

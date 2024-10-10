@@ -121,7 +121,7 @@ const DataTable = <TData extends IData, TValue>({
       }
     }
     upsertColumnVisibility()
-  }, [columnVisibility])
+  }, [columnVisibility, supabase, toast])
 
   useEffect(() => {
     const getAccountsColumnVisibility = async () => {

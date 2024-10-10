@@ -12,9 +12,9 @@ import {
 } from '@/components/ui/form'
 import { useFormContext } from 'react-hook-form'
 import { z } from 'zod'
-import accountsSchema from '@/app/(dashboard)/(home)/accounts/accounts-schema'
 import { useCompanyEditContext } from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/company-edit-provider'
 import companyEditsSchema from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/company-edits-schema'
+import { zodResolver } from '@hookform/resolvers/zod'
 
 interface CompanyInformationProps {
   id: string
@@ -25,86 +25,216 @@ const CompanyInformation: FC<CompanyInformationProps> = ({ id }) => {
   const form = useFormContext<z.infer<typeof companyEditsSchema>>()
   const supabase = createBrowserClient()
   const { data: account } = useQuery(getAccountById(supabase, id))
-  const companyInformation = [
-    {
-      key: 'company_name',
-      name: 'Company Name:',
-      value: account?.company_name || '',
-    },
-    {
-      key: 'company_address',
-      name: 'Company Address:',
-      value: account?.company_address || '',
-    },
-    {
-      key: 'nature_of_business',
-      name: 'Nature of Business:',
-      value: account?.nature_of_business || '',
-    },
-    {
-      key: 'contact_person',
-      name: 'Contact Person:',
-      value: account?.contact_person || '',
-    },
-    {
-      key: 'contact_number',
-      name: 'Contact Number:',
-      value: account?.contact_number || '',
-    },
-    {
-      key: 'signatory_designation',
-      name: 'Signatory Designation:',
-      value: account?.signatory_designation || '',
-    },
-    {
-      key: 'name_of_signatory',
-      name: 'Name of Signatory:',
-      value: account?.name_of_signatory || '',
-    },
-    {
-      key: 'designation_of_contact_person',
-      name: 'Designation of Contact Person:',
-      value: account?.designation_of_contact_person || '',
-    },
-    {
-      key: 'email_address_of_contact_person',
-      name: 'Email Address of Contact Person:',
-      value: account?.email_address_of_contact_person || '',
-    },
-  ]
 
   return (
     <>
-      {companyInformation.map((info, index) => (
-        <FormField
-          key={index}
-          control={form.control}
-          name={info.key as keyof z.infer<typeof companyEditsSchema>}
-          render={({ field }) => (
-            <FormItem>
-              <FormControl>
-                <div className="flex flex-row pt-4" key={index}>
-                  {editMode ? (
+      {editMode ? (
+        <>
+          <FormField
+            control={form.control}
+            name="company_name"
+            render={({ field }) => (
+              <FormItem>
+                <FormControl>
+                  <div className="flex flex-row pt-4">
                     <div className="text-md flex grid w-full flex-row text-[#1e293b] md:grid-cols-2 lg:grid-cols-1">
-                      {info.name}{' '}
-                      <Input
-                        className="w-full"
-                        {...field}
-                        value={String(field.value ?? '')}
-                      />
+                      Company Name:
+                      <Input className="w-full" {...field} />
                     </div>
-                  ) : (
-                    <div className="text-md text-[#1e293b]">
-                      {info.name} <span> {info.value}</span>
+                  </div>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="company_address"
+            render={({ field }) => (
+              <FormItem>
+                <FormControl>
+                  <div className="flex flex-row pt-4">
+                    <div className="text-md flex grid w-full flex-row text-[#1e293b] md:grid-cols-2 lg:grid-cols-1">
+                      Company Address: <Input className="w-full" {...field} />
                     </div>
-                  )}
-                </div>
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-      ))}
+                  </div>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="nature_of_business"
+            render={({ field }) => (
+              <FormItem>
+                <FormControl>
+                  <div className="flex flex-row pt-4">
+                    <div className="text-md flex grid w-full flex-row text-[#1e293b] md:grid-cols-2 lg:grid-cols-1">
+                      Nature of Business:
+                      <Input className="w-full" {...field} />
+                    </div>
+                  </div>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="contact_person"
+            render={({ field }) => (
+              <FormItem>
+                <FormControl>
+                  <div className="flex flex-row pt-4">
+                    <div className="text-md flex grid w-full flex-row text-[#1e293b] md:grid-cols-2 lg:grid-cols-1">
+                      Contact Person:
+                      <Input className="w-full" {...field} />
+                    </div>
+                  </div>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="contact_number"
+            render={({ field }) => (
+              <FormItem>
+                <FormControl>
+                  <div className="flex flex-row pt-4">
+                    <div className="text-md flex grid w-full flex-row text-[#1e293b] md:grid-cols-2 lg:grid-cols-1">
+                      Contact Number:
+                      <Input className="w-full" {...field} />
+                    </div>
+                  </div>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="signatory_designation"
+            render={({ field }) => (
+              <FormItem>
+                <FormControl>
+                  <div className="flex flex-row pt-4">
+                    <div className="text-md flex grid w-full flex-row text-[#1e293b] md:grid-cols-2 lg:grid-cols-1">
+                      Signatory Designation:
+                      <Input className="w-full" {...field} />
+                    </div>
+                  </div>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="name_of_signatory"
+            render={({ field }) => (
+              <FormItem>
+                <FormControl>
+                  <div className="flex flex-row pt-4">
+                    <div className="text-md flex grid w-full flex-row text-[#1e293b] md:grid-cols-2 lg:grid-cols-1">
+                      Name of Signatory:
+                      <Input className="w-full" {...field} />
+                    </div>
+                  </div>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="designation_of_contact_person"
+            render={({ field }) => (
+              <FormItem>
+                <FormControl>
+                  <div className="flex flex-row pt-4">
+                    <div className="text-md flex grid w-full flex-row text-[#1e293b] md:grid-cols-2 lg:grid-cols-1">
+                      Designation of Contact Person:
+                      <Input className="w-full" {...field} />
+                    </div>
+                  </div>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="email_address_of_contact_person"
+            render={({ field }) => (
+              <FormItem>
+                <FormControl>
+                  <div className="flex flex-row pt-4">
+                    <div className="text-md flex grid w-full flex-row text-[#1e293b] md:grid-cols-2 lg:grid-cols-1">
+                      Email Address of Contact Person:
+                      <Input className="w-full" {...field} />
+                    </div>
+                  </div>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </>
+      ) : (
+        <>
+          <div className="flex flex-row pt-4">
+            <div className="text-md text-[#1e293b]">
+              Company Name: <span>{account?.company_name}</span>
+            </div>
+          </div>
+          <div className="flex flex-row pt-4">
+            <div className="text-md text-[#1e293b]">
+              Company Address: <span>{account?.company_address}</span>
+            </div>
+          </div>
+          <div className="flex flex-row pt-4">
+            <div className="text-md text-[#1e293b]">
+              Nature of Business <span>{account?.nature_of_business}</span>
+            </div>
+          </div>
+          <div className="flex flex-row pt-4">
+            <div className="text-md text-[#1e293b]">
+              Contact Person: <span>{account?.contact_person}</span>
+            </div>
+          </div>
+          <div className="flex flex-row pt-4">
+            <div className="text-md text-[#1e293b]">
+              Contact Number: <span>{account?.contact_number}</span>
+            </div>
+          </div>
+          <div className="flex flex-row pt-4">
+            <div className="text-md text-[#1e293b]">
+              Signatory Designation:{' '}
+              <span>{account?.signatory_designation}</span>
+            </div>
+          </div>
+          <div className="flex flex-row pt-4">
+            <div className="text-md text-[#1e293b]">
+              Name Of Signatory: <span>{account?.name_of_signatory}</span>
+            </div>
+          </div>
+          <div className="flex flex-row pt-4">
+            <div className="text-md text-[#1e293b]">
+              Designation of Contact Person:{' '}
+              <span>{account?.designation_of_contact_person}</span>
+            </div>
+          </div>
+          <div className="flex flex-row pt-4">
+            <div className="text-md text-[#1e293b]">
+              Email Address of Contact Person:{' '}
+              <span>{account?.email_address_of_contact_person}</span>
+            </div>
+          </div>
+        </>
+      )}
     </>
   )
 }

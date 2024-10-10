@@ -8,11 +8,22 @@ import {
   FormControl,
   FormField,
   FormItem,
+  FormLabel,
   FormMessage,
 } from '@/components/ui/form'
-import { useFormContext } from 'react-hook-form'
+import { ControllerRenderProps, useFormContext } from 'react-hook-form'
 import { z } from 'zod'
 import companyEditsSchema from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/company-edits-schema'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
+import getTypes from '@/queries/get-types'
+import getAgents from '@/queries/get-agents'
+import pendingSchema from '@/app/(dashboard)/(home)/pending/forms/pending-schema'
 
 interface CompanyAccountInformationProps {
   id: string
@@ -25,64 +36,136 @@ const CompanyAccountInformation: FC<CompanyAccountInformationProps> = ({
   const form = useFormContext<z.infer<typeof companyEditsSchema>>()
   const supabase = createBrowserClient()
   const { data: account } = useQuery(getAccountById(supabase, id))
-
-  const companyAccountInformation = [
-    {
-      key: 'account_type',
-      name: 'Account Type:',
-      // @ts-ignore
-      value: account?.account_type ? account?.account_type.name : '',
-    },
-    {
-      key: 'agent',
-      name: 'Agent:',
-      // @ts-ignore
-      value: account?.agent ? account?.agent.first_name : '',
-    },
-    {
-      key: 'is_active',
-      name: 'Active Status:',
-      value: account?.is_active ? 'Active' : 'Inactive',
-    },
-    {
-      key: 'commision_rate',
-      name: 'Commission Rate:',
-      value: account?.commision_rate ? account?.commision_rate : '',
-    },
-  ]
+  const { data: accountType } = useQuery(getTypes(supabase, 'account_types'))
+  const { data: agents } = useQuery(getAgents(supabase))
 
   return (
     <>
-      {companyAccountInformation.map((info, index) => (
-        <FormField
-          key={index}
-          control={form.control}
-          name={info.key as keyof z.infer<typeof companyEditsSchema>}
-          render={({ field }) => (
-            <FormItem>
-              <FormControl>
-                <div className="flex flex-row pt-4" key={index}>
-                  {editMode ? (
+      {editMode ? (
+        <>
+          <FormField
+            control={form.control}
+            name="account_type_id"
+            render={({ field }) => (
+              <FormItem>
+                <div className="flex flex-row pt-4">
+                  <div className="text-md flex grid w-full flex-row text-[#1e293b] md:grid-cols-2 lg:grid-cols-1">
+                    Account Type:
+                    <Select
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                    >
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        {accountType?.map((type) => (
+                          <SelectItem key={type.id} value={type.id}>
+                            {type.name}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                </div>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="agent_id"
+            render={({ field }) => (
+              <FormItem>
+                <div className="flex flex-row pt-4">
+                  <div className="text-md flex grid w-full flex-row text-[#1e293b] md:grid-cols-2 lg:grid-cols-1">
+                    Agent:
+                    <Select
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                    >
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        {agents &&
+                          agents[0].user_profiles.map((profile) => (
+                            <SelectItem
+                              key={profile.user_id}
+                              value={profile.user_id}
+                            >
+                              {profile.first_name} {profile.last_name}
+                            </SelectItem>
+                          ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                </div>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="commision_rate"
+            render={({ field }) => (
+              <FormItem>
+                <FormControl>
+                  <div className="flex flex-row pt-4">
                     <div className="text-md flex grid w-full flex-row text-[#1e293b] md:grid-cols-2 lg:grid-cols-1">
-                      {info.name}{' '}
+                      Commission Rate:
                       <Input
                         className="w-full"
                         {...field}
-                        value={String(field.value ?? '')}
+                        type="number"
+                        min="0"
+                        step="0.01"
                       />
                     </div>
-                  ) : (
-                    <div className="text-md text-[#1e293b]">
-                      {info.name} <span> {info.value}</span>
-                    </div>
-                  )}
-                </div>
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-      ))}
+                  </div>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </>
+      ) : (
+        <>
+          <div className="flex flex-row pt-4">
+            <div className="text-md text-[#1e293b]">
+              Account Type:{' '}
+              <span>
+                {/*@ts-ignore*/}
+                {account?.account_type ? account?.account_type.name : ''}
+              </span>
+            </div>
+          </div>
+          <div className="flex flex-row pt-4">
+            <div className="text-md text-[#1e293b]">
+              Agent:{' '}
+              <span>
+                {/*@ts-ignore*/}
+                {account?.agent ? account?.agent.first_name : ''}{' '}
+                {/*@ts-ignore*/}
+                {account?.agent ? account?.agent.last_name : ''}
+              </span>
+            </div>
+          </div>
+          <div className="flex flex-row pt-4">
+            <div className="text-md text-[#1e293b]">
+              {/*@ts-ignore*/}
+              Commission Rate:{' '}
+              <span>
+                {account?.commision_rate ? account?.commision_rate : ''}
+              </span>
+            </div>
+          </div>
+        </>
+      )}
     </>
   )
 }

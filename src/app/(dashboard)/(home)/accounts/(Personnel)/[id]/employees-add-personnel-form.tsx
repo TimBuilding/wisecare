@@ -96,7 +96,7 @@ const EmployeesAddPersonnelForm = () => {
         ])
       })(e)
     },
-    [form, mutateAsync],
+    [form, mutateAsync, params.id],
   )
 
   return (
