@@ -137,7 +137,9 @@ const AddUserForm = ({ onOpenChange }: Props) => {
                   </FormControl>
                   <SelectContent>
                     <SelectItem value="marketing">Marketing</SelectItem>
-                    <SelectItem value="after-sales">After Sales</SelectItem>
+                    <SelectItem value="after-sales">
+                      Renewal and After Sales
+                    </SelectItem>
                     <SelectItem value="under-writing">Under Writing</SelectItem>
                     <SelectItem value="finance">Finance</SelectItem>
                     <SelectItem value="admin">Admin</SelectItem>
