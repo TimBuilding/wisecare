@@ -687,15 +687,6 @@ export type Database = {
           commision_rate: number
           additional_benefits: string
           special_benefits: string
-          mode_of_premium: string
-          due_date: string
-          or_number: string
-          or_date: string
-          sa_number: string
-          amount: number
-          total_contract_value: number
-          balance: number
-          billing_period: number
           summary_of_benefits: string
           name_of_signatory: string
           designation_of_contact_person: string

@@ -1,9 +1,10 @@
-import { ColumnDef } from '@tanstack/react-table'
-import { getAccountsResponse } from '../accounts/columns/marketing-columns'
 import TableHeader from '@/components/table-header'
+import { ColumnDef } from '@tanstack/react-table'
 import { format } from 'date-fns'
 
-const pendingColumns: ColumnDef<getAccountsResponse>[] = [
+// note: don't use any type.
+// this is not used yet
+const pendingColumns: ColumnDef<any>[] = [
   {
     accessorKey: 'company_name',
     header: ({ column }) => (

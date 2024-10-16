@@ -1,8 +1,12 @@
+'use client'
 import TableHeader from '@/components/table-header'
+import getAccounts from '@/queries/get-accounts'
+import { Tables } from '@/types/database.types'
 import { ColumnDef } from '@tanstack/react-table'
-import { getAccountsResponse } from './marketing-columns'
 
-const financeColumns: ColumnDef<getAccountsResponse>[] = [
+type getAccountsResponse = Awaited<ReturnType<typeof getAccounts>>
+
+const accountsColumns: ColumnDef<Tables<'accounts'>>[] = [
   {
     accessorKey: 'company_name',
     header: ({ column }) => (
@@ -10,13 +14,13 @@ const financeColumns: ColumnDef<getAccountsResponse>[] = [
     ),
   },
   {
-    accessorKey: 'account_type.name',
+    accessorKey: 'account_type',
     header: ({ column }) => (
       <TableHeader column={column} title="Account Type" />
     ),
   },
   {
-    accessorKey: 'agent.first_name',
+    accessorKey: 'agent',
     header: ({ column }) => <TableHeader column={column} title="Agent" />,
   },
   {
@@ -38,19 +42,19 @@ const financeColumns: ColumnDef<getAccountsResponse>[] = [
     ),
   },
   {
-    accessorKey: 'hmo_provider.name',
+    accessorKey: 'hmo_provider',
     header: ({ column }) => (
       <TableHeader column={column} title="HMO Provider" />
     ),
   },
   {
-    accessorKey: 'previous_hmo_provider.name',
+    accessorKey: 'previous_hmo_provider',
     header: ({ column }) => (
       <TableHeader column={column} title="Previous HMO Provider" />
     ),
   },
   {
-    accessorKey: 'current_hmo_provider.name',
+    accessorKey: 'current_hmo_provider',
     header: ({ column }) => (
       <TableHeader column={column} title="Current HMO Provider" />
     ),
@@ -86,13 +90,13 @@ const financeColumns: ColumnDef<getAccountsResponse>[] = [
     ),
   },
   {
-    accessorKey: 'principal_plan_type.name',
+    accessorKey: 'principal_plan_type',
     header: ({ column }) => (
       <TableHeader column={column} title="Principal Plan Type" />
     ),
   },
   {
-    accessorKey: 'dependent_plan_type.name',
+    accessorKey: 'dependent_plan_type',
     header: ({ column }) => (
       <TableHeader column={column} title="Dependent Plan Type" />
     ),
@@ -140,7 +144,7 @@ const financeColumns: ColumnDef<getAccountsResponse>[] = [
     ),
   },
   {
-    accessorKey: 'mode_of_payment.name',
+    accessorKey: 'mode_of_payment',
     header: ({ column }) => (
       <TableHeader column={column} title="Mode of Payment" />
     ),
@@ -175,6 +179,32 @@ const financeColumns: ColumnDef<getAccountsResponse>[] = [
       <TableHeader column={column} title="Special Benefits" />
     ),
   },
+  {
+    accessorKey: 'created_at',
+    header: ({ column }) => <TableHeader column={column} title="Created At" />,
+  },
+  {
+    accessorKey: 'updated_at',
+    header: ({ column }) => <TableHeader column={column} title="Updated At" />,
+  },
+  {
+    accessorKey: 'name_of_signatory',
+    header: ({ column }) => (
+      <TableHeader column={column} title="Name of Signatory" />
+    ),
+  },
+  {
+    accessorKey: 'designation_of_contact_person',
+    header: ({ column }) => (
+      <TableHeader column={column} title="Designation of Contact Person" />
+    ),
+  },
+  {
+    accessorKey: 'email_address_of_contact_person',
+    header: ({ column }) => (
+      <TableHeader column={column} title="Email Address of Contact Person" />
+    ),
+  },
 ]
 
-export default financeColumns
+export default accountsColumns
