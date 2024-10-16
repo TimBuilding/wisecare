@@ -1,7 +1,7 @@
 'use server'
 
 import getRole from '@/utils/get-role'
-import { BookCopy, ClipboardCheck, ListStart } from 'lucide-react'
+import { Book, BookCopy, ClipboardCheck } from 'lucide-react'
 import AdminNavigation from './admin-navigation'
 import NavigationItem from './navigation-item'
 
@@ -41,9 +41,9 @@ const Navigation = async () => {
             // only show pending tab if role is finance
             (await getRole()) === 'finance' && (
               <NavigationItem
-                title="Pending"
-                href="/pending"
-                icon={<ListStart className="h-6 w-6 group-hover:text-white" />}
+                title="Billing Statements"
+                href="/billing-statements"
+                icon={<Book className="h-6 w-6 group-hover:text-white" />}
               />
             )
           }

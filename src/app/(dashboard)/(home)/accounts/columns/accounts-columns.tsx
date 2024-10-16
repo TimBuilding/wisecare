@@ -4,8 +4,6 @@ import getAccounts from '@/queries/get-accounts'
 import { Tables } from '@/types/database.types'
 import { ColumnDef } from '@tanstack/react-table'
 
-type getAccountsResponse = Awaited<ReturnType<typeof getAccounts>>
-
 const accountsColumns: ColumnDef<Tables<'accounts'>>[] = [
   {
     accessorKey: 'company_name',
