@@ -58,23 +58,22 @@ const DataTable = <TData, TValue>({
       <PageHeader>
         <div className="flex w-full flex-col gap-6 sm:flex-row sm:justify-between">
           <div>
-            <PageTitle>Pending</PageTitle>
-            <PageDescription>5 Accounts</PageDescription>
+            <PageTitle>Billing Statements</PageTitle>
+            <PageDescription>5 Billing Statements</PageDescription>
           </div>
           <div className="flex flex-row gap-4">
             <div className="relative">
               <Search className="absolute left-3.5 top-3.5 h-5 w-5 text-[#94a3b8]" />
               <Input
                 className="max-w-xs rounded-full pl-10"
-                placeholder="Search accounts"
+                placeholder="Search"
                 value={
-                  (table
-                    .getColumn('company_name')
-                    ?.getFilterValue() as string) ?? ''
+                  (table.getColumn('or_number')?.getFilterValue() as string) ??
+                  ''
                 }
                 onChange={(event) =>
                   table
-                    .getColumn('company_name')
+                    .getColumn('or_number')
                     ?.setFilterValue(event.target.value)
                 }
               />

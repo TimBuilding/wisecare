@@ -188,3 +188,49 @@ BEGIN
         );
     END LOOP;
 END $$;
+
+
+DO $$
+DECLARE
+    i integer;
+BEGIN
+    FOR i IN 1..500 LOOP
+        INSERT INTO billing_statements (
+            id,
+            mode_of_premium_id,
+            due_date,
+            or_number,
+            or_date,
+            sa_number,
+            amount,
+            total_contract_value,
+            balance,
+            billing_period,
+            is_active,
+            amount_billed,
+            amount_paid,
+            commission_rate,
+            commission_earned,
+            created_at,
+            updated_at
+        ) VALUES (
+            uuid_generate_v4(),
+            (SELECT id FROM mode_of_premium LIMIT 1 OFFSET floor(random() * (SELECT count(*) FROM mode_of_premium))),
+            current_date + (i * interval '1 month'),
+            'OR' || i,
+            current_date + (i * interval '1 month'),
+            'SA' || i,
+            100.0 * i,
+            1000.0 * i,
+            900.0 * i,
+            (i % 31) + 1,
+            true,
+            100.0 * i,
+            50.0 * i,
+            5.0,
+            25.0 * i,
+            now(),
+            now()
+        );
+    END LOOP;
+END $$;
