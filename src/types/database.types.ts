@@ -60,10 +60,7 @@ export type Database = {
           account_type_id: string | null
           additional_benefits: string | null
           agent_id: string | null
-          amount: number | null
           annual_physical_examination_date: string | null
-          balance: number | null
-          billing_period: number | null
           coc_issue_date: string | null
           commision_rate: number | null
           company_address: string | null
@@ -75,7 +72,6 @@ export type Database = {
           delivery_date_of_membership_ids: string | null
           dependent_plan_type_id: string | null
           designation_of_contact_person: string | null
-          due_date: string | null
           effectivity_date: string | null
           email_address_of_contact_person: string | null
           expiration_date: string | null
@@ -85,19 +81,14 @@ export type Database = {
           initial_head_count: number | null
           is_active: boolean | null
           mode_of_payment_id: string | null
-          mode_of_premium_id: string | null
           name_of_signatory: string | null
           nature_of_business: string | null
-          or_date: string | null
-          or_number: string | null
           orientation_date: string | null
           previous_hmo_provider_id: string | null
           principal_plan_type_id: string | null
-          sa_number: string | null
           signatory_designation: string | null
           special_benefits: string | null
           summary_of_benefits: string | null
-          total_contract_value: number | null
           total_premium_paid: number | null
           total_utilization: number | null
           updated_at: string
@@ -107,10 +98,7 @@ export type Database = {
           account_type_id?: string | null
           additional_benefits?: string | null
           agent_id?: string | null
-          amount?: number | null
           annual_physical_examination_date?: string | null
-          balance?: number | null
-          billing_period?: number | null
           coc_issue_date?: string | null
           commision_rate?: number | null
           company_address?: string | null
@@ -122,7 +110,6 @@ export type Database = {
           delivery_date_of_membership_ids?: string | null
           dependent_plan_type_id?: string | null
           designation_of_contact_person?: string | null
-          due_date?: string | null
           effectivity_date?: string | null
           email_address_of_contact_person?: string | null
           expiration_date?: string | null
@@ -132,19 +119,14 @@ export type Database = {
           initial_head_count?: number | null
           is_active?: boolean | null
           mode_of_payment_id?: string | null
-          mode_of_premium_id?: string | null
           name_of_signatory?: string | null
           nature_of_business?: string | null
-          or_date?: string | null
-          or_number?: string | null
           orientation_date?: string | null
           previous_hmo_provider_id?: string | null
           principal_plan_type_id?: string | null
-          sa_number?: string | null
           signatory_designation?: string | null
           special_benefits?: string | null
           summary_of_benefits?: string | null
-          total_contract_value?: number | null
           total_premium_paid?: number | null
           total_utilization?: number | null
           updated_at?: string
@@ -154,10 +136,7 @@ export type Database = {
           account_type_id?: string | null
           additional_benefits?: string | null
           agent_id?: string | null
-          amount?: number | null
           annual_physical_examination_date?: string | null
-          balance?: number | null
-          billing_period?: number | null
           coc_issue_date?: string | null
           commision_rate?: number | null
           company_address?: string | null
@@ -169,7 +148,6 @@ export type Database = {
           delivery_date_of_membership_ids?: string | null
           dependent_plan_type_id?: string | null
           designation_of_contact_person?: string | null
-          due_date?: string | null
           effectivity_date?: string | null
           email_address_of_contact_person?: string | null
           expiration_date?: string | null
@@ -179,19 +157,14 @@ export type Database = {
           initial_head_count?: number | null
           is_active?: boolean | null
           mode_of_payment_id?: string | null
-          mode_of_premium_id?: string | null
           name_of_signatory?: string | null
           nature_of_business?: string | null
-          or_date?: string | null
-          or_number?: string | null
           orientation_date?: string | null
           previous_hmo_provider_id?: string | null
           principal_plan_type_id?: string | null
-          sa_number?: string | null
           signatory_designation?: string | null
           special_benefits?: string | null
           summary_of_benefits?: string | null
-          total_contract_value?: number | null
           total_premium_paid?: number | null
           total_utilization?: number | null
           updated_at?: string
@@ -238,13 +211,6 @@ export type Database = {
             columns: ['mode_of_payment_id']
             isOneToOne: false
             referencedRelation: 'mode_of_payments'
-            referencedColumns: ['id']
-          },
-          {
-            foreignKeyName: 'accounts_mode_of_premium_id_fkey'
-            columns: ['mode_of_premium_id']
-            isOneToOne: false
-            referencedRelation: 'mode_of_premium'
             referencedColumns: ['id']
           },
           {
@@ -533,6 +499,42 @@ export type Database = {
           id?: string
           is_active?: boolean
           name?: string
+        }
+        Relationships: []
+      }
+      tablename: {
+        Row: {
+          account_id: string | null
+          birth_date: string | null
+          card_number: number | null
+          effective_date: string | null
+          first_name: string | null
+          gender: string | null
+          last_name: string | null
+          maximum_benefit_limit: number | null
+          room_plan: string | null
+        }
+        Insert: {
+          account_id?: string | null
+          birth_date?: string | null
+          card_number?: number | null
+          effective_date?: string | null
+          first_name?: string | null
+          gender?: string | null
+          last_name?: string | null
+          maximum_benefit_limit?: number | null
+          room_plan?: string | null
+        }
+        Update: {
+          account_id?: string | null
+          birth_date?: string | null
+          card_number?: number | null
+          effective_date?: string | null
+          first_name?: string | null
+          gender?: string | null
+          last_name?: string | null
+          maximum_benefit_limit?: number | null
+          room_plan?: string | null
         }
         Relationships: []
       }

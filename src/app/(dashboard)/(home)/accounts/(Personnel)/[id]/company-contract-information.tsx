@@ -90,40 +90,6 @@ const CompanyContractInformation: FC<CompanyContractInformationProps> = ({
           />
           <FormField
             control={form.control}
-            name="total_contract_value"
-            render={({ field }) => (
-              <FormItem>
-                <FormControl>
-                  <div className="flex flex-row pt-4">
-                    <div className="text-md flex grid w-full flex-row text-[#1e293b] md:grid-cols-2 lg:grid-cols-1">
-                      Total Contract Value:
-                      <Input className="w-full" {...field} type="number" />
-                    </div>
-                  </div>
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="balance"
-            render={({ field }) => (
-              <FormItem>
-                <FormControl>
-                  <div className="flex flex-row pt-4">
-                    <div className="text-md flex grid w-full flex-row text-[#1e293b] md:grid-cols-2 lg:grid-cols-1">
-                      Balance:
-                      <Input className="w-full" {...field} type="number" />
-                    </div>
-                  </div>
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
             name="mode_of_payment_id"
             render={({ field }) => (
               <FormItem>
@@ -153,102 +119,7 @@ const CompanyContractInformation: FC<CompanyContractInformationProps> = ({
               </FormItem>
             )}
           />
-          <FormField
-            control={form.control}
-            name="mode_of_premium_id"
-            render={({ field }) => (
-              <FormItem>
-                <FormControl>
-                  <div className="flex flex-row pt-4">
-                    <div className="text-md flex grid w-full flex-row text-[#1e293b] md:grid-cols-2 lg:grid-cols-1">
-                      Mode of Premium:
-                      <Select
-                        onValueChange={field.onChange}
-                        defaultValue={field.value}
-                      >
-                        <FormControl>
-                          <SelectTrigger>
-                            <SelectValue />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                          {modeOfPremiums?.map((mode) => (
-                            <SelectItem key={mode.id} value={mode.id}>
-                              {mode.name}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                    </div>
-                  </div>
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="due_date"
-            render={({ field }) => (
-              <FormItem>
-                <div className="flex flex-row pt-4">
-                  <div className="text-md flex grid w-full flex-row text-[#1e293b] md:grid-cols-2 lg:grid-cols-1">
-                    Due date:{' '}
-                    <Popover>
-                      <PopoverTrigger asChild>
-                        <FormControl>
-                          <Button
-                            variant={'outline'}
-                            className={cn(
-                              'flex h-12 w-full min-w-[240px] rounded-lg border border-input bg-white px-4 py-3 text-sm shadow-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50',
-                              !field.value && 'text-muted-foreground',
-                              'text-left font-normal',
-                            )}
-                          >
-                            {field.value ? (
-                              format(field.value, 'PPP')
-                            ) : (
-                              <span>Pick a date</span>
-                            )}
-                            <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                          </Button>
-                        </FormControl>
-                      </PopoverTrigger>
-                      <PopoverContent className="w-auto p-0" align="start">
-                        <Calendar
-                          mode="single"
-                          selected={field.value ?? undefined}
-                          onSelect={field.onChange}
-                          disabled={(date) =>
-                            date > new Date() || date < new Date('1900-01-01')
-                          }
-                          initialFocus
-                        />
-                      </PopoverContent>
-                    </Popover>
-                  </div>
-                </div>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="amount"
-            render={({ field }) => (
-              <FormItem>
-                <FormControl>
-                  <div className="flex flex-row pt-4">
-                    <div className="text-md flex grid w-full flex-row text-[#1e293b] md:grid-cols-2 lg:grid-cols-1">
-                      Amount:
-                      <Input className="w-full" {...field} type="number" />
-                    </div>
-                  </div>
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+
           <FormField
             control={form.control}
             name="expiration_date"
@@ -585,28 +456,6 @@ const CompanyContractInformation: FC<CompanyContractInformationProps> = ({
               </FormItem>
             )}
           />
-          <FormField
-            control={form.control}
-            name="billing_period"
-            render={({ field }) => (
-              <FormItem>
-                <FormControl>
-                  <div className="flex flex-row pt-4">
-                    <div className="text-md flex grid w-full flex-row text-[#1e293b] md:grid-cols-2 lg:grid-cols-1">
-                      Billing Period:
-                      <Input
-                        className="w-full"
-                        {...field}
-                        type="number"
-                        min="1"
-                      />
-                    </div>
-                  </div>
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
         </>
       ) : (
         <>
@@ -621,12 +470,7 @@ const CompanyContractInformation: FC<CompanyContractInformationProps> = ({
               Initial Head Count: <span> {account?.initial_head_count}</span>
             </div>
           </div>
-          <div className="flex flex-row pt-4">
-            <div className="text-md text-[#1e293b]">
-              Total Contract Value:{' '}
-              <span> {account?.total_contract_value}</span>
-            </div>
-          </div>
+
           <div className="flex flex-row pt-4">
             <div className="text-md text-[#1e293b]">
               Mode of Payment:{' '}
@@ -639,23 +483,7 @@ const CompanyContractInformation: FC<CompanyContractInformationProps> = ({
               </span>
             </div>
           </div>
-          <div className="flex flex-row pt-4">
-            <div className="text-md text-[#1e293b]">
-              Mode of Premium:{' '}
-              <span>
-                {' '}
-                {account?.mode_of_premium
-                  ? // @ts-ignore
-                    account?.mode_of_premium.name
-                  : ''}
-              </span>
-            </div>
-          </div>
-          <div className="flex flex-row pt-4">
-            <div className="text-md text-[#1e293b]">
-              Due Date: <span>{account?.due_date}</span>
-            </div>
-          </div>
+
           <div className="flex flex-row pt-4">
             <div className="text-md text-[#1e293b]">
               Expiration Date: <span>{account?.expiration_date}</span>
@@ -692,11 +520,6 @@ const CompanyContractInformation: FC<CompanyContractInformationProps> = ({
             <div className="text-md text-[#1e293b]">
               Annual Physical Examination Date:{' '}
               <span>{account?.annual_physical_examination_date}</span>
-            </div>
-          </div>
-          <div className="flex flex-row pt-4">
-            <div className="text-md text-[#1e293b]">
-              Billing Period: <span>{account?.billing_period}</span>
             </div>
           </div>
         </>
