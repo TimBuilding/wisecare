@@ -1,29 +1,17 @@
 import { TypedSupabaseClient } from '@/types/typedSupabaseClient'
 
-const getBillingStatements = (supabase: TypedSupabaseClient) => {
+const getBillingStatements = (
+  supabase: TypedSupabaseClient,
+  filter?: string,
+  start_offset?: number,
+  end_offset?: number,
+) => {
   return supabase
-    .from('billing_statements')
-    .select(
-      `
-      id,
-      mode_of_premium:mode_of_premium_id(name),
-      due_date,
-      or_number,
-      or_date,
-      sa_number,
-      amount,
-      total_contract_value,
-      balance,
-      billing_period,
-      amount_billed,
-      amount_paid,
-      commission_rate,
-      commission_earned,
-      created_at
-      `,
-    )
-    .order('created_at', { ascending: true })
-    .eq('is_active', true)
+    .rpc('search_billing_statements', {
+      billing_term: filter || '',
+      start_offset: start_offset || 0,
+      end_offset: end_offset || 10,
+    })
     .throwOnError()
 }
 

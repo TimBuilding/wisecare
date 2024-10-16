@@ -696,6 +696,32 @@ export type Database = {
           total_count: number
         }[]
       }
+      search_billing_statements: {
+        Args: {
+          billing_term: string
+          start_offset: number
+          end_offset: number
+        }
+        Returns: {
+          id: string
+          mode_of_premium: string
+          due_date: string
+          or_number: string
+          or_date: string
+          sa_number: string
+          amount: number
+          total_contract_value: number
+          balance: number
+          billing_period: number
+          amount_billed: number
+          amount_paid: number
+          commission_rate: number
+          commission_earned: number
+          created_at: string
+          updated_at: string
+          total_count: number
+        }[]
+      }
       set_limit: {
         Args: {
           '': number

@@ -5,7 +5,11 @@ import { Tables } from '@/types/database.types'
 
 const billingStatementsColumns: ColumnDef<Tables<'billing_statements'>>[] = [
   {
-    accessorKey: 'mode_of_premium.name',
+    accessorKey: 'account_name',
+    header: ({ column }) => <TableHeader column={column} title="Account" />,
+  },
+  {
+    accessorKey: 'mode_of_premium',
     header: ({ column }) => (
       <TableHeader column={column} title="Mode of Premium" />
     ),
@@ -51,10 +55,6 @@ const billingStatementsColumns: ColumnDef<Tables<'billing_statements'>>[] = [
     header: ({ column }) => (
       <TableHeader column={column} title="Billing Period" />
     ),
-  },
-  {
-    accessorKey: 'is_active',
-    header: ({ column }) => <TableHeader column={column} title="Is Active" />,
   },
   {
     accessorKey: 'amount_billed',

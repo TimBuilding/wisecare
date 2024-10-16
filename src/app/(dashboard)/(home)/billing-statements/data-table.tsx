@@ -29,17 +29,21 @@ import { useState } from 'react'
 
 import TableViewOptions from '@/components/table-view-options'
 import DataTableRow from './data-table-row'
+import { useTableContext } from '@/providers/TableProvider'
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
   data: TData[]
+  count: number
 }
 
 const DataTable = <TData, TValue>({
   columns,
   data,
+  count,
 }: DataTableProps<TData, TValue>) => {
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
+  const { pagination, setPagination } = useTableContext()
 
   const table = useReactTable({
     data,
@@ -48,8 +52,12 @@ const DataTable = <TData, TValue>({
     getPaginationRowModel: getPaginationRowModel(),
     onColumnFiltersChange: setColumnFilters,
     getFilteredRowModel: getFilteredRowModel(),
+    onPaginationChange: setPagination,
+    manualPagination: true,
+    rowCount: count,
     state: {
       columnFilters,
+      pagination,
     },
   })
   return (
@@ -59,7 +67,7 @@ const DataTable = <TData, TValue>({
         <div className="flex w-full flex-col gap-6 sm:flex-row sm:justify-between">
           <div>
             <PageTitle>Billing Statements</PageTitle>
-            <PageDescription>5 Billing Statements</PageDescription>
+            <PageDescription>CHANGE ME Billing Statements</PageDescription>
           </div>
           <div className="flex flex-row gap-4">
             <div className="relative">

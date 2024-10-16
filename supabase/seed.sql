@@ -197,6 +197,7 @@ BEGIN
     FOR i IN 1..500 LOOP
         INSERT INTO billing_statements (
             id,
+            account_id,
             mode_of_premium_id,
             due_date,
             or_number,
@@ -215,6 +216,7 @@ BEGIN
             updated_at
         ) VALUES (
             uuid_generate_v4(),
+            (SELECT id FROM accounts LIMIT 1 OFFSET floor(random() * (SELECT count(*) FROM accounts))),
             (SELECT id FROM mode_of_premium LIMIT 1 OFFSET floor(random() * (SELECT count(*) FROM mode_of_premium))),
             current_date + (i * interval '1 month'),
             'OR' || i,
