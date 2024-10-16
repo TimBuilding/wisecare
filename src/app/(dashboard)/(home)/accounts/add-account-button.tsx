@@ -7,13 +7,20 @@ import { useQuery } from '@tanstack/react-query'
 
 const AddAccountButton = () => {
   const { isFormOpen, setIsFormOpen } = useAccountsContext()
+  const allowedRole = [
+    'admin',
+    'marketing',
+    'finance',
+    'under-writing',
+    'after-sales',
+  ]
 
   const { data: role, error } = useQuery({
     queryKey: ['role'],
     queryFn: () => getRole(),
   })
 
-  if (error || role !== 'marketing') {
+  if (!role || !allowedRole.includes(role)) {
     return null
   }
 
