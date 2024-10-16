@@ -11,6 +11,8 @@ import { Tabs, TabsContent } from '@/components/ui/tabs'
 import { FC } from 'react'
 import EmployeesAddPersonnelForm from './employees-add-personnel-form'
 import CompanyDeleteButton from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/company-delete-button'
+import getRole from '@/utils/get-role'
+import { useQuery } from '@supabase-cache-helpers/postgrest-react-query'
 
 interface Props {
   companyId: string
@@ -28,7 +30,13 @@ const CompanyPage: FC<Props> = ({ companyId, role }) => {
           <CompanyEditProvider>
             <div className="flex w-full flex-row items-center gap-4 pb-4 md:justify-end">
               <CompanyEditButton role={role} />
-              {role === 'marketing' && (
+              {[
+                'marketing',
+                'finance',
+                'admin',
+                'under-sales',
+                'after-sales',
+              ].includes(role || '') && (
                 <CompanyDeleteButton accountId={companyId} />
               )}
             </div>
