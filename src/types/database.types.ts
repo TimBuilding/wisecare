@@ -301,6 +301,7 @@ export type Database = {
       }
       billing_statements: {
         Row: {
+          account_id: string | null
           amount: number | null
           amount_billed: number | null
           amount_paid: number | null
@@ -320,6 +321,7 @@ export type Database = {
           updated_at: string
         }
         Insert: {
+          account_id?: string | null
           amount?: number | null
           amount_billed?: number | null
           amount_paid?: number | null
@@ -339,6 +341,7 @@ export type Database = {
           updated_at?: string
         }
         Update: {
+          account_id?: string | null
           amount?: number | null
           amount_billed?: number | null
           amount_paid?: number | null
@@ -358,6 +361,13 @@ export type Database = {
           updated_at?: string
         }
         Relationships: [
+          {
+            foreignKeyName: 'billing_statements_account_id_fkey'
+            columns: ['account_id']
+            isOneToOne: false
+            referencedRelation: 'accounts'
+            referencedColumns: ['id']
+          },
           {
             foreignKeyName: 'billing_statements_mode_of_premium_id_fkey'
             columns: ['mode_of_premium_id']
@@ -704,6 +714,8 @@ export type Database = {
         }
         Returns: {
           id: string
+          account_id: string
+          account_name: string
           mode_of_premium: string
           due_date: string
           or_number: string

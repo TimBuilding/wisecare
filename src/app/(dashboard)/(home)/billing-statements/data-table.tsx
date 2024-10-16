@@ -31,6 +31,7 @@ import DataTableRow from './data-table-row'
 import { createBrowserClient } from '@/utils/supabase'
 import { useQuery } from '@supabase-cache-helpers/postgrest-react-query'
 import { Skeleton } from '@/components/ui/skeleton'
+import TableSearch from '@/components/table-search'
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
@@ -81,22 +82,7 @@ const DataTable = <TData, TValue>({
             )}
           </div>
           <div className="flex flex-row gap-4">
-            <div className="relative">
-              <Search className="absolute left-3.5 top-3.5 h-5 w-5 text-[#94a3b8]" />
-              <Input
-                className="max-w-xs rounded-full pl-10"
-                placeholder="Search"
-                value={
-                  (table.getColumn('or_number')?.getFilterValue() as string) ??
-                  ''
-                }
-                onChange={(event) =>
-                  table
-                    .getColumn('or_number')
-                    ?.setFilterValue(event.target.value)
-                }
-              />
-            </div>
+            <TableSearch />
             {/* <AddAccountButton /> */}
           </div>
         </div>
