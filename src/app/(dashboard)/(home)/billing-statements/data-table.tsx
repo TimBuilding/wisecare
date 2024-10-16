@@ -10,7 +10,6 @@ import { Input } from '@/components/ui/input'
 import {
   Table,
   TableBody,
-  TableCell,
   TableHead,
   TableHeader,
   TableRow,
@@ -27,9 +26,11 @@ import {
 import { Search } from 'lucide-react'
 import { useState } from 'react'
 
-import TableViewOptions from '@/components/table-view-options'
-import DataTableRow from './data-table-row'
 import { useTableContext } from '@/providers/TableProvider'
+import DataTableRow from './data-table-row'
+import { createBrowserClient } from '@/utils/supabase'
+import { useQuery } from '@supabase-cache-helpers/postgrest-react-query'
+import { Skeleton } from '@/components/ui/skeleton'
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
@@ -60,14 +61,24 @@ const DataTable = <TData, TValue>({
       pagination,
     },
   })
+
+  const supabase = createBrowserClient()
+  const { count: totalCount, isLoading } = useQuery(
+    supabase
+      .from('billing_statements')
+      .select('*', { head: true, count: 'exact' }),
+  )
   return (
-    // <AccountsProvider>
     <div className="flex flex-col">
       <PageHeader>
         <div className="flex w-full flex-col gap-6 sm:flex-row sm:justify-between">
           <div>
             <PageTitle>Billing Statements</PageTitle>
-            <PageDescription>CHANGE ME Billing Statements</PageDescription>
+            {isLoading ? (
+              <Skeleton className="h-4 w-20" />
+            ) : (
+              <PageDescription>{totalCount} Billing Statements</PageDescription>
+            )}
           </div>
           <div className="flex flex-row gap-4">
             <div className="relative">
@@ -90,7 +101,6 @@ const DataTable = <TData, TValue>({
           </div>
         </div>
       </PageHeader>
-      {/* <TableViewOptions table={table} /> */}
       <div className="flex h-full flex-col justify-between bg-card">
         <div className="h-full rounded-md border">
           <Table>
@@ -121,7 +131,6 @@ const DataTable = <TData, TValue>({
         <TablePagination table={table} />
       </div>
     </div>
-    // </AccountsProvider>
   )
 }
 
