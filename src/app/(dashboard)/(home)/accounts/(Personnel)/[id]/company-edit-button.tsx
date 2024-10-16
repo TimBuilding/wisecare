@@ -11,7 +11,13 @@ interface Props {
 
 const CompanyEditButton: FC<Props> = ({ role }) => {
   const { editMode, setEditMode } = useCompanyEditContext()
-  const allowedRole = ['marketing', 'finance']
+  const allowedRole = [
+    'admin',
+    'marketing',
+    'finance',
+    'under-writing',
+    'after-sales',
+  ]
 
   if (!role || !allowedRole.includes(role)) {
     return null
