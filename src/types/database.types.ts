@@ -299,6 +299,74 @@ export type Database = {
           },
         ]
       }
+      billing_statements: {
+        Row: {
+          amount: number | null
+          amount_billed: number | null
+          amount_paid: number | null
+          balance: number | null
+          billing_period: number | null
+          commission_earned: number | null
+          commission_rate: number | null
+          created_at: string
+          due_date: string | null
+          id: string
+          is_active: boolean
+          mode_of_premium_id: string | null
+          or_date: string | null
+          or_number: string | null
+          sa_number: string | null
+          total_contract_value: number | null
+          updated_at: string
+        }
+        Insert: {
+          amount?: number | null
+          amount_billed?: number | null
+          amount_paid?: number | null
+          balance?: number | null
+          billing_period?: number | null
+          commission_earned?: number | null
+          commission_rate?: number | null
+          created_at?: string
+          due_date?: string | null
+          id?: string
+          is_active?: boolean
+          mode_of_premium_id?: string | null
+          or_date?: string | null
+          or_number?: string | null
+          sa_number?: string | null
+          total_contract_value?: number | null
+          updated_at?: string
+        }
+        Update: {
+          amount?: number | null
+          amount_billed?: number | null
+          amount_paid?: number | null
+          balance?: number | null
+          billing_period?: number | null
+          commission_earned?: number | null
+          commission_rate?: number | null
+          created_at?: string
+          due_date?: string | null
+          id?: string
+          is_active?: boolean
+          mode_of_premium_id?: string | null
+          or_date?: string | null
+          or_number?: string | null
+          sa_number?: string | null
+          total_contract_value?: number | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: 'billing_statements_mode_of_premium_id_fkey'
+            columns: ['mode_of_premium_id']
+            isOneToOne: false
+            referencedRelation: 'mode_of_premium'
+            referencedColumns: ['id']
+          },
+        ]
+      }
       company_employees: {
         Row: {
           account_id: string | null
@@ -499,42 +567,6 @@ export type Database = {
           id?: string
           is_active?: boolean
           name?: string
-        }
-        Relationships: []
-      }
-      tablename: {
-        Row: {
-          account_id: string | null
-          birth_date: string | null
-          card_number: number | null
-          effective_date: string | null
-          first_name: string | null
-          gender: string | null
-          last_name: string | null
-          maximum_benefit_limit: number | null
-          room_plan: string | null
-        }
-        Insert: {
-          account_id?: string | null
-          birth_date?: string | null
-          card_number?: number | null
-          effective_date?: string | null
-          first_name?: string | null
-          gender?: string | null
-          last_name?: string | null
-          maximum_benefit_limit?: number | null
-          room_plan?: string | null
-        }
-        Update: {
-          account_id?: string | null
-          birth_date?: string | null
-          card_number?: number | null
-          effective_date?: string | null
-          first_name?: string | null
-          gender?: string | null
-          last_name?: string | null
-          maximum_benefit_limit?: number | null
-          room_plan?: string | null
         }
         Relationships: []
       }

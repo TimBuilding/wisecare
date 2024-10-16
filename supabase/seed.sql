@@ -108,16 +108,14 @@ DECLARE
     account_type_id uuid;
     plan_type_id uuid;
     mode_of_payment_id uuid;
-    mode_of_premium_id uuid;
 BEGIN
     FOR i IN 1..50 LOOP
-        -- Randomly select agent_id, hmo_provider_id, account_type_id, plan_type_id, mode_of_payment_id, mode_of_premium_id
+        -- Randomly select agent_id, hmo_provider_id, account_type_id, plan_type_id, mode_of_payment_id
         SELECT user_id INTO agent_id FROM user_profiles OFFSET floor(random() * (SELECT count(*) FROM user_profiles)) LIMIT 1;
         SELECT id INTO hmo_provider_id FROM hmo_providers OFFSET floor(random() * (SELECT count(*) FROM hmo_providers)) LIMIT 1;
         SELECT id INTO account_type_id FROM account_types OFFSET floor(random() * (SELECT count(*) FROM account_types)) LIMIT 1;
         SELECT id INTO plan_type_id FROM plan_types OFFSET floor(random() * (SELECT count(*) FROM plan_types)) LIMIT 1;
         SELECT id INTO mode_of_payment_id FROM mode_of_payments OFFSET floor(random() * (SELECT count(*) FROM mode_of_payments)) LIMIT 1;
-        SELECT id INTO mode_of_premium_id FROM mode_of_premium OFFSET floor(random() * (SELECT count(*) FROM mode_of_premium)) LIMIT 1;
 
         INSERT INTO accounts (
             is_active,
@@ -149,15 +147,6 @@ BEGIN
             commision_rate,
             additional_benefits,
             special_benefits,
-            mode_of_premium_id,
-            due_date,
-            or_number,
-            or_date,
-            sa_number,
-            amount,
-            total_contract_value,
-            balance,
-            billing_period,
             summary_of_benefits,
             name_of_signatory,
             designation_of_contact_person,
@@ -192,15 +181,6 @@ BEGIN
             5.0,
             'Benefits ' || i,
             'Special Benefits ' || i,
-            mode_of_premium_id,
-            current_date + interval '1 year',
-            'OR' || lpad(i::text, 6, '0'),
-            current_date + interval '1 year',
-            'SA' || lpad(i::text, 6, '0'),
-            2000 * i,
-            5000 * i,
-            3000 * i,
-            12,
             'Comprehensive health coverage',
             'Signatory ' || i,
             'Designation ' || i,
