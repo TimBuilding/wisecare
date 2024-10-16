@@ -140,7 +140,7 @@ const AddUserForm = ({ onOpenChange }: Props) => {
                     <SelectItem value="after-sales">
                       Renewal and After Sales
                     </SelectItem>
-                    <SelectItem value="under-writing">Under Writing</SelectItem>
+                    <SelectItem value="under-writing">Underwriting</SelectItem>
                     <SelectItem value="finance">Finance</SelectItem>
                     <SelectItem value="admin">Admin</SelectItem>
                   </SelectContent>
