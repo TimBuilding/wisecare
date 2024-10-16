@@ -1,10 +1,12 @@
-import React, { FC } from 'react'
+import React, { FC, useState, useEffect } from 'react'
 import { Separator } from '@/components/ui/separator'
 import InitialsAvatar from 'react-initials-avatar'
 import { TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { createBrowserClient } from '@/utils/supabase'
 import { useQuery } from '@supabase-cache-helpers/postgrest-react-query'
 import getAccountById from '@/queries/get-account-by-id'
+import getEmployeeCount from '@/queries/get-employee-count'
+import { Skeleton } from '@/components/ui/skeleton'
 
 interface CompanyHeaderProps {
   id: string
@@ -13,10 +15,10 @@ interface CompanyHeaderProps {
 const CompanyHeader: FC<CompanyHeaderProps> = ({ id }) => {
   const supabase = createBrowserClient()
   const { data: account } = useQuery(getAccountById(supabase, id))
-  // @ts-ignore
-  // @ts-ignore
-  // @ts-ignore
-  // @ts-ignore
+  const { count: employeeCount, isPending } = useQuery(
+    getEmployeeCount(supabase, id),
+  )
+
   return (
     <div className="flex w-full flex-col bg-background pb-6 drop-shadow-md xl:mb-0">
       <div className="h-40 w-full bg-slate-400 object-cover xl:h-80 "></div>
@@ -42,7 +44,13 @@ const CompanyHeader: FC<CompanyHeaderProps> = ({ id }) => {
           />
           <div className="flex flex-row gap-8 pt-6 text-center xl:-translate-x-32 xl:pt-1">
             <div className="flex flex-col">
-              <div className="text-sm font-bold">200k</div>
+              <div className="text-sm font-bold">
+                {isPending ? (
+                  <Skeleton className="mx-auto h-5 w-full" />
+                ) : (
+                  employeeCount
+                )}
+              </div>
               <div className="text-sm font-medium uppercase text-[#64748b]">
                 Employees
               </div>
