@@ -313,7 +313,7 @@ export type Database = {
           due_date: string | null
           id: string
           is_active: boolean
-          mode_of_premium_id: string | null
+          mode_of_payment_id: string | null
           or_date: string | null
           or_number: string | null
           sa_number: string | null
@@ -333,7 +333,7 @@ export type Database = {
           due_date?: string | null
           id?: string
           is_active?: boolean
-          mode_of_premium_id?: string | null
+          mode_of_payment_id?: string | null
           or_date?: string | null
           or_number?: string | null
           sa_number?: string | null
@@ -353,7 +353,7 @@ export type Database = {
           due_date?: string | null
           id?: string
           is_active?: boolean
-          mode_of_premium_id?: string | null
+          mode_of_payment_id?: string | null
           or_date?: string | null
           or_number?: string | null
           sa_number?: string | null
@@ -369,10 +369,10 @@ export type Database = {
             referencedColumns: ['id']
           },
           {
-            foreignKeyName: 'billing_statements_mode_of_premium_id_fkey'
-            columns: ['mode_of_premium_id']
+            foreignKeyName: 'billing_statements_mode_of_payment_id_fkey'
+            columns: ['mode_of_payment_id']
             isOneToOne: false
-            referencedRelation: 'mode_of_premium'
+            referencedRelation: 'mode_of_payments'
             referencedColumns: ['id']
           },
         ]
