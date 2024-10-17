@@ -190,6 +190,7 @@ const DataTable = <TData extends IData, TValue>({
                       <TableRow
                         key={row.id}
                         data-state={row.getIsSelected() && 'selected'}
+                        className="cursor-pointer transition-colors hover:bg-muted/50"
                         onClick={() =>
                           router.push(`/accounts/${row.original.id}`)
                         }
