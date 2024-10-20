@@ -54,7 +54,7 @@ const CompanyPage: FC<Props> = ({ companyId, role }) => {
           <div className="ml-auto flex w-full flex-col pb-4 lg:items-end lg:justify-center">
             <AddBillingStatementButton />
           </div>
-          <BillingStatements />
+          <BillingStatements companyId={companyId} />
         </TabsContent>
       </div>
     </Tabs>
