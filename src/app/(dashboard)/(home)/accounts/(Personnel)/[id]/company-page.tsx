@@ -1,19 +1,15 @@
 'use client'
 
+import EmployeesTab from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(employees)/employees-tab'
+import BillingStatements from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/billing-statements'
 import CompanyAbout from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/company-about'
+import CompanyDeleteButton from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/company-delete-button'
 import CompanyEditButton from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/company-edit-button'
 import CompanyEditProvider from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/company-edit-provider'
 import CompanyHeader from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/company-header'
 import { useCompanyContext } from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/company-provider'
-import AddPersonnelButtonForm from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/employees-add-personnel-button-form'
-import EmployeesPage from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/employees-page'
 import { Tabs, TabsContent } from '@/components/ui/tabs'
-import { FC } from 'react'
-import EmployeesAddPersonnelForm from './employees-add-personnel-form'
-import CompanyDeleteButton from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/company-delete-button'
-import getRole from '@/utils/get-role'
-import { useQuery } from '@supabase-cache-helpers/postgrest-react-query'
-import BillingStatements from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/billing-statements'
+import { FC, useEffect } from 'react'
 import AddBillingStatementButton from '@/app/(dashboard)/(home)/billing-statements/add-billing-statement-button'
 
 interface Props {
@@ -22,7 +18,13 @@ interface Props {
 }
 
 const CompanyPage: FC<Props> = ({ companyId, role }) => {
-  const { showAddPersonnel } = useCompanyContext()
+  const { showAddPersonnel, setUserRole } = useCompanyContext()
+
+  // set the user role in the context.
+  // so we can use it in the add personnel button form, etc
+  useEffect(() => {
+    setUserRole(role || '')
+  }, [role, setUserRole])
 
   return (
     <Tabs defaultValue="about">
@@ -46,11 +48,7 @@ const CompanyPage: FC<Props> = ({ companyId, role }) => {
           </CompanyEditProvider>
         </TabsContent>
         <TabsContent value="employees">
-          <div className="ml-auto flex w-full flex-col lg:items-end lg:justify-center">
-            <AddPersonnelButtonForm />
-          </div>
-          {showAddPersonnel && <EmployeesAddPersonnelForm />}
-          {!showAddPersonnel && <EmployeesPage companyId={companyId} />}
+          <EmployeesTab companyId={companyId} />
         </TabsContent>
         <TabsContent value="billing">
           <div className="ml-auto flex w-full flex-col pb-4 lg:items-end lg:justify-center">

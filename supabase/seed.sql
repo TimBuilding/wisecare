@@ -236,3 +236,49 @@ BEGIN
         );
     END LOOP;
 END $$;
+
+
+DO $$
+DECLARE
+    account RECORD;
+    i integer;
+BEGIN
+    FOR account IN SELECT id FROM accounts LOOP
+        FOR i IN 1..100 LOOP
+            INSERT INTO company_employees (
+                id,
+                is_active,
+                account_id,
+                first_name,
+                last_name,
+                birth_date,
+                gender,
+                civil_status,
+                card_number,
+                effective_date,
+                room_plan,
+                maximum_benefit_limit,
+                created_at,
+                updated_at,
+                created_by
+            ) VALUES (
+                uuid_generate_v4(),
+                true,
+                account.id,
+                'FirstName' || i,
+                'LastName' || i,
+                current_date - (i * interval '1 year'),
+                'Gender' || (i % 2 + 1),
+                'CivilStatus' || (i % 3 + 1),
+                'CardNumber' || i,
+                current_date - (i * interval '1 month'),
+                'RoomPlan' || (i % 5 + 1),
+                1000.0 * i,
+                now(),
+                now(),
+                (SELECT id FROM auth.users LIMIT 1 OFFSET floor(random() * (SELECT count(*) FROM auth.users)))
+            );
+        END LOOP;
+    END LOOP;
+END $$;
+

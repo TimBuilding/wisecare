@@ -12,16 +12,21 @@ const useCompanyContext = () => {
 const CompanyContext = createContext({
   showAddPersonnel: false,
   setShowAddPersonnel: (_value: boolean) => {},
+  userRole: '',
+  setUserRole: (_value: string) => {},
 })
 
 const CompanyProvider = ({ children }: { children: ReactNode }) => {
   const [showAddPersonnel, setShowAddPersonnel] = useState(false)
+  const [userRole, setUserRole] = useState<string>('')
 
   return (
     <CompanyContext.Provider
       value={{
         showAddPersonnel,
         setShowAddPersonnel,
+        userRole,
+        setUserRole,
       }}
     >
       {children}
