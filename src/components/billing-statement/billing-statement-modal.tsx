@@ -1,6 +1,7 @@
 'use client'
 
 import BillingStatementSchema from '@/app/(dashboard)/(home)/billing-statements/billing-statement-schema'
+import DeleteBillingStatement from '@/components/billing-statement/delete-billing-statement'
 import { Button } from '@/components/ui/button'
 import { Calendar } from '@/components/ui/calendar'
 import {
@@ -47,7 +48,7 @@ import {
 } from '@supabase-cache-helpers/postgrest-react-query'
 import { useQueryClient } from '@tanstack/react-query'
 import { format } from 'date-fns'
-import { CalendarIcon, Loader2 } from 'lucide-react'
+import { CalendarIcon, Loader2, Trash2 } from 'lucide-react'
 import { FormEventHandler, ReactNode, useCallback, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
@@ -551,27 +552,35 @@ const BillingStatementModal = <TData,>({
                 )}
               />
             </div>
-            <DialogFooter>
-              <Button
-                variant="outline"
-                disabled={isUpdatePending || isInsertPending}
-                onClick={() => setOpen(false)}
-                type="button"
-              >
-                Cancel
-              </Button>
-              <Button
-                type="submit"
-                disabled={isUpdatePending || isInsertPending}
-              >
-                {isUpdatePending || isInsertPending ? (
-                  <Loader2 className="animate-spin" />
-                ) : originalData ? (
-                  'Update Billing Statement'
-                ) : (
-                  'Add Billing Statement'
-                )}
-              </Button>
+            <DialogFooter
+              className={cn(
+                'flex w-full items-center',
+                originalData && '!justify-between',
+              )}
+            >
+              {originalData && <DeleteBillingStatement id={originalData.id} />}
+              <div className="space-x-2">
+                <Button
+                  variant="outline"
+                  disabled={isUpdatePending || isInsertPending}
+                  onClick={() => setOpen(false)}
+                  type="button"
+                >
+                  Cancel
+                </Button>
+                <Button
+                  type="submit"
+                  disabled={isUpdatePending || isInsertPending}
+                >
+                  {isUpdatePending || isInsertPending ? (
+                    <Loader2 className="animate-spin" />
+                  ) : originalData ? (
+                    'Update Billing Statement'
+                  ) : (
+                    'Add Billing Statement'
+                  )}
+                </Button>
+              </div>
             </DialogFooter>
           </form>
         </Form>

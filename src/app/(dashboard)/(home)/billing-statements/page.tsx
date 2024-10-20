@@ -23,6 +23,7 @@ const BillingStatementsPage = async () => {
   const { count } = await supabase
     .from('billing_statements')
     .select('*', { count: 'exact', head: true })
+    .eq('is_active', true)
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>

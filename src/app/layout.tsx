@@ -6,6 +6,7 @@ import './globals.css'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import ReactQueryProvider from '@/providers/ReactQueryProvider'
 import { Toaster } from '@/components/ui/toaster'
+import ConfirmationDialog from '@/components/confirmation-dialog/confirmation-dialog'
 
 const defaultUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
@@ -40,6 +41,7 @@ export default function RootLayout({
             <main className="flex min-h-screen flex-col items-center">
               {children}
               <Toaster />
+              <ConfirmationDialog />
               <Analytics />
               {/* ^^ remove this if you are not deploying to vercel. See more at https://vercel.com/docs/analytics  */}
             </main>
