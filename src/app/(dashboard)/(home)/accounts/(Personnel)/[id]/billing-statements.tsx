@@ -40,9 +40,6 @@ const BillingStatements = () => {
         </CollapsibleTrigger>
         <CollapsibleContent>
           <div className="grid-cols-3 lg:grid">
-            {/*<EmployeesInformation*/}
-            {/*  data={employee as Tables<'company_employees'>}*/}
-            {/*/>*/}
             <BillingInformation />
           </div>
         </CollapsibleContent>

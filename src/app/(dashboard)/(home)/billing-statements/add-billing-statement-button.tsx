@@ -11,7 +11,7 @@ const AddBillingStatementButton = () => {
       open={isAddModalOpen}
       setOpen={setIsAddModalOpen}
       button={
-        <Button>
+        <Button className="rounded-md">
           <PlusIcon className="mr-2 h-4 w-4" />
           Add Billing Statement
         </Button>

@@ -14,6 +14,7 @@ import CompanyDeleteButton from '@/app/(dashboard)/(home)/accounts/(Personnel)/[
 import getRole from '@/utils/get-role'
 import { useQuery } from '@supabase-cache-helpers/postgrest-react-query'
 import BillingStatements from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/billing-statements'
+import AddBillingStatementButton from '@/app/(dashboard)/(home)/billing-statements/add-billing-statement-button'
 
 interface Props {
   companyId: string
@@ -52,6 +53,9 @@ const CompanyPage: FC<Props> = ({ companyId, role }) => {
           {!showAddPersonnel && <EmployeesPage companyId={companyId} />}
         </TabsContent>
         <TabsContent value="billing">
+          <div className="ml-auto flex w-full flex-col pb-4 lg:items-end lg:justify-center">
+            <AddBillingStatementButton />
+          </div>
           <BillingStatements />
         </TabsContent>
       </div>
