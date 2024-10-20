@@ -25,11 +25,17 @@ const employeesColumns: ColumnDef<Tables<'company_employees'>>[] = [
   {
     accessorKey: 'gender',
     header: ({ column }) => <TableHeader column={column} title="Gender" />,
+    cell: ({ row }) => (
+      <span className="capitalize">{row.original.gender}</span>
+    ),
   },
   {
     accessorKey: 'civil_status',
     header: ({ column }) => (
       <TableHeader column={column} title="Civil Status" />
+    ),
+    cell: ({ row }) => (
+      <span className="capitalize">{row.original.civil_status}</span>
     ),
   },
   {

@@ -1,5 +1,5 @@
 'use client'
-import AddPersonnel from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(employees)/add-personnel'
+import AddEmployeeModal from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(employees)/add-employee-modal'
 import employeesColumns from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(employees)/employees-columns'
 import EmployeesDataTable from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(employees)/employees-data-table'
 import getEmployeeByCompanyId from '@/queries/get-employee-by-company-id'
@@ -18,12 +18,7 @@ const EmployeesTab: FC<EmployeesTabProps> = ({ companyId }) => {
   )
 
   return (
-    <>
-      <div className="ml-auto flex w-full flex-col lg:items-end lg:justify-center">
-        <AddPersonnel />
-      </div>
-      <EmployeesDataTable columns={employeesColumns} data={employees || []} />
-    </>
+    <EmployeesDataTable columns={employeesColumns} data={employees || []} />
   )
 }
 

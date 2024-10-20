@@ -18,13 +18,19 @@ interface Props {
 }
 
 const CompanyPage: FC<Props> = ({ companyId, role }) => {
-  const { showAddPersonnel, setUserRole } = useCompanyContext()
+  const { showAddPersonnel, setUserRole, setAccountId } = useCompanyContext()
 
   // set the user role in the context.
   // so we can use it in the add personnel button form, etc
   useEffect(() => {
     setUserRole(role || '')
   }, [role, setUserRole])
+
+  // set the account id in the context.
+  // so we can use it in the add employee modal, etc
+  useEffect(() => {
+    setAccountId(companyId)
+  }, [companyId, setAccountId])
 
   return (
     <Tabs defaultValue="about">

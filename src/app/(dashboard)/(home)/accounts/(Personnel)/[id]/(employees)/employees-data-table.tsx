@@ -1,3 +1,4 @@
+import AddEmployeeModal from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(employees)/add-employee-modal'
 import TablePagination from '@/components/table-pagination'
 import { Input } from '@/components/ui/input'
 import {
@@ -54,7 +55,7 @@ const EmployeesDataTable = <TData, TValue>({
 
   return (
     <div>
-      <div className="flex items-center py-4">
+      <div className="flex flex-row items-center justify-between py-4">
         <Input
           placeholder="Search..."
           value={
@@ -65,6 +66,7 @@ const EmployeesDataTable = <TData, TValue>({
           }
           className="max-w-sm"
         />
+        <AddEmployeeModal />
       </div>
       <div className="rounded-md border">
         <Table>
