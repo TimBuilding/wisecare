@@ -8,39 +8,49 @@ const BillingStatementSchema = z
     or_date: z.date().optional(),
     sa_number: z.string().optional(),
     amount: z.preprocess(
-      (val) => parseFloat(val as string),
+      (val) =>
+        val === '' || val === undefined ? undefined : parseFloat(val as string),
       z.number().positive().optional(),
     ),
     total_contract_value: z.preprocess(
-      (val) => parseFloat(val as string),
+      (val) =>
+        val === '' || val === undefined ? undefined : parseFloat(val as string),
       z.number().positive().optional(),
     ),
     balance: z.preprocess(
-      (val) => parseFloat(val as string),
+      (val) =>
+        val === '' || val === undefined ? undefined : parseFloat(val as string),
       z.number().positive().optional(),
     ),
 
     billing_period: z.preprocess(
-      (val) => parseInt(val as string, 10),
+      (val) =>
+        val === '' || val === undefined
+          ? undefined
+          : parseInt(val as string, 10),
       z.number().int().min(1).max(31).optional(),
     ),
     amount_billed: z.preprocess(
-      (val) => parseFloat(val as string),
+      (val) =>
+        val === '' || val === undefined ? undefined : parseFloat(val as string),
       z.number().positive().optional(),
     ),
     amount_paid: z.preprocess(
-      (val) => parseFloat(val as string),
+      (val) =>
+        val === '' || val === undefined ? undefined : parseFloat(val as string),
       z.number().positive().optional(),
     ),
     commission_rate: z.preprocess(
-      (val) => parseFloat(val as string),
+      (val) =>
+        val === '' || val === undefined ? undefined : parseFloat(val as string),
       z.number().positive().optional(),
     ),
     commission_earned: z.preprocess(
-      (val) => parseFloat(val as string),
+      (val) =>
+        val === '' || val === undefined ? undefined : parseFloat(val as string),
       z.number().positive().optional(),
     ),
-    account_id: z.string().uuid().optional(),
+    account_id: z.string().uuid(),
   })
   .superRefine((data, ctx) => {
     if (

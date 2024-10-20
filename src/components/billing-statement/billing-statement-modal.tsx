@@ -155,10 +155,16 @@ const BillingStatementModal = <TData,>({
       },
     )
 
+  // only used for edit. it fetches the original data from the database
   useEffect(() => {
     if (originalData) {
       form.reset({
-        ...(originalData as unknown as z.infer<typeof BillingStatementSchema>),
+        ...(Object.fromEntries(
+          Object.entries(originalData).map(([key, value]) => [
+            key,
+            value === null ? undefined : value,
+          ]),
+        ) as unknown as z.infer<typeof BillingStatementSchema>),
         due_date: originalData.due_date
           ? new Date(originalData.due_date)
           : undefined,
