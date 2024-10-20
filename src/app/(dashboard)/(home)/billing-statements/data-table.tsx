@@ -6,7 +6,6 @@ import {
   PageTitle,
 } from '@/components/page-header'
 import TablePagination from '@/components/table-pagination'
-import { Input } from '@/components/ui/input'
 import {
   Table,
   TableBody,
@@ -23,15 +22,15 @@ import {
   getPaginationRowModel,
   useReactTable,
 } from '@tanstack/react-table'
-import { Search } from 'lucide-react'
 import { useState } from 'react'
 
+import TableSearch from '@/components/table-search'
+import { Skeleton } from '@/components/ui/skeleton'
 import { useTableContext } from '@/providers/TableProvider'
-import DataTableRow from './data-table-row'
 import { createBrowserClient } from '@/utils/supabase'
 import { useQuery } from '@supabase-cache-helpers/postgrest-react-query'
-import { Skeleton } from '@/components/ui/skeleton'
-import TableSearch from '@/components/table-search'
+import DataTableRow from './data-table-row'
+import AddBillingStatementButton from '@/app/(dashboard)/(home)/billing-statements/add-billing-statement-button'
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
@@ -46,6 +45,7 @@ const DataTable = <TData, TValue>({
 }: DataTableProps<TData, TValue>) => {
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
   const { pagination, setPagination } = useTableContext()
+  const [formModalOpen, setFormModalOpen] = useState(false)
 
   const table = useReactTable({
     data,
@@ -83,7 +83,10 @@ const DataTable = <TData, TValue>({
           </div>
           <div className="flex flex-row gap-4">
             <TableSearch />
-            {/* <AddAccountButton /> */}
+            <AddBillingStatementButton
+              open={formModalOpen}
+              setOpen={setFormModalOpen}
+            />
           </div>
         </div>
       </PageHeader>

@@ -9,16 +9,22 @@ const billingStatementsColumns: ColumnDef<Tables<'billing_statements'>>[] = [
     header: ({ column }) => <TableHeader column={column} title="Account" />,
   },
   {
-    accessorKey: 'mode_of_premium',
+    accessorKey: 'mode_of_payment',
     header: ({ column }) => (
-      <TableHeader column={column} title="Mode of Premium" />
+      <TableHeader column={column} title="Mode of Payment" />
     ),
   },
   {
     accessorKey: 'due_date',
     header: ({ column }) => <TableHeader column={column} title="Due Date" />,
     cell: ({ row }) => {
-      return <div>{format(row.getValue('due_date'), 'MMMM dd, yyyy')}</div>
+      return (
+        <div>
+          {row.original.due_date
+            ? format(row.getValue('due_date'), 'MMMM dd, yyyy')
+            : 'N/A'}
+        </div>
+      )
     },
   },
   {
@@ -29,7 +35,13 @@ const billingStatementsColumns: ColumnDef<Tables<'billing_statements'>>[] = [
     accessorKey: 'or_date',
     header: ({ column }) => <TableHeader column={column} title="OR Date" />,
     cell: ({ row }) => {
-      return <div>{format(row.getValue('or_date'), 'MMMM dd, yyyy')}</div>
+      return (
+        <div>
+          {row.original.or_date
+            ? format(row.getValue('or_date'), 'MMMM dd, yyyy')
+            : 'N/A'}
+        </div>
+      )
     },
   },
   {

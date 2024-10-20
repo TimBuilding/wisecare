@@ -198,7 +198,7 @@ BEGIN
         INSERT INTO billing_statements (
             id,
             account_id,
-            mode_of_premium_id,
+            mode_of_payment_id,
             due_date,
             or_number,
             or_date,
@@ -217,7 +217,7 @@ BEGIN
         ) VALUES (
             uuid_generate_v4(),
             (SELECT id FROM accounts LIMIT 1 OFFSET floor(random() * (SELECT count(*) FROM accounts))),
-            (SELECT id FROM mode_of_premium LIMIT 1 OFFSET floor(random() * (SELECT count(*) FROM mode_of_premium))),
+            (SELECT id FROM mode_of_payments LIMIT 1 OFFSET floor(random() * (SELECT count(*) FROM mode_of_payments))),
             current_date + (i * interval '1 month'),
             'OR' || i,
             current_date + (i * interval '1 month'),
