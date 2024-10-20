@@ -66,8 +66,10 @@ const DataTable = <TData, TValue>({
   const { count: totalCount, isLoading } = useQuery(
     supabase
       .from('billing_statements')
-      .select('*', { head: true, count: 'exact' }),
+      .select('*', { head: true, count: 'exact' })
+      .eq('is_active', true),
   )
+
   return (
     <div className="flex flex-col">
       <PageHeader>

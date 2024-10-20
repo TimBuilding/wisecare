@@ -716,7 +716,8 @@ export type Database = {
           id: string
           account_id: string
           account_name: string
-          mode_of_premium: string
+          mode_of_payment: string
+          mode_of_payment_id: string
           due_date: string
           or_number: string
           or_date: string
