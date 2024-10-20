@@ -1,8 +1,6 @@
-import { Sheet, SheetTrigger } from '@/components/ui/sheet'
 import { TableCell, TableRow } from '@/components/ui/table'
-import { Column, ColumnDef, Table, flexRender } from '@tanstack/react-table'
+import { ColumnDef, Table, flexRender } from '@tanstack/react-table'
 import { useState } from 'react'
-import UpdatePendingForm from './update-pending-form'
 
 interface TableRowProps<TData> {
   table: Table<TData>
@@ -16,29 +14,18 @@ const DataTableRow = <TData,>({ table, columns }: TableRowProps<TData>) => {
     <>
       {table.getRowModel().rows?.length ? (
         table.getRowModel().rows.map((row) => (
-          <>
-            <TableRow
-              key={row.id}
-              data-state={row.getIsSelected() && 'selected'}
-              onClick={() => setOpenForm(row.id)}
-            >
-              {row.getVisibleCells().map((cell) => (
-                <TableCell key={cell.id}>
-                  {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                </TableCell>
-              ))}
-            </TableRow>
-
-            {openForm === row.id && (
-              <TableCell colSpan={columns.length}>
-                <UpdatePendingForm
-                  // @ts-ignore
-                  accountId={row.original.id}
-                  setOpenForm={setOpenForm}
-                />
+          <TableRow
+            key={row.id}
+            data-state={row.getIsSelected() && 'selected'}
+            onClick={() => setOpenForm(row.id)}
+            className="hover:!bg-muted"
+          >
+            {row.getVisibleCells().map((cell) => (
+              <TableCell key={cell.id}>
+                {flexRender(cell.column.columnDef.cell, cell.getContext())}
               </TableCell>
-            )}
-          </>
+            ))}
+          </TableRow>
         ))
       ) : (
         <TableRow>
