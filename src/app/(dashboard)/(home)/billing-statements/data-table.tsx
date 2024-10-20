@@ -45,7 +45,6 @@ const DataTable = <TData, TValue>({
 }: DataTableProps<TData, TValue>) => {
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
   const { pagination, setPagination } = useTableContext()
-  const [formModalOpen, setFormModalOpen] = useState(false)
 
   const table = useReactTable({
     data,
@@ -83,10 +82,7 @@ const DataTable = <TData, TValue>({
           </div>
           <div className="flex flex-row gap-4">
             <TableSearch />
-            <AddBillingStatementButton
-              open={formModalOpen}
-              setOpen={setFormModalOpen}
-            />
+            <AddBillingStatementButton />
           </div>
         </div>
       </PageHeader>

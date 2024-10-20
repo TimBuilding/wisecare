@@ -1,36 +1,22 @@
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from '@/components/ui/dialog'
+import BillingStatementModal from '@/components/billing-statement/billing-statement-modal'
 import { Button } from '@/components/ui/button'
-import { FC } from 'react'
-import BillingStatementForm from '@/components/billing-statement/billing-statement-form'
+import { PlusIcon } from 'lucide-react'
+import { FC, useState } from 'react'
 
-interface Props {
-  open: boolean
-  setOpen: (open: boolean) => void
-}
+const AddBillingStatementButton = () => {
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false)
 
-const AddBillingStatementButton: FC<Props> = ({ open, setOpen }) => {
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild={true}>
-        <Button>Add Billing Statement</Button>
-      </DialogTrigger>
-      <DialogContent className="max-w-7xl">
-        <DialogHeader>
-          <DialogTitle>Add Billing Statement</DialogTitle>
-          <DialogDescription>
-            Add a new billing statement to the account
-          </DialogDescription>
-        </DialogHeader>
-        <BillingStatementForm />
-      </DialogContent>
-    </Dialog>
+    <BillingStatementModal
+      open={isAddModalOpen}
+      setOpen={setIsAddModalOpen}
+      button={
+        <Button>
+          <PlusIcon className="mr-2 h-4 w-4" />
+          Add Billing Statement
+        </Button>
+      }
+    />
   )
 }
 

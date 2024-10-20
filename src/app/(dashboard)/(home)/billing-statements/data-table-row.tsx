@@ -1,4 +1,6 @@
+import BillingStatementModal from '@/components/billing-statement/billing-statement-modal'
 import { TableCell, TableRow } from '@/components/ui/table'
+import { Tables } from '@/types/database.types'
 import { ColumnDef, Table, flexRender } from '@tanstack/react-table'
 import { useState } from 'react'
 
@@ -8,7 +10,13 @@ interface TableRowProps<TData> {
 }
 
 const DataTableRow = <TData,>({ table, columns }: TableRowProps<TData>) => {
-  const [openForm, setOpenForm] = useState<string | null>(null)
+  const [originalData, setOriginalData] = useState<TData | undefined>(undefined)
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false)
+
+  const handleOnClick = (originalData: TData) => {
+    setOriginalData(originalData)
+    setIsEditModalOpen(true)
+  }
 
   return (
     <>
@@ -16,9 +24,8 @@ const DataTableRow = <TData,>({ table, columns }: TableRowProps<TData>) => {
         table.getRowModel().rows.map((row) => (
           <TableRow
             key={row.id}
-            data-state={row.getIsSelected() && 'selected'}
-            onClick={() => setOpenForm(row.id)}
-            className="hover:!bg-muted"
+            className="cursor-pointer hover:!bg-muted"
+            onClick={() => handleOnClick(row.original)}
           >
             {row.getVisibleCells().map((cell) => (
               <TableCell key={cell.id}>
@@ -34,6 +41,11 @@ const DataTableRow = <TData,>({ table, columns }: TableRowProps<TData>) => {
           </TableCell>
         </TableRow>
       )}
+      <BillingStatementModal
+        originalData={originalData as TData & Tables<'billing_statements'>}
+        open={isEditModalOpen}
+        setOpen={setIsEditModalOpen}
+      />
     </>
   )
 }
