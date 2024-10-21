@@ -1,5 +1,6 @@
-import AddEmployeeModal from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(employees)/add-employee-modal'
+import EmployeeFormModal from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(employees)/employee-form-modal'
 import TablePagination from '@/components/table-pagination'
+import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import {
   Table,
@@ -21,6 +22,7 @@ import {
   useReactTable,
   VisibilityState,
 } from '@tanstack/react-table'
+import { Plus } from 'lucide-react'
 import { useState } from 'react'
 
 interface DataTableProps<TData, TValue> {
@@ -66,7 +68,13 @@ const EmployeesDataTable = <TData, TValue>({
           }
           className="max-w-sm"
         />
-        <AddEmployeeModal />
+        <EmployeeFormModal
+          button={
+            <Button className="gap-2 rounded-md">
+              <Plus /> <span> Add Employee </span>
+            </Button>
+          }
+        />
       </div>
       <div className="rounded-md border">
         <Table>

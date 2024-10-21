@@ -24,22 +24,33 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { useToast } from '@/components/ui/use-toast'
+import { Tables } from '@/types/database.types'
 import { createBrowserClient } from '@/utils/supabase'
 import { cn } from '@/utils/tailwind'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useUpsertMutation } from '@supabase-cache-helpers/postgrest-react-query'
+import {
+  useUpdateMutation,
+  useUpsertMutation,
+} from '@supabase-cache-helpers/postgrest-react-query'
 import { format } from 'date-fns'
 import { CalendarIcon, Loader2 } from 'lucide-react'
-import { FC, FormEventHandler, useCallback } from 'react'
+import { FC, FormEventHandler, useCallback, useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
 interface EmployeeFormProps {
   setIsOpen: (value: boolean) => void
+  oldEmployeeData?: Tables<'company_employees'>
 }
 
-const EmployeeForm: FC<EmployeeFormProps> = ({ setIsOpen }) => {
+const EmployeeForm: FC<EmployeeFormProps> = ({
+  setIsOpen,
+  oldEmployeeData,
+}) => {
   const { accountId } = useCompanyContext()
+
+  // form updater
+  const [isDone, setIsDone] = useState(false)
 
   const form = useForm<z.infer<typeof employeeSchema>>({
     resolver: zodResolver(employeeSchema),
@@ -58,7 +69,7 @@ const EmployeeForm: FC<EmployeeFormProps> = ({ setIsOpen }) => {
     // @ts-ignore
     supabase.from('company_employees'),
     ['id'],
-    '',
+    null,
     {
       onSuccess: () => {
         setIsOpen(false)
@@ -90,21 +101,52 @@ const EmployeeForm: FC<EmployeeFormProps> = ({ setIsOpen }) => {
           throw new Error('User not found')
         }
 
-        await mutateAsync([
-          {
-            ...data,
-            account_id: accountId,
-            created_by: user.id,
-          },
-        ])
+        await mutateAsync({
+          ...data,
+          // @ts-ignore
+          effective_date: data.effective_date
+            ? new Date(data.effective_date)
+            : undefined,
+          birth_date: data.birth_date ? new Date(data.birth_date) : undefined,
+          account_id: accountId,
+          created_by: user.id,
+          id: oldEmployeeData?.id ?? undefined,
+        })
       })(e)
     },
-    [form, mutateAsync],
+    [accountId, form, mutateAsync, oldEmployeeData?.id, supabase.auth],
   )
+
+  // If oldEmployeeData is provided, we are editing an existing employee
+  useEffect(() => {
+    if (oldEmployeeData) {
+      form.reset({
+        first_name: oldEmployeeData.first_name ?? undefined,
+        last_name: oldEmployeeData.last_name ?? undefined,
+        birth_date: oldEmployeeData
+          ? new Date(oldEmployeeData.birth_date ?? '')
+          : undefined,
+        gender: (oldEmployeeData.gender as any).toString() ?? undefined,
+        civil_status:
+          (oldEmployeeData.civil_status as any).toString() ?? undefined,
+        card_number: oldEmployeeData.card_number ?? undefined,
+        effective_date: oldEmployeeData.effective_date
+          ? new Date(oldEmployeeData.effective_date ?? '')
+          : undefined,
+        room_plan: oldEmployeeData.room_plan ?? undefined,
+        maximum_benefit_limit:
+          oldEmployeeData.maximum_benefit_limit ?? undefined,
+      })
+
+      // trigger a re-render
+      setIsDone(true)
+    }
+  }, [form, oldEmployeeData])
 
   return (
     <Form {...form}>
-      <form onSubmit={onSubmitHandler}>
+      {/* key is used to trigger a re-render */}
+      <form key={isDone ? 0 : 1} onSubmit={onSubmitHandler}>
         <div className="grid grid-cols-2 gap-4 py-4">
           <FormField
             control={form.control}
@@ -184,7 +226,7 @@ const EmployeeForm: FC<EmployeeFormProps> = ({ setIsOpen }) => {
                   <Select
                     {...field}
                     onValueChange={field.onChange}
-                    defaultValue={field.value}
+                    value={field.value}
                     disabled={isPending}
                   >
                     <SelectTrigger className="col-span-3">
@@ -210,7 +252,7 @@ const EmployeeForm: FC<EmployeeFormProps> = ({ setIsOpen }) => {
                   <Select
                     {...field}
                     onValueChange={field.onChange}
-                    defaultValue={field.value}
+                    value={field.value}
                     disabled={isPending}
                   >
                     <SelectTrigger className="col-span-3">
@@ -324,8 +366,10 @@ const EmployeeForm: FC<EmployeeFormProps> = ({ setIsOpen }) => {
             <Button type="submit" disabled={isPending}>
               {isPending ? (
                 <Loader2 className="h-4 w-4 animate-spin" />
+              ) : oldEmployeeData ? (
+                'Update'
               ) : (
-                'Add Employee'
+                'Add'
               )}
             </Button>
           </div>
