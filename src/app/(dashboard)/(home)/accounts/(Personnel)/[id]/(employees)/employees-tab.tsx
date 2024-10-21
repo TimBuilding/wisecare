@@ -1,5 +1,4 @@
 'use client'
-import AddEmployeeModal from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(employees)/add-employee-modal'
 import employeesColumns from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(employees)/employees-columns'
 import EmployeesDataTable from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(employees)/employees-data-table'
 import getEmployeeByCompanyId from '@/queries/get-employee-by-company-id'

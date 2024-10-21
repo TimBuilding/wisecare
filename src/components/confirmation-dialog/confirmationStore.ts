@@ -1,3 +1,4 @@
+import { buttonVariants } from '@/components/ui/button'
 import { create } from 'zustand'
 
 interface ConfirmationState {
@@ -6,6 +7,14 @@ interface ConfirmationState {
   description: string | null
   cancelLabel: string | null
   actionLabel: string | null
+  isLoading: boolean
+  confirmationButtonVariant:
+    | 'default'
+    | 'destructive'
+    | 'outline'
+    | 'secondary'
+    | 'ghost'
+    | 'link'
   onAction: () => void
   onCancel: () => void
 }
@@ -16,6 +25,14 @@ interface ConfirmationActions {
     description: string
     cancelLabel: string
     actionLabel: string
+    isLoading?: boolean
+    confirmationButtonVariant?:
+      | 'default'
+      | 'destructive'
+      | 'outline'
+      | 'secondary'
+      | 'ghost'
+      | 'link'
     onAction: () => void
     onCancel: () => void
   }) => void
@@ -29,6 +46,8 @@ const useConfirmationStore = create<ConfirmationState & ConfirmationActions>(
     description: null,
     cancelLabel: null,
     actionLabel: null,
+    isLoading: false,
+    confirmationButtonVariant: 'default',
     onAction: () => {},
     onCancel: () => {},
     openConfirmation: (data) =>
@@ -38,6 +57,8 @@ const useConfirmationStore = create<ConfirmationState & ConfirmationActions>(
         description: data.description,
         cancelLabel: data.cancelLabel,
         actionLabel: data.actionLabel,
+        isLoading: data.isLoading,
+        confirmationButtonVariant: data.confirmationButtonVariant,
         onAction: data.onAction,
         onCancel: data.onCancel,
       })),
@@ -48,6 +69,8 @@ const useConfirmationStore = create<ConfirmationState & ConfirmationActions>(
         description: null,
         cancelLabel: null,
         actionLabel: null,
+        isLoading: false,
+        confirmationButtonVariant: 'default',
         onAction: () => {},
         onCancel: () => {},
       })),
