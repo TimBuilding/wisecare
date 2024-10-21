@@ -23,6 +23,7 @@ const ConfirmationDialog = () => {
     actionLabel,
     onAction,
     closeConfirmation,
+    confirmationButtonVariant,
   } = useConfirmationStore()
 
   return (
@@ -35,7 +36,11 @@ const ConfirmationDialog = () => {
         <AlertDialogFooter>
           <AlertDialogCancel>{cancelLabel}</AlertDialogCancel>
           <AlertDialogAction asChild={true}>
-            <Button variant={'destructive'} onClick={onAction} type="button">
+            <Button
+              variant={confirmationButtonVariant}
+              onClick={onAction}
+              type="button"
+            >
               {actionLabel}
             </Button>
           </AlertDialogAction>
