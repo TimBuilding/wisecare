@@ -1,23 +1,44 @@
 import React, { FC } from 'react'
 import { createBrowserClient } from '@/utils/supabase'
-import getBillingStatementInputs from '@/queries/get-billing-statement-inputs'
+import getBillingStatementByCompanyId from '@/queries/get-billing-statement-by-company-id'
 import { useQuery } from '@supabase-cache-helpers/postgrest-react-query'
 import { Tables } from '@/types/database.types'
 import getTypes from '@/queries/get-types'
 import { format } from 'date-fns'
 import getBillingStatements from '@/queries/get-billing-statements'
 
-interface Props {
-  data: Tables<'billing_statements'>
+type ModeOfPayment = {
+  id: string
+  name: string
 }
 
-const BillingInformation: FC<Props> = ({ data }) => {
+export interface BillingInfoProps {
+  data: {
+    id: string
+    mode_of_payments: ModeOfPayment
+    due_date: string
+    or_number: string
+    or_date: string
+    sa_number: string
+    amount: number
+    total_contract_value: number
+    balance: number
+    billing_period: number
+    amount_billed: number
+    amount_paid: number
+    commission_rate: number
+    commission_earned: number
+    created_at: string
+  }
+}
+
+const BillingInformation: FC<BillingInfoProps> = ({ data }) => {
   return (
     <>
       <div className="col-span-3 flex grid-cols-12 flex-col pt-4 lg:grid lg:p-2">
         <div className="flex flex-col gap-2 lg:col-span-3">
           <span className="text-md font-semibold text-[#161a1d]">
-            {data.mode_of_payment_id || 'N/A'}
+            {data.mode_of_payments.name || 'N/A'}
           </span>
           <span className="text-sm font-medium text-[#64748b]">
             MODE OF PAYMENT
@@ -41,7 +62,7 @@ const BillingInformation: FC<Props> = ({ data }) => {
         </div>
         <div className="flex flex-col gap-2 lg:col-span-3">
           <span className="text-md font-semibold text-[#161a1d]">
-            {data.amount || 'N/A'}
+            {data.amount || '0'}
           </span>
           <span className="text-sm font-medium text-[#64748b]">AMOUNT</span>
           <span className="text-md font-semibold text-[#161a1d]">
