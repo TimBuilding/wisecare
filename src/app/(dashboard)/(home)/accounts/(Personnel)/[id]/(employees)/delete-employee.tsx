@@ -1,14 +1,11 @@
 'use client'
+import { useCompanyContext } from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/company-provider'
 import useConfirmationStore from '@/components/confirmation-dialog/confirmationStore'
-import { Button } from '@/components/ui/button'
 import { DropdownMenuItem } from '@/components/ui/dropdown-menu'
 import { useToast } from '@/components/ui/use-toast'
 import { createBrowserClient } from '@/utils/supabase'
-import {
-  useQuery,
-  useUpdateMutation,
-} from '@supabase-cache-helpers/postgrest-react-query'
-import { Trash, Trash2 } from 'lucide-react'
+import { useUpdateMutation } from '@supabase-cache-helpers/postgrest-react-query'
+import { Trash2 } from 'lucide-react'
 import { FC } from 'react'
 
 interface DeleteEmployeeProps {
@@ -16,6 +13,7 @@ interface DeleteEmployeeProps {
 }
 
 const DeleteEmployee: FC<DeleteEmployeeProps> = ({ employeeId }) => {
+  const { userRole } = useCompanyContext()
   const { openConfirmation, closeConfirmation } = useConfirmationStore()
   const supabase = createBrowserClient()
   const { toast } = useToast()
@@ -43,6 +41,16 @@ const DeleteEmployee: FC<DeleteEmployeeProps> = ({ employeeId }) => {
       },
     },
   )
+
+  if (
+    !userRole ||
+    !['marketing', 'finance', 'under-writing', 'after-sales', 'admin'].includes(
+      userRole,
+    )
+  ) {
+    return null
+  }
+
   return (
     <>
       <DropdownMenuItem
