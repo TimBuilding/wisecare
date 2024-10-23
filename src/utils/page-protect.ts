@@ -4,7 +4,7 @@ import { cookies } from 'next/headers'
 import { createServerClient } from './supabase'
 import { redirect } from 'next/navigation'
 
-const pageProtect = async (department: string) => {
+const pageProtect = async (departments: string[]) => {
   const supabase = createServerClient(cookies())
 
   const {
@@ -22,7 +22,7 @@ const pageProtect = async (department: string) => {
   }
 
   // @ts-ignore
-  if ((userProfileData.departments.name as any) !== department) {
+  if (!departments.includes(userProfileData.departments.name as any)) {
     return redirect('/')
   }
 }

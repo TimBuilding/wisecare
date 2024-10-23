@@ -6,6 +6,7 @@ import AdminNavigation from './admin-navigation'
 import NavigationItem from './navigation-item'
 
 const Navigation = async () => {
+  const role = await getRole()
   return (
     <div className="space-y-6 px-3">
       <div>
@@ -39,7 +40,7 @@ const Navigation = async () => {
           />
           {
             // only show pending tab if role is finance
-            (await getRole()) === 'finance' && (
+            role && ['finance', 'admin'].includes(role) && (
               <NavigationItem
                 title="Billing Statements"
                 href="/billing-statements"
