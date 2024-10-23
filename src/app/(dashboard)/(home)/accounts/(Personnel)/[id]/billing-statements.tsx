@@ -6,8 +6,10 @@ import {
 } from '@/components/ui/collapsible'
 import { Button } from '@/components/ui/button'
 import { ChevronsUpDown } from 'lucide-react'
-import BillingInformation from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/billing-information'
-import getBillingStatementInputs from '@/queries/get-billing-statement-inputs'
+import BillingInformation, {
+  BillingInfoProps,
+} from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/billing-information'
+import getBillingStatementByCompanyId from '@/queries/get-billing-statement-by-company-id'
 import { useQuery } from '@supabase-cache-helpers/postgrest-react-query'
 import { createBrowserClient } from '@/utils/supabase'
 import EmployeesInformation from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/employees-information'
@@ -20,9 +22,10 @@ interface Props {
 
 const BillingStatements: FC<Props> = ({ companyId }) => {
   const supabase = createBrowserClient()
-  const { data: billing, isPending } = useQuery(
-    getBillingStatementInputs(supabase, companyId),
+  const { data: billings, isPending } = useQuery(
+    getBillingStatementByCompanyId(supabase, companyId),
   )
+
   return (
     <div className="mx-auto flex w-full flex-col items-center justify-between gap-6">
       {isPending &&
@@ -34,8 +37,8 @@ const BillingStatements: FC<Props> = ({ companyId }) => {
             }
           ></Collapsible>
         ))}
-      {billing &&
-        billing.map((billing) => (
+      {billings &&
+        billings.map((billing) => (
           <Collapsible
             key={billing.id}
             className={
@@ -57,7 +60,7 @@ const BillingStatements: FC<Props> = ({ companyId }) => {
             <CollapsibleContent>
               <div className="grid-cols-3 lg:grid">
                 <BillingInformation
-                  data={billing as Tables<'billing_statements'>}
+                  data={{ ...billing } as BillingInfoProps['data']}
                 />
               </div>
             </CollapsibleContent>
