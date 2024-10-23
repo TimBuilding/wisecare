@@ -2,7 +2,6 @@
 
 import EmployeeForm from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(employees)/employee-form'
 import { useCompanyContext } from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/company-provider'
-import { Button } from '@/components/ui/button'
 import {
   Dialog,
   DialogContent,
@@ -11,10 +10,18 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog'
-import { Plus } from 'lucide-react'
-import { useState } from 'react'
+import { Tables } from '@/types/database.types'
+import { FC, ReactNode, useState } from 'react'
 
-const AddEmployeeModal = () => {
+interface AddEmployeeModalProps {
+  oldEmployeeData?: Tables<'company_employees'>
+  button: ReactNode
+}
+
+const EmployeeFormModal: FC<AddEmployeeModalProps> = ({
+  oldEmployeeData,
+  button,
+}) => {
   const { userRole } = useCompanyContext()
   const [isOpen, setIsOpen] = useState(false)
 
@@ -29,23 +36,25 @@ const AddEmployeeModal = () => {
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
-      <DialogTrigger asChild={true}>
-        <Button className="gap-2 rounded-md">
-          <Plus /> <span> Add Employee </span>
-        </Button>
-      </DialogTrigger>
+      <DialogTrigger asChild={true}>{button}</DialogTrigger>
       <DialogContent className="max-w-6xl">
         <DialogHeader>
-          <DialogTitle>Add Employee</DialogTitle>
+          <DialogTitle>
+            {oldEmployeeData ? 'Edit Employee' : 'Add Employee'}
+          </DialogTitle>
         </DialogHeader>
-        <DialogDescription>Add a new employee to the company</DialogDescription>
+        <DialogDescription>
+          {oldEmployeeData
+            ? 'Edit the employee details'
+            : 'Add a new employee to the company'}
+        </DialogDescription>
 
         {/* Employee Form */}
-        <EmployeeForm setIsOpen={setIsOpen} />
+        <EmployeeForm setIsOpen={setIsOpen} oldEmployeeData={oldEmployeeData} />
         {/* End of Employee Form */}
       </DialogContent>
     </Dialog>
   )
 }
 
-export default AddEmployeeModal
+export default EmployeeFormModal

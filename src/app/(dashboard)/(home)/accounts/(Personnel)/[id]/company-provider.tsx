@@ -1,4 +1,5 @@
 'use client'
+import { Tables } from '@/types/database.types'
 import { createContext, ReactNode, useContext, useState } from 'react'
 
 const useCompanyContext = () => {
@@ -9,29 +10,37 @@ const useCompanyContext = () => {
   return context
 }
 
-const CompanyContext = createContext({
-  showAddPersonnel: false,
-  setShowAddPersonnel: (_value: boolean) => {},
+const CompanyContext = createContext<{
+  userRole: string
+  setUserRole: (value: string) => void
+  accountId: string
+  setAccountId: (value: string) => void
+  oldEmployeeData: Tables<'company_employees'> | null
+  setOldEmployeeData: (value: Tables<'company_employees'> | null) => void
+}>({
   userRole: '',
-  setUserRole: (_value: string) => {},
+  setUserRole: () => {},
   accountId: '',
-  setAccountId: (_value: string) => {},
+  setAccountId: () => {},
+  oldEmployeeData: null,
+  setOldEmployeeData: () => {},
 })
 
 const CompanyProvider = ({ children }: { children: ReactNode }) => {
-  const [showAddPersonnel, setShowAddPersonnel] = useState(false)
   const [userRole, setUserRole] = useState<string>('')
   const [accountId, setAccountId] = useState<string>('')
+  const [oldEmployeeData, setOldEmployeeData] =
+    useState<Tables<'company_employees'> | null>(null)
 
   return (
     <CompanyContext.Provider
       value={{
-        showAddPersonnel,
-        setShowAddPersonnel,
         userRole,
         setUserRole,
         accountId,
         setAccountId,
+        oldEmployeeData,
+        setOldEmployeeData,
       }}
     >
       {children}
