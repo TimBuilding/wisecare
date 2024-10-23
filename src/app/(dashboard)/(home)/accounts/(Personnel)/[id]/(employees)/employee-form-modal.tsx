@@ -42,12 +42,12 @@ const EmployeeFormModal: FC<AddEmployeeModalProps> = ({
           <DialogTitle>
             {oldEmployeeData ? 'Edit Employee' : 'Add Employee'}
           </DialogTitle>
+          <DialogDescription>
+            {oldEmployeeData
+              ? 'Edit the employee details'
+              : 'Add a new employee to the company'}
+          </DialogDescription>
         </DialogHeader>
-        <DialogDescription>
-          {oldEmployeeData
-            ? 'Edit the employee details'
-            : 'Add a new employee to the company'}
-        </DialogDescription>
 
         {/* Employee Form */}
         <EmployeeForm setIsOpen={setIsOpen} oldEmployeeData={oldEmployeeData} />
