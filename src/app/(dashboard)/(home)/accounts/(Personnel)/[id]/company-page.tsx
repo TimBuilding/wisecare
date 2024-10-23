@@ -18,7 +18,7 @@ interface Props {
 }
 
 const CompanyPage: FC<Props> = ({ companyId, role }) => {
-  const { showAddPersonnel, setUserRole, setAccountId } = useCompanyContext()
+  const { setUserRole, setAccountId } = useCompanyContext()
 
   // set the user role in the context.
   // so we can use it in the add personnel button form, etc

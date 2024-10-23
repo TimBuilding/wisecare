@@ -1,7 +1,7 @@
 import EmployeeFormModal from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(employees)/employee-form-modal'
+import EmployeesTableSearch from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(employees)/employees-table-search'
 import TablePagination from '@/components/table-pagination'
 import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
 import {
   Table,
   TableBody,
@@ -37,6 +37,7 @@ const EmployeesDataTable = <TData, TValue>({
   const [sorting, setSorting] = useState<SortingState>([])
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
+  const [globalFilter, setGlobalFilter] = useState<any>('')
 
   const table = useReactTable({
     data,
@@ -48,26 +49,20 @@ const EmployeesDataTable = <TData, TValue>({
     onColumnFiltersChange: setColumnFilters,
     getFilteredRowModel: getFilteredRowModel(),
     onColumnVisibilityChange: setColumnVisibility,
+    onGlobalFilterChange: setGlobalFilter,
+    globalFilterFn: 'includesString',
     state: {
       sorting,
       columnFilters,
       columnVisibility,
+      globalFilter,
     },
   })
 
   return (
     <div>
       <div className="flex flex-row items-center justify-between py-4">
-        <Input
-          placeholder="Search..."
-          value={
-            (table.getColumn('first_name')?.getFilterValue() as string) ?? ''
-          }
-          onChange={(event) =>
-            table.getColumn('first_name')?.setFilterValue(event.target.value)
-          }
-          className="max-w-sm"
-        />
+        <EmployeesTableSearch table={table} />
         <EmployeeFormModal
           button={
             <Button className="gap-2 rounded-md">
