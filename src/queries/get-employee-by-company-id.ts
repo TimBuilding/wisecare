@@ -9,7 +9,6 @@ const getEmployeeByCompanyId = (
     .select(
       `
       id,
-      is_active,
       account_id,
       first_name,
       last_name,
@@ -19,10 +18,7 @@ const getEmployeeByCompanyId = (
       card_number,
       effective_date,
       room_plan,
-      maximum_benefit_limit,
-      created_at,
-      updated_at,
-      created_by
+      maximum_benefit_limit
     `,
     )
     .eq('account_id', companyId)

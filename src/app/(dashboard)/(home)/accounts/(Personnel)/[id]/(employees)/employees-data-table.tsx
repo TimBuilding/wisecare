@@ -1,5 +1,6 @@
 import EmployeeFormModal from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(employees)/employee-form-modal'
 import EmployeesTableSearch from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(employees)/employees-table-search'
+import ExportEmployees from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(employees)/export-employees'
 import TablePagination from '@/components/table-pagination'
 import { Button } from '@/components/ui/button'
 import {
@@ -60,13 +61,16 @@ const EmployeesDataTable = <TData, TValue>({
     <div>
       <div className="flex flex-row items-center justify-between py-4">
         <EmployeesTableSearch table={table} />
-        <EmployeeFormModal
-          button={
-            <Button className="gap-2 rounded-md">
-              <Plus /> <span> Add Employee </span>
-            </Button>
-          }
-        />
+        <div className="flex items-center space-x-1">
+          <EmployeeFormModal
+            button={
+              <Button className="gap-2 rounded-md">
+                <Plus /> <span> Add Employee </span>
+              </Button>
+            }
+          />
+          <ExportEmployees />
+        </div>
       </div>
       <div className="rounded-md border">
         <Table>
