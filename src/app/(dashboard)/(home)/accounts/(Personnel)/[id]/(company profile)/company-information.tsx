@@ -12,8 +12,8 @@ import {
 } from '@/components/ui/form'
 import { useFormContext } from 'react-hook-form'
 import { z } from 'zod'
-import { useCompanyEditContext } from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/company-edit-provider'
-import companyEditsSchema from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/company-edits-schema'
+import { useCompanyEditContext } from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(company profile)/company-edit-provider'
+import companyEditsSchema from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(company profile)/company-edits-schema'
 import { zodResolver } from '@hookform/resolvers/zod'
 
 interface CompanyInformationProps {

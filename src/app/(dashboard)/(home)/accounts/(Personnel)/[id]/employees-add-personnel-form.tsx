@@ -28,7 +28,7 @@ import EmployeesAddPersonnelButton from '@/app/(dashboard)/(home)/accounts/(Pers
 import { createBrowserClient } from '@/utils/supabase'
 import { useInsertMutation } from '@supabase-cache-helpers/postgrest-react-query'
 import { useToast } from '@/components/ui/use-toast'
-import { useCompanyContext } from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/company-provider'
+import { useCompanyContext } from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(company profile)/company-provider'
 import {
   Select,
   SelectContent,

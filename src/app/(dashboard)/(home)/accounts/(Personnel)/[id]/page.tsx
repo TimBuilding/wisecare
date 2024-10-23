@@ -1,6 +1,6 @@
 'use server'
 import React from 'react'
-import CompanyPage from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/company-page'
+import CompanyPage from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(company profile)/company-page'
 import { createServerClient } from '@/utils/supabase'
 import { cookies } from 'next/headers'
 import {
@@ -10,7 +10,7 @@ import {
 } from '@tanstack/react-query'
 import { prefetchQuery } from '@supabase-cache-helpers/postgrest-react-query'
 import getAccountById from '@/queries/get-account-by-id'
-import CompanyProvider from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/company-provider'
+import CompanyProvider from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(company profile)/company-provider'
 import getRole from '@/utils/get-role'
 
 const Page = async ({ params }: { params: { id: string } }) => {

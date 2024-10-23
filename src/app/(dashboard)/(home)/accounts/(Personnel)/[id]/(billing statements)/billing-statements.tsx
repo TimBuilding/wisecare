@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button'
 import { ChevronsUpDown } from 'lucide-react'
 import BillingInformation, {
   BillingInfoProps,
-} from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/billing-information'
+} from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(billing statements)/billing-information'
 import getBillingStatementByCompanyId from '@/queries/get-billing-statement-by-company-id'
 import { useQuery } from '@supabase-cache-helpers/postgrest-react-query'
 import { createBrowserClient } from '@/utils/supabase'

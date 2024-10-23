@@ -1,5 +1,5 @@
 import employeeSchema from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(employees)/employee-schema'
-import { useCompanyContext } from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/company-provider'
+import { useCompanyContext } from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(company profile)/company-provider'
 import { Button } from '@/components/ui/button'
 import { Calendar } from '@/components/ui/calendar'
 import {

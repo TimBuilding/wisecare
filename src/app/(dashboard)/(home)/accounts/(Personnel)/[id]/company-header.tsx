@@ -1,4 +1,4 @@
-import React, { FC, useState, useEffect } from 'react'
+import React, { FC } from 'react'
 import { Separator } from '@/components/ui/separator'
 import InitialsAvatar from 'react-initials-avatar'
 import { TabsList, TabsTrigger } from '@/components/ui/tabs'
@@ -7,6 +7,7 @@ import { useQuery } from '@supabase-cache-helpers/postgrest-react-query'
 import getAccountById from '@/queries/get-account-by-id'
 import getEmployeeCount from '@/queries/get-employee-count'
 import { Skeleton } from '@/components/ui/skeleton'
+import BillingStatementTab from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(billing statements)/billing-statement-tab'
 
 interface CompanyHeaderProps {
   id: string
@@ -74,12 +75,13 @@ const CompanyHeader: FC<CompanyHeaderProps> = ({ id }) => {
             >
               About
             </TabsTrigger>
-            <TabsTrigger
-              value="billing"
-              className="text-sm font-medium text-[#64748b]"
-            >
-              Billing Statements
-            </TabsTrigger>
+            {/*<TabsTrigger*/}
+            {/*  value="billing"*/}
+            {/*  className="text-sm font-medium text-[#64748b]"*/}
+            {/*>*/}
+            {/*  Billing Statements*/}
+            {/*</TabsTrigger>*/}
+            <BillingStatementTab />
             <TabsTrigger
               value="employees"
               className="text-sm font-medium text-[#64748b]"

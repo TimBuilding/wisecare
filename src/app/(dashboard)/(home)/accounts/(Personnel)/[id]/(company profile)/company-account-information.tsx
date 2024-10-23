@@ -3,7 +3,7 @@ import { createBrowserClient } from '@/utils/supabase'
 import { useQuery } from '@supabase-cache-helpers/postgrest-react-query'
 import getAccountById from '@/queries/get-account-by-id'
 import { Input } from '@/components/ui/input'
-import { useCompanyEditContext } from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/company-edit-provider'
+import { useCompanyEditContext } from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(company profile)/company-edit-provider'
 import {
   FormControl,
   FormField,
@@ -13,7 +13,7 @@ import {
 } from '@/components/ui/form'
 import { ControllerRenderProps, useFormContext } from 'react-hook-form'
 import { z } from 'zod'
-import companyEditsSchema from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/company-edits-schema'
+import companyEditsSchema from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(company profile)/company-edits-schema'
 import {
   Select,
   SelectContent,

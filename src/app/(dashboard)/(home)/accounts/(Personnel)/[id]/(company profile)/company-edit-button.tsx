@@ -1,6 +1,6 @@
 'use client'
 
-import { useCompanyEditContext } from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/company-edit-provider'
+import { useCompanyEditContext } from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(company profile)/company-edit-provider'
 import { Button } from '@/components/ui/button'
 import { Pencil } from 'lucide-react'
 import { FC } from 'react'

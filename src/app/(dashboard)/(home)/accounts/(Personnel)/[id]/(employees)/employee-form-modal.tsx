@@ -1,7 +1,7 @@
 'use client'
 
 import EmployeeForm from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(employees)/employee-form'
-import { useCompanyContext } from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/company-provider'
+import { useCompanyContext } from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(company profile)/company-provider'
 import {
   Dialog,
   DialogContent,

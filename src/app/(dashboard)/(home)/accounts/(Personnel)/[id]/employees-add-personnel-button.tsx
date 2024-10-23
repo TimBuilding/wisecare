@@ -2,7 +2,7 @@
 import React, { useState } from 'react'
 import { Button } from '@/components/ui/button'
 import EmployeesPage from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/employees-page'
-import { useCompanyContext } from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/company-provider'
+import { useCompanyContext } from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(company profile)/company-provider'
 
 interface EmployeesAddPersonnelButtonProps {
   isPending: boolean
