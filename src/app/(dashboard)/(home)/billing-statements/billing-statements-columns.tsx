@@ -5,11 +5,11 @@ import { Tables } from '@/types/database.types'
 
 const billingStatementsColumns: ColumnDef<Tables<'billing_statements'>>[] = [
   {
-    accessorKey: 'account_name',
+    accessorKey: 'account.company_name',
     header: ({ column }) => <TableHeader column={column} title="Account" />,
   },
   {
-    accessorKey: 'mode_of_payment',
+    accessorKey: 'mode_of_payment.name',
     header: ({ column }) => (
       <TableHeader column={column} title="Mode of Payment" />
     ),

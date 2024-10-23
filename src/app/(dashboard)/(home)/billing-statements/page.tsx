@@ -20,15 +20,10 @@ const BillingStatementsPage = async () => {
 
   await pageProtect('finance')
 
-  const { count } = await supabase
-    .from('billing_statements')
-    .select('*', { count: 'exact', head: true })
-    .eq('is_active', true)
-
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
       <TableProvider>
-        <PendingTable count={count || 0} />
+        <PendingTable />
       </TableProvider>
     </HydrationBoundary>
   )

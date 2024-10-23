@@ -20,6 +20,8 @@ import {
   getCoreRowModel,
   getFilteredRowModel,
   getPaginationRowModel,
+  getSortedRowModel,
+  SortingState,
   useReactTable,
 } from '@tanstack/react-table'
 import { useState } from 'react'
@@ -31,44 +33,38 @@ import { createBrowserClient } from '@/utils/supabase'
 import { useQuery } from '@supabase-cache-helpers/postgrest-react-query'
 import DataTableRow from './data-table-row'
 import AddBillingStatementButton from '@/app/(dashboard)/(home)/billing-statements/add-billing-statement-button'
+import getBillingStatements from '@/queries/get-billing-statements'
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
   data: TData[]
-  count: number
 }
 
 const DataTable = <TData, TValue>({
   columns,
   data,
-  count,
 }: DataTableProps<TData, TValue>) => {
-  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
-  const { pagination, setPagination } = useTableContext()
+  const [sorting, setSorting] = useState<SortingState>([])
+  const [globalFilter, setGlobalFilter] = useState<any>('')
 
   const table = useReactTable({
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
-    onColumnFiltersChange: setColumnFilters,
+    onSortingChange: setSorting,
+    getSortedRowModel: getSortedRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
-    onPaginationChange: setPagination,
-    manualPagination: true,
-    rowCount: count,
+    onGlobalFilterChange: setGlobalFilter,
+    globalFilterFn: 'includesString',
     state: {
-      columnFilters,
-      pagination,
+      sorting,
+      globalFilter,
     },
   })
 
   const supabase = createBrowserClient()
-  const { count: totalCount, isLoading } = useQuery(
-    supabase
-      .from('billing_statements')
-      .select('*', { head: true, count: 'exact' })
-      .eq('is_active', true),
-  )
+  const { count, isLoading } = useQuery(getBillingStatements(supabase))
 
   return (
     <div className="flex flex-col">
@@ -79,11 +75,11 @@ const DataTable = <TData, TValue>({
             {isLoading ? (
               <Skeleton className="h-4 w-20" />
             ) : (
-              <PageDescription>{totalCount} Billing Statements</PageDescription>
+              <PageDescription>{count} Billing Statements</PageDescription>
             )}
           </div>
           <div className="flex flex-row gap-4">
-            <TableSearch />
+            <TableSearch table={table} />
             <AddBillingStatementButton />
           </div>
         </div>

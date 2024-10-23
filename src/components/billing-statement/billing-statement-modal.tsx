@@ -165,6 +165,10 @@ const BillingStatementModal = <TData,>({
             value === null ? undefined : value,
           ]),
         ) as unknown as z.infer<typeof BillingStatementSchema>),
+        // @ts-ignore
+        account_id: originalData.account.id ?? undefined,
+        // @ts-ignore
+        mode_of_payment_id: originalData.mode_of_payment.id ?? undefined,
         due_date: originalData.due_date
           ? new Date(originalData.due_date)
           : undefined,
