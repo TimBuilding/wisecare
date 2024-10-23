@@ -56,7 +56,10 @@ const employeesColumns: ColumnDef<Tables<'company_employees'>>[] = [
       <TableHeader column={column} title="Effective Date" />
     ),
     cell: ({ row }) => {
-      return format(new Date(row.getValue('effective_date')), 'PP')
+      const effectiveDate = row.getValue('effective_date')
+      return effectiveDate
+        ? format(new Date(effectiveDate.toString()), 'PP')
+        : ''
     },
   },
   {
