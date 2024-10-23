@@ -38,6 +38,7 @@ import { useEffect, useState } from 'react'
 import AccountsProvider from './accounts-provider'
 import AddAccountButton from './add-account-button'
 import AddAccountForm from './add-account-form'
+import ExportAccounts from '@/app/(dashboard)/(home)/accounts/export-accounts'
 
 interface IData {
   id: string
@@ -153,6 +154,7 @@ const DataTable = <TData extends IData, TValue>({
             <div className="flex flex-row gap-4">
               <TableSearch table={table} />
               <AddAccountButton />
+              <ExportAccounts />
             </div>
           </div>
         </PageHeader>
