@@ -1,3 +1,4 @@
+import DeleteEmployee from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(employees)/delete-employee'
 import EmployeeFormModal from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(employees)/employee-form-modal'
 import TableHeader from '@/components/table-header'
 import { Button } from '@/components/ui/button'
@@ -73,6 +74,8 @@ const employeesColumns: ColumnDef<Tables<'company_employees'>>[] = [
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
+
+            {/* Edit employee Start */}
             <EmployeeFormModal
               oldEmployeeData={employee}
               button={
@@ -84,11 +87,11 @@ const employeesColumns: ColumnDef<Tables<'company_employees'>>[] = [
                 </DropdownMenuItem>
               }
             />
-            {/* <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(employee.id)}
-            >
-              <Pencil className="h-4 w-4 mr-2" /> Edit
-            </DropdownMenuItem> */}
+            {/* Edit employee End */}
+
+            {/* Delete employee Start */}
+            <DeleteEmployee employeeId={employee.id} />
+            {/* Delete employee End */}
             <DropdownMenuSeparator />
             <DropdownMenuItem>View customer</DropdownMenuItem>
             <DropdownMenuItem>View payment details</DropdownMenuItem>

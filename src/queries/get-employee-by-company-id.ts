@@ -26,6 +26,7 @@ const getEmployeeByCompanyId = (
     `,
     )
     .eq('account_id', companyId)
+    .eq('is_active', true)
     .throwOnError()
     .order('created_at', { ascending: false })
 }
