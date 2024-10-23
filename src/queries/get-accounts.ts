@@ -1,17 +1,53 @@
 import { TypedSupabaseClient } from '@/types/typedSupabaseClient'
 
-const getAccounts = (
-  supabase: TypedSupabaseClient,
-  filter?: string,
-  start_offset?: number,
-  end_offset?: number,
-) => {
+const getAccounts = (supabase: TypedSupabaseClient) => {
   return supabase
-    .rpc('search_accounts', {
-      account_term: filter || '',
-      start_offset: start_offset || 0,
-      end_offset: end_offset || 10,
-    })
+    .from('accounts')
+    .select(
+      `
+  id,
+  agent:user_profiles(first_name, last_name),
+  company_name,
+  company_address,
+  nature_of_business,
+  hmo_provider:hmo_provider_id(name, id),
+  previous_hmo_provider:previous_hmo_provider_id(name, id),
+  current_hmo_provider:current_hmo_provider_id(name, id),
+  account_type:account_types(name, id),
+  total_utilization,
+  total_premium_paid,
+  signatory_designation,
+  contact_person,
+  contact_number,
+  principal_plan_type:principal_plan_type_id(name, id),
+  dependent_plan_type:dependent_plan_type_id(name, id),
+  initial_head_count,
+  effectivity_date,
+  coc_issue_date,
+  expiration_date,
+  delivery_date_of_membership_ids,
+  orientation_date,
+  initial_contract_value,
+  mode_of_payment:mode_of_payment_id(name, id),
+  wellness_lecture_date,
+  annual_physical_examination_date,
+  commision_rate,
+  additional_benefits,
+  special_benefits,
+  summary_of_benefits,
+  created_at,
+  updated_at,
+  name_of_signatory,
+  designation_of_contact_person,
+  email_address_of_contact_person
+  `,
+      {
+        count: 'exact',
+        head: false,
+      },
+    )
+    .eq('is_active', true)
+    .order('created_at', { ascending: true })
     .throwOnError()
 }
 

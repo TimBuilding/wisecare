@@ -1,11 +1,16 @@
 'use client'
 import { Input } from '@/components/ui/input'
 import { useTableContext } from '@/providers/TableProvider'
+import { Table } from '@tanstack/react-table'
 import { Search } from 'lucide-react'
 import { useEffect } from 'react'
 import { useDebounceValue } from 'usehooks-ts'
 
-const TableSearch = () => {
+interface TableSearchProps<TData> {
+  table: Table<TData>
+}
+
+const TableSearch = <TData,>({ table }: TableSearchProps<TData>) => {
   const [debouncedValue, setValue] = useDebounceValue('', 300)
   const { setFilter } = useTableContext()
 
@@ -19,7 +24,8 @@ const TableSearch = () => {
       <Input
         className="max-w-xs rounded-full pl-10"
         placeholder="Search accounts"
-        onChange={(e) => setValue(e.target.value)}
+        value={table.getState().globalFilter}
+        onChange={(e) => table.setGlobalFilter(e.target.value)}
       />
     </div>
   )

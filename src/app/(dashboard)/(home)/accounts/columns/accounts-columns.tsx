@@ -12,7 +12,7 @@ const accountsColumns: ColumnDef<Tables<'accounts'>>[] = [
     ),
   },
   {
-    accessorKey: 'account_type',
+    accessorKey: 'account_type.name',
     header: ({ column }) => (
       <TableHeader column={column} title="Account Type" />
     ),
@@ -20,12 +20,9 @@ const accountsColumns: ColumnDef<Tables<'accounts'>>[] = [
   {
     accessorKey: 'agent',
     header: ({ column }) => <TableHeader column={column} title="Agent" />,
-  },
-  {
-    accessorKey: 'is_active',
-    header: ({ column }) => (
-      <TableHeader column={column} title="Active Status" />
-    ),
+    cell: ({ row }) =>
+      // @ts-ignore
+      `${row.original.agent.first_name} ${row.original.agent.last_name}`,
   },
   {
     accessorKey: 'company_address',
@@ -40,19 +37,19 @@ const accountsColumns: ColumnDef<Tables<'accounts'>>[] = [
     ),
   },
   {
-    accessorKey: 'hmo_provider',
+    accessorKey: 'hmo_provider.name',
     header: ({ column }) => (
       <TableHeader column={column} title="HMO Provider" />
     ),
   },
   {
-    accessorKey: 'previous_hmo_provider',
+    accessorKey: 'previous_hmo_provider.name',
     header: ({ column }) => (
       <TableHeader column={column} title="Previous HMO Provider" />
     ),
   },
   {
-    accessorKey: 'current_hmo_provider',
+    accessorKey: 'current_hmo_provider.name',
     header: ({ column }) => (
       <TableHeader column={column} title="Current HMO Provider" />
     ),
@@ -88,13 +85,13 @@ const accountsColumns: ColumnDef<Tables<'accounts'>>[] = [
     ),
   },
   {
-    accessorKey: 'principal_plan_type',
+    accessorKey: 'principal_plan_type.name',
     header: ({ column }) => (
       <TableHeader column={column} title="Principal Plan Type" />
     ),
   },
   {
-    accessorKey: 'dependent_plan_type',
+    accessorKey: 'dependent_plan_type.name',
     header: ({ column }) => (
       <TableHeader column={column} title="Dependent Plan Type" />
     ),
@@ -142,7 +139,7 @@ const accountsColumns: ColumnDef<Tables<'accounts'>>[] = [
     ),
   },
   {
-    accessorKey: 'mode_of_payment',
+    accessorKey: 'mode_of_payment.name',
     header: ({ column }) => (
       <TableHeader column={column} title="Mode of Payment" />
     ),

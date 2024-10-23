@@ -23,6 +23,7 @@ import { createBrowserClient } from '@/utils/supabase'
 import { useQuery } from '@supabase-cache-helpers/postgrest-react-query'
 import {
   ColumnDef,
+  ColumnFiltersState,
   SortingState,
   VisibilityState,
   flexRender,
@@ -45,18 +46,15 @@ interface IData {
 interface DataTableProps<TData extends IData, TValue> {
   columns: ColumnDef<TData, TValue>[]
   data: TData[]
-  count: number
 }
 
 const DataTable = <TData extends IData, TValue>({
   columns,
   data,
-  count,
 }: DataTableProps<TData, TValue>) => {
-  const { pagination, setPagination } = useTableContext()
-
   const [sorting, setSorting] = useState<SortingState>([])
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
+  const [globalFilter, setGlobalFilter] = useState<any>('')
 
   const router = useRouter()
   const { toast } = useToast()
@@ -70,13 +68,11 @@ const DataTable = <TData extends IData, TValue>({
     getSortedRowModel: getSortedRowModel(),
     onColumnVisibilityChange: setColumnVisibility,
     getFilteredRowModel: getFilteredRowModel(),
-    onPaginationChange: setPagination,
-    manualPagination: true,
-    rowCount: count,
+    onGlobalFilterChange: setGlobalFilter,
     state: {
       sorting,
       columnVisibility,
-      pagination,
+      globalFilter,
     },
   })
 
@@ -155,7 +151,7 @@ const DataTable = <TData extends IData, TValue>({
               )}
             </div>
             <div className="flex flex-row gap-4">
-              <TableSearch />
+              <TableSearch table={table} />
               <AddAccountButton />
             </div>
           </div>
