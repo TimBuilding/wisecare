@@ -32,7 +32,7 @@ const CompanyInformationItem = ({
 }) => (
   <div className="flex flex-col py-1">
     <div className="text-sm font-medium text-muted-foreground">{label}</div>
-    <div className="text-md font-semibold">{value || 'N/A'}</div>
+    <div className="text-md font-semibold">{value || 'No data'}</div>
   </div>
 )
 
@@ -154,7 +154,11 @@ const CompanyAccountInformation: FC<CompanyAccountInformationProps> = ({
           />
           <CompanyInformationItem
             label="Agent"
-            value={`${account?.agent?.first_name} ${account?.agent?.last_name}`}
+            value={
+              account?.agent
+                ? `${account?.agent?.first_name} ${account?.agent?.last_name}`
+                : 'No data'
+            }
           />
           <CompanyInformationItem
             label="Commission Rate"

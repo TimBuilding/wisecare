@@ -9,10 +9,9 @@ import {
   FormControl,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
 } from '@/components/ui/form'
-import { ControllerRenderProps, useFormContext } from 'react-hook-form'
+import { useFormContext } from 'react-hook-form'
 import { z } from 'zod'
 import {
   Select,
@@ -32,7 +31,6 @@ import { Button } from '@/components/ui/button'
 import { cn } from '@/utils/tailwind'
 import { CalendarIcon } from 'lucide-react'
 import { format } from 'date-fns'
-import pendingSchema from '@/app/(dashboard)/(home)/pending/forms/pending-schema'
 
 const CompanyInformationItem = ({
   label,
@@ -43,7 +41,7 @@ const CompanyInformationItem = ({
 }) => (
   <div className="flex flex-col py-1">
     <div className="text-sm font-medium text-muted-foreground">{label}</div>
-    <div className="text-md font-semibold">{value || 'N/A'}</div>
+    <div className="text-md font-semibold">{value || 'No data'}</div>
   </div>
 )
 
@@ -490,27 +488,56 @@ const CompanyContractInformation: FC<CompanyContractInformationProps> = ({
           />
           <CompanyInformationItem
             label={'Expiration Date'}
-            value={account?.expiration_date?.toString()}
+            value={
+              account?.expiration_date
+                ? format(new Date(account.expiration_date), 'PPP')
+                : 'No data'
+            }
           />
           <CompanyInformationItem
             label={'Effectivity Date'}
-            value={account?.effectivity_date?.toString()}
+            value={
+              account?.effectivity_date
+                ? format(new Date(account.effectivity_date), 'PPP')
+                : 'No data'
+            }
           />
           <CompanyInformationItem
             label={'COC Issue Date'}
-            value={account?.coc_issue_date?.toString()}
+            // value={account?.coc_issue_date?.toString()}
+            value={
+              account?.coc_issue_date
+                ? format(new Date(account.coc_issue_date), 'PPP')
+                : 'No data'
+            }
           />
           <CompanyInformationItem
             label={'Delivery Date of Membership IDs'}
-            value={account?.delivery_date_of_membership_ids?.toString()}
+            value={
+              account?.delivery_date_of_membership_ids
+                ? format(
+                    new Date(account.delivery_date_of_membership_ids),
+                    'PPP',
+                  )
+                : 'No data'
+            }
           />
           <CompanyInformationItem
             label={'Orientation Date'}
-            value={account?.orientation_date?.toString()}
+            // value={account?.orientation_date?.toString()}
+            value={
+              account?.orientation_date
+                ? format(new Date(account.orientation_date), 'PPP')
+                : 'No data'
+            }
           />
           <CompanyInformationItem
             label={'Wellness Lecture Date'}
-            value={account?.wellness_lecture_date?.toString()}
+            value={
+              account?.wellness_lecture_date
+                ? format(new Date(account.wellness_lecture_date), 'PPP')
+                : 'No data'
+            }
           />
           <CompanyInformationItem
             label={'Annual Physical Examination Date'}

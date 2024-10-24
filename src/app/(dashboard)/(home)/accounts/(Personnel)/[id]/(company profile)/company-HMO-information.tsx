@@ -31,7 +31,7 @@ const CompanyInformationItem = ({
 }) => (
   <div className="flex flex-col py-1">
     <div className="text-sm font-medium text-muted-foreground">{label}</div>
-    <div className="text-md font-semibold">{value || 'N/A'}</div>
+    <div className="text-md font-semibold">{value || 'No data'}</div>
   </div>
 )
 interface CompanyHmoInformationProps {
