@@ -21,29 +21,29 @@ const CompanyHeader: FC<CompanyHeaderProps> = ({ id }) => {
   )
 
   return (
-    <div className="flex w-full flex-col bg-background pb-6 drop-shadow-md xl:mb-0">
+    <div className="flex w-full flex-col bg-background pb-6 drop-shadow-md  xl:mb-0 xl:justify-evenly">
       <div className="h-40 w-full bg-slate-400 object-cover xl:h-80 "></div>
       <div className="relative mx-auto flex w-full max-w-5xl translate-y-4 flex-col items-center justify-between px-8 pt-16 text-center xl:h-16 xl:translate-y-1 xl:flex-row xl:gap-8 xl:px-0 xl:pt-1 xl:text-left">
-        <div className="absolute -top-20  mx-auto flex flex-col items-center justify-between rounded-full bg-sky-950 ring-4 ring-background xl:relative xl:top-0 xl:-ml-4 xl:-translate-y-10">
+        <div className="absolute -top-20  mx-auto flex flex-col items-center justify-between rounded-full bg-sky-950 ring-4 ring-background xl:relative xl:top-0 xl:-ml-4 xl:-translate-y-8">
           <InitialsAvatar
             name={account?.company_name || ''}
             className="h-32 w-32 translate-y-10 text-center text-5xl text-white"
           />
         </div>
-        <div className="flex w-full flex-col items-center justify-between gap-4 xl:flex-row">
-          <div className="flex w-36 flex-col ">
-            <div className="text-lg font-bold lg:truncate lg:text-clip ">
-              {account?.company_name || ''}
-            </div>
-            <div className="text-sm text-[#64748b] lg:truncate lg:text-clip">
-              Philippines
-            </div>
+        <div className="flex w-full flex-col gap-2">
+          <div className="text-lg font-bold lg:leading-5">
+            {account?.company_name || ''}
           </div>
+          <div className="text-sm text-[#64748b] lg:truncate lg:text-clip">
+            Philippines
+          </div>
+        </div>
+        <div className="flex w-full flex-col items-center justify-evenly gap-4 xl:flex-row">
           <Separator
-            className="hidden pt-12 text-muted-foreground xl:visible xl:block xl:-translate-x-8"
+            className="hidden pt-12 text-muted-foreground xl:visible xl:block"
             orientation="vertical"
           />
-          <div className="flex flex-row gap-12 text-center xl:-translate-x-24 ">
+          <div className="flex flex-row gap-12 pt-6 text-center xl:pt-0">
             <div className="flex flex-col">
               <div className="text-sm font-bold">
                 {isPending ? (
@@ -59,7 +59,7 @@ const CompanyHeader: FC<CompanyHeaderProps> = ({ id }) => {
             <div className="flex flex-col">
               <div className="text-sm font-bold">
                 {/*@ts-ignore*/}
-                {account?.hmo_provider ? account?.hmo_provider.name : ''}
+                {account?.hmo_provider ? account?.hmo_provider.name : 'N/A'}
               </div>
               <div className="text-xs font-medium uppercase text-[#64748b]">
                 HMO
@@ -67,6 +67,10 @@ const CompanyHeader: FC<CompanyHeaderProps> = ({ id }) => {
             </div>
           </div>
         </div>
+        <Separator
+          className="hidden pt-12 text-muted-foreground xl:visible xl:block"
+          orientation="vertical"
+        />
         <div className="pt-2">
           <TabsList className="bg-transparent">
             <TabsTrigger
@@ -75,12 +79,6 @@ const CompanyHeader: FC<CompanyHeaderProps> = ({ id }) => {
             >
               About
             </TabsTrigger>
-            {/*<TabsTrigger*/}
-            {/*  value="billing"*/}
-            {/*  className="text-sm font-medium text-[#64748b]"*/}
-            {/*>*/}
-            {/*  Billing Statements*/}
-            {/*</TabsTrigger>*/}
             <BillingStatementTab />
             <TabsTrigger
               value="employees"
