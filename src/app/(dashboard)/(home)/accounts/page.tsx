@@ -10,11 +10,20 @@ import {
 } from '@tanstack/react-query'
 import { cookies } from 'next/headers'
 import AccountsTable from './accounts-table'
+import pageProtect from '@/utils/page-protect'
 
 const AccountsPage = async () => {
   const supabase = createServerClient(cookies())
   const queryClient = new QueryClient()
   await prefetchQuery(queryClient, getAccounts(supabase))
+
+  await pageProtect([
+    'marketing',
+    'after-sales',
+    'under-writing',
+    'finance',
+    'admin',
+  ])
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
