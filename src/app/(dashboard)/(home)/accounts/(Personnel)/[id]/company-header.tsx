@@ -31,7 +31,7 @@ const CompanyHeader: FC<CompanyHeaderProps> = ({ id }) => {
           />
         </div>
         <div className="flex w-full flex-col gap-2">
-          <div className="text-lg font-bold lg:leading-5">
+          <div className="text-lg font-bold lg:leading-4">
             {account?.company_name || ''}
           </div>
           <div className="text-sm text-[#64748b] lg:truncate lg:text-clip">
