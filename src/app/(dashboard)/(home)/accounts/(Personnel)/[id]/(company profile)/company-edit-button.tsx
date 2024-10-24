@@ -27,7 +27,7 @@ const CompanyEditButton: FC<Props> = ({ role }) => {
     <>
       {!editMode && (
         <Button
-          className="w-full gap-2 rounded-md md:max-w-xs"
+          className="w-full gap-2 md:max-w-xs"
           onClick={() => setEditMode(true)}
         >
           <Pencil /> <span> Edit Company Details </span>

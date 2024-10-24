@@ -34,11 +34,7 @@ const ExportEmployees = () => {
     XLSX.writeFile(workbook, fileName)
   }
   return (
-    <Button
-      className="gap-2 rounded-md"
-      variant={'outline'}
-      onClick={onExportEmployees}
-    >
+    <Button className="gap-2" variant={'outline'} onClick={onExportEmployees}>
       <FileDown />
       <span>Export</span>
     </Button>

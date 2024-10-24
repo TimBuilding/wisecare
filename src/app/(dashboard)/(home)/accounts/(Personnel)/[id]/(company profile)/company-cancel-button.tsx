@@ -8,7 +8,7 @@ const CompanyCancelButton = () => {
   return (
     <Button
       variant="default"
-      className="w-full rounded-md lg:w-auto"
+      className="w-full lg:w-auto"
       type="button"
       onClick={() => setEditMode(false)}
     >

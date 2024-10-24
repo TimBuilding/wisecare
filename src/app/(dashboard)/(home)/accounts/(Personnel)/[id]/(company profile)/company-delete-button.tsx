@@ -102,7 +102,7 @@ const CompanyDeleteButton: FC<Props> = ({ accountId }) => {
   return (
     <AlertDialog open={isOpen} onOpenChange={setIsOpen}>
       <AlertDialogTrigger asChild={true}>
-        <Button className="w-fit rounded-md" variant={'destructive'}>
+        <Button className="w-fit" variant={'destructive'}>
           <Trash />
         </Button>
       </AlertDialogTrigger>

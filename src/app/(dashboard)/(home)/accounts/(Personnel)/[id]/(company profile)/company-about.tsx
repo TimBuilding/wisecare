@@ -187,14 +187,14 @@ const CompanyAbout: FC<Props> = ({ companyId }) => {
             </div>
           </div>
         </div>
-        <div className="mt-4 flex flex-row items-center justify-between gap-4 lg:ml-auto lg:justify-end">
+        <div className="mt-4 flex flex-row items-center justify-between gap-2 lg:ml-auto lg:justify-end">
           {editMode && (
             <>
               <CompanyCancelButton />
               <Button
                 type="submit"
                 variant="default"
-                className="w-full rounded-md lg:w-auto"
+                className="w-full lg:w-auto"
               >
                 Submit
               </Button>

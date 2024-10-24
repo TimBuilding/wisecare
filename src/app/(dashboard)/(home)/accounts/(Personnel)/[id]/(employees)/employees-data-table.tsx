@@ -59,12 +59,12 @@ const EmployeesDataTable = <TData, TValue>({
 
   return (
     <div>
-      <div className="flex flex-row items-center justify-between py-4">
+      <div className="flex flex-row items-center justify-between gap-2 py-4">
         <EmployeesTableSearch table={table} />
         <div className="flex items-center space-x-1">
           <EmployeeFormModal
             button={
-              <Button className="gap-2 rounded-md">
+              <Button className="gap-2">
                 <Plus /> <span> Add Employee </span>
               </Button>
             }
