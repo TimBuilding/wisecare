@@ -5,6 +5,7 @@ const getAgents = (supabase: TypedSupabaseClient) => {
     .from('departments')
     .select('user_profiles(user_id, first_name, last_name, email, created_at)')
     .eq('name', 'agent')
+    .order('created_at', { ascending: false })
     .throwOnError()
 }
 

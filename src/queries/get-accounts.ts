@@ -47,7 +47,7 @@ const getAccounts = (supabase: TypedSupabaseClient) => {
       },
     )
     .eq('is_active', true)
-    .order('created_at', { ascending: true })
+    .order('created_at', { ascending: false })
     .throwOnError()
 }
 
