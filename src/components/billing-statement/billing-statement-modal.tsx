@@ -1,5 +1,6 @@
 'use client'
 
+import { useCompanyContext } from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(company profile)/company-provider'
 import BillingStatementSchema from '@/app/(dashboard)/(home)/billing-statements/billing-statement-schema'
 import DeleteBillingStatement from '@/components/billing-statement/delete-billing-statement'
 import { Button } from '@/components/ui/button'
@@ -48,7 +49,7 @@ import {
 } from '@supabase-cache-helpers/postgrest-react-query'
 import { useQueryClient } from '@tanstack/react-query'
 import { format } from 'date-fns'
-import { CalendarIcon, Loader2, Trash2 } from 'lucide-react'
+import { CalendarIcon, Loader2 } from 'lucide-react'
 import { FormEventHandler, ReactNode, useCallback, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
@@ -233,6 +234,18 @@ const BillingStatementModal = <TData,>({
     },
     [form, originalData, updateBillingStatement, insertBillingStatement],
   )
+
+  // if the modal is opened from the Company Profile page,
+  // it should automatically fill the account_id field with the company id
+  const CompanyContext = useCompanyContext()
+  useEffect(() => {
+    // check if context exist
+    if (CompanyContext && CompanyContext !== undefined) {
+      form.reset({
+        account_id: CompanyContext.accountId,
+      })
+    }
+  }, [CompanyContext])
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
