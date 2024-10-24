@@ -3,7 +3,7 @@ import { z } from 'zod'
 const accountsSchema = z.object({
   is_active: z.boolean().nullable(),
   agent_id: z.string().nullable(),
-  company_name: z.string().nullable(),
+  company_name: z.string(),
   company_address: z.string().nullable(),
   nature_of_business: z.string().nullable(),
   hmo_provider_id: z.string().nullable(),
@@ -11,11 +11,11 @@ const accountsSchema = z.object({
   current_hmo_provider_id: z.string().nullable(),
   account_type_id: z.string().nullable(),
   total_utilization: z.preprocess(
-    (val) => (val === null ? null : parseFloat(val as string)),
+    (val) => (val === null || val === '' ? null : parseFloat(val as string)),
     z.number().nullable(),
   ),
   total_premium_paid: z.preprocess(
-    (val) => (val === null ? null : parseFloat(val as string)),
+    (val) => (val === null || val === '' ? null : parseFloat(val as string)),
     z.number().nullable(),
   ),
   signatory_designation: z.string().nullable(),
@@ -24,7 +24,7 @@ const accountsSchema = z.object({
   principal_plan_type_id: z.string().nullable(),
   dependent_plan_type_id: z.string().nullable(),
   initial_head_count: z.preprocess(
-    (val) => (val === null ? null : parseInt(val as string)),
+    (val) => (val === null || val === '' ? null : parseInt(val as string)),
     z.number().nullable(),
   ),
   effectivity_date: z.date().nullable(),
@@ -33,14 +33,14 @@ const accountsSchema = z.object({
   delivery_date_of_membership_ids: z.date().nullable(),
   orientation_date: z.date().nullable(),
   initial_contract_value: z.preprocess(
-    (val) => (val === null ? null : parseFloat(val as string)),
+    (val) => (val === null || val === '' ? null : parseFloat(val as string)),
     z.number().nullable(),
   ),
   mode_of_payment_id: z.string().nullable(),
   wellness_lecture_date: z.date().nullable(),
   annual_physical_examination_date: z.date().nullable(),
   commision_rate: z.preprocess(
-    (val) => (val === null ? null : parseFloat(val as string)),
+    (val) => (val === null || val === '' ? null : parseFloat(val as string)),
     z.number().nonnegative().nullable(),
   ),
   additional_benefits: z.string().nullable(),

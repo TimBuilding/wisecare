@@ -17,7 +17,7 @@ const companyEditsSchema = z.object({
   ),
   total_premium_paid: z.preprocess(
     (val) => (val === null ? null : parseFloat(val as string)),
-    z.number().optional(),
+    z.number().optional().nullable(),
   ),
   signatory_designation: z.string().optional(),
   contact_person: z.string().optional(),
@@ -26,7 +26,7 @@ const companyEditsSchema = z.object({
   dependent_plan_type_id: z.string().optional(),
   initial_head_count: z.preprocess(
     (val) => (val === null ? null : parseInt(val as string)),
-    z.number().optional(),
+    z.number().optional().nullable(),
   ),
   effectivity_date: z.date().optional(),
   coc_issue_date: z.date().optional(),
@@ -35,7 +35,7 @@ const companyEditsSchema = z.object({
   orientation_date: z.date().optional(),
   initial_contract_value: z.preprocess(
     (val) => (val === null ? null : parseFloat(val as string)),
-    z.number().optional(),
+    z.number().optional().nullable(),
   ),
   mode_of_payment_id: z.string().optional(),
   wellness_lecture_date: z.date().optional(),

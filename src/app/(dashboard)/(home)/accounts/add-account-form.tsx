@@ -22,7 +22,7 @@ const AddAccountForm = () => {
     defaultValues: {
       is_active: true,
       agent_id: null,
-      company_name: null,
+      company_name: '',
       company_address: null,
       nature_of_business: null,
       hmo_provider_id: null,

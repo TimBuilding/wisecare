@@ -2,9 +2,10 @@ import CompanyAccountInformation from '@/app/(dashboard)/(home)/accounts/(Person
 import CompanyCancelButton from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(company profile)/company-cancel-button'
 import CompanyContractInformation from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(company profile)/company-contract-information'
 import { useCompanyEditContext } from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(company profile)/company-edit-provider'
-import companyEditsSchema from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(company profile)/company-edits-schema'
+
 import CompanyHMOInformation from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(company profile)/company-HMO-information'
 import CompanyInformation from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(company profile)/company-information'
+import accountsSchema from '@/app/(dashboard)/(home)/accounts/accounts-schema'
 import { Button } from '@/components/ui/button'
 import { Form } from '@/components/ui/form'
 import { toast } from '@/components/ui/use-toast'
@@ -28,72 +29,73 @@ const CompanyAbout: FC<Props> = ({ companyId }) => {
   const supabase = createBrowserClient()
   const { data: account } = useQuery(getAccountById(supabase, companyId))
 
-  const form = useForm<z.infer<typeof companyEditsSchema>>({
-    resolver: zodResolver(companyEditsSchema),
+  console.log(account)
+  const form = useForm<z.infer<typeof accountsSchema>>({
+    resolver: zodResolver(accountsSchema),
     defaultValues: {
-      is_active: account?.is_active ?? false,
-      agent_id: account?.agent?.user_id ?? undefined,
-      company_name: account?.company_name ?? undefined,
-      company_address: account?.company_address ?? undefined,
-      nature_of_business: account?.nature_of_business ?? undefined,
+      is_active: account?.is_active ?? true,
+      agent_id: account?.agent?.user_id ?? null,
+      company_name: account?.company_name ?? '',
+      company_address: account?.company_address ?? null,
+      nature_of_business: account?.nature_of_business ?? null,
       hmo_provider_id: account?.hmo_provider
         ? (account.hmo_provider as any).id
-        : undefined,
+        : null,
       previous_hmo_provider_id: account?.previous_hmo_provider
         ? (account.previous_hmo_provider as any).id
-        : undefined,
+        : null,
       current_hmo_provider_id: account?.current_hmo_provider
         ? (account.current_hmo_provider as any).id
-        : undefined,
+        : null,
       account_type_id: account?.account_type
         ? (account.account_type as any).id
-        : undefined,
-      total_utilization: account?.total_utilization ?? 0,
-      total_premium_paid: account?.total_premium_paid ?? 0,
-      signatory_designation: account?.signatory_designation ?? undefined,
-      contact_person: account?.contact_person ?? undefined,
-      contact_number: account?.contact_number ?? undefined,
+        : null,
+      total_utilization: account?.total_utilization ?? null,
+      total_premium_paid: account?.total_premium_paid ?? null,
+      signatory_designation: account?.signatory_designation ?? null,
+      contact_person: account?.contact_person ?? null,
+      contact_number: account?.contact_number ?? null,
       principal_plan_type_id: account?.principal_plan_type
         ? (account.principal_plan_type as any).id
-        : undefined,
+        : null,
       dependent_plan_type_id: account?.dependent_plan_type
         ? (account.dependent_plan_type as any).id
-        : undefined,
-      initial_head_count: account?.initial_head_count ?? 0,
+        : null,
+      initial_head_count: account?.initial_head_count ?? null,
       effectivity_date: account?.effectivity_date
         ? new Date(account.effectivity_date)
-        : undefined,
+        : null,
       coc_issue_date: account?.coc_issue_date
         ? new Date(account.coc_issue_date)
-        : undefined,
+        : null,
       expiration_date: account?.expiration_date
         ? new Date(account.expiration_date)
-        : undefined,
+        : null,
       delivery_date_of_membership_ids: account?.delivery_date_of_membership_ids
         ? new Date(account.delivery_date_of_membership_ids)
-        : undefined,
+        : null,
       orientation_date: account?.orientation_date
         ? new Date(account.orientation_date)
-        : undefined,
-      initial_contract_value: account?.initial_contract_value ?? 0,
+        : null,
+      initial_contract_value: account?.initial_contract_value ?? null,
       mode_of_payment_id: account?.mode_of_payment
         ? (account.mode_of_payment as any).id
-        : undefined,
+        : null,
       wellness_lecture_date: account?.wellness_lecture_date
         ? new Date(account.wellness_lecture_date)
-        : undefined,
+        : null,
       annual_physical_examination_date:
         account?.annual_physical_examination_date
           ? new Date(account.annual_physical_examination_date)
-          : undefined,
-      commision_rate: account?.commision_rate ?? 0,
-      additional_benefits: account?.additional_benefits ?? undefined,
-      special_benefits: account?.special_benefits ?? undefined,
-      name_of_signatory: account?.name_of_signatory ?? undefined,
+          : null,
+      commision_rate: account?.commision_rate ?? null,
+      additional_benefits: account?.additional_benefits ?? null,
+      special_benefits: account?.special_benefits ?? null,
+      name_of_signatory: account?.name_of_signatory ?? null,
       designation_of_contact_person:
-        account?.designation_of_contact_person ?? undefined,
+        account?.designation_of_contact_person ?? null,
       email_address_of_contact_person:
-        account?.email_address_of_contact_person ?? undefined,
+        account?.email_address_of_contact_person ?? null,
     },
   })
 
