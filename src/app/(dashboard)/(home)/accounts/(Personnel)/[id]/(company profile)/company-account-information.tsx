@@ -8,10 +8,9 @@ import {
   FormControl,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
 } from '@/components/ui/form'
-import { ControllerRenderProps, useFormContext } from 'react-hook-form'
+import { useFormContext } from 'react-hook-form'
 import { z } from 'zod'
 import companyEditsSchema from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(company profile)/company-edits-schema'
 import {
@@ -23,7 +22,19 @@ import {
 } from '@/components/ui/select'
 import getTypes from '@/queries/get-types'
 import getAgents from '@/queries/get-agents'
-import pendingSchema from '@/app/(dashboard)/(home)/pending/forms/pending-schema'
+
+const CompanyInformationItem = ({
+  label,
+  value,
+}: {
+  label: string
+  value?: string | undefined
+}) => (
+  <div className="flex flex-col py-1">
+    <div className="text-sm font-medium text-muted-foreground">{label}</div>
+    <div className="text-md font-semibold">{value || 'N/A'}</div>
+  </div>
+)
 
 interface CompanyAccountInformationProps {
   id: string
@@ -134,37 +145,20 @@ const CompanyAccountInformation: FC<CompanyAccountInformationProps> = ({
           />
         </>
       ) : (
-        <>
-          <div className="flex flex-row pt-4">
-            <div className="text-md text-[#1e293b]">
-              Account Type:{' '}
-              <span>
-                {/*@ts-ignore*/}
-                {account?.account_type ? account?.account_type.name : null}
-              </span>
-            </div>
-          </div>
-          <div className="flex flex-row pt-4">
-            <div className="text-md text-[#1e293b]">
-              Agent:{' '}
-              <span>
-                {/*@ts-ignore*/}
-                {account?.agent ? account?.agent.first_name : null}{' '}
-                {/*@ts-ignore*/}
-                {account?.agent ? account?.agent.last_name : null}
-              </span>
-            </div>
-          </div>
-          <div className="flex flex-row pt-4">
-            <div className="text-md text-[#1e293b]">
-              {/*@ts-ignore*/}
-              Commission Rate:{' '}
-              <span>
-                {account?.commision_rate ? account?.commision_rate : null}
-              </span>
-            </div>
-          </div>
-        </>
+        <div className="grid grid-cols-2 gap-2 pt-4 lg:grid-cols-1">
+          <CompanyInformationItem
+            label="Account Type"
+            value={(account?.account_type as any).name}
+          />
+          <CompanyInformationItem
+            label="Agent"
+            value={`${account?.agent?.first_name} ${account?.agent?.last_name}`}
+          />
+          <CompanyInformationItem
+            label="Commission Rate"
+            value={account?.commision_rate?.toString()}
+          />
+        </div>
       )}
     </>
   )

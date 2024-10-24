@@ -5,13 +5,12 @@ import { useQuery } from '@supabase-cache-helpers/postgrest-react-query'
 import { Input } from '@/components/ui/input'
 import { useCompanyEditContext } from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(company profile)/company-edit-provider'
 import companyEditsSchema from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(company profile)/company-edits-schema'
-import { ControllerRenderProps, useFormContext } from 'react-hook-form'
+import { useFormContext } from 'react-hook-form'
 import { z } from 'zod'
 import {
   FormControl,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
 } from '@/components/ui/form'
 import {
@@ -23,6 +22,18 @@ import {
 } from '@/components/ui/select'
 import getTypes from '@/queries/get-types'
 
+const CompanyInformationItem = ({
+  label,
+  value,
+}: {
+  label: string
+  value?: string | undefined
+}) => (
+  <div className="flex flex-col py-1">
+    <div className="text-sm font-medium text-muted-foreground">{label}</div>
+    <div className="text-md font-semibold">{value || 'N/A'}</div>
+  </div>
+)
 interface CompanyHmoInformationProps {
   id: string
 }
@@ -272,81 +283,44 @@ const CompanyHmoInformation: FC<CompanyHmoInformationProps> = ({ id }) => {
           />
         </>
       ) : (
-        <>
-          <div className="flex flex-row pt-4">
-            <div className="text-md text-[#1e293b]">
-              HMO Provider:{' '}
-              <span>
-                {/*@ts-ignore*/}
-                {account?.hmo_provider ? account?.hmo_provider.name : null}
-              </span>
-            </div>
-          </div>
-          <div className="flex flex-row pt-4">
-            <div className="text-md text-[#1e293b]">
-              Previous HMO Provider:{' '}
-              <span>
-                {account?.previous_hmo_provider
-                  ? // @ts-ignore
-                    account?.previous_hmo_provider.name
-                  : null}
-              </span>
-            </div>
-          </div>
-          <div className="flex flex-row pt-4">
-            <div className="text-md text-[#1e293b]">
-              Current HMO Provider:{' '}
-              <span>
-                {account?.current_hmo_provider
-                  ? // @ts-ignore
-                    account?.current_hmo_provider.name
-                  : null}
-              </span>
-            </div>
-          </div>
-          <div className="flex flex-row pt-4">
-            <div className="text-md text-[#1e293b]">
-              Principal Plan Type:{' '}
-              <span>
-                {account?.principal_plan_type
-                  ? // @ts-ignore
-                    account?.principal_plan_type.name
-                  : ''}
-              </span>
-            </div>
-          </div>
-          <div className="flex flex-row pt-4">
-            <div className="text-md text-[#1e293b]">
-              Dependent Plan Type:{' '}
-              <span>
-                {account?.dependent_plan_type
-                  ? // @ts-ignore
-                    account?.dependent_plan_type.name
-                  : null}
-              </span>
-            </div>
-          </div>
-          <div className="flex flex-row pt-4">
-            <div className="text-md text-[#1e293b]">
-              Total Utilization: <span>{account?.total_utilization}</span>
-            </div>
-          </div>
-          <div className="flex flex-row pt-4">
-            <div className="text-md text-[#1e293b]">
-              Total Premium Paid: <span>{account?.total_premium_paid}</span>
-            </div>
-          </div>
-          <div className="flex flex-row pt-4">
-            <div className="text-md text-[#1e293b]">
-              Additional Benefits: <span>{account?.additional_benefits}</span>
-            </div>
-          </div>
-          <div className="flex flex-row pt-4">
-            <div className="text-md text-[#1e293b]">
-              Special Benefits: <span>{account?.special_benefits}</span>
-            </div>
-          </div>
-        </>
+        <div className="grid grid-cols-2 gap-2 pt-4">
+          <CompanyInformationItem
+            label={'HMO Provider'}
+            value={(account?.hmo_provider as any).name}
+          />
+          <CompanyInformationItem
+            label={'Previous HMO Provider'}
+            value={(account?.previous_hmo_provider as any).name}
+          />
+          <CompanyInformationItem
+            label={'Current HMO Provider'}
+            value={(account?.current_hmo_provider as any).name}
+          />
+          <CompanyInformationItem
+            label={'Principal Plan Type'}
+            value={(account?.principal_plan_type as any).name}
+          />
+          <CompanyInformationItem
+            label={'Dependent Plan Type'}
+            value={(account?.dependent_plan_type as any).name}
+          />
+          <CompanyInformationItem
+            label={'Total Utilization'}
+            value={account?.total_utilization?.toString()}
+          />
+          <CompanyInformationItem
+            label={'Total Premium Paid'}
+            value={account?.total_premium_paid?.toString()}
+          />
+          <CompanyInformationItem
+            label={'Additional Benefits'}
+            value={account?.additional_benefits?.toString()}
+          />
+          <CompanyInformationItem
+            label={'Special Benefits'}
+            value={account?.special_benefits?.toString()}
+          />
+        </div>
       )}
     </>
   )

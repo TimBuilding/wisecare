@@ -1,4 +1,4 @@
-import React, { FC, FormEventHandler } from 'react'
+import React, { FC } from 'react'
 import { createBrowserClient } from '@/utils/supabase'
 import getAccountById from '@/queries/get-account-by-id'
 import { useQuery } from '@supabase-cache-helpers/postgrest-react-query'
@@ -7,21 +7,32 @@ import {
   FormControl,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
 } from '@/components/ui/form'
 import { useFormContext } from 'react-hook-form'
 import { z } from 'zod'
 import { useCompanyEditContext } from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(company profile)/company-edit-provider'
 import companyEditsSchema from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(company profile)/company-edits-schema'
-import { zodResolver } from '@hookform/resolvers/zod'
+
+const CompanyInformationItem = ({
+  label,
+  value,
+}: {
+  label: string
+  value?: string | undefined
+}) => (
+  <div className="flex flex-col py-1">
+    <div className="text-sm font-medium text-muted-foreground">{label}</div>
+    <div className="text-md font-semibold">{value || 'N/A'}</div>
+  </div>
+)
 
 interface CompanyInformationProps {
   id: string
 }
 
 const CompanyInformation: FC<CompanyInformationProps> = ({ id }) => {
-  const { editMode, setEditMode } = useCompanyEditContext()
+  const { editMode } = useCompanyEditContext()
   const form = useFormContext<z.infer<typeof companyEditsSchema>>()
   const supabase = createBrowserClient()
   const { data: account } = useQuery(getAccountById(supabase, id))
@@ -184,56 +195,44 @@ const CompanyInformation: FC<CompanyInformationProps> = ({ id }) => {
           />
         </>
       ) : (
-        <>
-          <div className="flex flex-row pt-4">
-            <div className="text-md text-[#1e293b]">
-              Company Name: <span>{account?.company_name}</span>
-            </div>
-          </div>
-          <div className="flex flex-row pt-4">
-            <div className="text-md text-[#1e293b]">
-              Company Address: <span>{account?.company_address}</span>
-            </div>
-          </div>
-          <div className="flex flex-row pt-4">
-            <div className="text-md text-[#1e293b]">
-              Nature of Business: <span>{account?.nature_of_business}</span>
-            </div>
-          </div>
-          <div className="flex flex-row pt-4">
-            <div className="text-md text-[#1e293b]">
-              Contact Person: <span>{account?.contact_person}</span>
-            </div>
-          </div>
-          <div className="flex flex-row pt-4">
-            <div className="text-md text-[#1e293b]">
-              Contact Number: <span>{account?.contact_number}</span>
-            </div>
-          </div>
-          <div className="flex flex-row pt-4">
-            <div className="text-md text-[#1e293b]">
-              Signatory Designation:{' '}
-              <span>{account?.signatory_designation}</span>
-            </div>
-          </div>
-          <div className="flex flex-row pt-4">
-            <div className="text-md text-[#1e293b]">
-              Name Of Signatory: <span>{account?.name_of_signatory}</span>
-            </div>
-          </div>
-          <div className="flex flex-row pt-4">
-            <div className="text-md text-[#1e293b]">
-              Designation of Contact Person:{' '}
-              <span>{account?.designation_of_contact_person}</span>
-            </div>
-          </div>
-          <div className="flex flex-row pt-4">
-            <div className="text-md text-[#1e293b]">
-              Email Address of Contact Person:{' '}
-              <span>{account?.email_address_of_contact_person}</span>
-            </div>
-          </div>
-        </>
+        <div className="grid grid-cols-2 gap-2 pt-4">
+          <CompanyInformationItem
+            label="Company Name"
+            value={account?.company_name?.toString()}
+          />
+          <CompanyInformationItem
+            label="Company Address"
+            value={account?.company_address?.toString()}
+          />
+          <CompanyInformationItem
+            label="Nature of Business"
+            value={account?.nature_of_business?.toString()}
+          />
+          <CompanyInformationItem
+            label="Contact Person"
+            value={account?.contact_person?.toString()}
+          />
+          <CompanyInformationItem
+            label="Contact Number"
+            value={account?.contact_number?.toString()}
+          />
+          <CompanyInformationItem
+            label="Signatory Designation"
+            value={account?.signatory_designation?.toString()}
+          />
+          <CompanyInformationItem
+            label="Name of Signatory"
+            value={account?.name_of_signatory?.toString()}
+          />
+          <CompanyInformationItem
+            label="Designation of Contact Person"
+            value={account?.designation_of_contact_person?.toString()}
+          />
+          <CompanyInformationItem
+            label="Email Address of Contact Person"
+            value={account?.email_address_of_contact_person?.toString()}
+          />
+        </div>
       )}
     </>
   )

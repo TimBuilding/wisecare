@@ -34,6 +34,19 @@ import { CalendarIcon } from 'lucide-react'
 import { format } from 'date-fns'
 import pendingSchema from '@/app/(dashboard)/(home)/pending/forms/pending-schema'
 
+const CompanyInformationItem = ({
+  label,
+  value,
+}: {
+  label: string
+  value?: string | undefined
+}) => (
+  <div className="flex flex-col py-1">
+    <div className="text-sm font-medium text-muted-foreground">{label}</div>
+    <div className="text-md font-semibold">{value || 'N/A'}</div>
+  </div>
+)
+
 interface CompanyContractInformationProps {
   id: string
 }
@@ -458,71 +471,48 @@ const CompanyContractInformation: FC<CompanyContractInformationProps> = ({
           />
         </>
       ) : (
-        <>
-          <div className="flex flex-row pt-4">
-            <div className="text-md text-[#1e293b]">
-              Initial Contract Value:{' '}
-              <span> {account?.initial_contract_value}</span>
-            </div>
-          </div>
-          <div className="flex flex-row pt-4">
-            <div className="text-md text-[#1e293b]">
-              Initial Head Count: <span> {account?.initial_head_count}</span>
-            </div>
-          </div>
-
-          <div className="flex flex-row pt-4">
-            <div className="text-md text-[#1e293b]">
-              Mode of Payment:{' '}
-              <span>
-                {' '}
-                {account?.mode_of_payment
-                  ? // @ts-ignore
-                    account?.mode_of_payment.name
-                  : ''}
-              </span>
-            </div>
-          </div>
-
-          <div className="flex flex-row pt-4">
-            <div className="text-md text-[#1e293b]">
-              Expiration Date: <span>{account?.expiration_date}</span>
-            </div>
-          </div>
-          <div className="flex flex-row pt-4">
-            <div className="text-md text-[#1e293b]">
-              Effectivity Date: <span>{account?.effectivity_date}</span>
-            </div>
-          </div>
-          <div className="flex flex-row pt-4">
-            <div className="text-md text-[#1e293b]">
-              COC Issue Date: <span>{account?.coc_issue_date}</span>
-            </div>
-          </div>
-          <div className="flex flex-row pt-4">
-            <div className="text-md text-[#1e293b]">
-              Delivery Date of Membership IDs:{' '}
-              <span>{account?.delivery_date_of_membership_ids}</span>
-            </div>
-          </div>
-          <div className="flex flex-row pt-4">
-            <div className="text-md text-[#1e293b]">
-              Orientation Date: <span>{account?.orientation_date}</span>
-            </div>
-          </div>
-          <div className="flex flex-row pt-4">
-            <div className="text-md text-[#1e293b]">
-              Wellness Lecture Date:{' '}
-              <span>{account?.wellness_lecture_date}</span>
-            </div>
-          </div>
-          <div className="flex flex-row pt-4">
-            <div className="text-md text-[#1e293b]">
-              Annual Physical Examination Date:{' '}
-              <span>{account?.annual_physical_examination_date}</span>
-            </div>
-          </div>
-        </>
+        <div className="grid grid-cols-2 gap-2 pt-4 lg:grid-cols-1">
+          <CompanyInformationItem
+            label="Initial Contract Value"
+            value={account?.initial_contract_value?.toString()}
+          />
+          <CompanyInformationItem
+            label={'Initial Head Count'}
+            value={account?.initial_head_count?.toString()}
+          />
+          <CompanyInformationItem
+            label={'Mode of Payment'}
+            value={(account?.mode_of_payment as any).name}
+          />
+          <CompanyInformationItem
+            label={'Expiration Date'}
+            value={account?.expiration_date?.toString()}
+          />
+          <CompanyInformationItem
+            label={'Effectivity Date'}
+            value={account?.effectivity_date?.toString()}
+          />
+          <CompanyInformationItem
+            label={'COC Issue Date'}
+            value={account?.coc_issue_date?.toString()}
+          />
+          <CompanyInformationItem
+            label={'Delivery Date of Membership IDs'}
+            value={account?.delivery_date_of_membership_ids?.toString()}
+          />
+          <CompanyInformationItem
+            label={'Orientation Date'}
+            value={account?.orientation_date?.toString()}
+          />
+          <CompanyInformationItem
+            label={'Wellness Lecture Date'}
+            value={account?.wellness_lecture_date?.toString()}
+          />
+          <CompanyInformationItem
+            label={'Annual Physical Examination Date'}
+            value={account?.annual_physical_examination_date?.toString()}
+          />
+        </div>
       )}
     </>
   )
