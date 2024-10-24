@@ -9,9 +9,7 @@ const employeeSchema = z.object({
   card_number: z.string().optional(),
   effective_date: z.date().optional(),
   room_plan: z.string().optional(),
-  maximum_benefit_limit: z
-    .preprocess((val) => parseFloat(val as string), z.number())
-    .optional(),
+  maximum_benefit_limit: z.string().optional(),
 })
 
 export default employeeSchema

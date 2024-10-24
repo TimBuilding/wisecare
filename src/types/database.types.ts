@@ -251,15 +251,7 @@ export type Database = {
           updated_at?: string | null
           user_id?: string
         }
-        Relationships: [
-          {
-            foreignKeyName: 'accounts_column_visibility_user_id_fkey'
-            columns: ['user_id']
-            isOneToOne: true
-            referencedRelation: 'users'
-            referencedColumns: ['id']
-          },
-        ]
+        Relationships: []
       }
       activity_logs: {
         Row: {
@@ -289,15 +281,7 @@ export type Database = {
           updated_at?: string
           user_id?: string | null
         }
-        Relationships: [
-          {
-            foreignKeyName: 'activity_logs_user_id_fkey'
-            columns: ['user_id']
-            isOneToOne: false
-            referencedRelation: 'users'
-            referencedColumns: ['id']
-          },
-        ]
+        Relationships: []
       }
       billing_statements: {
         Row: {
@@ -391,7 +375,7 @@ export type Database = {
           id: string
           is_active: boolean
           last_name: string | null
-          maximum_benefit_limit: number | null
+          maximum_benefit_limit: string | null
           room_plan: string | null
           updated_at: string
         }
@@ -408,7 +392,7 @@ export type Database = {
           id?: string
           is_active?: boolean
           last_name?: string | null
-          maximum_benefit_limit?: number | null
+          maximum_benefit_limit?: string | null
           room_plan?: string | null
           updated_at?: string
         }
@@ -425,7 +409,7 @@ export type Database = {
           id?: string
           is_active?: boolean
           last_name?: string | null
-          maximum_benefit_limit?: number | null
+          maximum_benefit_limit?: string | null
           room_plan?: string | null
           updated_at?: string
         }
@@ -435,13 +419,6 @@ export type Database = {
             columns: ['account_id']
             isOneToOne: false
             referencedRelation: 'accounts'
-            referencedColumns: ['id']
-          },
-          {
-            foreignKeyName: 'company_employees_created_by_fkey'
-            columns: ['created_by']
-            isOneToOne: false
-            referencedRelation: 'users'
             referencedColumns: ['id']
           },
         ]
@@ -549,15 +526,7 @@ export type Database = {
           title?: string
           user_id?: string | null
         }
-        Relationships: [
-          {
-            foreignKeyName: 'notifications_user_id_fkey'
-            columns: ['user_id']
-            isOneToOne: false
-            referencedRelation: 'users'
-            referencedColumns: ['id']
-          },
-        ]
+        Relationships: []
       }
       plan_types: {
         Row: {
@@ -614,13 +583,6 @@ export type Database = {
             columns: ['department_id']
             isOneToOne: false
             referencedRelation: 'departments'
-            referencedColumns: ['id']
-          },
-          {
-            foreignKeyName: 'user_profiles_user_id_fkey'
-            columns: ['user_id']
-            isOneToOne: true
-            referencedRelation: 'users'
             referencedColumns: ['id']
           },
         ]
@@ -841,4 +803,19 @@ export type Enums<
   ? Database[PublicEnumNameOrOptions['schema']]['Enums'][EnumName]
   : PublicEnumNameOrOptions extends keyof PublicSchema['Enums']
     ? PublicSchema['Enums'][PublicEnumNameOrOptions]
+    : never
+
+export type CompositeTypes<
+  PublicCompositeTypeNameOrOptions extends
+    | keyof PublicSchema['CompositeTypes']
+    | { schema: keyof Database },
+  CompositeTypeName extends PublicCompositeTypeNameOrOptions extends {
+    schema: keyof Database
+  }
+    ? keyof Database[PublicCompositeTypeNameOrOptions['schema']]['CompositeTypes']
+    : never = never,
+> = PublicCompositeTypeNameOrOptions extends { schema: keyof Database }
+  ? Database[PublicCompositeTypeNameOrOptions['schema']]['CompositeTypes'][CompositeTypeName]
+  : PublicCompositeTypeNameOrOptions extends keyof PublicSchema['CompositeTypes']
+    ? PublicSchema['CompositeTypes'][PublicCompositeTypeNameOrOptions]
     : never
