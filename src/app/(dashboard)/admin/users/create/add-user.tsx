@@ -5,6 +5,7 @@ import {
   Sheet,
   SheetClose,
   SheetContent,
+  SheetFooter,
   SheetTrigger,
 } from '@/components/ui/sheet'
 import { Plus, X } from 'lucide-react'
@@ -38,7 +39,7 @@ const AddUser = () => {
           <span>Add</span>
         </Button>
       </SheetTrigger>
-      <SheetContent className="xs:w-screen w-screen bg-card sm:max-w-none md:max-w-2xl">
+      <SheetContent className="xs:w-screen w-screen overflow-auto bg-card pb-20 sm:max-w-none md:max-w-2xl">
         <div className="flex h-40 flex-col items-end bg-[#f1f5f9] px-7 py-5">
           <SheetClose asChild={true}>
             <Button variant={'ghost'} size={'icon'}>

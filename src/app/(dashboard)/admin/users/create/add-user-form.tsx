@@ -19,7 +19,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { SheetClose } from '@/components/ui/sheet'
+import { SheetClose, SheetFooter } from '@/components/ui/sheet'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useQueryClient } from '@tanstack/react-query'
 import { Loader2 } from 'lucide-react'
@@ -81,7 +81,10 @@ const AddUserForm = ({ onOpenChange }: Props) => {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(handleSubmit)}>
+      <form
+        onSubmit={form.handleSubmit(handleSubmit)}
+        className={'flex flex-col'}
+      >
         <div className="space-y-8 px-6 pb-10">
           {error && <Message variant={'error'}>{error}</Message>}
           <FormField
