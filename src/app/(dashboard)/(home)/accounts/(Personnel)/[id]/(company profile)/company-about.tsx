@@ -79,10 +79,7 @@ const CompanyAbout: FC<Props> = ({ companyId }) => {
     'id',
     {
       onSuccess: () => {
-        form.reset()
-
         setEditMode(false)
-        // queryClient.invalidateQueries({queryKey: ['id', companyId]})
       },
       onError: (error) => {
         toast({
