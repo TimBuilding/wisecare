@@ -482,7 +482,11 @@ const CompanyContractInformation: FC<CompanyContractInformationProps> = ({
           />
           <CompanyInformationItem
             label={'Mode of Payment'}
-            value={(account?.mode_of_payment as any).name}
+            value={
+              account?.mode_of_payment
+                ? (account.mode_of_payment as any).name
+                : ''
+            }
           />
           <CompanyInformationItem
             label={'Expiration Date'}

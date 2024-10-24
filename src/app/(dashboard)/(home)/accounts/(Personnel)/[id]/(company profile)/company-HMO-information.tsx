@@ -286,23 +286,41 @@ const CompanyHmoInformation: FC<CompanyHmoInformationProps> = ({ id }) => {
         <div className="grid grid-cols-2 gap-2 pt-4">
           <CompanyInformationItem
             label={'HMO Provider'}
-            value={(account?.hmo_provider as any).name}
+            value={
+              account?.hmo_provider ? (account.hmo_provider as any).name : ''
+            }
           />
           <CompanyInformationItem
             label={'Previous HMO Provider'}
-            value={(account?.previous_hmo_provider as any).name}
+            value={
+              account?.previous_hmo_provider
+                ? (account.previous_hmo_provider as any).name
+                : ''
+            }
           />
           <CompanyInformationItem
             label={'Current HMO Provider'}
-            value={(account?.current_hmo_provider as any).name}
+            value={
+              account?.current_hmo_provider
+                ? (account.current_hmo_provider as any).name
+                : ''
+            }
           />
           <CompanyInformationItem
             label={'Principal Plan Type'}
-            value={(account?.principal_plan_type as any).name}
+            value={
+              account?.principal_plan_type
+                ? (account.principal_plan_type as any).name
+                : ''
+            }
           />
           <CompanyInformationItem
             label={'Dependent Plan Type'}
-            value={(account?.dependent_plan_type as any).name}
+            value={
+              account?.dependent_plan_type
+                ? (account.dependent_plan_type as any).name
+                : ''
+            }
           />
           <CompanyInformationItem
             label={'Total Utilization'}

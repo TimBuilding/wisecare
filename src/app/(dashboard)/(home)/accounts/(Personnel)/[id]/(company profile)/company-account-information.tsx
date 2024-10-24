@@ -148,7 +148,9 @@ const CompanyAccountInformation: FC<CompanyAccountInformationProps> = ({
         <div className="grid grid-cols-2 gap-2 pt-4 lg:grid-cols-1">
           <CompanyInformationItem
             label="Account Type"
-            value={(account?.account_type as any).name}
+            value={
+              account?.account_type ? (account.account_type as any).name : ''
+            }
           />
           <CompanyInformationItem
             label="Agent"
