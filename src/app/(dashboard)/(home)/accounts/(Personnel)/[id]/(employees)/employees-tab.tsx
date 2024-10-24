@@ -17,6 +17,7 @@ const EmployeesTab: FC<EmployeesTabProps> = ({ companyId }) => {
   )
 
   return (
+    // @ts-expect-error
     <EmployeesDataTable columns={employeesColumns} data={employees || []} />
   )
 }

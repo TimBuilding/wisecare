@@ -1,33 +1,26 @@
 'use server'
-import React from 'react'
 import CompanyPage from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(company profile)/company-page'
+import getRole from '@/utils/get-role'
 import { createServerClient } from '@/utils/supabase'
 import { cookies } from 'next/headers'
-import {
-  dehydrate,
-  HydrationBoundary,
-  QueryClient,
-} from '@tanstack/react-query'
-import { prefetchQuery } from '@supabase-cache-helpers/postgrest-react-query'
-import getAccountById from '@/queries/get-account-by-id'
-import CompanyProvider from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(company profile)/company-provider'
-import getRole from '@/utils/get-role'
+import { notFound } from 'next/navigation'
 
 const Page = async ({ params }: { params: { id: string } }) => {
   const supabase = createServerClient(cookies())
-  const queryClient = new QueryClient()
+  const { data } = await supabase
+    .from('accounts')
+    .select('id')
+    .eq('id', params.id)
+    .eq('is_active', true)
+    .single()
+
+  if (!data) {
+    notFound()
+  }
 
   const role = await getRole()
 
-  await prefetchQuery(queryClient, getAccountById(supabase, params.id))
-
-  return (
-    <HydrationBoundary state={dehydrate(queryClient)}>
-      <CompanyProvider>
-        <CompanyPage companyId={params.id} role={role} />
-      </CompanyProvider>
-    </HydrationBoundary>
-  )
+  return <CompanyPage companyId={params.id} role={role} />
 }
 
 export default Page

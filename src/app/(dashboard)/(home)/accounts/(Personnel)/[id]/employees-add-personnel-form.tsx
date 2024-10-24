@@ -1,10 +1,8 @@
 'use client'
-import React, { useCallback, FormEventHandler } from 'react'
-import { useParams } from 'next/navigation'
-import { useForm } from 'react-hook-form'
-import { z } from 'zod'
-import { zodResolver } from '@hookform/resolvers/zod'
+import EmployeesAddPersonnelButton from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/employees-add-personnel-button'
 import employeesSchema from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/employees-add-personnel-schema'
+import { Button } from '@/components/ui/button'
+import { Calendar } from '@/components/ui/calendar'
 import {
   Form,
   FormControl,
@@ -13,22 +11,12 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form'
-import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { cn } from '@/utils/tailwind'
-import { format } from 'date-fns'
-import { CalendarIcon } from 'lucide-react'
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover'
-import { Calendar } from '@/components/ui/calendar'
-import EmployeesAddPersonnelButton from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/employees-add-personnel-button'
-import { createBrowserClient } from '@/utils/supabase'
-import { useInsertMutation } from '@supabase-cache-helpers/postgrest-react-query'
-import { useToast } from '@/components/ui/use-toast'
-import { useCompanyContext } from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(company profile)/company-provider'
 import {
   Select,
   SelectContent,
@@ -36,11 +24,21 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
+import { useToast } from '@/components/ui/use-toast'
+import { createBrowserClient } from '@/utils/supabase'
+import { cn } from '@/utils/tailwind'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useInsertMutation } from '@supabase-cache-helpers/postgrest-react-query'
+import { format } from 'date-fns'
+import { CalendarIcon } from 'lucide-react'
+import { useParams } from 'next/navigation'
+import { FormEventHandler, useCallback } from 'react'
+import { useForm } from 'react-hook-form'
+import { z } from 'zod'
 
 const EmployeesAddPersonnelForm = () => {
   const { toast } = useToast()
   const params = useParams<{ id: string }>()
-  const { setShowAddPersonnel } = useCompanyContext()
 
   const form = useForm<z.infer<typeof employeesSchema>>({
     resolver: zodResolver(employeesSchema),
@@ -66,8 +64,6 @@ const EmployeesAddPersonnelForm = () => {
     {
       onSuccess: () => {
         form.reset()
-
-        setShowAddPersonnel(false)
       },
       onError: (error) => {
         toast({

@@ -29,6 +29,7 @@ import {
   useUpdateMutation,
 } from '@supabase-cache-helpers/postgrest-react-query'
 import { Trash, X } from 'lucide-react'
+import { useRouter } from 'next/navigation'
 import { FC, FormEventHandler, useCallback, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
@@ -47,6 +48,8 @@ const CompanyDeleteButton: FC<Props> = ({ accountId }) => {
     },
   })
 
+  const router = useRouter()
+
   const supabase = createBrowserClient()
   const { data: account } = useQuery(getAccountById(supabase, accountId))
 
@@ -57,8 +60,7 @@ const CompanyDeleteButton: FC<Props> = ({ accountId }) => {
     'id',
     {
       onSuccess: () => {
-        setIsOpen(false)
-        form.reset()
+        router.push('/accounts')
         toast({
           variant: 'default',
           title: 'Success',
