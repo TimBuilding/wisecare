@@ -158,24 +158,33 @@ const BillingStatementModal = <TData,>({
   // only used for edit. it fetches the original data from the database
   useEffect(() => {
     if (originalData) {
-      form.reset({
-        ...(Object.fromEntries(
-          Object.entries(originalData).map(([key, value]) => [
-            key,
-            value === null ? undefined : value,
-          ]),
-        ) as unknown as z.infer<typeof BillingStatementSchema>),
-        // @ts-ignore
-        account_id: originalData.account.id ?? undefined,
-        // @ts-ignore
-        mode_of_payment_id: originalData.mode_of_payment.id ?? undefined,
-        due_date: originalData.due_date
-          ? new Date(originalData.due_date)
-          : undefined,
-        or_date: originalData.or_date
-          ? new Date(originalData.or_date)
-          : undefined,
-      })
+      const resetData = Object.fromEntries(
+        Object.entries(originalData).map(([key, value]) => [
+          key,
+          value === null ? undefined : value,
+        ]),
+      ) as unknown as z.infer<typeof BillingStatementSchema>
+
+      if ((originalData as any).account && (originalData as any).account.id) {
+        resetData.account_id = (originalData as any).account.id
+      }
+
+      if (
+        (originalData as any).mode_of_payment &&
+        (originalData as any).mode_of_payment.id
+      ) {
+        resetData.mode_of_payment_id = (originalData as any).mode_of_payment.id
+      }
+
+      if (originalData.due_date) {
+        resetData.due_date = new Date(originalData.due_date)
+      }
+
+      if (originalData.or_date) {
+        resetData.or_date = new Date(originalData.or_date)
+      }
+
+      form.reset(resetData)
     }
   }, [originalData, form])
 
