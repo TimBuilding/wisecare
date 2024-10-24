@@ -38,51 +38,55 @@ const BillingInformation: FC<BillingInfoProps> = ({ data }) => {
       <div className="col-span-3 flex grid-cols-12 flex-col pt-4 lg:grid lg:p-2">
         <div className="flex flex-col gap-2 lg:col-span-3">
           <span className="text-md font-semibold text-[#161a1d]">
-            {data.mode_of_payments.name || 'N/A'}
+            {data.mode_of_payments ? data.mode_of_payments.name : 'N/A'}
           </span>
           <span className="text-sm font-medium text-[#64748b]">
             MODE OF PAYMENT
           </span>
           <span className="text-md font-semibold text-[#161a1d]">
-            {format(new Date(data?.due_date || 'N/A'), 'MMMM d, yyyy')}
+            {data.due_date
+              ? format(new Date(data.due_date), 'MMMM d, yyyy')
+              : 'N/A'}
           </span>
           <span className="text-sm font-medium text-[#64748b]">DUE DATE</span>
           <span className="text-md font-semibold text-[#161a1d]">
-            {data.or_number || 'N/A'}
+            {data.or_number ? data.or_number : 'N/A'}
           </span>
           <span className="text-sm font-medium text-[#64748b]">OR NUMBER</span>
           <span className="text-md font-semibold text-[#161a1d]">
-            {format(new Date(data?.or_date || 'N/A'), 'MMMM d, yyyy')}
+            {data.or_date
+              ? format(new Date(data.or_date), 'MMMM d, yyyy')
+              : 'N/A'}
           </span>
           <span className="text-sm font-medium text-[#64748b]">OR DATE</span>
           <span className="text-md font-semibold text-[#161a1d]">
-            {data.sa_number || 'N/A'}
+            {data.sa_number ? data.sa_number : 'N/A'}
           </span>
           <span className="text-sm font-medium text-[#64748b]">SA NUMBER</span>
         </div>
         <div className="flex flex-col gap-2 lg:col-span-3">
           <span className="text-md font-semibold text-[#161a1d]">
-            {data.amount || '0'}
+            {data.amount ? data.amount : '0'}
           </span>
           <span className="text-sm font-medium text-[#64748b]">AMOUNT</span>
           <span className="text-md font-semibold text-[#161a1d]">
-            {data.total_contract_value || 'N/A'}
+            {data.total_contract_value ? data.total_contract_value : 'N/A'}
           </span>
           <span className="text-sm font-medium text-[#64748b]">
             TOTAL CONTRACT VALUE
           </span>
           <span className="text-md font-semibold text-[#161a1d]">
-            {data.balance || 'N/A'}
+            {data.balance ? data.balance : 'N/A'}
           </span>
           <span className="text-sm font-medium text-[#64748b]">BALANCE</span>
           <span className="text-md font-semibold text-[#161a1d]">
-            {data.billing_period || 'N/A'}
+            {data.billing_period ? data.billing_period : 'N/A'}
           </span>
           <span className="text-sm font-medium text-[#64748b]">
             BILLING PERIOD
           </span>
           <span className="text-md font-semibold text-[#161a1d]">
-            {data.amount_billed || 'N/A'}
+            {data.amount_billed ? data.amount_billed : 'N/A'}
           </span>
           <span className="text-sm font-medium text-[#64748b]">
             AMOUNT BILLED
@@ -90,19 +94,19 @@ const BillingInformation: FC<BillingInfoProps> = ({ data }) => {
         </div>
         <div className="flex flex-col gap-2 lg:col-span-3">
           <span className="text-md font-semibold text-[#161a1d]">
-            {data.amount_paid || 'N/A'}
+            {data.amount_paid ? data.amount_paid : 'N/A'}
           </span>
           <span className="text-sm font-medium text-[#64748b]">
             AMOUNT PAID
           </span>
           <span className="text-md font-semibold text-[#161a1d]">
-            {data.commission_rate || 'N/A'}
+            {data.commission_rate ? data.commission_rate : 'N/A'}
           </span>
           <span className="text-sm font-medium text-[#64748b]">
             COMMISSION RATE
           </span>
           <span className="text-md font-semibold text-[#161a1d]">
-            {data.commission_earned || 'N/A'}
+            {data.commission_earned ? data.commission_earned : 'N/A'}
           </span>
           <span className="text-sm font-medium text-[#64748b]">
             COMMISSION EARNED

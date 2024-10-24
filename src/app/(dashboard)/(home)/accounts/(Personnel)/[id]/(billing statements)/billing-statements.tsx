@@ -1,20 +1,18 @@
-import React, { FC } from 'react'
+import BillingInformation, {
+  BillingInfoProps,
+} from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(billing statements)/billing-information'
+import { Button } from '@/components/ui/button'
 import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
 } from '@/components/ui/collapsible'
-import { Button } from '@/components/ui/button'
-import { ChevronsUpDown } from 'lucide-react'
-import BillingInformation, {
-  BillingInfoProps,
-} from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(billing statements)/billing-information'
 import getBillingStatementByCompanyId from '@/queries/get-billing-statement-by-company-id'
-import { useQuery } from '@supabase-cache-helpers/postgrest-react-query'
 import { createBrowserClient } from '@/utils/supabase'
-import EmployeesInformation from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/employees-information'
-import { Tables } from '@/types/database.types'
+import { useQuery } from '@supabase-cache-helpers/postgrest-react-query'
 import { format } from 'date-fns'
+import { ChevronsUpDown } from 'lucide-react'
+import { FC } from 'react'
 
 interface Props {
   companyId: string
