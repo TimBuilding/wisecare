@@ -21,10 +21,12 @@ const accountsColumns: ColumnDef<Tables<'accounts'>>[] = [
     accessorKey: 'agent',
     header: ({ column }) => <TableHeader column={column} title="Agent" />,
     cell: ({ row }) => {
-      //@ts-ignore
       if (
+        //@ts-ignore
         !row.original.agent ||
+        //@ts-ignore
         !row.original.agent.first_name ||
+        //@ts-ignore
         !row.original.agent.last_name
       ) {
         return ''
