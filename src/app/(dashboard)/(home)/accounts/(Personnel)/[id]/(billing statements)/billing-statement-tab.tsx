@@ -5,7 +5,7 @@ import { TabsTrigger } from '@/components/ui/tabs'
 const BillingStatementTab = () => {
   const { userRole } = useCompanyContext()
 
-  if (!userRole || !['finance'].includes(userRole)) {
+  if (!userRole || !['finance', 'admin'].includes(userRole)) {
     return null
   }
 
