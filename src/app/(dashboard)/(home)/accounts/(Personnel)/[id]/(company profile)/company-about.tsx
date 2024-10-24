@@ -32,33 +32,33 @@ const CompanyAbout: FC<Props> = ({ companyId }) => {
     resolver: zodResolver(companyEditsSchema),
     defaultValues: {
       is_active: account?.is_active ?? false,
-      agent_id: account?.agent?.user_id ?? '',
-      company_name: account?.company_name ?? '',
-      company_address: account?.company_address ?? '',
-      nature_of_business: account?.nature_of_business ?? '',
+      agent_id: account?.agent?.user_id ?? undefined,
+      company_name: account?.company_name ?? undefined,
+      company_address: account?.company_address ?? undefined,
+      nature_of_business: account?.nature_of_business ?? undefined,
       hmo_provider_id: account?.hmo_provider
         ? (account.hmo_provider as any).id
-        : '',
+        : undefined,
       previous_hmo_provider_id: account?.previous_hmo_provider
         ? (account.previous_hmo_provider as any).id
-        : '',
+        : undefined,
       current_hmo_provider_id: account?.current_hmo_provider
         ? (account.current_hmo_provider as any).id
-        : '',
+        : undefined,
       account_type_id: account?.account_type
         ? (account.account_type as any).id
-        : '',
+        : undefined,
       total_utilization: account?.total_utilization ?? 0,
       total_premium_paid: account?.total_premium_paid ?? 0,
-      signatory_designation: account?.signatory_designation ?? '',
-      contact_person: account?.contact_person ?? '',
-      contact_number: account?.contact_number ?? '',
+      signatory_designation: account?.signatory_designation ?? undefined,
+      contact_person: account?.contact_person ?? undefined,
+      contact_number: account?.contact_number ?? undefined,
       principal_plan_type_id: account?.principal_plan_type
         ? (account.principal_plan_type as any).id
-        : '',
+        : undefined,
       dependent_plan_type_id: account?.dependent_plan_type
         ? (account.dependent_plan_type as any).id
-        : '',
+        : undefined,
       initial_head_count: account?.initial_head_count ?? 0,
       effectivity_date: account?.effectivity_date
         ? new Date(account.effectivity_date)
@@ -78,7 +78,7 @@ const CompanyAbout: FC<Props> = ({ companyId }) => {
       initial_contract_value: account?.initial_contract_value ?? 0,
       mode_of_payment_id: account?.mode_of_payment
         ? (account.mode_of_payment as any).id
-        : '',
+        : undefined,
       wellness_lecture_date: account?.wellness_lecture_date
         ? new Date(account.wellness_lecture_date)
         : undefined,
@@ -87,13 +87,13 @@ const CompanyAbout: FC<Props> = ({ companyId }) => {
           ? new Date(account.annual_physical_examination_date)
           : undefined,
       commision_rate: account?.commision_rate ?? 0,
-      additional_benefits: account?.additional_benefits ?? '',
-      special_benefits: account?.special_benefits ?? '',
-      name_of_signatory: account?.name_of_signatory ?? '',
+      additional_benefits: account?.additional_benefits ?? undefined,
+      special_benefits: account?.special_benefits ?? undefined,
+      name_of_signatory: account?.name_of_signatory ?? undefined,
       designation_of_contact_person:
-        account?.designation_of_contact_person ?? '',
+        account?.designation_of_contact_person ?? undefined,
       email_address_of_contact_person:
-        account?.email_address_of_contact_person ?? '',
+        account?.email_address_of_contact_person ?? undefined,
     },
   })
 
