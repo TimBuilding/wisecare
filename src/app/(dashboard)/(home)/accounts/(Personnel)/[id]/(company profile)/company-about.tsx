@@ -36,31 +36,56 @@ const CompanyAbout: FC<Props> = ({ companyId }) => {
       company_name: account?.company_name ?? '',
       company_address: account?.company_address ?? '',
       nature_of_business: account?.nature_of_business ?? '',
-      hmo_provider_id: (account?.hmo_provider as any).id ?? '',
-      previous_hmo_provider_id:
-        (account?.previous_hmo_provider as any).id ?? '',
-      current_hmo_provider_id: (account?.current_hmo_provider as any).id ?? '',
-      account_type_id: account?.account_type?.id ?? '',
+      hmo_provider_id: account?.hmo_provider
+        ? (account.hmo_provider as any).id
+        : '',
+      previous_hmo_provider_id: account?.previous_hmo_provider
+        ? (account.previous_hmo_provider as any).id
+        : '',
+      current_hmo_provider_id: account?.current_hmo_provider
+        ? (account.current_hmo_provider as any).id
+        : '',
+      account_type_id: account?.account_type
+        ? (account.account_type as any).id
+        : '',
       total_utilization: account?.total_utilization ?? 0,
       total_premium_paid: account?.total_premium_paid ?? 0,
       signatory_designation: account?.signatory_designation ?? '',
       contact_person: account?.contact_person ?? '',
       contact_number: account?.contact_number ?? '',
-      principal_plan_type_id: (account?.principal_plan_type as any).id ?? '',
-      dependent_plan_type_id: (account?.dependent_plan_type as any).id ?? '',
+      principal_plan_type_id: account?.principal_plan_type
+        ? (account.principal_plan_type as any).id
+        : '',
+      dependent_plan_type_id: account?.dependent_plan_type
+        ? (account.dependent_plan_type as any).id
+        : '',
       initial_head_count: account?.initial_head_count ?? 0,
-      effectivity_date: new Date(account?.effectivity_date ?? '') ?? undefined,
-      coc_issue_date: new Date(account?.coc_issue_date ?? '') ?? undefined,
-      expiration_date: new Date(account?.expiration_date ?? '') ?? undefined,
-      delivery_date_of_membership_ids:
-        new Date(account?.delivery_date_of_membership_ids ?? '') ?? undefined,
-      orientation_date: new Date(account?.orientation_date ?? '') ?? undefined,
+      effectivity_date: account?.effectivity_date
+        ? new Date(account.effectivity_date)
+        : undefined,
+      coc_issue_date: account?.coc_issue_date
+        ? new Date(account.coc_issue_date)
+        : undefined,
+      expiration_date: account?.expiration_date
+        ? new Date(account.expiration_date)
+        : undefined,
+      delivery_date_of_membership_ids: account?.delivery_date_of_membership_ids
+        ? new Date(account.delivery_date_of_membership_ids)
+        : undefined,
+      orientation_date: account?.orientation_date
+        ? new Date(account.orientation_date)
+        : undefined,
       initial_contract_value: account?.initial_contract_value ?? 0,
-      mode_of_payment_id: (account?.mode_of_payment as any).id ?? '',
-      wellness_lecture_date:
-        new Date(account?.wellness_lecture_date ?? '') ?? undefined,
+      mode_of_payment_id: account?.mode_of_payment
+        ? (account.mode_of_payment as any).id
+        : '',
+      wellness_lecture_date: account?.wellness_lecture_date
+        ? new Date(account.wellness_lecture_date)
+        : undefined,
       annual_physical_examination_date:
-        new Date(account?.annual_physical_examination_date ?? '') ?? undefined,
+        account?.annual_physical_examination_date
+          ? new Date(account.annual_physical_examination_date)
+          : undefined,
       commision_rate: account?.commision_rate ?? 0,
       additional_benefits: account?.additional_benefits ?? '',
       special_benefits: account?.special_benefits ?? '',
