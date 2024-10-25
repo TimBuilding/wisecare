@@ -245,7 +245,7 @@ const BillingStatementModal = <TData,>({
         account_id: CompanyContext.accountId,
       })
     }
-  }, [CompanyContext])
+  }, [CompanyContext, form])
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -590,7 +590,12 @@ const BillingStatementModal = <TData,>({
                 originalData && '!justify-between',
               )}
             >
-              {originalData && <DeleteBillingStatement id={originalData.id} />}
+              {originalData && (
+                <DeleteBillingStatement
+                  id={originalData.id}
+                  setOpenModalOpen={setOpen}
+                />
+              )}
               <div className="space-x-2">
                 <Button
                   variant="outline"

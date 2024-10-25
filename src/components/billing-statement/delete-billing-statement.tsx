@@ -9,11 +9,13 @@ import { FC } from 'react'
 
 interface DeleteBillingStatementProps {
   id: string
+  setOpenModalOpen?: (open: boolean) => void
 }
 
 const DeleteBillingStatement: FC<DeleteBillingStatementProps> = ({
   id,
-}: DeleteBillingStatementProps) => {
+  setOpenModalOpen,
+}) => {
   const { openConfirmation } = useConfirmationStore()
   const { toast } = useToast()
 
@@ -27,10 +29,14 @@ const DeleteBillingStatement: FC<DeleteBillingStatementProps> = ({
       onSuccess: () => {
         toast({
           variant: 'default',
-          title: 'Success',
-          description: 'Account deleted',
+          title: 'Billing Statement Deleted',
+          description: 'The billing statement has been successfully deleted.',
         })
-        window.location.reload()
+
+        // close modal if setOpenModalOpen is provided
+        if (setOpenModalOpen) {
+          setOpenModalOpen(false)
+        }
       },
       onError: (error) => {
         toast({

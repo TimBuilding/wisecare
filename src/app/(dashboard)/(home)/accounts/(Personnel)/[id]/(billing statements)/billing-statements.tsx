@@ -1,6 +1,8 @@
 import BillingInformation, {
   BillingInfoProps,
 } from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(billing statements)/billing-information'
+import DeleteBillingStatement from '@/components/billing-statement/delete-billing-statement'
+
 import { Button } from '@/components/ui/button'
 import {
   Collapsible,
@@ -56,10 +58,13 @@ const BillingStatements: FC<Props> = ({ companyId }) => {
               </Button>
             </CollapsibleTrigger>
             <CollapsibleContent>
-              <div className="grid-cols-3 lg:grid">
+              <div className="flex flex-col gap-4 lg:flex-row">
                 <BillingInformation
                   data={{ ...billing } as BillingInfoProps['data']}
                 />
+                <div className="flex flex-row items-center justify-end lg:ml-auto lg:items-end">
+                  <DeleteBillingStatement id={billing.id} />
+                </div>
               </div>
             </CollapsibleContent>
           </Collapsible>
