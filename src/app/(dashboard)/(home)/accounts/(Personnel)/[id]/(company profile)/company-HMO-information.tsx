@@ -239,7 +239,12 @@ const CompanyHmoInformation: FC<CompanyHmoInformationProps> = ({ id }) => {
                   <div className="flex flex-row pt-4">
                     <div className="text-md flex grid w-full flex-row text-[#1e293b] md:grid-cols-2 lg:grid-cols-1">
                       Total Premium Paid:
-                      <Input className="w-full" {...field} type="number" />
+                      <Input
+                        className="w-full"
+                        {...field}
+                        type="number"
+                        value={field.value?.toString()}
+                      />
                     </div>
                   </div>
                 </FormControl>
