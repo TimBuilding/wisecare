@@ -905,6 +905,7 @@ const MarketingInputs: FC<Props> = ({ isLoading }) => {
                   placeholder="Enter additional benefits"
                   value={field.value ?? ''}
                   onChange={(e) => handleInputChange(field, e)}
+                  disabled={isLoading}
                 />
               </FormControl>
               <FormMessage />
@@ -923,6 +924,7 @@ const MarketingInputs: FC<Props> = ({ isLoading }) => {
                   placeholder="Enter special benefits"
                   value={field.value ?? ''}
                   onChange={(e) => handleInputChange(field, e)}
+                  disabled={isLoading}
                 />
               </FormControl>
               <FormMessage />
