@@ -79,7 +79,7 @@ const MarketingInputs: FC<Props> = ({ isLoading }) => {
               </FormControl>
               <SelectContent>
                 {agents &&
-                  agents[0].user_profiles.map((profile) => (
+                  agents.map((profile) => (
                     <SelectItem key={profile.user_id} value={profile.user_id}>
                       {profile.first_name} {profile.last_name}
                     </SelectItem>

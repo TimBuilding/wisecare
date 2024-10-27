@@ -109,7 +109,7 @@ const AgentsList = () => {
           />
         ))}
       {data &&
-        data[0].user_profiles.map((agent) => (
+        data.map((agent) => (
           <AgentsListItem
             key={agent.user_id}
             userId={agent.user_id}

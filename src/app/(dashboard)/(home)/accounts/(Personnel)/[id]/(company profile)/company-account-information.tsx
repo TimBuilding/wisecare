@@ -108,7 +108,7 @@ const CompanyAccountInformation: FC<CompanyAccountInformationProps> = ({
                       </FormControl>
                       <SelectContent>
                         {agents &&
-                          agents[0].user_profiles.map((profile) => (
+                          agents.map((profile) => (
                             <SelectItem
                               key={profile.user_id}
                               value={profile.user_id}

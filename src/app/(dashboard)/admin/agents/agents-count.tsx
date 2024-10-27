@@ -7,13 +7,9 @@ import { useQuery } from '@supabase-cache-helpers/postgrest-react-query'
 const AgentsCount = () => {
   const supabase = createBrowserClient()
 
-  const { data } = useQuery(getAgents(supabase))
+  const { count } = useQuery(getAgents(supabase))
 
-  return (
-    <PageDescription>
-      {data && data[0].user_profiles.length} Agents
-    </PageDescription>
-  )
+  return <PageDescription>{count} Agents</PageDescription>
 }
 
 export default AgentsCount
