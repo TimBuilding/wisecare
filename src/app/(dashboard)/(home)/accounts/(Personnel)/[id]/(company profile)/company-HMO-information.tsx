@@ -21,6 +21,8 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import getTypes from '@/queries/get-types'
+import { useMaskito } from '@maskito/react'
+import currencyOptions from '@/components/maskito/currency-options'
 
 const CompanyInformationItem = ({
   label,
@@ -46,6 +48,7 @@ const CompanyHmoInformation: FC<CompanyHmoInformationProps> = ({ id }) => {
   const { data: hmoProviders } = useQuery(getTypes(supabase, 'hmo_providers'))
   const { data: planTypes } = useQuery(getTypes(supabase, 'plan_types'))
 
+  const maskedTotalPremiumPaidRef = useMaskito({ options: currencyOptions })
   return (
     <>
       {editMode ? (
@@ -237,13 +240,14 @@ const CompanyHmoInformation: FC<CompanyHmoInformationProps> = ({ id }) => {
               <FormItem>
                 <FormControl>
                   <div className="flex flex-row pt-4">
-                    <div className="text-md flex grid w-full flex-row text-[#1e293b] md:grid-cols-2 lg:grid-cols-1">
+                    <div className="text-md flex w-full flex-row text-[#1e293b] md:grid md:grid-cols-2 lg:grid-cols-1">
                       Total Premium Paid:
                       <Input
                         className="w-full"
                         {...field}
-                        type="number"
-                        value={field.value?.toString()}
+                        value={field.value ?? ''}
+                        ref={maskedTotalPremiumPaidRef}
+                        onInput={field.onChange}
                       />
                     </div>
                   </div>

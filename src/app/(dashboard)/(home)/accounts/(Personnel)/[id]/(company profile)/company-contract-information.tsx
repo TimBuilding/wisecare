@@ -1,18 +1,20 @@
-import React, { FC } from 'react'
-import { createBrowserClient } from '@/utils/supabase'
-import getAccountById from '@/queries/get-account-by-id'
-import { useQuery } from '@supabase-cache-helpers/postgrest-react-query'
-import { Input } from '@/components/ui/input'
 import { useCompanyEditContext } from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(company profile)/company-edit-provider'
 import companyEditsSchema from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(company profile)/company-edits-schema'
+import currencyOptions from '@/components/maskito/currency-options'
+import { Button } from '@/components/ui/button'
+import { Calendar } from '@/components/ui/calendar'
 import {
   FormControl,
   FormField,
   FormItem,
   FormMessage,
 } from '@/components/ui/form'
-import { useFormContext } from 'react-hook-form'
-import { z } from 'zod'
+import { Input } from '@/components/ui/input'
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/components/ui/popover'
 import {
   Select,
   SelectContent,
@@ -20,17 +22,17 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
+import getAccountById from '@/queries/get-account-by-id'
 import getTypes from '@/queries/get-types'
-import { Calendar } from '@/components/ui/calendar'
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from '@/components/ui/popover'
-import { Button } from '@/components/ui/button'
+import { createBrowserClient } from '@/utils/supabase'
 import { cn } from '@/utils/tailwind'
-import { CalendarIcon } from 'lucide-react'
+import { useMaskito } from '@maskito/react'
+import { useQuery } from '@supabase-cache-helpers/postgrest-react-query'
 import { format } from 'date-fns'
+import { CalendarIcon } from 'lucide-react'
+import { FC } from 'react'
+import { useFormContext } from 'react-hook-form'
+import { z } from 'zod'
 
 const CompanyInformationItem = ({
   label,
@@ -63,6 +65,7 @@ const CompanyContractInformation: FC<CompanyContractInformationProps> = ({
     getTypes(supabase, 'mode_of_premium'),
   )
 
+  const maskedInitialContractValueRef = useMaskito({ options: currencyOptions })
   return (
     <>
       {editMode ? (
@@ -73,13 +76,14 @@ const CompanyContractInformation: FC<CompanyContractInformationProps> = ({
             render={({ field }) => (
               <FormItem>
                 <div className="flex flex-row pt-4">
-                  <div className="text-md flex grid w-full flex-row text-[#1e293b] md:grid-cols-2 lg:grid-cols-1">
+                  <div className="text-md flex w-full flex-row text-[#1e293b] md:grid md:grid-cols-2 lg:grid-cols-1">
                     Initial Contract Value:
                     <Input
                       className="w-full"
                       {...field}
-                      type="number"
-                      value={field.value?.toString()}
+                      value={field.value ?? ''}
+                      onInput={field.onChange}
+                      ref={maskedInitialContractValueRef}
                     />
                   </div>
                 </div>
