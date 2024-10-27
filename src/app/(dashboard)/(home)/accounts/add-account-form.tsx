@@ -10,9 +10,10 @@ import accountsSchema from './accounts-schema'
 import MarketingInputs from './forms/marketing-inputs'
 import { useInsertMutation } from '@supabase-cache-helpers/postgrest-react-query'
 import { createBrowserClient } from '@/utils/supabase'
-import { FormEventHandler, useCallback } from 'react'
+import { FormEventHandler, useCallback, useEffect } from 'react'
 import { Loader2 } from 'lucide-react'
 import { useToast } from '@/components/ui/use-toast'
+import { useRouter } from 'next/navigation'
 
 const AddAccountForm = () => {
   const { isFormOpen, setIsFormOpen } = useAccountsContext()
@@ -56,7 +57,8 @@ const AddAccountForm = () => {
   })
 
   const supabase = createBrowserClient()
-  const { mutateAsync, isPending } = useInsertMutation(
+  const router = useRouter()
+  const { mutateAsync, isPending, data } = useInsertMutation(
     // @ts-ignore
     supabase.from('accounts'),
     ['id'],
@@ -70,7 +72,6 @@ const AddAccountForm = () => {
         setIsFormOpen(false)
       },
       onError: (error) => {
-        console.log(error)
         toast({
           title: 'Something went wrong',
           description: error.message,
@@ -79,6 +80,13 @@ const AddAccountForm = () => {
       },
     },
   )
+
+  // redirect to the new account
+  useEffect(() => {
+    if (data) {
+      router.push(`/accounts/${data[0].id}`)
+    }
+  }, [data, router])
 
   const onSubmitHandler = useCallback<FormEventHandler<HTMLFormElement>>(
     (e) => {
