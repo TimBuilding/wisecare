@@ -54,15 +54,12 @@ interface CompanyContractInformationProps {
 const CompanyContractInformation: FC<CompanyContractInformationProps> = ({
   id,
 }) => {
-  const { editMode, setEditMode } = useCompanyEditContext()
+  const { editMode } = useCompanyEditContext()
   const form = useFormContext<z.infer<typeof companyEditsSchema>>()
   const supabase = createBrowserClient()
   const { data: account } = useQuery(getAccountById(supabase, id))
   const { data: modeOfPayments } = useQuery(
     getTypes(supabase, 'mode_of_payments'),
-  )
-  const { data: modeOfPremiums, isLoading: isModeOfPremiumLoading } = useQuery(
-    getTypes(supabase, 'mode_of_premium'),
   )
 
   const maskedInitialContractValueRef = useMaskito({ options: currencyOptions })
