@@ -10,10 +10,12 @@ import { Plus, X } from 'lucide-react'
 import config from 'next/config'
 import Avatar from 'react-nice-avatar'
 import AddAgentForm from './add-agent-form'
+import { useState } from 'react'
 
 const AddAgent = () => {
+  const [isOpen, setIsOpen] = useState<boolean>(false)
   return (
-    <Sheet>
+    <Sheet open={isOpen} onOpenChange={setIsOpen}>
       <SheetTrigger asChild={true}>
         <Button className="space-x-2">
           <Plus />
@@ -33,7 +35,7 @@ const AddAgent = () => {
             className="mx-6 h-32 w-32 -translate-y-16 rounded-full border-4 border-card"
             {...config}
           />
-          <AddAgentForm />
+          <AddAgentForm setIsOpen={setIsOpen} />
         </div>
       </SheetContent>
     </Sheet>

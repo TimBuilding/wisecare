@@ -12,14 +12,20 @@ import {
 import { Input } from '@/components/ui/input'
 import { SheetClose } from '@/components/ui/sheet'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useQueryClient } from '@tanstack/react-query'
 import { Loader2 } from 'lucide-react'
 import { useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { z } from 'zod'
 
-const AddAgentForm = () => {
+interface Props {
+  setIsOpen: (isOpen: boolean) => void
+}
+
+const AddAgentForm = ({ setIsOpen }: Props) => {
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [error, setError] = useState<string>('')
+  const queryClient = useQueryClient()
   const form = useForm<z.infer<typeof agentSchema>>({
     resolver: zodResolver(agentSchema),
     defaultValues: {
@@ -52,8 +58,11 @@ const AddAgentForm = () => {
       setError(data.error)
     }
 
+    // clean up
     form.reset()
+    queryClient.invalidateQueries()
     setIsLoading(false)
+    setIsOpen(false)
   }
   return (
     <Form {...form}>
@@ -101,14 +110,6 @@ const AddAgentForm = () => {
           />
         </div>
         <div className="fixed bottom-0 flex w-full flex-row items-center justify-end gap-2 bg-[#f1f5f9] px-4 py-3 md:max-w-2xl">
-          {/* <Button
-            type="button"
-            variant="ghost"
-            className="text-destructive"
-            disabled={isLoading}
-          >
-            Delete
-          </Button> */}
           <div className="flex flex-row items-center justify-center">
             <SheetClose asChild={true}>
               <Button type="button" variant="ghost" disabled={isLoading}>
