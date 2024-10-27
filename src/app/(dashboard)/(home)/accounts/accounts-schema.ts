@@ -41,7 +41,7 @@ const accountsSchema = z.object({
   annual_physical_examination_date: z.date().nullable(),
   commision_rate: z.preprocess(
     (val) => (val === null || val === '' ? null : parseFloat(val as string)),
-    z.number().nonnegative().nullable(),
+    z.number().min(0).max(100).nullable(),
   ),
   additional_benefits: z.string().nullable(),
   special_benefits: z.string().nullable(),

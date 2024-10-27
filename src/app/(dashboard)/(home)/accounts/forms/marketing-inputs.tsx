@@ -1,3 +1,4 @@
+import percentageOptions from '@/components/maskito/percentage-options'
 import { Button } from '@/components/ui/button'
 import { Calendar } from '@/components/ui/calendar'
 import {
@@ -7,7 +8,7 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form'
-import { Input, InputProps } from '@/components/ui/input'
+import { Input } from '@/components/ui/input'
 import {
   Popover,
   PopoverContent,
@@ -24,13 +25,14 @@ import getAgents from '@/queries/get-agents'
 import getTypes from '@/queries/get-types'
 import { createBrowserClient } from '@/utils/supabase'
 import { cn } from '@/utils/tailwind'
+import { useMaskito } from '@maskito/react'
 import { useQuery } from '@supabase-cache-helpers/postgrest-react-query'
 import { format } from 'date-fns'
 import { CalendarIcon } from 'lucide-react'
+import { FC } from 'react'
 import { ControllerRenderProps, useFormContext } from 'react-hook-form'
 import { z } from 'zod'
 import accountsSchema from '../accounts-schema'
-import { FC } from 'react'
 
 interface Props {
   isLoading: boolean
@@ -55,6 +57,8 @@ const MarketingInputs: FC<Props> = ({ isLoading }) => {
     const value = e.target.value === '' ? null : e.target.value
     field.onChange(value)
   }
+
+  const maskedPercentageRef = useMaskito({ options: percentageOptions })
 
   return (
     <>
@@ -268,8 +272,8 @@ const MarketingInputs: FC<Props> = ({ isLoading }) => {
                   {...field}
                   type="number"
                   value={field.value ?? ''}
-                  onChange={(e) => handleInputChange(field, e)}
                   disabled={isLoading}
+                  onChange={(e) => handleInputChange(field, e)}
                 />
               </FormControl>
               <FormMessage />
@@ -768,12 +772,12 @@ const MarketingInputs: FC<Props> = ({ isLoading }) => {
               <FormControl>
                 <Input
                   {...field}
-                  type="number"
-                  min="0"
-                  step="0.01"
+                  type="text"
                   placeholder="Enter commission rate"
                   value={field.value ?? ''}
-                  onChange={(e) => handleInputChange(field, e)}
+                  // @ts-ignore
+                  onInput={(e) => form.setValue(field.name, e.target.value)}
+                  ref={maskedPercentageRef}
                 />
               </FormControl>
               <FormMessage />

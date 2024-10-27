@@ -22,6 +22,8 @@ import {
 } from '@/components/ui/select'
 import getTypes from '@/queries/get-types'
 import getAgents from '@/queries/get-agents'
+import { useMaskito } from '@maskito/react'
+import percentageOptions from '@/components/maskito/percentage-options'
 
 const CompanyInformationItem = ({
   label,
@@ -49,6 +51,8 @@ const CompanyAccountInformation: FC<CompanyAccountInformationProps> = ({
   const { data: account } = useQuery(getAccountById(supabase, id))
   const { data: accountType } = useQuery(getTypes(supabase, 'account_types'))
   const { data: agents } = useQuery(getAgents(supabase))
+
+  const maskedPercentageRef = useMaskito({ options: percentageOptions })
 
   return (
     <>
@@ -127,14 +131,17 @@ const CompanyAccountInformation: FC<CompanyAccountInformationProps> = ({
               <FormItem>
                 <FormControl>
                   <div className="flex flex-row pt-4">
-                    <div className="text-md flex grid w-full flex-row text-[#1e293b] md:grid-cols-2 lg:grid-cols-1">
+                    <div className="text-md flex w-full flex-row text-[#1e293b] md:grid md:grid-cols-2 lg:grid-cols-1">
                       Commission Rate:
                       <Input
                         className="w-full"
                         {...field}
-                        type="number"
-                        min="0"
-                        step="0.01"
+                        type="text"
+                        ref={maskedPercentageRef}
+                        onInput={(e) =>
+                          // @ts-ignore
+                          form.setValue(field.name, e.target.value)
+                        }
                       />
                     </div>
                   </div>
