@@ -33,6 +33,7 @@ import { FC } from 'react'
 import { ControllerRenderProps, useFormContext } from 'react-hook-form'
 import { z } from 'zod'
 import accountsSchema from '../accounts-schema'
+import currencyOptions from '@/components/maskito/currency-options'
 
 interface Props {
   isLoading: boolean
@@ -58,7 +59,9 @@ const MarketingInputs: FC<Props> = ({ isLoading }) => {
     field.onChange(value)
   }
 
-  const maskedPercentageRef = useMaskito({ options: percentageOptions })
+  const maskedCommissionRateRef = useMaskito({ options: percentageOptions })
+  const maskedInitialContractValueRef = useMaskito({ options: currencyOptions })
+  const maskedTotalPremiumPaidRef = useMaskito({ options: currencyOptions })
 
   return (
     <>
@@ -270,10 +273,10 @@ const MarketingInputs: FC<Props> = ({ isLoading }) => {
               <FormControl>
                 <Input
                   {...field}
-                  type="number"
                   value={field.value ?? ''}
                   disabled={isLoading}
-                  onChange={(e) => handleInputChange(field, e)}
+                  onInput={field.onChange}
+                  ref={maskedTotalPremiumPaidRef}
                 />
               </FormControl>
               <FormMessage />
@@ -728,11 +731,11 @@ const MarketingInputs: FC<Props> = ({ isLoading }) => {
               <FormControl>
                 <Input
                   {...field}
-                  type="number"
                   placeholder="Enter initial contract value"
                   value={field.value ?? ''}
-                  onChange={(e) => handleInputChange(field, e)}
+                  onInput={field.onChange}
                   disabled={isLoading}
+                  ref={maskedInitialContractValueRef}
                 />
               </FormControl>
               <FormMessage />
@@ -775,9 +778,9 @@ const MarketingInputs: FC<Props> = ({ isLoading }) => {
                   type="text"
                   placeholder="Enter commission rate"
                   value={field.value ?? ''}
-                  // @ts-ignore
-                  onInput={(e) => form.setValue(field.name, e.target.value)}
-                  ref={maskedPercentageRef}
+                  onInput={field.onChange}
+                  ref={maskedCommissionRateRef}
+                  disabled={isLoading}
                 />
               </FormControl>
               <FormMessage />
