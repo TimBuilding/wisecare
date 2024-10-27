@@ -4,6 +4,19 @@ import getAccounts from '@/queries/get-accounts'
 import { Tables } from '@/types/database.types'
 import { ColumnDef } from '@tanstack/react-table'
 
+export const formatCurrency = (value: number | null | undefined) => {
+  if (value === null || value === undefined) {
+    return ''
+  }
+  return `₱${value.toFixed(2)}`
+}
+
+export const formatPercentage = (value: number | null | undefined) => {
+  if (value === null || value === undefined) {
+    return ''
+  }
+  return `${value.toFixed(0)}%`
+}
 const accountsColumns: ColumnDef<Tables<'accounts'>>[] = [
   {
     accessorKey: 'company_name',
@@ -78,6 +91,8 @@ const accountsColumns: ColumnDef<Tables<'accounts'>>[] = [
     header: ({ column }) => (
       <TableHeader column={column} title="Total Premium Paid" />
     ),
+    cell: ({ getValue }) =>
+      formatCurrency(getValue<number | null | undefined>()),
   },
   {
     accessorKey: 'signatory_designation',
@@ -150,6 +165,8 @@ const accountsColumns: ColumnDef<Tables<'accounts'>>[] = [
     header: ({ column }) => (
       <TableHeader column={column} title="Initial Contract Value" />
     ),
+    cell: ({ getValue }) =>
+      formatCurrency(getValue<number | null | undefined>()),
   },
   {
     accessorKey: 'mode_of_payment.name',
@@ -174,6 +191,8 @@ const accountsColumns: ColumnDef<Tables<'accounts'>>[] = [
     header: ({ column }) => (
       <TableHeader column={column} title="Commission Rate" />
     ),
+    cell: ({ getValue }) =>
+      formatPercentage(getValue<number | null | undefined>()),
   },
   {
     accessorKey: 'additional_benefits',
