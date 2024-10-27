@@ -3,7 +3,7 @@ import { z } from 'zod'
 const accountsSchema = z.object({
   is_active: z.boolean().nullable(),
   agent_id: z.string().nullable(),
-  company_name: z.string(),
+  company_name: z.string().min(1),
   company_address: z.string().nullable(),
   nature_of_business: z.string().nullable(),
   hmo_provider_id: z.string().nullable(),

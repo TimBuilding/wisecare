@@ -11,6 +11,15 @@ dependencies:
   '@hookform/resolvers':
     specifier: ^3.4.0
     version: 3.9.0(react-hook-form@7.53.0)
+  '@maskito/core':
+    specifier: ^3.1.2
+    version: 3.1.2
+  '@maskito/kit':
+    specifier: ^3.1.2
+    version: 3.1.2(@maskito/core@3.1.2)
+  '@maskito/react':
+    specifier: ^3.1.2
+    version: 3.1.2(@maskito/core@3.1.2)(react-dom@18.2.0)(react@18.2.0)
   '@next/bundle-analyzer':
     specifier: ^14.2.3
     version: 14.2.7
@@ -2575,6 +2584,30 @@ packages:
     dependencies:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.0
+
+  /@maskito/core@3.1.2:
+    resolution: {integrity: sha512-1AsSBYZ8GxZ6xDhkwcGaMVrTm5oQpBscYX5CeJMG2IUG93pV8EUcEdzpD3bZc2G9DhpjjcM1xVRyWS9ynfckeA==}
+    dev: false
+
+  /@maskito/kit@3.1.2(@maskito/core@3.1.2):
+    resolution: {integrity: sha512-zSEMwCmp0EUS9wwZUP4EJp90g/diay4DM0Mtayg4k+ep+lT3kRffUrTsXj4Noa60OO4875h0k29QCwI/oIVEqA==}
+    peerDependencies:
+      '@maskito/core': ^3.1.2
+    dependencies:
+      '@maskito/core': 3.1.2
+    dev: false
+
+  /@maskito/react@3.1.2(@maskito/core@3.1.2)(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-q8GAlx/PfSN3efnWMjXURE0msnrTp5b4tvIUHIdlEqdoULGMYGg7x16gUmew6eJWqPjlUBsIbBVlqP4QXjxQ9Q==}
+    peerDependencies:
+      '@maskito/core': ^3.1.2
+      react: '>=16.8'
+      react-dom: '>=16.8'
+    dependencies:
+      '@maskito/core': 3.1.2
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
+    dev: false
 
   /@mdx-js/react@3.0.1(@types/react@18.2.8)(react@18.2.0):
     resolution: {integrity: sha512-9ZrPIU4MGf6et1m1ov3zKf+q9+deetI51zprKB1D/z3NOb+rUxxtEl3mCjW5wTGh6VhRdwPueh1oRzi6ezkA8A==}

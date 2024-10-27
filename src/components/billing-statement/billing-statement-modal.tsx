@@ -359,6 +359,17 @@ const BillingStatementModal = <TData,>({
                             selected={field.value}
                             onSelect={field.onChange}
                             initialFocus
+                            captionLayout="dropdown"
+                            toYear={new Date().getFullYear() + 20}
+                            fromYear={1900}
+                            classNames={{
+                              day_hidden: 'invisible',
+                              dropdown:
+                                'px-2 py-1.5 max-h-[100px] overflow-y-auto rounded-md bg-popover text-popover-foreground text-sm  focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 ring-offset-background',
+                              caption_dropdowns: 'flex gap-3',
+                              vhidden: 'hidden',
+                              caption_label: 'hidden',
+                            }}
                           />
                         </PopoverContent>
                       </Popover>
@@ -417,6 +428,17 @@ const BillingStatementModal = <TData,>({
                             selected={field.value}
                             onSelect={field.onChange}
                             initialFocus
+                            captionLayout="dropdown"
+                            toYear={new Date().getFullYear() + 20}
+                            fromYear={1900}
+                            classNames={{
+                              day_hidden: 'invisible',
+                              dropdown:
+                                'px-2 py-1.5 max-h-[100px] overflow-y-auto rounded-md bg-popover text-popover-foreground text-sm  focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 ring-offset-background',
+                              caption_dropdowns: 'flex gap-3',
+                              vhidden: 'hidden',
+                              caption_label: 'hidden',
+                            }}
                           />
                         </PopoverContent>
                       </Popover>
