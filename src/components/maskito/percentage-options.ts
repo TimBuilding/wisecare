@@ -1,5 +1,8 @@
 import type { MaskitoOptions } from '@maskito/core'
-import { maskitoUpdateElement } from '@maskito/core'
+import {
+  maskitoInitialCalibrationPlugin,
+  maskitoUpdateElement,
+} from '@maskito/core'
 import {
   maskitoCaretGuard,
   maskitoEventHandler,
@@ -18,6 +21,7 @@ export default {
   ...numberOptions,
   plugins: [
     ...plugins,
+    maskitoInitialCalibrationPlugin(),
     // Forbids caret to be placed after postfix
     maskitoCaretGuard((value) => [0, value.length - 1]),
     maskitoEventHandler('blur', (element) => {

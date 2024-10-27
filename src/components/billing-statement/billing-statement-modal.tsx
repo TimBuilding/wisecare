@@ -3,6 +3,8 @@
 import { useCompanyContext } from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(company profile)/company-provider'
 import BillingStatementSchema from '@/app/(dashboard)/(home)/billing-statements/billing-statement-schema'
 import DeleteBillingStatement from '@/components/billing-statement/delete-billing-statement'
+import currencyOptions from '@/components/maskito/currency-options'
+import percentageOptions from '@/components/maskito/percentage-options'
 import { Button } from '@/components/ui/button'
 import { Calendar } from '@/components/ui/calendar'
 import {
@@ -42,6 +44,8 @@ import { Tables } from '@/types/database.types'
 import { createBrowserClient } from '@/utils/supabase'
 import { cn } from '@/utils/tailwind'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { maskitoTransform } from '@maskito/core'
+import { useMaskito } from '@maskito/react'
 import {
   useInsertMutation,
   useQuery,
@@ -50,7 +54,13 @@ import {
 import { useQueryClient } from '@tanstack/react-query'
 import { format } from 'date-fns'
 import { CalendarIcon, Loader2 } from 'lucide-react'
-import { FormEventHandler, ReactNode, useCallback, useEffect } from 'react'
+import {
+  FormEventHandler,
+  ReactNode,
+  useCallback,
+  useEffect,
+  useState,
+} from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
@@ -69,6 +79,7 @@ const BillingStatementModal = <TData,>({
 }: Props<TData>) => {
   const { toast } = useToast()
   const queryClient = useQueryClient()
+  const [tableRerender, setTableRerender] = useState(0)
 
   const form = useForm<z.infer<typeof BillingStatementSchema>>({
     resolver: zodResolver(BillingStatementSchema),
@@ -118,6 +129,9 @@ const BillingStatementModal = <TData,>({
 
           // reset cache
           queryClient.invalidateQueries()
+
+          // rerender table
+          setTableRerender((prev) => prev + 1)
         },
         onError: (error) => {
           toast({
@@ -159,31 +173,58 @@ const BillingStatementModal = <TData,>({
   // only used for edit. it fetches the original data from the database
   useEffect(() => {
     if (originalData) {
-      const resetData = Object.fromEntries(
-        Object.entries(originalData).map(([key, value]) => [
-          key,
-          value === null ? undefined : value,
-        ]),
-      ) as unknown as z.infer<typeof BillingStatementSchema>
-
-      if ((originalData as any).account && (originalData as any).account.id) {
-        resetData.account_id = (originalData as any).account.id
-      }
-
-      if (
-        (originalData as any).mode_of_payment &&
-        (originalData as any).mode_of_payment.id
-      ) {
-        resetData.mode_of_payment_id = (originalData as any).mode_of_payment.id
-      }
-
-      if (originalData.due_date) {
-        resetData.due_date = new Date(originalData.due_date)
-      }
-
-      if (originalData.or_date) {
-        resetData.or_date = new Date(originalData.or_date)
-      }
+      const resetData = {
+        ...Object.fromEntries(
+          Object.entries(originalData).map(([key, value]) => [
+            key,
+            value === null ? undefined : value,
+          ]),
+        ),
+        account_id: (originalData as any).account?.id,
+        mode_of_payment_id: (originalData as any).mode_of_payment?.id,
+        due_date: originalData.due_date
+          ? new Date(originalData.due_date)
+          : undefined,
+        or_date: originalData.or_date
+          ? new Date(originalData.or_date)
+          : undefined,
+        amount: originalData.amount
+          ? maskitoTransform(originalData.amount.toString(), currencyOptions)
+          : undefined,
+        total_contract_value: originalData.total_contract_value
+          ? maskitoTransform(
+              originalData.total_contract_value.toString(),
+              currencyOptions,
+            )
+          : undefined,
+        balance: originalData.balance
+          ? maskitoTransform(originalData.balance.toString(), currencyOptions)
+          : undefined,
+        amount_billed: originalData.amount_billed
+          ? maskitoTransform(
+              originalData.amount_billed.toString(),
+              currencyOptions,
+            )
+          : undefined,
+        amount_paid: originalData.amount_paid
+          ? maskitoTransform(
+              originalData.amount_paid.toString(),
+              currencyOptions,
+            )
+          : undefined,
+        commission_rate: originalData.commission_rate
+          ? maskitoTransform(
+              originalData.commission_rate.toString(),
+              percentageOptions,
+            )
+          : undefined,
+        commission_earned: originalData.commission_earned
+          ? maskitoTransform(
+              originalData.commission_earned.toString(),
+              currencyOptions,
+            )
+          : undefined,
+      } as unknown as z.infer<typeof BillingStatementSchema>
 
       form.reset(resetData)
     }
@@ -245,7 +286,15 @@ const BillingStatementModal = <TData,>({
         account_id: CompanyContext.accountId,
       })
     }
-  }, [CompanyContext])
+  }, [CompanyContext, form])
+
+  const maskedAmountRef = useMaskito({ options: currencyOptions })
+  const maskedTotalContractValueRef = useMaskito({ options: currencyOptions })
+  const maskedBalanceRef = useMaskito({ options: currencyOptions })
+  const maskedAmountBilledRef = useMaskito({ options: currencyOptions })
+  const maskedAmountPaidRef = useMaskito({ options: currencyOptions })
+  const maskedCommissionRateRef = useMaskito({ options: percentageOptions })
+  const maskedCommissionEarnedRef = useMaskito({ options: currencyOptions })
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -262,7 +311,7 @@ const BillingStatementModal = <TData,>({
           </DialogDescription>
         </DialogHeader>
         <Form {...form}>
-          <form onSubmit={onSubmitHandler}>
+          <form onSubmit={onSubmitHandler} key={tableRerender}>
             <div className="grid grid-cols-2 gap-4 py-4">
               <FormField
                 control={form.control}
@@ -471,9 +520,11 @@ const BillingStatementModal = <TData,>({
                     <FormLabel className="text-right">Amount</FormLabel>
                     <FormControl className="col-span-3">
                       <Input
-                        type="number"
                         {...field}
                         disabled={isUpdatePending || isInsertPending}
+                        value={field.value ?? ''}
+                        ref={maskedAmountRef}
+                        onInput={field.onChange}
                       />
                     </FormControl>
                     <FormMessage className="col-span-3 col-start-2" />
@@ -490,9 +541,11 @@ const BillingStatementModal = <TData,>({
                     </FormLabel>
                     <FormControl className="col-span-3">
                       <Input
-                        type="number"
                         {...field}
                         disabled={isUpdatePending || isInsertPending}
+                        ref={maskedTotalContractValueRef}
+                        onInput={field.onChange}
+                        value={field.value ?? ''}
                       />
                     </FormControl>
                     <FormMessage className="col-span-3 col-start-2" />
@@ -507,9 +560,11 @@ const BillingStatementModal = <TData,>({
                     <FormLabel className="text-right">Balance</FormLabel>
                     <FormControl className="col-span-3">
                       <Input
-                        type="number"
                         {...field}
                         disabled={isUpdatePending || isInsertPending}
+                        ref={maskedBalanceRef}
+                        onInput={field.onChange}
+                        value={field.value ?? ''}
                       />
                     </FormControl>
                     <FormMessage className="col-span-3 col-start-2" />
@@ -541,9 +596,11 @@ const BillingStatementModal = <TData,>({
                     <FormLabel className="text-right">Amount Billed</FormLabel>
                     <FormControl className="col-span-3">
                       <Input
-                        type="number"
                         {...field}
                         disabled={isUpdatePending || isInsertPending}
+                        ref={maskedAmountBilledRef}
+                        onInput={field.onChange}
+                        value={field.value ?? ''}
                       />
                     </FormControl>
                     <FormMessage className="col-span-3 col-start-2" />
@@ -558,9 +615,11 @@ const BillingStatementModal = <TData,>({
                     <FormLabel className="text-right">Amount Paid</FormLabel>
                     <FormControl className="col-span-3">
                       <Input
-                        type="number"
                         {...field}
                         disabled={isUpdatePending || isInsertPending}
+                        ref={maskedAmountPaidRef}
+                        onInput={field.onChange}
+                        value={field.value ?? ''}
                       />
                     </FormControl>
                     <FormMessage className="col-span-3 col-start-2" />
@@ -577,9 +636,11 @@ const BillingStatementModal = <TData,>({
                     </FormLabel>
                     <FormControl className="col-span-3">
                       <Input
-                        type="number"
                         {...field}
                         disabled={isUpdatePending || isInsertPending}
+                        value={field.value ?? ''}
+                        ref={maskedCommissionRateRef}
+                        onInput={field.onChange}
                       />
                     </FormControl>
                     <FormMessage className="col-span-3 col-start-2" />
@@ -596,9 +657,11 @@ const BillingStatementModal = <TData,>({
                     </FormLabel>
                     <FormControl className="col-span-3">
                       <Input
-                        type="number"
                         {...field}
                         disabled={isUpdatePending || isInsertPending}
+                        value={field.value ?? ''}
+                        ref={maskedCommissionEarnedRef}
+                        onInput={field.onChange}
                       />
                     </FormControl>
                     <FormMessage className="col-span-3 col-start-2" />
