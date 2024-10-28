@@ -23,6 +23,7 @@ import {
 import getTypes from '@/queries/get-types'
 import { useMaskito } from '@maskito/react'
 import currencyOptions from '@/components/maskito/currency-options'
+import { formatCurrency } from '@/app/(dashboard)/(home)/accounts/columns/accounts-columns'
 
 const CompanyInformationItem = ({
   label,
@@ -337,7 +338,7 @@ const CompanyHmoInformation: FC<CompanyHmoInformationProps> = ({ id }) => {
           />
           <CompanyInformationItem
             label={'Total Premium Paid'}
-            value={account?.total_premium_paid?.toString()}
+            value={formatCurrency(account?.total_premium_paid)}
           />
           <CompanyInformationItem
             label={'Additional Benefits'}

@@ -33,6 +33,7 @@ import { CalendarIcon } from 'lucide-react'
 import { FC } from 'react'
 import { useFormContext } from 'react-hook-form'
 import { z } from 'zod'
+import { formatCurrency } from '@/app/(dashboard)/(home)/accounts/columns/accounts-columns'
 
 const CompanyInformationItem = ({
   label,
@@ -546,7 +547,7 @@ const CompanyContractInformation: FC<CompanyContractInformationProps> = ({
         <div className="grid grid-cols-2 gap-2 pt-4 lg:grid-cols-1">
           <CompanyInformationItem
             label="Initial Contract Value"
-            value={account?.initial_contract_value?.toString()}
+            value={formatCurrency(account?.initial_contract_value)}
           />
           <CompanyInformationItem
             label={'Initial Head Count'}

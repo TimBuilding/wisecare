@@ -24,6 +24,7 @@ import getTypes from '@/queries/get-types'
 import getAgents from '@/queries/get-agents'
 import { useMaskito } from '@maskito/react'
 import percentageOptions from '@/components/maskito/percentage-options'
+import { formatPercentage } from '@/app/(dashboard)/(home)/accounts/columns/accounts-columns'
 
 const CompanyInformationItem = ({
   label,
@@ -169,7 +170,7 @@ const CompanyAccountInformation: FC<CompanyAccountInformationProps> = ({
           />
           <CompanyInformationItem
             label="Commission Rate"
-            value={account?.commision_rate?.toString()}
+            value={formatPercentage(account?.commision_rate)}
           />
         </div>
       )}
