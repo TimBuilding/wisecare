@@ -117,7 +117,7 @@ const BillingInformation: FC<BillingInfoProps> = ({ data }) => {
           </span>
           <span className="text-md font-semibold text-[#161a1d]">
             {data.commission_earned
-              ? formatPercentage(data.commission_earned)
+              ? formatCurrency(data.commission_earned)
               : 'No data'}
           </span>
           <span className="text-sm font-medium text-[#64748b]">

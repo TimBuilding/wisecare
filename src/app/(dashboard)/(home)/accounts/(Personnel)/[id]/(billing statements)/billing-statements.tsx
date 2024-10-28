@@ -40,7 +40,7 @@ const BillingStatements: FC<Props> = ({ companyId }) => {
           <Collapsible
             key={billing.id}
             className={
-              'mx-auto w-full rounded-2xl border border-slate-200 bg-background p-6 drop-shadow-md'
+              'mx-auto w-full rounded-2xl border border-border bg-card p-6'
             }
           >
             <CollapsibleTrigger asChild={true}>
