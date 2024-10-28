@@ -73,8 +73,8 @@ const CompanyContractInformation: FC<CompanyContractInformationProps> = ({
             name="initial_contract_value"
             render={({ field }) => (
               <FormItem>
-                <div className="flex flex-row pt-4">
-                  <div className="text-md flex w-full flex-row text-[#1e293b] md:grid md:grid-cols-2 lg:grid-cols-1">
+                <div className="pt-4">
+                  <div className="text-md grid w-full text-[#1e293b] md:grid-cols-2 lg:grid-cols-1">
                     Initial Contract Value:
                     <Input
                       className="w-full"
@@ -95,8 +95,8 @@ const CompanyContractInformation: FC<CompanyContractInformationProps> = ({
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <div className="flex flex-row pt-4">
-                    <div className="text-md flex grid w-full flex-row text-[#1e293b] md:grid-cols-2 lg:grid-cols-1">
+                  <div className="pt-4">
+                    <div className="text-md grid w-full text-[#1e293b] md:grid-cols-2 lg:grid-cols-1">
                       Initial Head Count:
                       <Input
                         className="w-full"
@@ -116,8 +116,8 @@ const CompanyContractInformation: FC<CompanyContractInformationProps> = ({
             name="mode_of_payment_id"
             render={({ field }) => (
               <FormItem>
-                <div className="flex flex-row pt-4">
-                  <div className="text-md flex grid w-full flex-row text-[#1e293b] md:grid-cols-2 lg:grid-cols-1">
+                <div className="pt-4">
+                  <div className="text-md grid w-full text-[#1e293b] md:grid-cols-2 lg:grid-cols-1">
                     Mode of Payment:
                     <Select
                       onValueChange={field.onChange}
@@ -149,8 +149,8 @@ const CompanyContractInformation: FC<CompanyContractInformationProps> = ({
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <div className="flex flex-row pt-4">
-                    <div className="text-md flex w-full flex-row text-[#1e293b] md:grid md:grid-cols-2 lg:grid-cols-1">
+                  <div className="pt-4">
+                    <div className="text-md w-full text-[#1e293b] md:grid md:grid-cols-2 lg:grid-cols-1">
                       Expiration Date:
                       <Popover>
                         <PopoverTrigger asChild>
@@ -206,8 +206,8 @@ const CompanyContractInformation: FC<CompanyContractInformationProps> = ({
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <div className="flex flex-row pt-4">
-                    <div className="text-md flex w-full flex-row text-[#1e293b] md:grid md:grid-cols-2 lg:grid-cols-1">
+                  <div className="pt-4">
+                    <div className="text-md w-full text-[#1e293b] md:grid md:grid-cols-2 lg:grid-cols-1">
                       Effectivity Date:
                       <Popover>
                         <PopoverTrigger asChild>
@@ -263,8 +263,8 @@ const CompanyContractInformation: FC<CompanyContractInformationProps> = ({
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <div className="flex flex-row pt-4">
-                    <div className="text-md flex grid w-full flex-row text-[#1e293b] md:grid-cols-2 lg:grid-cols-1">
+                  <div className="pt-4">
+                    <div className="text-md grid w-full text-[#1e293b] md:grid-cols-2 lg:grid-cols-1">
                       COC Issue Date:
                       <Popover>
                         <PopoverTrigger asChild>
@@ -320,8 +320,8 @@ const CompanyContractInformation: FC<CompanyContractInformationProps> = ({
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <div className="flex flex-row pt-4">
-                    <div className="text-md flex grid w-full flex-row text-[#1e293b] md:grid-cols-2 lg:grid-cols-1">
+                  <div className="pt-4">
+                    <div className="text-md grid w-full text-[#1e293b] md:grid-cols-2 lg:grid-cols-1">
                       Delivery Date of Membership IDs:
                       <Popover>
                         <PopoverTrigger asChild>
@@ -377,8 +377,8 @@ const CompanyContractInformation: FC<CompanyContractInformationProps> = ({
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <div className="flex flex-row pt-4">
-                    <div className="text-md flex grid w-full flex-row text-[#1e293b] md:grid-cols-2 lg:grid-cols-1">
+                  <div className="pt-4">
+                    <div className="text-md grid w-full text-[#1e293b] md:grid-cols-2 lg:grid-cols-1">
                       Orientation Date:
                       <Popover>
                         <PopoverTrigger asChild>
@@ -434,8 +434,8 @@ const CompanyContractInformation: FC<CompanyContractInformationProps> = ({
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <div className="flex flex-row pt-4">
-                    <div className="text-md flex grid w-full flex-row text-[#1e293b] md:grid-cols-2 lg:grid-cols-1">
+                  <div className="pt-4">
+                    <div className="text-md grid w-full text-[#1e293b] md:grid-cols-2 lg:grid-cols-1">
                       Wellness Lecture Date:
                       <Popover>
                         <PopoverTrigger asChild>
@@ -491,8 +491,8 @@ const CompanyContractInformation: FC<CompanyContractInformationProps> = ({
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <div className="flex flex-row pt-4">
-                    <div className="text-md flex grid w-full flex-row text-[#1e293b] md:grid-cols-2 lg:grid-cols-1">
+                  <div className="pt-4">
+                    <div className="text-md grid w-full text-[#1e293b] md:grid-cols-2 lg:grid-cols-1">
                       Annual Physical Examination Date:
                       <Popover>
                         <PopoverTrigger asChild>

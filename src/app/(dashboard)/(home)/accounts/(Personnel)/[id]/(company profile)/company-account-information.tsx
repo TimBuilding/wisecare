@@ -64,8 +64,8 @@ const CompanyAccountInformation: FC<CompanyAccountInformationProps> = ({
             name="account_type_id"
             render={({ field }) => (
               <FormItem>
-                <div className="flex flex-row pt-4">
-                  <div className="text-md flex grid w-full flex-row text-[#1e293b] md:grid-cols-2 lg:grid-cols-1">
+                <div className="pt-4">
+                  <div className="text-md grid w-full text-[#1e293b] md:grid-cols-2 lg:grid-cols-1">
                     Account Type:
                     <Select
                       onValueChange={field.onChange}
@@ -95,8 +95,8 @@ const CompanyAccountInformation: FC<CompanyAccountInformationProps> = ({
             name="agent_id"
             render={({ field }) => (
               <FormItem>
-                <div className="flex flex-row pt-4">
-                  <div className="text-md flex grid w-full flex-row text-[#1e293b] md:grid-cols-2 lg:grid-cols-1">
+                <div className="pt-4">
+                  <div className="text-md grid w-full text-[#1e293b] md:grid-cols-2 lg:grid-cols-1">
                     Agent:
                     <Select
                       onValueChange={field.onChange}
@@ -131,8 +131,8 @@ const CompanyAccountInformation: FC<CompanyAccountInformationProps> = ({
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <div className="flex flex-row pt-4">
-                    <div className="text-md flex w-full flex-row text-[#1e293b] md:grid md:grid-cols-2 lg:grid-cols-1">
+                  <div className="pt-4">
+                    <div className="text-md w-full text-[#1e293b] md:grid md:grid-cols-2 lg:grid-cols-1">
                       Commission Rate:
                       <Input
                         className="w-full"

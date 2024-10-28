@@ -47,8 +47,8 @@ const CompanyInformation: FC<CompanyInformationProps> = ({ id }) => {
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <div className="flex flex-row pt-4">
-                    <div className="text-md flex grid w-full flex-row text-[#1e293b] md:grid-cols-2 lg:grid-cols-1">
+                  <div className="pt-4">
+                    <div className="text-md grid w-full text-[#1e293b] md:grid-cols-2 lg:grid-cols-1">
                       Company Name:
                       <Input className="w-full" {...field} />
                     </div>
@@ -64,8 +64,8 @@ const CompanyInformation: FC<CompanyInformationProps> = ({ id }) => {
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <div className="flex flex-row pt-4">
-                    <div className="text-md flex grid w-full flex-row text-[#1e293b] md:grid-cols-2 lg:grid-cols-1">
+                  <div className="pt-4">
+                    <div className="text-md grid w-full text-[#1e293b] md:grid-cols-2 lg:grid-cols-1">
                       Company Address: <Input className="w-full" {...field} />
                     </div>
                   </div>
@@ -80,8 +80,8 @@ const CompanyInformation: FC<CompanyInformationProps> = ({ id }) => {
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <div className="flex flex-row pt-4">
-                    <div className="text-md flex grid w-full flex-row text-[#1e293b] md:grid-cols-2 lg:grid-cols-1">
+                  <div className="pt-4">
+                    <div className="text-md grid w-full text-[#1e293b] md:grid-cols-2 lg:grid-cols-1">
                       Nature of Business:
                       <Input className="w-full" {...field} />
                     </div>
@@ -97,8 +97,8 @@ const CompanyInformation: FC<CompanyInformationProps> = ({ id }) => {
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <div className="flex flex-row pt-4">
-                    <div className="text-md flex grid w-full flex-row text-[#1e293b] md:grid-cols-2 lg:grid-cols-1">
+                  <div className="pt-4">
+                    <div className="text-md grid w-full text-[#1e293b] md:grid-cols-2 lg:grid-cols-1">
                       Contact Person:
                       <Input className="w-full" {...field} />
                     </div>
@@ -114,8 +114,8 @@ const CompanyInformation: FC<CompanyInformationProps> = ({ id }) => {
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <div className="flex flex-row pt-4">
-                    <div className="text-md flex grid w-full flex-row text-[#1e293b] md:grid-cols-2 lg:grid-cols-1">
+                  <div className="pt-4">
+                    <div className="text-md grid w-full text-[#1e293b] md:grid-cols-2 lg:grid-cols-1">
                       Contact Number:
                       <Input className="w-full" {...field} />
                     </div>
@@ -131,8 +131,8 @@ const CompanyInformation: FC<CompanyInformationProps> = ({ id }) => {
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <div className="flex flex-row pt-4">
-                    <div className="text-md flex grid w-full flex-row text-[#1e293b] md:grid-cols-2 lg:grid-cols-1">
+                  <div className="pt-4">
+                    <div className="text-md grid w-full text-[#1e293b] md:grid-cols-2 lg:grid-cols-1">
                       Signatory Designation:
                       <Input className="w-full" {...field} />
                     </div>
@@ -148,8 +148,8 @@ const CompanyInformation: FC<CompanyInformationProps> = ({ id }) => {
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <div className="flex flex-row pt-4">
-                    <div className="text-md flex grid w-full flex-row text-[#1e293b] md:grid-cols-2 lg:grid-cols-1">
+                  <div className="pt-4">
+                    <div className="text-md grid w-full text-[#1e293b] md:grid-cols-2 lg:grid-cols-1">
                       Name of Signatory:
                       <Input className="w-full" {...field} />
                     </div>
@@ -165,8 +165,8 @@ const CompanyInformation: FC<CompanyInformationProps> = ({ id }) => {
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <div className="flex flex-row pt-4">
-                    <div className="text-md flex grid w-full flex-row text-[#1e293b] md:grid-cols-2 lg:grid-cols-1">
+                  <div className="pt-4">
+                    <div className="text-md grid w-full text-[#1e293b] md:grid-cols-2 lg:grid-cols-1">
                       Designation of Contact Person:
                       <Input className="w-full" {...field} />
                     </div>
@@ -182,8 +182,8 @@ const CompanyInformation: FC<CompanyInformationProps> = ({ id }) => {
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <div className="flex flex-row pt-4">
-                    <div className="text-md flex grid w-full flex-row text-[#1e293b] md:grid-cols-2 lg:grid-cols-1">
+                  <div className="pt-4">
+                    <div className="text-md grid w-full text-[#1e293b] md:grid-cols-2 lg:grid-cols-1">
                       Email Address of Contact Person:
                       <Input className="w-full" {...field} />
                     </div>

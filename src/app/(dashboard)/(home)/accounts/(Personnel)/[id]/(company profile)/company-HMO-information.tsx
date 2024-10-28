@@ -59,8 +59,8 @@ const CompanyHmoInformation: FC<CompanyHmoInformationProps> = ({ id }) => {
             name="hmo_provider_id"
             render={({ field }) => (
               <FormItem>
-                <div className="flex flex-row pt-4">
-                  <div className="text-md flex grid w-full flex-row text-[#1e293b] md:grid-cols-2 lg:grid-cols-1">
+                <div className="pt-4">
+                  <div className="text-md grid w-full text-[#1e293b] md:grid-cols-2 lg:grid-cols-1">
                     HMO Provider:
                     <Select
                       onValueChange={field.onChange}
@@ -91,8 +91,8 @@ const CompanyHmoInformation: FC<CompanyHmoInformationProps> = ({ id }) => {
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <div className="flex flex-row pt-4">
-                    <div className="text-md flex grid w-full flex-row text-[#1e293b] md:grid-cols-2 lg:grid-cols-1">
+                  <div className="pt-4">
+                    <div className="text-md grid w-full text-[#1e293b] md:grid-cols-2 lg:grid-cols-1">
                       Previous HMO Provider:
                       <Select
                         onValueChange={field.onChange}
@@ -124,8 +124,8 @@ const CompanyHmoInformation: FC<CompanyHmoInformationProps> = ({ id }) => {
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <div className="flex flex-row pt-4">
-                    <div className="text-md flex grid w-full flex-row text-[#1e293b] md:grid-cols-2 lg:grid-cols-1">
+                  <div className="pt-4">
+                    <div className="text-md grid w-full text-[#1e293b] md:grid-cols-2 lg:grid-cols-1">
                       Current HMO Provider:
                       <Select
                         onValueChange={field.onChange}
@@ -157,8 +157,8 @@ const CompanyHmoInformation: FC<CompanyHmoInformationProps> = ({ id }) => {
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <div className="flex flex-row pt-4">
-                    <div className="text-md flex grid w-full flex-row text-[#1e293b] md:grid-cols-2 lg:grid-cols-1">
+                  <div className="pt-4">
+                    <div className="text-md grid w-full text-[#1e293b] md:grid-cols-2 lg:grid-cols-1">
                       Principal Plan Type:
                       <Select
                         onValueChange={field.onChange}
@@ -190,8 +190,8 @@ const CompanyHmoInformation: FC<CompanyHmoInformationProps> = ({ id }) => {
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <div className="flex flex-row pt-4">
-                    <div className="text-md flex grid w-full flex-row text-[#1e293b] md:grid-cols-2 lg:grid-cols-1">
+                  <div className="pt-4">
+                    <div className="text-md grid w-full text-[#1e293b] md:grid-cols-2 lg:grid-cols-1">
                       Dependent Plan Type:
                       <Select
                         onValueChange={field.onChange}
@@ -223,8 +223,8 @@ const CompanyHmoInformation: FC<CompanyHmoInformationProps> = ({ id }) => {
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <div className="flex flex-row pt-4">
-                    <div className="text-md flex grid w-full flex-row text-[#1e293b] md:grid-cols-2 lg:grid-cols-1">
+                  <div className="pt-4">
+                    <div className="text-md grid w-full text-[#1e293b] md:grid-cols-2 lg:grid-cols-1">
                       Total Utilization:
                       <Input className="w-full" {...field} type="number" />
                     </div>
@@ -240,8 +240,8 @@ const CompanyHmoInformation: FC<CompanyHmoInformationProps> = ({ id }) => {
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <div className="flex flex-row pt-4">
-                    <div className="text-md flex w-full flex-row text-[#1e293b] md:grid md:grid-cols-2 lg:grid-cols-1">
+                  <div className="pt-4">
+                    <div className="text-md w-full text-[#1e293b] md:grid md:grid-cols-2 lg:grid-cols-1">
                       Total Premium Paid:
                       <Input
                         className="w-full"
@@ -263,8 +263,8 @@ const CompanyHmoInformation: FC<CompanyHmoInformationProps> = ({ id }) => {
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <div className="flex flex-row pt-4">
-                    <div className="text-md flex grid w-full flex-row text-[#1e293b] md:grid-cols-2 lg:grid-cols-1">
+                  <div className="pt-4">
+                    <div className="text-md grid w-full text-[#1e293b] md:grid-cols-2 lg:grid-cols-1">
                       Additional Benefits:
                       <Input className="w-full" {...field} />
                     </div>
@@ -280,8 +280,8 @@ const CompanyHmoInformation: FC<CompanyHmoInformationProps> = ({ id }) => {
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <div className="flex flex-row pt-4">
-                    <div className="text-md flex grid w-full flex-row text-[#1e293b] md:grid-cols-2 lg:grid-cols-1">
+                  <div className="pt-4">
+                    <div className="text-md grid w-full text-[#1e293b] md:grid-cols-2 lg:grid-cols-1">
                       Special Benefits:
                       <Input className="w-full" {...field} />
                     </div>
