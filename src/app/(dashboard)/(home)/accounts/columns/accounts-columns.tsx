@@ -207,14 +207,6 @@ const accountsColumns: ColumnDef<Tables<'accounts'>>[] = [
     ),
   },
   {
-    accessorKey: 'created_at',
-    header: ({ column }) => <TableHeader column={column} title="Created At" />,
-  },
-  {
-    accessorKey: 'updated_at',
-    header: ({ column }) => <TableHeader column={column} title="Updated At" />,
-  },
-  {
     accessorKey: 'name_of_signatory',
     header: ({ column }) => (
       <TableHeader column={column} title="Name of Signatory" />
