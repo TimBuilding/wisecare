@@ -14,14 +14,28 @@ const ExportAccounts = () => {
 
     const accountsData = accounts.map((account) => ({
       ...account,
-      agent: account.agent?.first_name + ' ' + account.agent?.last_name,
-      hmo_count: (account.hmo_provider as any).name,
-      previous_hmo_provider: (account.previous_hmo_provider as any).name,
-      current_hmo_provider: (account.current_hmo_provider as any).name,
-      account_type: (account.account_type as any).name,
-      principal_plan_type: (account.principal_plan_type as any).name,
-      dependent_plan_type: (account.dependent_plan_type as any).name,
-      mode_of_payment: (account.mode_of_payment as any).name,
+      agent: account.agent
+        ? `${account.agent.first_name} ${account.agent.last_name}`
+        : '',
+      hmo_count: account.hmo_provider ? (account.hmo_provider as any).name : '',
+      previous_hmo_provider: account.previous_hmo_provider
+        ? (account.previous_hmo_provider as any).name
+        : '',
+      current_hmo_provider: account.current_hmo_provider
+        ? (account.current_hmo_provider as any).name
+        : '',
+      account_type: account.account_type
+        ? (account.account_type as any).name
+        : '',
+      principal_plan_type: account.principal_plan_type
+        ? (account.principal_plan_type as any).name
+        : '',
+      dependent_plan_type: account.dependent_plan_type
+        ? (account.dependent_plan_type as any).name
+        : '',
+      mode_of_payment: account.mode_of_payment
+        ? (account.mode_of_payment as any).name
+        : '',
     }))
 
     const fileName = `accounts-${new Date().toLocaleDateString('en-US', {
