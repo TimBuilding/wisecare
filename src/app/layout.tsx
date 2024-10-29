@@ -8,13 +8,16 @@ import ReactQueryProvider from '@/providers/ReactQueryProvider'
 import { Toaster } from '@/components/ui/toaster'
 import ConfirmationDialog from '@/components/confirmation-dialog/confirmation-dialog'
 
-const defaultUrl = process.env.VERCEL_URL
-  ? `https://${process.env.VERCEL_URL}`
+const defaultUrl = process.env.VERCEL_PROJECT_PRODUCTION_URL
+  ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
   : 'http://localhost:3000'
 
 export const metadata = {
   metadataBase: new URL(defaultUrl),
-  title: 'WiseCare Employee Portal',
+  title: {
+    template: '%s - WiseCare',
+    default: 'WiseCare Employee Portal',
+  },
   description: 'WiseCare Employee Portal',
 }
 

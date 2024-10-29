@@ -12,6 +12,13 @@ import {
 } from '@tanstack/react-query'
 import pageProtect from '@/utils/page-protect'
 import TableProvider from '@/providers/TableProvider'
+import { Metadata } from 'next'
+
+export const metadata = async (): Promise<Metadata> => {
+  return {
+    title: 'Billing Statements',
+  }
+}
 
 const BillingStatementsPage = async () => {
   const supabase = createServerClient(cookies())
