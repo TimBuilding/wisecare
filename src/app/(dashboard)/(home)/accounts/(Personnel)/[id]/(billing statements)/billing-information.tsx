@@ -1,11 +1,5 @@
 import React, { FC } from 'react'
-import { createBrowserClient } from '@/utils/supabase'
-import getBillingStatementByCompanyId from '@/queries/get-billing-statement-by-company-id'
-import { useQuery } from '@supabase-cache-helpers/postgrest-react-query'
-import { Tables } from '@/types/database.types'
-import getTypes from '@/queries/get-types'
 import { format } from 'date-fns'
-import getBillingStatements from '@/queries/get-billing-statements'
 import {
   formatCurrency,
   formatPercentage,

@@ -8,7 +8,7 @@ export const formatCurrency = (value: number | null | undefined) => {
   if (value === null || value === undefined) {
     return ''
   }
-  return `₱${value.toFixed(2)}`
+  return `₱${value.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`
 }
 
 export const formatPercentage = (value: number | null | undefined) => {
