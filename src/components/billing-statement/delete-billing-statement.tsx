@@ -29,8 +29,8 @@ const DeleteBillingStatement: FC<DeleteBillingStatementProps> = ({
       onSuccess: () => {
         toast({
           variant: 'default',
-          title: 'Success',
-          description: 'Account deleted',
+          title: 'Billing Statement Deleted',
+          description: 'The billing statement has been successfully deleted.',
         })
         setOpen(false)
       },
