@@ -18,6 +18,7 @@ import {
   User,
 } from 'lucide-react'
 import { FC, ReactNode } from 'react'
+import { format } from 'date-fns'
 
 const EmployeeDetailsItem = (item: {
   label: string
@@ -30,7 +31,9 @@ const EmployeeDetailsItem = (item: {
       <Icon className="h-5 w-5 flex-shrink-0 text-muted-foreground" />
       <div className="flex flex-col">
         <span className="text-sm font-semibold">{item.label}</span>
-        <span className="text-sm text-muted-foreground">{item.value}</span>
+        <span className="text-sm capitalize text-muted-foreground">
+          {item.value}
+        </span>
       </div>
     </div>
   )
@@ -46,13 +49,21 @@ const EmployeeDetails: FC<EmployeeDetailsProps> = ({
   employeeData,
 }) => {
   const data = [
-    { label: 'Birth Date', value: employeeData.birth_date, icon: Calendar },
+    {
+      label: 'Birth Date',
+      value: employeeData.birth_date
+        ? format(new Date(employeeData.birth_date), 'PPP')
+        : 'N/A',
+      icon: Calendar,
+    },
     { label: 'Gender', value: employeeData.gender, icon: User },
     { label: 'Civil Status', value: employeeData.civil_status, icon: Heart },
     { label: 'Card Number', value: employeeData.card_number, icon: CreditCard },
     {
       label: 'Effective Date',
-      value: employeeData.effective_date,
+      value: employeeData.effective_date
+        ? format(new Date(employeeData.effective_date), 'PPP')
+        : 'N/A',
       icon: CalendarDays,
     },
     { label: 'Room Plan', value: employeeData.room_plan, icon: Home },
