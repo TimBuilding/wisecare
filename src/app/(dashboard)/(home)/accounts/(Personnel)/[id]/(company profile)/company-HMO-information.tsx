@@ -44,6 +44,7 @@ const CompanyHmoInformation: FC<CompanyHmoInformationProps> = ({ id }) => {
       {editMode ? (
         <>
           <FormField
+            key={'monds'}
             control={form.control}
             name="hmo_provider_id"
             render={({ field }) => (
