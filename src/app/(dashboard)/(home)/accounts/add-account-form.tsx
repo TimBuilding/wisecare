@@ -1,22 +1,20 @@
 'use client'
 import { Button } from '@/components/ui/button'
+import { DialogClose, DialogFooter } from '@/components/ui/dialog'
 import { Form } from '@/components/ui/form'
-import { TableCell, TableRow } from '@/components/ui/table'
+import { useToast } from '@/components/ui/use-toast'
+import { createBrowserClient } from '@/utils/supabase'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useInsertMutation } from '@supabase-cache-helpers/postgrest-react-query'
+import { Loader2 } from 'lucide-react'
+import { useRouter } from 'next/navigation'
+import { FormEventHandler, useCallback, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
-import { useAccountsContext } from './accounts-provider'
 import accountsSchema from './accounts-schema'
 import MarketingInputs from './forms/marketing-inputs'
-import { useInsertMutation } from '@supabase-cache-helpers/postgrest-react-query'
-import { createBrowserClient } from '@/utils/supabase'
-import { FormEventHandler, useCallback, useEffect } from 'react'
-import { Loader2 } from 'lucide-react'
-import { useToast } from '@/components/ui/use-toast'
-import { useRouter } from 'next/navigation'
 
 const AddAccountForm = () => {
-  const { isFormOpen, setIsFormOpen } = useAccountsContext()
   const { toast } = useToast()
   const form = useForm<z.infer<typeof accountsSchema>>({
     resolver: zodResolver(accountsSchema),
@@ -64,13 +62,6 @@ const AddAccountForm = () => {
     ['id'],
     'id',
     {
-      onSuccess: () => {
-        // clear form
-        form.reset()
-
-        // close form
-        setIsFormOpen(false)
-      },
       onError: (error) => {
         toast({
           title: 'Something went wrong',
@@ -135,45 +126,27 @@ const AddAccountForm = () => {
     [form, mutateAsync],
   )
 
-  // render nothing if the form is not open
-  if (!isFormOpen) return null
   return (
-    <div>
-      <TableRow>
-        <TableCell>
-          {form.getValues('company_name') || 'Company Name'}
-        </TableCell>
-      </TableRow>
-      <div className="z-20 w-screen border-y border-border pt-8 shadow-md md:w-[calc(100vw-288px)]">
-        <Form {...form}>
-          <form onSubmit={onSubmitHandler}>
-            <div className="space-y-5 px-8">
-              <MarketingInputs isLoading={isPending} />
-            </div>
-            <div className="mt-8 border-t border-border py-3">
-              <div className="flex flex-row items-center justify-between px-4">
-                <Button
-                  onClick={() => setIsFormOpen(false)}
-                  variant="outline"
-                  className="w-24"
-                  disabled={isPending}
-                >
-                  {isPending ? <Loader2 className="animate-spin" /> : 'Cancel'}
-                </Button>
-                <Button
-                  type="submit"
-                  variant="default"
-                  className="w-24"
-                  disabled={isPending}
-                >
-                  {isPending ? <Loader2 className="animate-spin" /> : 'Save'}
-                </Button>
-              </div>
-            </div>
-          </form>
-        </Form>
-      </div>
-    </div>
+    <Form {...form}>
+      <form onSubmit={onSubmitHandler}>
+        <MarketingInputs isLoading={isPending} />
+        <DialogFooter className="flex flex-row items-center justify-between px-4">
+          <DialogClose asChild>
+            <Button variant="outline" className="w-24" disabled={isPending}>
+              {isPending ? <Loader2 className="animate-spin" /> : 'Cancel'}
+            </Button>
+          </DialogClose>
+          <Button
+            type="submit"
+            variant="default"
+            className="w-24"
+            disabled={isPending}
+          >
+            {isPending ? <Loader2 className="animate-spin" /> : 'Save'}
+          </Button>
+        </DialogFooter>
+      </form>
+    </Form>
   )
 }
 

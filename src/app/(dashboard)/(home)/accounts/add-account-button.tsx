@@ -1,12 +1,21 @@
 'use client'
+import AddAccountForm from '@/app/(dashboard)/(home)/accounts/add-account-form'
 import { Button } from '@/components/ui/button'
-import { Plus } from 'lucide-react'
-import { useAccountsContext } from './accounts-provider'
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog'
 import getRole from '@/utils/get-role'
 import { useQuery } from '@tanstack/react-query'
+import { Plus } from 'lucide-react'
+import { useState } from 'react'
 
 const AddAccountButton = () => {
-  const { isFormOpen, setIsFormOpen } = useAccountsContext()
+  const [isOpen, setIsOpen] = useState(false)
   const allowedRole = [
     'admin',
     'marketing',
@@ -15,7 +24,7 @@ const AddAccountButton = () => {
     'after-sales',
   ]
 
-  const { data: role, error } = useQuery({
+  const { data: role } = useQuery({
     queryKey: ['role'],
     queryFn: () => getRole(),
   })
@@ -25,14 +34,21 @@ const AddAccountButton = () => {
   }
 
   return (
-    <Button
-      className="space-x-2"
-      onClick={() => setIsFormOpen(true)}
-      disabled={isFormOpen}
-    >
-      <Plus />
-      <span>Add</span>
-    </Button>
+    <Dialog open={isOpen} onOpenChange={setIsOpen}>
+      <DialogTrigger asChild>
+        <Button className="space-x-2">
+          <Plus />
+          <span>Add</span>
+        </Button>
+      </DialogTrigger>
+      <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-[800px]">
+        <DialogHeader>
+          <DialogTitle>Add Account</DialogTitle>
+          <DialogDescription>Add a new account to the system</DialogDescription>
+        </DialogHeader>
+        <AddAccountForm />
+      </DialogContent>
+    </Dialog>
   )
 }
 

@@ -1,5 +1,6 @@
 'use client'
 
+import ExportAccounts from '@/app/(dashboard)/(home)/accounts/export-accounts'
 import {
   PageDescription,
   PageHeader,
@@ -18,12 +19,10 @@ import {
   TableRow,
 } from '@/components/ui/table'
 import { useToast } from '@/components/ui/use-toast'
-import { useTableContext } from '@/providers/TableProvider'
 import { createBrowserClient } from '@/utils/supabase'
 import { useQuery } from '@supabase-cache-helpers/postgrest-react-query'
 import {
   ColumnDef,
-  ColumnFiltersState,
   SortingState,
   VisibilityState,
   flexRender,
@@ -37,8 +36,6 @@ import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import AccountsProvider from './accounts-provider'
 import AddAccountButton from './add-account-button'
-import AddAccountForm from './add-account-form'
-import ExportAccounts from '@/app/(dashboard)/(home)/accounts/export-accounts'
 
 interface IData {
   id: string
@@ -181,7 +178,6 @@ const DataTable = <TData extends IData, TValue>({
                 ))}
               </TableHeader>
               <TableBody>
-                <AddAccountForm />
                 {table.getRowModel().rows?.length ? (
                   table.getRowModel().rows.map((row) => {
                     return (
