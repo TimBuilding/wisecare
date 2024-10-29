@@ -1,18 +1,15 @@
-import React, { FC } from 'react'
-import { createBrowserClient } from '@/utils/supabase'
-import getAccountById from '@/queries/get-account-by-id'
-import { useQuery } from '@supabase-cache-helpers/postgrest-react-query'
-import { Input } from '@/components/ui/input'
 import { useCompanyEditContext } from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(company profile)/company-edit-provider'
 import companyEditsSchema from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(company profile)/company-edits-schema'
-import { useFormContext } from 'react-hook-form'
-import { z } from 'zod'
+import CompanyInformationItem from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(company profile)/company-information-item'
+import { formatCurrency } from '@/app/(dashboard)/(home)/accounts/columns/accounts-columns'
+import currencyOptions from '@/components/maskito/currency-options'
 import {
   FormControl,
   FormField,
   FormItem,
   FormMessage,
 } from '@/components/ui/form'
+import { Input } from '@/components/ui/input'
 import {
   Select,
   SelectContent,
@@ -20,29 +17,21 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
+import getAccountById from '@/queries/get-account-by-id'
 import getTypes from '@/queries/get-types'
+import { createBrowserClient } from '@/utils/supabase'
 import { useMaskito } from '@maskito/react'
-import currencyOptions from '@/components/maskito/currency-options'
-import { formatCurrency } from '@/app/(dashboard)/(home)/accounts/columns/accounts-columns'
+import { useQuery } from '@supabase-cache-helpers/postgrest-react-query'
+import { FC } from 'react'
+import { useFormContext } from 'react-hook-form'
+import { z } from 'zod'
 
-const CompanyInformationItem = ({
-  label,
-  value,
-}: {
-  label: string
-  value?: string | undefined
-}) => (
-  <div className="flex flex-col py-1">
-    <div className="text-sm font-medium text-muted-foreground">{label}</div>
-    <div className="text-md font-semibold">{value || 'No data'}</div>
-  </div>
-)
 interface CompanyHmoInformationProps {
   id: string
 }
 
 const CompanyHmoInformation: FC<CompanyHmoInformationProps> = ({ id }) => {
-  const { editMode, setEditMode } = useCompanyEditContext()
+  const { editMode } = useCompanyEditContext()
   const form = useFormContext<z.infer<typeof companyEditsSchema>>()
   const supabase = createBrowserClient()
   const { data: account } = useQuery(getAccountById(supabase, id))

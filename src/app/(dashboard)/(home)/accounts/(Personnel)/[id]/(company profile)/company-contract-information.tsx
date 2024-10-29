@@ -34,19 +34,7 @@ import { FC } from 'react'
 import { useFormContext } from 'react-hook-form'
 import { z } from 'zod'
 import { formatCurrency } from '@/app/(dashboard)/(home)/accounts/columns/accounts-columns'
-
-const CompanyInformationItem = ({
-  label,
-  value,
-}: {
-  label: string
-  value?: string | undefined
-}) => (
-  <div className="flex flex-col py-1">
-    <div className="text-sm font-medium text-muted-foreground">{label}</div>
-    <div className="text-md font-semibold">{value || 'No data'}</div>
-  </div>
-)
+import CompanyInformationItem from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(company profile)/company-information-item'
 
 interface CompanyContractInformationProps {
   id: string
@@ -566,7 +554,7 @@ const CompanyContractInformation: FC<CompanyContractInformationProps> = ({
             value={
               account?.expiration_date
                 ? format(new Date(account.expiration_date), 'PPP')
-                : 'No data'
+                : undefined
             }
           />
           <CompanyInformationItem
@@ -574,7 +562,7 @@ const CompanyContractInformation: FC<CompanyContractInformationProps> = ({
             value={
               account?.effectivity_date
                 ? format(new Date(account.effectivity_date), 'PPP')
-                : 'No data'
+                : undefined
             }
           />
           <CompanyInformationItem
@@ -583,7 +571,7 @@ const CompanyContractInformation: FC<CompanyContractInformationProps> = ({
             value={
               account?.coc_issue_date
                 ? format(new Date(account.coc_issue_date), 'PPP')
-                : 'No data'
+                : undefined
             }
           />
           <CompanyInformationItem
@@ -594,7 +582,7 @@ const CompanyContractInformation: FC<CompanyContractInformationProps> = ({
                     new Date(account.delivery_date_of_membership_ids),
                     'PPP',
                   )
-                : 'No data'
+                : undefined
             }
           />
           <CompanyInformationItem
@@ -603,7 +591,7 @@ const CompanyContractInformation: FC<CompanyContractInformationProps> = ({
             value={
               account?.orientation_date
                 ? format(new Date(account.orientation_date), 'PPP')
-                : 'No data'
+                : undefined
             }
           />
           <CompanyInformationItem
@@ -611,7 +599,7 @@ const CompanyContractInformation: FC<CompanyContractInformationProps> = ({
             value={
               account?.wellness_lecture_date
                 ? format(new Date(account.wellness_lecture_date), 'PPP')
-                : 'No data'
+                : undefined
             }
           />
           <CompanyInformationItem
@@ -622,7 +610,7 @@ const CompanyContractInformation: FC<CompanyContractInformationProps> = ({
                     new Date(account.annual_physical_examination_date),
                     'PPP',
                   )
-                : 'No data'
+                : undefined
             }
           />
         </div>

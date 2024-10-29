@@ -25,19 +25,7 @@ import getAgents from '@/queries/get-agents'
 import { useMaskito } from '@maskito/react'
 import percentageOptions from '@/components/maskito/percentage-options'
 import { formatPercentage } from '@/app/(dashboard)/(home)/accounts/columns/accounts-columns'
-
-const CompanyInformationItem = ({
-  label,
-  value,
-}: {
-  label: string
-  value?: string | undefined
-}) => (
-  <div className="flex flex-col py-1">
-    <div className="text-sm font-medium text-muted-foreground">{label}</div>
-    <div className="text-md font-semibold">{value || 'No data'}</div>
-  </div>
-)
+import CompanyInformationItem from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(company profile)/company-information-item'
 
 interface CompanyAccountInformationProps {
   id: string
@@ -165,7 +153,7 @@ const CompanyAccountInformation: FC<CompanyAccountInformationProps> = ({
             value={
               account?.agent
                 ? `${account?.agent?.first_name} ${account?.agent?.last_name}`
-                : 'No data'
+                : undefined
             }
           />
           <CompanyInformationItem
