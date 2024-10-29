@@ -34,7 +34,9 @@ const CompanyInformationItem = ({
 }) => (
   <div className="flex flex-col py-1">
     <div className="text-sm font-medium text-muted-foreground">{label}</div>
-    <div className="text-md font-semibold">{value || 'No data'}</div>
+    <div className="text-md text-pretty break-words font-semibold">
+      {value || 'No data'}
+    </div>
   </div>
 )
 interface CompanyHmoInformationProps {
@@ -42,7 +44,7 @@ interface CompanyHmoInformationProps {
 }
 
 const CompanyHmoInformation: FC<CompanyHmoInformationProps> = ({ id }) => {
-  const { editMode, setEditMode } = useCompanyEditContext()
+  const { editMode } = useCompanyEditContext()
   const form = useFormContext<z.infer<typeof companyEditsSchema>>()
   const supabase = createBrowserClient()
   const { data: account } = useQuery(getAccountById(supabase, id))
