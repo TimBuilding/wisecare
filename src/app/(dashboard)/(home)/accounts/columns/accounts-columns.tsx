@@ -15,7 +15,7 @@ export const formatPercentage = (value: number | null | undefined) => {
   if (value === null || value === undefined) {
     return ''
   }
-  return `${value.toFixed(0)}%`
+  return `${value.toFixed(2)}%`
 }
 const accountsColumns: ColumnDef<Tables<'accounts'>>[] = [
   {
