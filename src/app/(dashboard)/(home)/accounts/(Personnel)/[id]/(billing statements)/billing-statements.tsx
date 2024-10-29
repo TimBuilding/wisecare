@@ -63,7 +63,7 @@ const BillingStatements: FC<Props> = ({ companyId }) => {
                   data={{ ...billing } as BillingInfoProps['data']}
                 />
                 <div className="flex flex-row items-center justify-end lg:ml-auto lg:items-end">
-                  <DeleteBillingStatement id={billing.id} />
+                  <DeleteBillingStatement setOpen={() => {}} id={billing.id} />
                 </div>
               </div>
             </CollapsibleContent>
