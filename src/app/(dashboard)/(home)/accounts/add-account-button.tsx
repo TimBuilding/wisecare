@@ -41,7 +41,7 @@ const AddAccountButton = () => {
           <span>Add</span>
         </Button>
       </DialogTrigger>
-      <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-[800px]">
+      <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-4xl">
         <DialogHeader>
           <DialogTitle>Add Account</DialogTitle>
           <DialogDescription>Add a new account to the system</DialogDescription>

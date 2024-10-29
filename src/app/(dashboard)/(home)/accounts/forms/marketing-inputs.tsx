@@ -1,27 +1,16 @@
 import DateInput from '@/app/(dashboard)/(home)/accounts/forms/date-input'
+import InputWithMask from '@/app/(dashboard)/(home)/accounts/forms/input-with-mask'
 import NumberInput from '@/app/(dashboard)/(home)/accounts/forms/number-input'
 import SelectInput from '@/app/(dashboard)/(home)/accounts/forms/select-input'
 import TextInput from '@/app/(dashboard)/(home)/accounts/forms/text-input'
-import currencyOptions from '@/components/maskito/currency-options'
-import percentageOptions from '@/components/maskito/percentage-options'
-import {
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from '@/components/ui/form'
-import { Input } from '@/components/ui/input'
 import getAgents from '@/queries/get-agents'
 import getTypes from '@/queries/get-types'
 import { createBrowserClient } from '@/utils/supabase'
-import { useMaskito } from '@maskito/react'
 import { useQuery } from '@supabase-cache-helpers/postgrest-react-query'
 import { FC } from 'react'
-import { ControllerRenderProps, useFormContext } from 'react-hook-form'
+import { useFormContext } from 'react-hook-form'
 import { z } from 'zod'
 import accountsSchema from '../accounts-schema'
-import InputWithMask from '@/app/(dashboard)/(home)/accounts/forms/input-with-mask'
 
 interface Props {
   isLoading: boolean
@@ -38,10 +27,6 @@ const MarketingInputs: FC<Props> = ({ isLoading }) => {
   const { data: modeOfPayments } = useQuery(
     getTypes(supabase, 'mode_of_payments'),
   )
-
-  const maskedCommissionRateRef = useMaskito({ options: percentageOptions })
-  const maskedInitialContractValueRef = useMaskito({ options: currencyOptions })
-  const maskedTotalPremiumPaidRef = useMaskito({ options: currencyOptions })
 
   return (
     <div className="grid gap-4 py-4">

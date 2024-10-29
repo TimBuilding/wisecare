@@ -56,7 +56,7 @@ const AddAccountForm = () => {
 
   const supabase = createBrowserClient()
   const router = useRouter()
-  const { mutateAsync, isPending, data } = useInsertMutation(
+  const { mutateAsync, isPending, data, isSuccess } = useInsertMutation(
     // @ts-ignore
     supabase.from('accounts'),
     ['id'],
@@ -129,20 +129,32 @@ const AddAccountForm = () => {
   return (
     <Form {...form}>
       <form onSubmit={onSubmitHandler}>
-        <MarketingInputs isLoading={isPending} />
+        <MarketingInputs isLoading={isPending || isSuccess} />
         <DialogFooter className="flex flex-row items-center justify-between px-4">
           <DialogClose asChild>
-            <Button variant="outline" className="w-24" disabled={isPending}>
-              {isPending ? <Loader2 className="animate-spin" /> : 'Cancel'}
+            <Button
+              variant="outline"
+              className="w-24"
+              disabled={isPending || isSuccess}
+            >
+              {isPending || isSuccess ? (
+                <Loader2 className="animate-spin" />
+              ) : (
+                'Cancel'
+              )}
             </Button>
           </DialogClose>
           <Button
             type="submit"
             variant="default"
-            className="w-24"
-            disabled={isPending}
+            className="w-fit"
+            disabled={isPending || isSuccess}
           >
-            {isPending ? <Loader2 className="animate-spin" /> : 'Save'}
+            {isPending || isSuccess ? (
+              <Loader2 className="animate-spin" />
+            ) : (
+              'Create Account'
+            )}
           </Button>
         </DialogFooter>
       </form>
