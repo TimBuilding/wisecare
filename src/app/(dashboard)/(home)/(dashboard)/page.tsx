@@ -1,8 +1,12 @@
+'use server'
 import PageTitle from './page-title'
 import PreviousStatement from './previous-statement'
+import { Metadata } from 'next'
 
-export const metadata = {
-  title: 'Dashboard | WiseCare',
+export const metadata = async (): Promise<Metadata> => {
+  return {
+    title: 'Dashboard',
+  }
 }
 
 const Dashboard = () => {

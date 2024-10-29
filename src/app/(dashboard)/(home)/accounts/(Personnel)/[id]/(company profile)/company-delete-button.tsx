@@ -28,7 +28,7 @@ import {
   useQuery,
   useUpdateMutation,
 } from '@supabase-cache-helpers/postgrest-react-query'
-import { Trash, X } from 'lucide-react'
+import { Loader2, Trash, X } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { FC, FormEventHandler, useCallback, useState } from 'react'
 import { useForm } from 'react-hook-form'
@@ -53,11 +53,11 @@ const CompanyDeleteButton: FC<Props> = ({ accountId }) => {
   const supabase = createBrowserClient()
   const { data: account } = useQuery(getAccountById(supabase, accountId))
 
-  const { mutateAsync, isPending } = useUpdateMutation(
+  const { mutateAsync, isPending, isSuccess } = useUpdateMutation(
     // @ts-ignore
     supabase.from('accounts'),
     ['id'],
-    'id',
+    null,
     {
       onSuccess: () => {
         router.push('/accounts')
@@ -68,7 +68,6 @@ const CompanyDeleteButton: FC<Props> = ({ accountId }) => {
         })
       },
       onError: (error) => {
-        console.log(error)
         toast({
           variant: 'destructive',
           title: 'Something went wrong',
@@ -130,7 +129,7 @@ const CompanyDeleteButton: FC<Props> = ({ accountId }) => {
                     Please type in the name of the account to confirm.
                   </FormLabel>
                   <FormControl>
-                    <Input {...field} disabled={isPending} />
+                    <Input {...field} disabled={isPending || isSuccess} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -141,9 +140,13 @@ const CompanyDeleteButton: FC<Props> = ({ accountId }) => {
                 variant={'destructive'}
                 className="w-full"
                 type="submit"
-                disabled={isPending}
+                disabled={isPending || isSuccess}
               >
-                I understand, delete this account
+                {isPending || isSuccess ? (
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                ) : (
+                  'I understand, delete this account'
+                )}
               </Button>
             </AlertDialogFooter>
           </form>

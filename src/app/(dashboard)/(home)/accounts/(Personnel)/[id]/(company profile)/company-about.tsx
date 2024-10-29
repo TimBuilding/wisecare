@@ -6,12 +6,15 @@ import { useCompanyEditContext } from '@/app/(dashboard)/(home)/accounts/(Person
 import CompanyHMOInformation from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(company profile)/company-HMO-information'
 import CompanyInformation from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(company profile)/company-information'
 import accountsSchema from '@/app/(dashboard)/(home)/accounts/accounts-schema'
+import currencyOptions from '@/components/maskito/currency-options'
+import percentageOptions from '@/components/maskito/percentage-options'
 import { Button } from '@/components/ui/button'
 import { Form } from '@/components/ui/form'
 import { toast } from '@/components/ui/use-toast'
 import getAccountById from '@/queries/get-account-by-id'
 import { createBrowserClient } from '@/utils/supabase'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { maskitoTransform } from '@maskito/core'
 import {
   useQuery,
   useUpdateMutation,
@@ -29,7 +32,6 @@ const CompanyAbout: FC<Props> = ({ companyId }) => {
   const supabase = createBrowserClient()
   const { data: account } = useQuery(getAccountById(supabase, companyId))
 
-  console.log(account)
   const form = useForm<z.infer<typeof accountsSchema>>({
     resolver: zodResolver(accountsSchema),
     defaultValues: {
@@ -51,7 +53,12 @@ const CompanyAbout: FC<Props> = ({ companyId }) => {
         ? (account.account_type as any).id
         : null,
       total_utilization: account?.total_utilization ?? null,
-      total_premium_paid: account?.total_premium_paid ?? null,
+      total_premium_paid: account?.total_premium_paid
+        ? (maskitoTransform(
+            account.total_premium_paid.toString(),
+            currencyOptions,
+          ) as unknown as number)
+        : null,
       signatory_designation: account?.signatory_designation ?? null,
       contact_person: account?.contact_person ?? null,
       contact_number: account?.contact_number ?? null,
@@ -77,7 +84,12 @@ const CompanyAbout: FC<Props> = ({ companyId }) => {
       orientation_date: account?.orientation_date
         ? new Date(account.orientation_date)
         : null,
-      initial_contract_value: account?.initial_contract_value ?? null,
+      initial_contract_value: account?.initial_contract_value
+        ? (maskitoTransform(
+            account.initial_contract_value.toString(),
+            currencyOptions,
+          ) as unknown as number)
+        : null,
       mode_of_payment_id: account?.mode_of_payment
         ? (account.mode_of_payment as any).id
         : null,
@@ -88,7 +100,12 @@ const CompanyAbout: FC<Props> = ({ companyId }) => {
         account?.annual_physical_examination_date
           ? new Date(account.annual_physical_examination_date)
           : null,
-      commision_rate: account?.commision_rate ?? null,
+      commision_rate: account?.commision_rate
+        ? (maskitoTransform(
+            account.commision_rate.toString(),
+            percentageOptions,
+          ) as unknown as number)
+        : null,
       additional_benefits: account?.additional_benefits ?? null,
       special_benefits: account?.special_benefits ?? null,
       name_of_signatory: account?.name_of_signatory ?? null,

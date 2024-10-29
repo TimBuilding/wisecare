@@ -1,7 +1,5 @@
 'use client'
 
-import EmployeesTab from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(employees)/employees-tab'
-import BillingStatements from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(billing statements)/billing-statements'
 import CompanyAbout from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(company profile)/company-about'
 import CompanyDeleteButton from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(company profile)/company-delete-button'
 import CompanyEditButton from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(company profile)/company-edit-button'
@@ -11,11 +9,27 @@ import { useCompanyContext } from '@/app/(dashboard)/(home)/accounts/(Personnel)
 import { Tabs, TabsContent } from '@/components/ui/tabs'
 import { FC, useEffect } from 'react'
 import AddBillingStatementButton from '@/app/(dashboard)/(home)/billing-statements/add-billing-statement-button'
+import dynamic from 'next/dynamic'
 
 interface Props {
   companyId: string
   role: string | null
 }
+
+const EmployeesTab = dynamic(
+  () =>
+    import(
+      '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(employees)/employees-tab'
+    ),
+  { ssr: false },
+)
+const BillingStatements = dynamic(
+  () =>
+    import(
+      '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(billing statements)/billing-statements'
+    ),
+  { ssr: false },
+)
 
 const CompanyPage: FC<Props> = ({ companyId, role }) => {
   const { setUserRole, setAccountId } = useCompanyContext()
@@ -38,7 +52,7 @@ const CompanyPage: FC<Props> = ({ companyId, role }) => {
       <div className="p-8 lg:mx-auto lg:max-w-6xl">
         <TabsContent value="about">
           <CompanyEditProvider>
-            <div className="flex w-full flex-row items-center gap-2 pb-4 md:justify-end">
+            <div className="flex w-full flex-row items-center gap-2 pb-4 sm:justify-end">
               <CompanyEditButton role={role} />
               {[
                 'marketing',

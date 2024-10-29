@@ -1,18 +1,15 @@
-import React, { FC } from 'react'
-import { createBrowserClient } from '@/utils/supabase'
-import getAccountById from '@/queries/get-account-by-id'
-import { useQuery } from '@supabase-cache-helpers/postgrest-react-query'
-import { Input } from '@/components/ui/input'
 import { useCompanyEditContext } from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(company profile)/company-edit-provider'
 import companyEditsSchema from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(company profile)/company-edits-schema'
-import { useFormContext } from 'react-hook-form'
-import { z } from 'zod'
+import CompanyInformationItem from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(company profile)/company-information-item'
+import { formatCurrency } from '@/app/(dashboard)/(home)/accounts/columns/accounts-columns'
+import currencyOptions from '@/components/maskito/currency-options'
 import {
   FormControl,
   FormField,
   FormItem,
   FormMessage,
 } from '@/components/ui/form'
+import { Input } from '@/components/ui/input'
 import {
   Select,
   SelectContent,
@@ -20,43 +17,40 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
+import getAccountById from '@/queries/get-account-by-id'
 import getTypes from '@/queries/get-types'
+import { createBrowserClient } from '@/utils/supabase'
+import { useMaskito } from '@maskito/react'
+import { useQuery } from '@supabase-cache-helpers/postgrest-react-query'
+import { FC } from 'react'
+import { useFormContext } from 'react-hook-form'
+import { z } from 'zod'
 
-const CompanyInformationItem = ({
-  label,
-  value,
-}: {
-  label: string
-  value?: string | undefined
-}) => (
-  <div className="flex flex-col py-1">
-    <div className="text-sm font-medium text-muted-foreground">{label}</div>
-    <div className="text-md font-semibold">{value || 'No data'}</div>
-  </div>
-)
 interface CompanyHmoInformationProps {
   id: string
 }
 
 const CompanyHmoInformation: FC<CompanyHmoInformationProps> = ({ id }) => {
-  const { editMode, setEditMode } = useCompanyEditContext()
+  const { editMode } = useCompanyEditContext()
   const form = useFormContext<z.infer<typeof companyEditsSchema>>()
   const supabase = createBrowserClient()
   const { data: account } = useQuery(getAccountById(supabase, id))
   const { data: hmoProviders } = useQuery(getTypes(supabase, 'hmo_providers'))
   const { data: planTypes } = useQuery(getTypes(supabase, 'plan_types'))
 
+  const maskedTotalPremiumPaidRef = useMaskito({ options: currencyOptions })
   return (
     <>
       {editMode ? (
         <>
           <FormField
+            key={'monds'}
             control={form.control}
             name="hmo_provider_id"
             render={({ field }) => (
               <FormItem>
-                <div className="flex flex-row pt-4">
-                  <div className="text-md flex grid w-full flex-row text-[#1e293b] md:grid-cols-2 lg:grid-cols-1">
+                <div className="pt-4">
+                  <div className="text-md grid w-full text-[#1e293b] md:grid-cols-2 lg:grid-cols-1">
                     HMO Provider:
                     <Select
                       onValueChange={field.onChange}
@@ -87,8 +81,8 @@ const CompanyHmoInformation: FC<CompanyHmoInformationProps> = ({ id }) => {
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <div className="flex flex-row pt-4">
-                    <div className="text-md flex grid w-full flex-row text-[#1e293b] md:grid-cols-2 lg:grid-cols-1">
+                  <div className="pt-4">
+                    <div className="text-md grid w-full text-[#1e293b] md:grid-cols-2 lg:grid-cols-1">
                       Previous HMO Provider:
                       <Select
                         onValueChange={field.onChange}
@@ -120,8 +114,8 @@ const CompanyHmoInformation: FC<CompanyHmoInformationProps> = ({ id }) => {
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <div className="flex flex-row pt-4">
-                    <div className="text-md flex grid w-full flex-row text-[#1e293b] md:grid-cols-2 lg:grid-cols-1">
+                  <div className="pt-4">
+                    <div className="text-md grid w-full text-[#1e293b] md:grid-cols-2 lg:grid-cols-1">
                       Current HMO Provider:
                       <Select
                         onValueChange={field.onChange}
@@ -153,8 +147,8 @@ const CompanyHmoInformation: FC<CompanyHmoInformationProps> = ({ id }) => {
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <div className="flex flex-row pt-4">
-                    <div className="text-md flex grid w-full flex-row text-[#1e293b] md:grid-cols-2 lg:grid-cols-1">
+                  <div className="pt-4">
+                    <div className="text-md grid w-full text-[#1e293b] md:grid-cols-2 lg:grid-cols-1">
                       Principal Plan Type:
                       <Select
                         onValueChange={field.onChange}
@@ -186,8 +180,8 @@ const CompanyHmoInformation: FC<CompanyHmoInformationProps> = ({ id }) => {
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <div className="flex flex-row pt-4">
-                    <div className="text-md flex grid w-full flex-row text-[#1e293b] md:grid-cols-2 lg:grid-cols-1">
+                  <div className="pt-4">
+                    <div className="text-md grid w-full text-[#1e293b] md:grid-cols-2 lg:grid-cols-1">
                       Dependent Plan Type:
                       <Select
                         onValueChange={field.onChange}
@@ -219,8 +213,8 @@ const CompanyHmoInformation: FC<CompanyHmoInformationProps> = ({ id }) => {
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <div className="flex flex-row pt-4">
-                    <div className="text-md flex grid w-full flex-row text-[#1e293b] md:grid-cols-2 lg:grid-cols-1">
+                  <div className="pt-4">
+                    <div className="text-md grid w-full text-[#1e293b] md:grid-cols-2 lg:grid-cols-1">
                       Total Utilization:
                       <Input className="w-full" {...field} type="number" />
                     </div>
@@ -236,14 +230,15 @@ const CompanyHmoInformation: FC<CompanyHmoInformationProps> = ({ id }) => {
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <div className="flex flex-row pt-4">
-                    <div className="text-md flex grid w-full flex-row text-[#1e293b] md:grid-cols-2 lg:grid-cols-1">
+                  <div className="pt-4">
+                    <div className="text-md w-full text-[#1e293b] md:grid md:grid-cols-2 lg:grid-cols-1">
                       Total Premium Paid:
                       <Input
                         className="w-full"
                         {...field}
-                        type="number"
-                        value={field.value?.toString()}
+                        value={field.value ?? ''}
+                        ref={maskedTotalPremiumPaidRef}
+                        onInput={field.onChange}
                       />
                     </div>
                   </div>
@@ -258,8 +253,8 @@ const CompanyHmoInformation: FC<CompanyHmoInformationProps> = ({ id }) => {
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <div className="flex flex-row pt-4">
-                    <div className="text-md flex grid w-full flex-row text-[#1e293b] md:grid-cols-2 lg:grid-cols-1">
+                  <div className="pt-4">
+                    <div className="text-md grid w-full text-[#1e293b] md:grid-cols-2 lg:grid-cols-1">
                       Additional Benefits:
                       <Input className="w-full" {...field} />
                     </div>
@@ -275,8 +270,8 @@ const CompanyHmoInformation: FC<CompanyHmoInformationProps> = ({ id }) => {
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <div className="flex flex-row pt-4">
-                    <div className="text-md flex grid w-full flex-row text-[#1e293b] md:grid-cols-2 lg:grid-cols-1">
+                  <div className="pt-4">
+                    <div className="text-md grid w-full text-[#1e293b] md:grid-cols-2 lg:grid-cols-1">
                       Special Benefits:
                       <Input className="w-full" {...field} />
                     </div>
@@ -333,7 +328,7 @@ const CompanyHmoInformation: FC<CompanyHmoInformationProps> = ({ id }) => {
           />
           <CompanyInformationItem
             label={'Total Premium Paid'}
-            value={account?.total_premium_paid?.toString()}
+            value={formatCurrency(account?.total_premium_paid)}
           />
           <CompanyInformationItem
             label={'Additional Benefits'}

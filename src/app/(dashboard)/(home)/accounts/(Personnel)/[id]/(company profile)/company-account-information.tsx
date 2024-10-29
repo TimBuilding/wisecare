@@ -22,19 +22,10 @@ import {
 } from '@/components/ui/select'
 import getTypes from '@/queries/get-types'
 import getAgents from '@/queries/get-agents'
-
-const CompanyInformationItem = ({
-  label,
-  value,
-}: {
-  label: string
-  value?: string | undefined
-}) => (
-  <div className="flex flex-col py-1">
-    <div className="text-sm font-medium text-muted-foreground">{label}</div>
-    <div className="text-md font-semibold">{value || 'No data'}</div>
-  </div>
-)
+import { useMaskito } from '@maskito/react'
+import percentageOptions from '@/components/maskito/percentage-options'
+import { formatPercentage } from '@/app/(dashboard)/(home)/accounts/columns/accounts-columns'
+import CompanyInformationItem from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(company profile)/company-information-item'
 
 interface CompanyAccountInformationProps {
   id: string
@@ -50,6 +41,8 @@ const CompanyAccountInformation: FC<CompanyAccountInformationProps> = ({
   const { data: accountType } = useQuery(getTypes(supabase, 'account_types'))
   const { data: agents } = useQuery(getAgents(supabase))
 
+  const maskedPercentageRef = useMaskito({ options: percentageOptions })
+
   return (
     <>
       {editMode ? (
@@ -59,8 +52,8 @@ const CompanyAccountInformation: FC<CompanyAccountInformationProps> = ({
             name="account_type_id"
             render={({ field }) => (
               <FormItem>
-                <div className="flex flex-row pt-4">
-                  <div className="text-md flex grid w-full flex-row text-[#1e293b] md:grid-cols-2 lg:grid-cols-1">
+                <div className="pt-4">
+                  <div className="text-md grid w-full text-[#1e293b] md:grid-cols-2 lg:grid-cols-1">
                     Account Type:
                     <Select
                       onValueChange={field.onChange}
@@ -90,8 +83,8 @@ const CompanyAccountInformation: FC<CompanyAccountInformationProps> = ({
             name="agent_id"
             render={({ field }) => (
               <FormItem>
-                <div className="flex flex-row pt-4">
-                  <div className="text-md flex grid w-full flex-row text-[#1e293b] md:grid-cols-2 lg:grid-cols-1">
+                <div className="pt-4">
+                  <div className="text-md grid w-full text-[#1e293b] md:grid-cols-2 lg:grid-cols-1">
                     Agent:
                     <Select
                       onValueChange={field.onChange}
@@ -104,7 +97,7 @@ const CompanyAccountInformation: FC<CompanyAccountInformationProps> = ({
                       </FormControl>
                       <SelectContent>
                         {agents &&
-                          agents[0].user_profiles.map((profile) => (
+                          agents.map((profile) => (
                             <SelectItem
                               key={profile.user_id}
                               value={profile.user_id}
@@ -126,15 +119,18 @@ const CompanyAccountInformation: FC<CompanyAccountInformationProps> = ({
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <div className="flex flex-row pt-4">
-                    <div className="text-md flex grid w-full flex-row text-[#1e293b] md:grid-cols-2 lg:grid-cols-1">
+                  <div className="pt-4">
+                    <div className="text-md w-full text-[#1e293b] md:grid md:grid-cols-2 lg:grid-cols-1">
                       Commission Rate:
                       <Input
                         className="w-full"
                         {...field}
-                        type="number"
-                        min="0"
-                        step="0.01"
+                        type="text"
+                        ref={maskedPercentageRef}
+                        onInput={(e) =>
+                          // @ts-ignore
+                          form.setValue(field.name, e.target.value)
+                        }
                       />
                     </div>
                   </div>
@@ -157,12 +153,12 @@ const CompanyAccountInformation: FC<CompanyAccountInformationProps> = ({
             value={
               account?.agent
                 ? `${account?.agent?.first_name} ${account?.agent?.last_name}`
-                : 'No data'
+                : undefined
             }
           />
           <CompanyInformationItem
             label="Commission Rate"
-            value={account?.commision_rate?.toString()}
+            value={formatPercentage(account?.commision_rate)}
           />
         </div>
       )}

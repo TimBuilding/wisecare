@@ -9,13 +9,13 @@ import { FC } from 'react'
 
 interface DeleteBillingStatementProps {
   id: string
-  setOpenModalOpen?: (open: boolean) => void
+  setOpen: (_x: boolean) => void
 }
 
 const DeleteBillingStatement: FC<DeleteBillingStatementProps> = ({
   id,
-  setOpenModalOpen,
-}) => {
+  setOpen,
+}: DeleteBillingStatementProps) => {
   const { openConfirmation } = useConfirmationStore()
   const { toast } = useToast()
 
@@ -32,11 +32,7 @@ const DeleteBillingStatement: FC<DeleteBillingStatementProps> = ({
           title: 'Billing Statement Deleted',
           description: 'The billing statement has been successfully deleted.',
         })
-
-        // close modal if setOpenModalOpen is provided
-        if (setOpenModalOpen) {
-          setOpenModalOpen(false)
-        }
+        setOpen(false)
       },
       onError: (error) => {
         toast({
@@ -67,6 +63,7 @@ const DeleteBillingStatement: FC<DeleteBillingStatementProps> = ({
               'This action CANNOT be undone. This will permanently delete the billing statement.',
             cancelLabel: 'Cancel',
             actionLabel: 'I understand, delete this billing statement',
+            confirmationButtonVariant: 'destructive',
             onAction: () => onDeleteHandler(),
             onCancel: () => {},
           })

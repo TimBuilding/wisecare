@@ -1,8 +1,5 @@
-import {
-  PageDescription,
-  PageHeader,
-  PageTitle,
-} from '@/components/page-header'
+'use server'
+import { PageHeader, PageTitle } from '@/components/page-header'
 import { createServerClient } from '@/utils/supabase'
 import { prefetchQuery } from '@supabase-cache-helpers/postgrest-react-query'
 import {
@@ -11,11 +8,17 @@ import {
   dehydrate,
 } from '@tanstack/react-query'
 import { cookies } from 'next/headers'
-import AgentsList from './agents-list'
 import AgentsCount from './agents-count'
-
-import getAgents from '@/queries/get-agents'
+import AgentsList from './agents-list'
 import AddAgent from '@/app/(dashboard)/admin/agents/create/add-agent'
+import getAgents from '@/queries/get-agents'
+import { Metadata } from 'next'
+
+export const metadata = async (): Promise<Metadata> => {
+  return {
+    title: 'Manage Agents',
+  }
+}
 
 const AgentsPage = async () => {
   const queryClient = new QueryClient()

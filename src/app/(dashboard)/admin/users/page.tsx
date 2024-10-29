@@ -10,6 +10,13 @@ import {
 } from '@tanstack/react-query'
 import { cookies } from 'next/headers'
 import UserList from './user-list'
+import { Metadata } from 'next'
+
+export const metadata = async (): Promise<Metadata> => {
+  return {
+    title: 'Users',
+  }
+}
 
 const UsersPage = async () => {
   const queryClient = new QueryClient()

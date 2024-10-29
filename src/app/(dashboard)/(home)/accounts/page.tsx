@@ -11,6 +11,13 @@ import {
 import { cookies } from 'next/headers'
 import AccountsTable from './accounts-table'
 import pageProtect from '@/utils/page-protect'
+import { Metadata } from 'next'
+
+export const metadata = async (): Promise<Metadata> => {
+  return {
+    title: 'Accounts',
+  }
+}
 
 const AccountsPage = async () => {
   const supabase = createServerClient(cookies())

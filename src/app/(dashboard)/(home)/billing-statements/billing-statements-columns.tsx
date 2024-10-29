@@ -2,6 +2,10 @@ import { ColumnDef } from '@tanstack/react-table'
 import TableHeader from '@/components/table-header'
 import { format } from 'date-fns'
 import { Tables } from '@/types/database.types'
+import {
+  formatCurrency,
+  formatPercentage,
+} from '@/app/(dashboard)/(home)/accounts/columns/accounts-columns'
 
 const billingStatementsColumns: ColumnDef<Tables<'billing_statements'>>[] = [
   {
@@ -22,10 +26,12 @@ const billingStatementsColumns: ColumnDef<Tables<'billing_statements'>>[] = [
         <div>
           {row.original.due_date
             ? format(row.getValue('due_date'), 'MMMM dd, yyyy')
-            : 'N/A'}
+            : ''}
         </div>
       )
     },
+    accessorFn: (originalRow) =>
+      originalRow.due_date ? format(originalRow.due_date, 'MMMM dd, yyyy') : '',
   },
   {
     accessorKey: 'or_number',
@@ -39,10 +45,12 @@ const billingStatementsColumns: ColumnDef<Tables<'billing_statements'>>[] = [
         <div>
           {row.original.or_date
             ? format(row.getValue('or_date'), 'MMMM dd, yyyy')
-            : 'N/A'}
+            : ''}
         </div>
       )
     },
+    accessorFn: (originalRow) =>
+      originalRow.or_date ? format(originalRow.or_date, 'MMMM dd, yyyy') : '',
   },
   {
     accessorKey: 'sa_number',
@@ -51,16 +59,22 @@ const billingStatementsColumns: ColumnDef<Tables<'billing_statements'>>[] = [
   {
     accessorKey: 'amount',
     header: ({ column }) => <TableHeader column={column} title="Amount" />,
+    cell: ({ getValue }) =>
+      formatCurrency(getValue<number | null | undefined>()),
   },
   {
     accessorKey: 'total_contract_value',
     header: ({ column }) => (
       <TableHeader column={column} title="Total Contract Value" />
     ),
+    cell: ({ getValue }) =>
+      formatCurrency(getValue<number | null | undefined>()),
   },
   {
     accessorKey: 'balance',
     header: ({ column }) => <TableHeader column={column} title="Balance" />,
+    cell: ({ getValue }) =>
+      formatCurrency(getValue<number | null | undefined>()),
   },
   {
     accessorKey: 'billing_period',
@@ -73,29 +87,30 @@ const billingStatementsColumns: ColumnDef<Tables<'billing_statements'>>[] = [
     header: ({ column }) => (
       <TableHeader column={column} title="Amount Billed" />
     ),
+    cell: ({ getValue }) =>
+      formatCurrency(getValue<number | null | undefined>()),
   },
   {
     accessorKey: 'amount_paid',
     header: ({ column }) => <TableHeader column={column} title="Amount Paid" />,
+    cell: ({ getValue }) =>
+      formatCurrency(getValue<number | null | undefined>()),
   },
   {
     accessorKey: 'commission_rate',
     header: ({ column }) => (
       <TableHeader column={column} title="Commission Rate" />
     ),
+    cell: ({ getValue }) =>
+      formatPercentage(getValue<number | null | undefined>()),
   },
   {
     accessorKey: 'commission_earned',
     header: ({ column }) => (
       <TableHeader column={column} title="Commission Earned" />
     ),
-  },
-  {
-    accessorKey: 'created_at',
-    header: ({ column }) => <TableHeader column={column} title="Created At" />,
-    cell: ({ row }) => {
-      return <div>{format(row.getValue('created_at'), 'MMMM dd, yyyy p')}</div>
-    },
+    cell: ({ getValue }) =>
+      formatPercentage(getValue<number | null | undefined>()),
   },
 ]
 

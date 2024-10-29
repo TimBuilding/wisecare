@@ -42,7 +42,7 @@ const BillingStatements: FC<Props> = ({ companyId }) => {
           <Collapsible
             key={billing.id}
             className={
-              'mx-auto w-full rounded-2xl border border-slate-200 bg-background p-6 drop-shadow-md'
+              'mx-auto w-full rounded-2xl border border-border bg-card p-6'
             }
           >
             <CollapsibleTrigger asChild={true}>
@@ -63,7 +63,7 @@ const BillingStatements: FC<Props> = ({ companyId }) => {
                   data={{ ...billing } as BillingInfoProps['data']}
                 />
                 <div className="flex flex-row items-center justify-end lg:ml-auto lg:items-end">
-                  <DeleteBillingStatement id={billing.id} />
+                  <DeleteBillingStatement setOpen={() => {}} id={billing.id} />
                 </div>
               </div>
             </CollapsibleContent>

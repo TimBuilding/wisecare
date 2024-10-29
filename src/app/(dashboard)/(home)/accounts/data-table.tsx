@@ -1,5 +1,6 @@
 'use client'
 
+import ExportAccounts from '@/app/(dashboard)/(home)/accounts/export-accounts'
 import {
   PageDescription,
   PageHeader,
@@ -18,12 +19,10 @@ import {
   TableRow,
 } from '@/components/ui/table'
 import { useToast } from '@/components/ui/use-toast'
-import { useTableContext } from '@/providers/TableProvider'
 import { createBrowserClient } from '@/utils/supabase'
 import { useQuery } from '@supabase-cache-helpers/postgrest-react-query'
 import {
   ColumnDef,
-  ColumnFiltersState,
   SortingState,
   VisibilityState,
   flexRender,
@@ -37,8 +36,7 @@ import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import AccountsProvider from './accounts-provider'
 import AddAccountButton from './add-account-button'
-import AddAccountForm from './add-account-form'
-import ExportAccounts from '@/app/(dashboard)/(home)/accounts/export-accounts'
+import getAccounts from '@/queries/get-accounts'
 
 interface IData {
   id: string
@@ -78,9 +76,7 @@ const DataTable = <TData extends IData, TValue>({
   })
 
   const supabase = createBrowserClient()
-  const { count: totalCount, isLoading } = useQuery(
-    supabase.from('accounts').select('*', { head: true, count: 'exact' }),
-  )
+  const { count, isLoading } = useQuery(getAccounts(supabase))
 
   useEffect(() => {
     const upsertColumnVisibility = async () => {
@@ -148,7 +144,7 @@ const DataTable = <TData extends IData, TValue>({
               {isLoading ? (
                 <Skeleton className="h-4 w-20" />
               ) : (
-                <PageDescription>{totalCount} Accounts</PageDescription>
+                <PageDescription>{count} Accounts</PageDescription>
               )}
             </div>
             <div className="flex flex-row gap-4">
@@ -181,7 +177,6 @@ const DataTable = <TData extends IData, TValue>({
                 ))}
               </TableHeader>
               <TableBody>
-                <AddAccountForm />
                 {table.getRowModel().rows?.length ? (
                   table.getRowModel().rows.map((row) => {
                     return (

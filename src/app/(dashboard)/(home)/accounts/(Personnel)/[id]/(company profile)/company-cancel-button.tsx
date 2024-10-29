@@ -7,7 +7,7 @@ const CompanyCancelButton = () => {
   const { editMode, setEditMode } = useCompanyEditContext()
   return (
     <Button
-      variant="default"
+      variant="outline"
       className="w-full lg:w-auto"
       type="button"
       onClick={() => setEditMode(false)}

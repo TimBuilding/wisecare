@@ -3,6 +3,8 @@
 import { useCompanyContext } from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(company profile)/company-provider'
 import BillingStatementSchema from '@/app/(dashboard)/(home)/billing-statements/billing-statement-schema'
 import DeleteBillingStatement from '@/components/billing-statement/delete-billing-statement'
+import currencyOptions from '@/components/maskito/currency-options'
+import percentageOptions from '@/components/maskito/percentage-options'
 import { Button } from '@/components/ui/button'
 import { Calendar } from '@/components/ui/calendar'
 import {
@@ -42,15 +44,21 @@ import { Tables } from '@/types/database.types'
 import { createBrowserClient } from '@/utils/supabase'
 import { cn } from '@/utils/tailwind'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { maskitoTransform } from '@maskito/core'
+import { useMaskito } from '@maskito/react'
 import {
-  useInsertMutation,
   useQuery,
-  useUpdateMutation,
+  useUpsertMutation,
 } from '@supabase-cache-helpers/postgrest-react-query'
-import { useQueryClient } from '@tanstack/react-query'
 import { format } from 'date-fns'
 import { CalendarIcon, Loader2 } from 'lucide-react'
-import { FormEventHandler, ReactNode, useCallback, useEffect } from 'react'
+import {
+  FormEventHandler,
+  ReactNode,
+  useCallback,
+  useEffect,
+  useState,
+} from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
@@ -68,7 +76,7 @@ const BillingStatementModal = <TData,>({
   setOpen,
 }: Props<TData>) => {
   const { toast } = useToast()
-  const queryClient = useQueryClient()
+  const [tableRerender, setTableRerender] = useState(0)
 
   const form = useForm<z.infer<typeof BillingStatementSchema>>({
     resolver: zodResolver(BillingStatementSchema),
@@ -97,93 +105,98 @@ const BillingStatementModal = <TData,>({
 
   const { data: accounts } = useQuery(getAllAccounts(supabase))
 
-  const { mutateAsync: insertBillingStatement, isPending: isInsertPending } =
-    useInsertMutation(
-      // @ts-ignore
-      supabase.from('billing_statements'),
-      ['id'],
-      'id, account_id, mode_of_payment_id, due_date, or_number, or_date, sa_number, amount, total_contract_value, balance, billing_period, amount_billed, amount_paid, commission_rate, commission_earned',
-      {
-        onSuccess: () => {
-          setOpen(false)
+  const { mutateAsync, isPending } = useUpsertMutation(
+    // @ts-ignore
+    supabase.from('billing_statements'),
+    ['id'],
+    null,
+    {
+      onSuccess: () => {
+        setOpen(false)
 
-          toast({
-            variant: 'default',
-            title: 'Billing Statement added!',
-            description: 'Successfully added billing statement',
-          })
+        toast({
+          variant: 'default',
+          title: originalData
+            ? 'Billing Statement updated!'
+            : 'Billing Statement created!',
+          description: originalData
+            ? 'Successfully updated billing statement'
+            : 'Successfully created billing statement',
+        })
 
-          // reset form
+        // if creating new billing statement. then we should reset the form
+        if (!originalData) {
           form.reset()
+        }
 
-          // reset cache
-          queryClient.invalidateQueries()
-        },
-        onError: (error) => {
-          toast({
-            variant: 'destructive',
-            title: 'Error',
-            description: error.message,
-          })
-        },
+        // rerender table to refresh masking inputs
+        setTableRerender((prev) => prev + 1)
       },
-    )
-
-  const { mutateAsync: updateBillingStatement, isPending: isUpdatePending } =
-    useUpdateMutation(
-      // @ts-ignore
-      supabase.from('billing_statements'),
-      ['id'],
-      'id, account_id, mode_of_payment_id, due_date, or_number, or_date, sa_number, amount, total_contract_value, balance, billing_period, amount_billed, amount_paid, commission_rate, commission_earned',
-      {
-        onSuccess: () => {
-          toast({
-            variant: 'default',
-            title: 'Billing Statement updated!',
-            description: 'Successfully updated billing statement',
-          })
-
-          // clear cache
-          queryClient.invalidateQueries()
-        },
-        onError: (error) => {
-          toast({
-            variant: 'destructive',
-            title: 'Error',
-            description: error.message,
-          })
-        },
+      onError: (error) => {
+        toast({
+          variant: 'destructive',
+          title: 'Error',
+          description: error.message,
+        })
       },
-    )
+    },
+  )
 
   // only used for edit. it fetches the original data from the database
   useEffect(() => {
     if (originalData) {
-      const resetData = Object.fromEntries(
-        Object.entries(originalData).map(([key, value]) => [
-          key,
-          value === null ? undefined : value,
-        ]),
-      ) as unknown as z.infer<typeof BillingStatementSchema>
-
-      if ((originalData as any).account && (originalData as any).account.id) {
-        resetData.account_id = (originalData as any).account.id
-      }
-
-      if (
-        (originalData as any).mode_of_payment &&
-        (originalData as any).mode_of_payment.id
-      ) {
-        resetData.mode_of_payment_id = (originalData as any).mode_of_payment.id
-      }
-
-      if (originalData.due_date) {
-        resetData.due_date = new Date(originalData.due_date)
-      }
-
-      if (originalData.or_date) {
-        resetData.or_date = new Date(originalData.or_date)
-      }
+      const resetData = {
+        ...Object.fromEntries(
+          Object.entries(originalData).map(([key, value]) => [
+            key,
+            value === null ? undefined : value,
+          ]),
+        ),
+        account_id: (originalData as any).account?.id,
+        mode_of_payment_id: (originalData as any).mode_of_payment?.id,
+        due_date: originalData.due_date
+          ? new Date(originalData.due_date)
+          : undefined,
+        or_date: originalData.or_date
+          ? new Date(originalData.or_date)
+          : undefined,
+        amount: originalData.amount
+          ? maskitoTransform(originalData.amount.toString(), currencyOptions)
+          : undefined,
+        total_contract_value: originalData.total_contract_value
+          ? maskitoTransform(
+              originalData.total_contract_value.toString(),
+              currencyOptions,
+            )
+          : undefined,
+        balance: originalData.balance
+          ? maskitoTransform(originalData.balance.toString(), currencyOptions)
+          : undefined,
+        amount_billed: originalData.amount_billed
+          ? maskitoTransform(
+              originalData.amount_billed.toString(),
+              currencyOptions,
+            )
+          : undefined,
+        amount_paid: originalData.amount_paid
+          ? maskitoTransform(
+              originalData.amount_paid.toString(),
+              currencyOptions,
+            )
+          : undefined,
+        commission_rate: originalData.commission_rate
+          ? maskitoTransform(
+              originalData.commission_rate.toString(),
+              percentageOptions,
+            )
+          : undefined,
+        commission_earned: originalData.commission_earned
+          ? maskitoTransform(
+              originalData.commission_earned.toString(),
+              currencyOptions,
+            )
+          : undefined,
+      } as unknown as z.infer<typeof BillingStatementSchema>
 
       form.reset(resetData)
     }
@@ -192,47 +205,14 @@ const BillingStatementModal = <TData,>({
   const onSubmitHandler = useCallback<FormEventHandler<HTMLFormElement>>(
     (e) => {
       form.handleSubmit(async (data) => {
-        if (originalData) {
-          await updateBillingStatement({
-            id: originalData.id,
-            account_id: data.account_id,
-            mode_of_payment_id: data.mode_of_payment_id,
-            due_date: data.due_date,
-            or_number: data.or_number,
-            or_date: data.or_date,
-            sa_number: data.sa_number,
-            amount: data.amount,
-            total_contract_value: data.total_contract_value,
-            balance: data.balance,
-            billing_period: data.billing_period,
-            amount_billed: data.amount_billed,
-            amount_paid: data.amount_paid,
-            commission_rate: data.commission_rate,
-            commission_earned: data.commission_earned,
-          })
-        } else {
-          await insertBillingStatement([
-            {
-              account_id: data.account_id,
-              mode_of_payment_id: data.mode_of_payment_id,
-              due_date: data.due_date,
-              or_number: data.or_number,
-              or_date: data.or_date,
-              sa_number: data.sa_number,
-              amount: data.amount,
-              total_contract_value: data.total_contract_value,
-              balance: data.balance,
-              billing_period: data.billing_period,
-              amount_billed: data.amount_billed,
-              amount_paid: data.amount_paid,
-              commission_rate: data.commission_rate,
-              commission_earned: data.commission_earned,
-            },
-          ])
-        }
+        await mutateAsync({
+          ...data,
+          // @ts-ignore
+          id: originalData?.id ? originalData.id : undefined,
+        })
       })(e)
     },
-    [form, originalData, updateBillingStatement, insertBillingStatement],
+    [form, originalData?.id, mutateAsync],
   )
 
   // if the modal is opened from the Company Profile page,
@@ -246,6 +226,14 @@ const BillingStatementModal = <TData,>({
       })
     }
   }, [CompanyContext, form])
+
+  const maskedAmountRef = useMaskito({ options: currencyOptions })
+  const maskedTotalContractValueRef = useMaskito({ options: currencyOptions })
+  const maskedBalanceRef = useMaskito({ options: currencyOptions })
+  const maskedAmountBilledRef = useMaskito({ options: currencyOptions })
+  const maskedAmountPaidRef = useMaskito({ options: currencyOptions })
+  const maskedCommissionRateRef = useMaskito({ options: percentageOptions })
+  const maskedCommissionEarnedRef = useMaskito({ options: currencyOptions })
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -262,7 +250,7 @@ const BillingStatementModal = <TData,>({
           </DialogDescription>
         </DialogHeader>
         <Form {...form}>
-          <form onSubmit={onSubmitHandler}>
+          <form onSubmit={onSubmitHandler} key={tableRerender}>
             <div className="grid grid-cols-2 gap-4 py-4">
               <FormField
                 control={form.control}
@@ -275,7 +263,7 @@ const BillingStatementModal = <TData,>({
                         {...field}
                         onValueChange={field.onChange}
                         defaultValue={field.value}
-                        disabled={isUpdatePending || isInsertPending}
+                        disabled={isPending}
                       >
                         <SelectTrigger className="col-span-3">
                           <SelectValue placeholder="Select Account" />
@@ -306,7 +294,7 @@ const BillingStatementModal = <TData,>({
                         {...field}
                         onValueChange={field.onChange}
                         defaultValue={field.value}
-                        disabled={isUpdatePending || isInsertPending}
+                        disabled={isPending}
                       >
                         <SelectTrigger className="col-span-3">
                           <SelectValue placeholder="Select Mode of Payment" />
@@ -342,7 +330,7 @@ const BillingStatementModal = <TData,>({
                                 !field.value && 'text-muted-foreground',
                                 'text-left font-normal',
                               )}
-                              disabled={isUpdatePending || isInsertPending}
+                              disabled={isPending}
                             >
                               {field.value ? (
                                 format(field.value, 'PPP')
@@ -359,6 +347,17 @@ const BillingStatementModal = <TData,>({
                             selected={field.value}
                             onSelect={field.onChange}
                             initialFocus
+                            captionLayout="dropdown"
+                            toYear={new Date().getFullYear() + 20}
+                            fromYear={1900}
+                            classNames={{
+                              day_hidden: 'invisible',
+                              dropdown:
+                                'px-2 py-1.5 max-h-[100px] overflow-y-auto rounded-md bg-popover text-popover-foreground text-sm  focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 ring-offset-background',
+                              caption_dropdowns: 'flex gap-3',
+                              vhidden: 'hidden',
+                              caption_label: 'hidden',
+                            }}
                           />
                         </PopoverContent>
                       </Popover>
@@ -374,10 +373,7 @@ const BillingStatementModal = <TData,>({
                   <FormItem className="grid grid-cols-4 items-center gap-x-4 gap-y-0">
                     <FormLabel className="text-right">OR Number</FormLabel>
                     <FormControl className="col-span-3">
-                      <Input
-                        {...field}
-                        disabled={isUpdatePending || isInsertPending}
-                      />
+                      <Input {...field} disabled={isPending} />
                     </FormControl>
                     <FormMessage className="col-span-3 col-start-2" />
                   </FormItem>
@@ -400,7 +396,7 @@ const BillingStatementModal = <TData,>({
                                 !field.value && 'text-muted-foreground',
                                 'text-left font-normal',
                               )}
-                              disabled={isUpdatePending || isInsertPending}
+                              disabled={isPending}
                             >
                               {field.value ? (
                                 format(field.value, 'PPP')
@@ -417,6 +413,17 @@ const BillingStatementModal = <TData,>({
                             selected={field.value}
                             onSelect={field.onChange}
                             initialFocus
+                            captionLayout="dropdown"
+                            toYear={new Date().getFullYear() + 20}
+                            fromYear={1900}
+                            classNames={{
+                              day_hidden: 'invisible',
+                              dropdown:
+                                'px-2 py-1.5 max-h-[100px] overflow-y-auto rounded-md bg-popover text-popover-foreground text-sm  focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 ring-offset-background',
+                              caption_dropdowns: 'flex gap-3',
+                              vhidden: 'hidden',
+                              caption_label: 'hidden',
+                            }}
                           />
                         </PopoverContent>
                       </Popover>
@@ -432,10 +439,7 @@ const BillingStatementModal = <TData,>({
                   <FormItem className="grid grid-cols-4 items-center gap-x-4 gap-y-0">
                     <FormLabel className="text-right">SA Number</FormLabel>
                     <FormControl className="col-span-3">
-                      <Input
-                        {...field}
-                        disabled={isUpdatePending || isInsertPending}
-                      />
+                      <Input {...field} disabled={isPending} />
                     </FormControl>
                     <FormMessage className="col-span-3 col-start-2" />
                   </FormItem>
@@ -449,9 +453,11 @@ const BillingStatementModal = <TData,>({
                     <FormLabel className="text-right">Amount</FormLabel>
                     <FormControl className="col-span-3">
                       <Input
-                        type="number"
                         {...field}
-                        disabled={isUpdatePending || isInsertPending}
+                        disabled={isPending}
+                        value={field.value ?? ''}
+                        ref={maskedAmountRef}
+                        onInput={field.onChange}
                       />
                     </FormControl>
                     <FormMessage className="col-span-3 col-start-2" />
@@ -468,9 +474,11 @@ const BillingStatementModal = <TData,>({
                     </FormLabel>
                     <FormControl className="col-span-3">
                       <Input
-                        type="number"
                         {...field}
-                        disabled={isUpdatePending || isInsertPending}
+                        disabled={isPending}
+                        ref={maskedTotalContractValueRef}
+                        onInput={field.onChange}
+                        value={field.value ?? ''}
                       />
                     </FormControl>
                     <FormMessage className="col-span-3 col-start-2" />
@@ -485,9 +493,11 @@ const BillingStatementModal = <TData,>({
                     <FormLabel className="text-right">Balance</FormLabel>
                     <FormControl className="col-span-3">
                       <Input
-                        type="number"
                         {...field}
-                        disabled={isUpdatePending || isInsertPending}
+                        disabled={isPending}
+                        ref={maskedBalanceRef}
+                        onInput={field.onChange}
+                        value={field.value ?? ''}
                       />
                     </FormControl>
                     <FormMessage className="col-span-3 col-start-2" />
@@ -501,11 +511,7 @@ const BillingStatementModal = <TData,>({
                   <FormItem className="grid grid-cols-4 items-center gap-x-4 gap-y-0">
                     <FormLabel className="text-right">Billing Period</FormLabel>
                     <FormControl className="col-span-3">
-                      <Input
-                        type="number"
-                        {...field}
-                        disabled={isUpdatePending || isInsertPending}
-                      />
+                      <Input type="number" {...field} disabled={isPending} />
                     </FormControl>
                     <FormMessage className="col-span-3 col-start-2" />
                   </FormItem>
@@ -519,9 +525,11 @@ const BillingStatementModal = <TData,>({
                     <FormLabel className="text-right">Amount Billed</FormLabel>
                     <FormControl className="col-span-3">
                       <Input
-                        type="number"
                         {...field}
-                        disabled={isUpdatePending || isInsertPending}
+                        disabled={isPending}
+                        ref={maskedAmountBilledRef}
+                        onInput={field.onChange}
+                        value={field.value ?? ''}
                       />
                     </FormControl>
                     <FormMessage className="col-span-3 col-start-2" />
@@ -536,9 +544,11 @@ const BillingStatementModal = <TData,>({
                     <FormLabel className="text-right">Amount Paid</FormLabel>
                     <FormControl className="col-span-3">
                       <Input
-                        type="number"
                         {...field}
-                        disabled={isUpdatePending || isInsertPending}
+                        disabled={isPending}
+                        ref={maskedAmountPaidRef}
+                        onInput={field.onChange}
+                        value={field.value ?? ''}
                       />
                     </FormControl>
                     <FormMessage className="col-span-3 col-start-2" />
@@ -555,9 +565,11 @@ const BillingStatementModal = <TData,>({
                     </FormLabel>
                     <FormControl className="col-span-3">
                       <Input
-                        type="number"
                         {...field}
-                        disabled={isUpdatePending || isInsertPending}
+                        disabled={isPending}
+                        value={field.value ?? ''}
+                        ref={maskedCommissionRateRef}
+                        onInput={field.onChange}
                       />
                     </FormControl>
                     <FormMessage className="col-span-3 col-start-2" />
@@ -574,9 +586,11 @@ const BillingStatementModal = <TData,>({
                     </FormLabel>
                     <FormControl className="col-span-3">
                       <Input
-                        type="number"
                         {...field}
-                        disabled={isUpdatePending || isInsertPending}
+                        disabled={isPending}
+                        value={field.value ?? ''}
+                        ref={maskedCommissionEarnedRef}
+                        onInput={field.onChange}
                       />
                     </FormControl>
                     <FormMessage className="col-span-3 col-start-2" />
@@ -593,23 +607,20 @@ const BillingStatementModal = <TData,>({
               {originalData && (
                 <DeleteBillingStatement
                   id={originalData.id}
-                  setOpenModalOpen={setOpen}
+                  setOpen={setOpen}
                 />
               )}
               <div className="space-x-2">
                 <Button
                   variant="outline"
-                  disabled={isUpdatePending || isInsertPending}
+                  disabled={isPending}
                   onClick={() => setOpen(false)}
                   type="button"
                 >
                   Cancel
                 </Button>
-                <Button
-                  type="submit"
-                  disabled={isUpdatePending || isInsertPending}
-                >
-                  {isUpdatePending || isInsertPending ? (
+                <Button type="submit" disabled={isPending}>
+                  {isPending ? (
                     <Loader2 className="animate-spin" />
                   ) : originalData ? (
                     'Update Billing Statement'

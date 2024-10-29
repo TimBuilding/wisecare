@@ -1,18 +1,20 @@
-import React, { FC } from 'react'
-import { createBrowserClient } from '@/utils/supabase'
-import getAccountById from '@/queries/get-account-by-id'
-import { useQuery } from '@supabase-cache-helpers/postgrest-react-query'
-import { Input } from '@/components/ui/input'
 import { useCompanyEditContext } from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(company profile)/company-edit-provider'
 import companyEditsSchema from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(company profile)/company-edits-schema'
+import currencyOptions from '@/components/maskito/currency-options'
+import { Button } from '@/components/ui/button'
+import { Calendar } from '@/components/ui/calendar'
 import {
   FormControl,
   FormField,
   FormItem,
   FormMessage,
 } from '@/components/ui/form'
-import { useFormContext } from 'react-hook-form'
-import { z } from 'zod'
+import { Input } from '@/components/ui/input'
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/components/ui/popover'
 import {
   Select,
   SelectContent,
@@ -20,30 +22,19 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
+import getAccountById from '@/queries/get-account-by-id'
 import getTypes from '@/queries/get-types'
-import { Calendar } from '@/components/ui/calendar'
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from '@/components/ui/popover'
-import { Button } from '@/components/ui/button'
+import { createBrowserClient } from '@/utils/supabase'
 import { cn } from '@/utils/tailwind'
-import { CalendarIcon } from 'lucide-react'
+import { useMaskito } from '@maskito/react'
+import { useQuery } from '@supabase-cache-helpers/postgrest-react-query'
 import { format } from 'date-fns'
-
-const CompanyInformationItem = ({
-  label,
-  value,
-}: {
-  label: string
-  value?: string | undefined
-}) => (
-  <div className="flex flex-col py-1">
-    <div className="text-sm font-medium text-muted-foreground">{label}</div>
-    <div className="text-md font-semibold">{value || 'No data'}</div>
-  </div>
-)
+import { CalendarIcon } from 'lucide-react'
+import { FC } from 'react'
+import { useFormContext } from 'react-hook-form'
+import { z } from 'zod'
+import { formatCurrency } from '@/app/(dashboard)/(home)/accounts/columns/accounts-columns'
+import CompanyInformationItem from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(company profile)/company-information-item'
 
 interface CompanyContractInformationProps {
   id: string
@@ -52,17 +43,15 @@ interface CompanyContractInformationProps {
 const CompanyContractInformation: FC<CompanyContractInformationProps> = ({
   id,
 }) => {
-  const { editMode, setEditMode } = useCompanyEditContext()
+  const { editMode } = useCompanyEditContext()
   const form = useFormContext<z.infer<typeof companyEditsSchema>>()
   const supabase = createBrowserClient()
   const { data: account } = useQuery(getAccountById(supabase, id))
   const { data: modeOfPayments } = useQuery(
     getTypes(supabase, 'mode_of_payments'),
   )
-  const { data: modeOfPremiums, isLoading: isModeOfPremiumLoading } = useQuery(
-    getTypes(supabase, 'mode_of_premium'),
-  )
 
+  const maskedInitialContractValueRef = useMaskito({ options: currencyOptions })
   return (
     <>
       {editMode ? (
@@ -72,14 +61,15 @@ const CompanyContractInformation: FC<CompanyContractInformationProps> = ({
             name="initial_contract_value"
             render={({ field }) => (
               <FormItem>
-                <div className="flex flex-row pt-4">
-                  <div className="text-md flex grid w-full flex-row text-[#1e293b] md:grid-cols-2 lg:grid-cols-1">
+                <div className="pt-4">
+                  <div className="text-md grid w-full text-[#1e293b] md:grid-cols-2 lg:grid-cols-1">
                     Initial Contract Value:
                     <Input
                       className="w-full"
                       {...field}
-                      type="number"
-                      value={field.value?.toString()}
+                      value={field.value ?? ''}
+                      onInput={field.onChange}
+                      ref={maskedInitialContractValueRef}
                     />
                   </div>
                 </div>
@@ -93,8 +83,8 @@ const CompanyContractInformation: FC<CompanyContractInformationProps> = ({
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <div className="flex flex-row pt-4">
-                    <div className="text-md flex grid w-full flex-row text-[#1e293b] md:grid-cols-2 lg:grid-cols-1">
+                  <div className="pt-4">
+                    <div className="text-md grid w-full text-[#1e293b] md:grid-cols-2 lg:grid-cols-1">
                       Initial Head Count:
                       <Input
                         className="w-full"
@@ -114,8 +104,8 @@ const CompanyContractInformation: FC<CompanyContractInformationProps> = ({
             name="mode_of_payment_id"
             render={({ field }) => (
               <FormItem>
-                <div className="flex flex-row pt-4">
-                  <div className="text-md flex grid w-full flex-row text-[#1e293b] md:grid-cols-2 lg:grid-cols-1">
+                <div className="pt-4">
+                  <div className="text-md grid w-full text-[#1e293b] md:grid-cols-2 lg:grid-cols-1">
                     Mode of Payment:
                     <Select
                       onValueChange={field.onChange}
@@ -147,8 +137,8 @@ const CompanyContractInformation: FC<CompanyContractInformationProps> = ({
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <div className="flex flex-row pt-4">
-                    <div className="text-md flex grid w-full flex-row text-[#1e293b] md:grid-cols-2 lg:grid-cols-1">
+                  <div className="pt-4">
+                    <div className="text-md w-full text-[#1e293b] md:grid md:grid-cols-2 lg:grid-cols-1">
                       Expiration Date:
                       <Popover>
                         <PopoverTrigger asChild>
@@ -175,10 +165,19 @@ const CompanyContractInformation: FC<CompanyContractInformationProps> = ({
                             mode="single"
                             selected={field.value ?? undefined}
                             onSelect={field.onChange}
-                            disabled={(date) =>
-                              date > new Date() || date < new Date('1900-01-01')
-                            }
+                            disabled={(date) => date < new Date('1900-01-01')}
                             initialFocus
+                            captionLayout="dropdown"
+                            toYear={new Date().getFullYear() + 20}
+                            fromYear={1900}
+                            classNames={{
+                              day_hidden: 'invisible',
+                              dropdown:
+                                'px-2 py-1.5 max-h-[100px] overflow-y-auto rounded-md bg-popover text-popover-foreground text-sm  focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 ring-offset-background',
+                              caption_dropdowns: 'flex gap-3',
+                              vhidden: 'hidden',
+                              caption_label: 'hidden',
+                            }}
                           />
                         </PopoverContent>
                       </Popover>
@@ -195,8 +194,8 @@ const CompanyContractInformation: FC<CompanyContractInformationProps> = ({
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <div className="flex flex-row pt-4">
-                    <div className="text-md flex grid w-full flex-row text-[#1e293b] md:grid-cols-2 lg:grid-cols-1">
+                  <div className="pt-4">
+                    <div className="text-md w-full text-[#1e293b] md:grid md:grid-cols-2 lg:grid-cols-1">
                       Effectivity Date:
                       <Popover>
                         <PopoverTrigger asChild>
@@ -223,10 +222,19 @@ const CompanyContractInformation: FC<CompanyContractInformationProps> = ({
                             mode="single"
                             selected={field.value ?? undefined}
                             onSelect={field.onChange}
-                            disabled={(date) =>
-                              date > new Date() || date < new Date('1900-01-01')
-                            }
+                            disabled={(date) => date < new Date('1900-01-01')}
                             initialFocus
+                            captionLayout="dropdown"
+                            toYear={new Date().getFullYear() + 20}
+                            fromYear={1900}
+                            classNames={{
+                              day_hidden: 'invisible',
+                              dropdown:
+                                'px-2 py-1.5 max-h-[100px] overflow-y-auto rounded-md bg-popover text-popover-foreground text-sm  focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 ring-offset-background',
+                              caption_dropdowns: 'flex gap-3',
+                              vhidden: 'hidden',
+                              caption_label: 'hidden',
+                            }}
                           />
                         </PopoverContent>
                       </Popover>
@@ -243,8 +251,8 @@ const CompanyContractInformation: FC<CompanyContractInformationProps> = ({
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <div className="flex flex-row pt-4">
-                    <div className="text-md flex grid w-full flex-row text-[#1e293b] md:grid-cols-2 lg:grid-cols-1">
+                  <div className="pt-4">
+                    <div className="text-md grid w-full text-[#1e293b] md:grid-cols-2 lg:grid-cols-1">
                       COC Issue Date:
                       <Popover>
                         <PopoverTrigger asChild>
@@ -271,10 +279,19 @@ const CompanyContractInformation: FC<CompanyContractInformationProps> = ({
                             mode="single"
                             selected={field.value ?? undefined}
                             onSelect={field.onChange}
-                            disabled={(date) =>
-                              date > new Date() || date < new Date('1900-01-01')
-                            }
+                            disabled={(date) => date < new Date('1900-01-01')}
                             initialFocus
+                            captionLayout="dropdown"
+                            toYear={new Date().getFullYear() + 20}
+                            fromYear={1900}
+                            classNames={{
+                              day_hidden: 'invisible',
+                              dropdown:
+                                'px-2 py-1.5 max-h-[100px] overflow-y-auto rounded-md bg-popover text-popover-foreground text-sm  focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 ring-offset-background',
+                              caption_dropdowns: 'flex gap-3',
+                              vhidden: 'hidden',
+                              caption_label: 'hidden',
+                            }}
                           />
                         </PopoverContent>
                       </Popover>
@@ -291,8 +308,8 @@ const CompanyContractInformation: FC<CompanyContractInformationProps> = ({
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <div className="flex flex-row pt-4">
-                    <div className="text-md flex grid w-full flex-row text-[#1e293b] md:grid-cols-2 lg:grid-cols-1">
+                  <div className="pt-4">
+                    <div className="text-md grid w-full text-[#1e293b] md:grid-cols-2 lg:grid-cols-1">
                       Delivery Date of Membership IDs:
                       <Popover>
                         <PopoverTrigger asChild>
@@ -319,10 +336,19 @@ const CompanyContractInformation: FC<CompanyContractInformationProps> = ({
                             mode="single"
                             selected={field.value ?? undefined}
                             onSelect={field.onChange}
-                            disabled={(date) =>
-                              date > new Date() || date < new Date('1900-01-01')
-                            }
+                            disabled={(date) => date < new Date('1900-01-01')}
                             initialFocus
+                            captionLayout="dropdown"
+                            toYear={new Date().getFullYear() + 20}
+                            fromYear={1900}
+                            classNames={{
+                              day_hidden: 'invisible',
+                              dropdown:
+                                'px-2 py-1.5 max-h-[100px] overflow-y-auto rounded-md bg-popover text-popover-foreground text-sm  focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 ring-offset-background',
+                              caption_dropdowns: 'flex gap-3',
+                              vhidden: 'hidden',
+                              caption_label: 'hidden',
+                            }}
                           />
                         </PopoverContent>
                       </Popover>
@@ -339,8 +365,8 @@ const CompanyContractInformation: FC<CompanyContractInformationProps> = ({
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <div className="flex flex-row pt-4">
-                    <div className="text-md flex grid w-full flex-row text-[#1e293b] md:grid-cols-2 lg:grid-cols-1">
+                  <div className="pt-4">
+                    <div className="text-md grid w-full text-[#1e293b] md:grid-cols-2 lg:grid-cols-1">
                       Orientation Date:
                       <Popover>
                         <PopoverTrigger asChild>
@@ -367,10 +393,19 @@ const CompanyContractInformation: FC<CompanyContractInformationProps> = ({
                             mode="single"
                             selected={field.value ?? undefined}
                             onSelect={field.onChange}
-                            disabled={(date) =>
-                              date > new Date() || date < new Date('1900-01-01')
-                            }
+                            disabled={(date) => date < new Date('1900-01-01')}
                             initialFocus
+                            captionLayout="dropdown"
+                            toYear={new Date().getFullYear() + 20}
+                            fromYear={1900}
+                            classNames={{
+                              day_hidden: 'invisible',
+                              dropdown:
+                                'px-2 py-1.5 max-h-[100px] overflow-y-auto rounded-md bg-popover text-popover-foreground text-sm  focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 ring-offset-background',
+                              caption_dropdowns: 'flex gap-3',
+                              vhidden: 'hidden',
+                              caption_label: 'hidden',
+                            }}
                           />
                         </PopoverContent>
                       </Popover>
@@ -387,8 +422,8 @@ const CompanyContractInformation: FC<CompanyContractInformationProps> = ({
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <div className="flex flex-row pt-4">
-                    <div className="text-md flex grid w-full flex-row text-[#1e293b] md:grid-cols-2 lg:grid-cols-1">
+                  <div className="pt-4">
+                    <div className="text-md grid w-full text-[#1e293b] md:grid-cols-2 lg:grid-cols-1">
                       Wellness Lecture Date:
                       <Popover>
                         <PopoverTrigger asChild>
@@ -415,10 +450,19 @@ const CompanyContractInformation: FC<CompanyContractInformationProps> = ({
                             mode="single"
                             selected={field.value ?? undefined}
                             onSelect={field.onChange}
-                            disabled={(date) =>
-                              date > new Date() || date < new Date('1900-01-01')
-                            }
+                            disabled={(date) => date < new Date('1900-01-01')}
                             initialFocus
+                            captionLayout="dropdown"
+                            toYear={new Date().getFullYear() + 20}
+                            fromYear={1900}
+                            classNames={{
+                              day_hidden: 'invisible',
+                              dropdown:
+                                'px-2 py-1.5 max-h-[100px] overflow-y-auto rounded-md bg-popover text-popover-foreground text-sm  focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 ring-offset-background',
+                              caption_dropdowns: 'flex gap-3',
+                              vhidden: 'hidden',
+                              caption_label: 'hidden',
+                            }}
                           />
                         </PopoverContent>
                       </Popover>
@@ -435,8 +479,8 @@ const CompanyContractInformation: FC<CompanyContractInformationProps> = ({
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <div className="flex flex-row pt-4">
-                    <div className="text-md flex grid w-full flex-row text-[#1e293b] md:grid-cols-2 lg:grid-cols-1">
+                  <div className="pt-4">
+                    <div className="text-md grid w-full text-[#1e293b] md:grid-cols-2 lg:grid-cols-1">
                       Annual Physical Examination Date:
                       <Popover>
                         <PopoverTrigger asChild>
@@ -463,10 +507,19 @@ const CompanyContractInformation: FC<CompanyContractInformationProps> = ({
                             mode="single"
                             selected={field.value ?? undefined}
                             onSelect={field.onChange}
-                            disabled={(date) =>
-                              date > new Date() || date < new Date('1900-01-01')
-                            }
+                            disabled={(date) => date < new Date('1900-01-01')}
                             initialFocus
+                            captionLayout="dropdown"
+                            toYear={new Date().getFullYear() + 20}
+                            fromYear={1900}
+                            classNames={{
+                              day_hidden: 'invisible',
+                              dropdown:
+                                'px-2 py-1.5 max-h-[100px] overflow-y-auto rounded-md bg-popover text-popover-foreground text-sm  focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 ring-offset-background',
+                              caption_dropdowns: 'flex gap-3',
+                              vhidden: 'hidden',
+                              caption_label: 'hidden',
+                            }}
                           />
                         </PopoverContent>
                       </Popover>
@@ -482,7 +535,7 @@ const CompanyContractInformation: FC<CompanyContractInformationProps> = ({
         <div className="grid grid-cols-2 gap-2 pt-4 lg:grid-cols-1">
           <CompanyInformationItem
             label="Initial Contract Value"
-            value={account?.initial_contract_value?.toString()}
+            value={formatCurrency(account?.initial_contract_value)}
           />
           <CompanyInformationItem
             label={'Initial Head Count'}
@@ -501,7 +554,7 @@ const CompanyContractInformation: FC<CompanyContractInformationProps> = ({
             value={
               account?.expiration_date
                 ? format(new Date(account.expiration_date), 'PPP')
-                : 'No data'
+                : undefined
             }
           />
           <CompanyInformationItem
@@ -509,7 +562,7 @@ const CompanyContractInformation: FC<CompanyContractInformationProps> = ({
             value={
               account?.effectivity_date
                 ? format(new Date(account.effectivity_date), 'PPP')
-                : 'No data'
+                : undefined
             }
           />
           <CompanyInformationItem
@@ -518,7 +571,7 @@ const CompanyContractInformation: FC<CompanyContractInformationProps> = ({
             value={
               account?.coc_issue_date
                 ? format(new Date(account.coc_issue_date), 'PPP')
-                : 'No data'
+                : undefined
             }
           />
           <CompanyInformationItem
@@ -529,7 +582,7 @@ const CompanyContractInformation: FC<CompanyContractInformationProps> = ({
                     new Date(account.delivery_date_of_membership_ids),
                     'PPP',
                   )
-                : 'No data'
+                : undefined
             }
           />
           <CompanyInformationItem
@@ -538,7 +591,7 @@ const CompanyContractInformation: FC<CompanyContractInformationProps> = ({
             value={
               account?.orientation_date
                 ? format(new Date(account.orientation_date), 'PPP')
-                : 'No data'
+                : undefined
             }
           />
           <CompanyInformationItem
@@ -546,12 +599,19 @@ const CompanyContractInformation: FC<CompanyContractInformationProps> = ({
             value={
               account?.wellness_lecture_date
                 ? format(new Date(account.wellness_lecture_date), 'PPP')
-                : 'No data'
+                : undefined
             }
           />
           <CompanyInformationItem
             label={'Annual Physical Examination Date'}
-            value={account?.annual_physical_examination_date?.toString()}
+            value={
+              account?.annual_physical_examination_date
+                ? format(
+                    new Date(account.annual_physical_examination_date),
+                    'PPP',
+                  )
+                : undefined
+            }
           />
         </div>
       )}

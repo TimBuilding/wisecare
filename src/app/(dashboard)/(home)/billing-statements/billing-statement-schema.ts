@@ -7,22 +7,21 @@ const BillingStatementSchema = z
     or_number: z.string().optional(),
     or_date: z.date().optional(),
     sa_number: z.string().optional(),
-    amount: z.preprocess(
-      (val) =>
-        val === '' || val === undefined ? undefined : parseFloat(val as string),
-      z.number().positive().optional(),
-    ),
-    total_contract_value: z.preprocess(
-      (val) =>
-        val === '' || val === undefined ? undefined : parseFloat(val as string),
-      z.number().positive().optional(),
-    ),
-    balance: z.preprocess(
-      (val) =>
-        val === '' || val === undefined ? undefined : parseFloat(val as string),
-      z.number().positive().optional(),
-    ),
-
+    amount: z.preprocess((val) => {
+      if (val === '' || val === undefined) return undefined
+      const parsedVal = parseFloat((val as string).replace(/[₱,\s]/g, ''))
+      return isNaN(parsedVal) ? undefined : parsedVal
+    }, z.number().positive().optional()),
+    total_contract_value: z.preprocess((val) => {
+      if (val === '' || val === undefined) return undefined
+      const parsedVal = parseFloat((val as string).replace(/[₱,\s]/g, ''))
+      return isNaN(parsedVal) ? undefined : parsedVal
+    }, z.number().positive().optional()),
+    balance: z.preprocess((val) => {
+      if (val === '' || val === undefined) return undefined
+      const parsedVal = parseFloat((val as string).replace(/[₱,\s]/g, ''))
+      return isNaN(parsedVal) ? undefined : parsedVal
+    }, z.number().positive().optional()),
     billing_period: z.preprocess(
       (val) =>
         val === '' || val === undefined
@@ -30,26 +29,26 @@ const BillingStatementSchema = z
           : parseInt(val as string, 10),
       z.number().int().min(1).max(31).optional(),
     ),
-    amount_billed: z.preprocess(
-      (val) =>
-        val === '' || val === undefined ? undefined : parseFloat(val as string),
-      z.number().positive().optional(),
-    ),
-    amount_paid: z.preprocess(
-      (val) =>
-        val === '' || val === undefined ? undefined : parseFloat(val as string),
-      z.number().positive().optional(),
-    ),
+    amount_billed: z.preprocess((val) => {
+      if (val === '' || val === undefined) return undefined
+      const parsedVal = parseFloat((val as string).replace(/[₱,\s]/g, ''))
+      return isNaN(parsedVal) ? undefined : parsedVal
+    }, z.number().positive().optional()),
+    amount_paid: z.preprocess((val) => {
+      if (val === '' || val === undefined) return undefined
+      const parsedVal = parseFloat((val as string).replace(/[₱,\s]/g, ''))
+      return isNaN(parsedVal) ? undefined : parsedVal
+    }, z.number().positive().optional()),
     commission_rate: z.preprocess(
       (val) =>
         val === '' || val === undefined ? undefined : parseFloat(val as string),
       z.number().positive().optional(),
     ),
-    commission_earned: z.preprocess(
-      (val) =>
-        val === '' || val === undefined ? undefined : parseFloat(val as string),
-      z.number().positive().optional(),
-    ),
+    commission_earned: z.preprocess((val) => {
+      if (val === '' || val === undefined) return undefined
+      const parsedVal = parseFloat((val as string).replace(/[₱,\s]/g, ''))
+      return isNaN(parsedVal) ? undefined : parsedVal
+    }, z.number().positive().optional()),
     account_id: z.string().uuid(),
   })
   .superRefine((data, ctx) => {
