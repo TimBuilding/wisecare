@@ -26,10 +26,12 @@ const billingStatementsColumns: ColumnDef<Tables<'billing_statements'>>[] = [
         <div>
           {row.original.due_date
             ? format(row.getValue('due_date'), 'MMMM dd, yyyy')
-            : 'N/A'}
+            : ''}
         </div>
       )
     },
+    accessorFn: (originalRow) =>
+      originalRow.due_date ? format(originalRow.due_date, 'MMMM dd, yyyy') : '',
   },
   {
     accessorKey: 'or_number',
@@ -43,10 +45,12 @@ const billingStatementsColumns: ColumnDef<Tables<'billing_statements'>>[] = [
         <div>
           {row.original.or_date
             ? format(row.getValue('or_date'), 'MMMM dd, yyyy')
-            : 'N/A'}
+            : ''}
         </div>
       )
     },
+    accessorFn: (originalRow) =>
+      originalRow.or_date ? format(originalRow.or_date, 'MMMM dd, yyyy') : '',
   },
   {
     accessorKey: 'sa_number',
@@ -107,13 +111,6 @@ const billingStatementsColumns: ColumnDef<Tables<'billing_statements'>>[] = [
     ),
     cell: ({ getValue }) =>
       formatPercentage(getValue<number | null | undefined>()),
-  },
-  {
-    accessorKey: 'created_at',
-    header: ({ column }) => <TableHeader column={column} title="Created At" />,
-    cell: ({ row }) => {
-      return <div>{format(row.getValue('created_at'), 'MMMM dd, yyyy p')}</div>
-    },
   },
 ]
 
