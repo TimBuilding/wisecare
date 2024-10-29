@@ -9,30 +9,11 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog'
-import getRole from '@/utils/get-role'
-import { useQuery } from '@tanstack/react-query'
 import { Plus } from 'lucide-react'
 import { useState } from 'react'
 
 const AddAccountButton = () => {
   const [isOpen, setIsOpen] = useState(false)
-  const allowedRole = [
-    'admin',
-    'marketing',
-    'finance',
-    'under-writing',
-    'after-sales',
-  ]
-
-  const { data: role } = useQuery({
-    queryKey: ['role'],
-    queryFn: () => getRole(),
-  })
-
-  if (!role || !allowedRole.includes(role)) {
-    return null
-  }
-
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
