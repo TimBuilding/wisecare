@@ -84,8 +84,12 @@ const EditType: FC<EditTypeProps> = ({ id, name, page }) => {
         <DialogContent>
           <form onSubmit={handleEdit}>
             <DialogHeader>
-              <DialogTitle>Edit {name} type</DialogTitle>
-              <DialogDescription>Edit the type name</DialogDescription>
+              <DialogTitle className="break-all pt-2 text-left">
+                Edit {name} type
+              </DialogTitle>
+              <DialogDescription className="text-left">
+                Edit the type name
+              </DialogDescription>
             </DialogHeader>
             <div className="grid gap-4 py-4">
               <FormField

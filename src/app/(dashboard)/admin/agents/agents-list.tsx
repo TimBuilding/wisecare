@@ -38,13 +38,15 @@ const AgentsListItem = ({
     <Sheet open={isEditOpen} onOpenChange={setIsEditOpen}>
       <SheetTrigger asChild={true}>
         <div className="flex cursor-pointer flex-row items-center gap-4 bg-card px-6 py-4 hover:bg-muted">
-          {isLoading ? (
-            <Skeleton className="h-10 w-10 rounded-full" />
-          ) : (
-            <Avatar className="h-10 w-10" {...config} />
-          )}
+          <div>
+            {isLoading ? (
+              <Skeleton className="h-10 w-10 rounded-full" />
+            ) : (
+              <Avatar className="h-10 w-10" {...config} />
+            )}
+          </div>
           <div className="flex flex-col">
-            <span className="text-sm font-medium text-card-foreground">
+            <span className="text-pretty break-all text-sm font-medium text-card-foreground">
               {isLoading ? (
                 <Skeleton className="h-4 w-40" />
               ) : (
@@ -52,7 +54,7 @@ const AgentsListItem = ({
               )}
             </span>
           </div>
-          <span className="text-sm capitalize text-muted-foreground">
+          <span className="whitespace-pre text-sm capitalize text-muted-foreground">
             {isLoading ? (
               <Skeleton className="h-4 w-20" />
             ) : (

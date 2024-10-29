@@ -24,10 +24,12 @@ const TypeListItem = ({
   return (
     <div className="flex flex-row items-center justify-between py-6 duration-500 animate-in fade-in slide-in-from-left-96">
       <div className="flex flex-row items-center justify-center gap-4">
-        {id && <div className="h-10 w-10 rounded-full bg-primary" />}
-        {isLoading && <Skeleton className="h-10 w-10 rounded-full" />}
+        <div>
+          {id && <div className="h-10 w-10 rounded-full bg-primary" />}
+          {isLoading && <Skeleton className="h-10 w-10 rounded-full" />}
+        </div>
         <div className="flex flex-col items-start justify-center">
-          <span className="text-sm font-medium">
+          <span className="text-wrap break-all text-sm font-medium">
             {name}
             {isLoading && <Skeleton className="h-4 w-20" />}
           </span>
@@ -37,7 +39,7 @@ const TypeListItem = ({
           </span>
         </div>
       </div>
-      <div>
+      <div className="flex flex-row">
         {id && <EditType id={id} name={name || ''} page={page} />}
         {id && <DeleteType id={id} name={name || ''} page={page} />}
       </div>

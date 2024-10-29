@@ -49,9 +49,11 @@ const DeleteType: FC<Props> = ({ id, name, page }) => {
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Remove {name} type</AlertDialogTitle>
+          <AlertDialogTitle className="text-wrap break-all">
+            Remove {name} type
+          </AlertDialogTitle>
           <AlertDialogDescription className="flex flex-col">
-            <span>Are you sure you want to remvove this type permanently?</span>
+            <span>Are you sure you want to remove this type permanently?</span>
             <span className="font-semibold">This action cannot be undone!</span>
           </AlertDialogDescription>
         </AlertDialogHeader>
