@@ -616,7 +616,14 @@ const CompanyContractInformation: FC<CompanyContractInformationProps> = ({
           />
           <CompanyInformationItem
             label={'Annual Physical Examination Date'}
-            value={account?.annual_physical_examination_date?.toString()}
+            value={
+              account?.annual_physical_examination_date
+                ? format(
+                    new Date(account.annual_physical_examination_date),
+                    'PPP',
+                  )
+                : 'No data'
+            }
           />
         </div>
       )}
