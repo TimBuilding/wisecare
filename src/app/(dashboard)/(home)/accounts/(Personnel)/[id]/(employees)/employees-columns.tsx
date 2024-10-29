@@ -30,9 +30,10 @@ const employeesColumns: ColumnDef<Tables<'company_employees'>>[] = [
   {
     accessorKey: 'birth_date',
     header: ({ column }) => <TableHeader column={column} title="Birth Date" />,
-    cell: ({ row }) => {
-      return format(new Date(row.getValue('birth_date')), 'PP')
-    },
+    accessorFn: (originalRow) =>
+      (originalRow as any)?.birth_date
+        ? format((originalRow as any).birth_date, 'PP')
+        : '',
   },
   {
     accessorKey: 'gender',
@@ -55,12 +56,10 @@ const employeesColumns: ColumnDef<Tables<'company_employees'>>[] = [
     header: ({ column }) => (
       <TableHeader column={column} title="Effective Date" />
     ),
-    cell: ({ row }) => {
-      const effectiveDate = row.getValue('effective_date')
-      return effectiveDate
-        ? format(new Date(effectiveDate.toString()), 'PP')
-        : ''
-    },
+    accessorFn: (originalRow) =>
+      (originalRow as any)?.effective_date
+        ? format((originalRow as any).effective_date, 'PP')
+        : '',
   },
   {
     id: 'actions',
