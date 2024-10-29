@@ -129,7 +129,7 @@ const BillingStatementModal = <TData,>({
           form.reset()
         }
 
-        // rerender table
+        // rerender table to refresh masking inputs
         setTableRerender((prev) => prev + 1)
       },
       onError: (error) => {
@@ -604,7 +604,12 @@ const BillingStatementModal = <TData,>({
                 originalData && '!justify-between',
               )}
             >
-              {originalData && <DeleteBillingStatement id={originalData.id} />}
+              {originalData && (
+                <DeleteBillingStatement
+                  id={originalData.id}
+                  setOpen={setOpen}
+                />
+              )}
               <div className="space-x-2">
                 <Button
                   variant="outline"

@@ -9,10 +9,12 @@ import { FC } from 'react'
 
 interface DeleteBillingStatementProps {
   id: string
+  setOpen: (_x: boolean) => void
 }
 
 const DeleteBillingStatement: FC<DeleteBillingStatementProps> = ({
   id,
+  setOpen,
 }: DeleteBillingStatementProps) => {
   const { openConfirmation } = useConfirmationStore()
   const { toast } = useToast()
@@ -30,7 +32,7 @@ const DeleteBillingStatement: FC<DeleteBillingStatementProps> = ({
           title: 'Success',
           description: 'Account deleted',
         })
-        window.location.reload()
+        setOpen(false)
       },
       onError: (error) => {
         toast({
@@ -61,6 +63,7 @@ const DeleteBillingStatement: FC<DeleteBillingStatementProps> = ({
               'This action CANNOT be undone. This will permanently delete the billing statement.',
             cancelLabel: 'Cancel',
             actionLabel: 'I understand, delete this billing statement',
+            confirmationButtonVariant: 'destructive',
             onAction: () => onDeleteHandler(),
             onCancel: () => {},
           })
