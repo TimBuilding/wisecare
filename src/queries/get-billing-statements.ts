@@ -20,7 +20,7 @@ const getBillingStatements = (supabase: TypedSupabaseClient) => {
     commission_earned,
     created_at,
     updated_at,
-    account:accounts(id, company_name),
+    account:accounts!inner(id, company_name, is_active),
     mode_of_payment:mode_of_payments(id, name)
   `,
       {
@@ -28,6 +28,7 @@ const getBillingStatements = (supabase: TypedSupabaseClient) => {
       },
     )
     .eq('is_active', true)
+    .eq('account.is_active', true)
     .order('created_at', { ascending: false })
     .throwOnError()
 }

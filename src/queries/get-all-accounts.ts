@@ -4,6 +4,7 @@ const getAllAccounts = (supabase: TypedSupabaseClient) => {
   return supabase
     .from('accounts')
     .select('id, company_name')
+    .eq('is_active', true)
     .order('created_at', { ascending: true })
     .throwOnError()
 }
