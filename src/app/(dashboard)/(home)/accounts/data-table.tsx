@@ -36,6 +36,7 @@ import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import AccountsProvider from './accounts-provider'
 import AddAccountButton from './add-account-button'
+import getAccounts from '@/queries/get-accounts'
 
 interface IData {
   id: string
@@ -75,9 +76,7 @@ const DataTable = <TData extends IData, TValue>({
   })
 
   const supabase = createBrowserClient()
-  const { count: totalCount, isLoading } = useQuery(
-    supabase.from('accounts').select('*', { head: true, count: 'exact' }),
-  )
+  const { count, isLoading } = useQuery(getAccounts(supabase))
 
   useEffect(() => {
     const upsertColumnVisibility = async () => {
@@ -145,7 +144,7 @@ const DataTable = <TData extends IData, TValue>({
               {isLoading ? (
                 <Skeleton className="h-4 w-20" />
               ) : (
-                <PageDescription>{totalCount} Accounts</PageDescription>
+                <PageDescription>{count} Accounts</PageDescription>
               )}
             </div>
             <div className="flex flex-row gap-4">
