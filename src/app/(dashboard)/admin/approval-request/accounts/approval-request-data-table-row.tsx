@@ -1,4 +1,4 @@
-import { useApprovalRequestContext } from '@/app/(dashboard)/admin/approval-request/approval-request-provider'
+import { useApprovalRequestContext } from '@/app/(dashboard)/admin/approval-request/accounts/approval-request-provider'
 import { TableCell, TableRow } from '@/components/ui/table'
 import { Tables } from '@/types/database.types'
 import { ColumnDef, Table, flexRender } from '@tanstack/react-table'

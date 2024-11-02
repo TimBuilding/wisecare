@@ -3,8 +3,8 @@ import {
   formatCurrency,
   formatPercentage,
 } from '@/app/(dashboard)/(home)/accounts/columns/accounts-columns'
-import { useApprovalRequestContext } from '@/app/(dashboard)/admin/approval-request/approval-request-provider'
-import ApprovalInformationItem from '@/app/(dashboard)/admin/approval-request/modal/approval-information-item'
+import { useApprovalRequestContext } from '@/app/(dashboard)/admin/approval-request/accounts/approval-request-provider'
+import ApprovalInformationItem from '@/app/(dashboard)/admin/approval-request/accounts/modal/approval-information-item'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,

@@ -18,8 +18,8 @@ const AdminNavigation = async () => {
       </div>
       <div className="space-y-1">
         <NavigationItem
-          title="Approval Requests"
-          href="/admin/approval-request"
+          title="Accounts Requests"
+          href="/admin/approval-request/accounts"
           icon={<ListTodo className="h-6 w-6 group-hover:text-white" />}
         />
         <NavigationItem

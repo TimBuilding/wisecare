@@ -24,14 +24,14 @@ import {
 } from '@tanstack/react-table'
 import { useState } from 'react'
 
-import ApprovalRequestDataTableRow from '@/app/(dashboard)/admin/approval-request/approval-request-data-table-row'
+import ApprovalRequestDataTableRow from '@/app/(dashboard)/admin/approval-request/accounts/approval-request-data-table-row'
 
 import TableSearch from '@/components/table-search'
 import { Skeleton } from '@/components/ui/skeleton'
 import getPendingAccounts from '@/queries/get-pending-accounts'
 import { createBrowserClient } from '@/utils/supabase'
 import { useQuery } from '@supabase-cache-helpers/postgrest-react-query'
-import approvalColumns from '@/app/(dashboard)/admin/approval-request/approval-columns'
+import approvalColumns from '@/app/(dashboard)/admin/approval-request/accounts/approval-columns'
 
 const ApprovalRequestTable = () => {
   const supabase = createBrowserClient()

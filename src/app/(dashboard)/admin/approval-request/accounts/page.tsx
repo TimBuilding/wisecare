@@ -1,8 +1,8 @@
 'use server'
 
-import { ApprovalRequestProvider } from '@/app/(dashboard)/admin/approval-request/approval-request-provider'
-import ApprovalRequestTable from '@/app/(dashboard)/admin/approval-request/approval-request-table'
-import ApprovalRequestInfo from '@/app/(dashboard)/admin/approval-request/modal/approval-request-info'
+import { ApprovalRequestProvider } from '@/app/(dashboard)/admin/approval-request/accounts/approval-request-provider'
+import ApprovalRequestTable from '@/app/(dashboard)/admin/approval-request/accounts/approval-request-table'
+import ApprovalRequestInfo from '@/app/(dashboard)/admin/approval-request/accounts/modal/approval-request-info'
 import getPendingAccounts from '@/queries/get-pending-accounts'
 import { createServerClient } from '@/utils/supabase'
 import { prefetchQuery } from '@supabase-cache-helpers/postgrest-react-query'
