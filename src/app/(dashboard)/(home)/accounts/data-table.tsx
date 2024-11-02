@@ -37,6 +37,7 @@ import { useEffect, useState } from 'react'
 import AccountsProvider from './accounts-provider'
 import AddAccountButton from './add-account-button'
 import getAccounts from '@/queries/get-accounts'
+import AccountRequest from '@/app/(dashboard)/(home)/accounts/request/account-request'
 
 interface IData {
   id: string
@@ -154,7 +155,10 @@ const DataTable = <TData extends IData, TValue>({
             </div>
           </div>
         </PageHeader>
-        <TableViewOptions table={table} />
+        <div className="flex flex-row">
+          <AccountRequest />
+          <TableViewOptions table={table} />
+        </div>
         <div className="h-full bg-card">
           <div className="rounded-md border">
             <Table>
