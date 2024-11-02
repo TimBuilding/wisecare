@@ -14,8 +14,6 @@ import {
   TableRow,
 } from '@/components/ui/table'
 import {
-  ColumnDef,
-  ColumnFiltersState,
   flexRender,
   getCoreRowModel,
   getFilteredRowModel,
@@ -26,16 +24,14 @@ import {
 } from '@tanstack/react-table'
 import { useState } from 'react'
 
+import ApprovalRequestDataTableRow from '@/app/(dashboard)/admin/approval-request/approval-request-data-table-row'
+
 import TableSearch from '@/components/table-search'
 import { Skeleton } from '@/components/ui/skeleton'
-import { useTableContext } from '@/providers/TableProvider'
+import getPendingAccounts from '@/queries/get-pending-accounts'
 import { createBrowserClient } from '@/utils/supabase'
 import { useQuery } from '@supabase-cache-helpers/postgrest-react-query'
-import AddBillingStatementButton from '@/app/(dashboard)/(home)/billing-statements/add-billing-statement-button'
-import getBillingStatements from '@/queries/get-billing-statements'
-import getPendingAccounts from '@/queries/get-pending-accounts'
-import approvalRequestColumns from '@/app/(dashboard)/admin/approval-request/approval-rerquest-columns'
-import ApprovalRequestDataTableRow from '@/app/(dashboard)/admin/approval-request/approval-request-data-table-row'
+import approvalColumns from '@/app/(dashboard)/admin/approval-request/approval-columns'
 
 const ApprovalRequestTable = () => {
   const supabase = createBrowserClient()
@@ -47,8 +43,8 @@ const ApprovalRequestTable = () => {
   const [globalFilter, setGlobalFilter] = useState<any>('')
 
   const table = useReactTable({
-    data: data || [],
-    columns: approvalRequestColumns,
+    data: (data as any) || [],
+    columns: approvalColumns,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     onSortingChange: setSorting,
@@ -104,7 +100,7 @@ const ApprovalRequestTable = () => {
             <TableBody>
               <ApprovalRequestDataTableRow
                 table={table}
-                columns={approvalRequestColumns}
+                columns={approvalColumns}
               />
             </TableBody>
           </Table>

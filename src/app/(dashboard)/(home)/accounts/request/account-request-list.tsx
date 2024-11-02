@@ -12,7 +12,7 @@ const AccountRequestList = () => {
       {pendingAccounts?.map((pendingAccount) => (
         <AccountRequestListItem
           key={pendingAccount.id}
-          pendingAccount={pendingAccount}
+          pendingAccount={pendingAccount as any}
         />
       ))}
     </div>

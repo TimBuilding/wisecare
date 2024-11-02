@@ -542,7 +542,7 @@ export type Database = {
           contact_number: string | null
           contact_person: string | null
           created_at: string
-          created_by: string | null
+          created_by: string
           current_hmo_provider_id: string | null
           delivery_date_of_membership_ids: string | null
           dependent_plan_type_id: string | null
@@ -584,7 +584,7 @@ export type Database = {
           contact_number?: string | null
           contact_person?: string | null
           created_at?: string
-          created_by?: string | null
+          created_by: string
           current_hmo_provider_id?: string | null
           delivery_date_of_membership_ids?: string | null
           dependent_plan_type_id?: string | null
@@ -626,7 +626,7 @@ export type Database = {
           contact_number?: string | null
           contact_person?: string | null
           created_at?: string
-          created_by?: string | null
+          created_by?: string
           current_hmo_provider_id?: string | null
           delivery_date_of_membership_ids?: string | null
           dependent_plan_type_id?: string | null

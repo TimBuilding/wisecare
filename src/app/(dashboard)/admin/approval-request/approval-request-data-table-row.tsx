@@ -1,3 +1,4 @@
+import { useApprovalRequestContext } from '@/app/(dashboard)/admin/approval-request/approval-request-provider'
 import { TableCell, TableRow } from '@/components/ui/table'
 import { Tables } from '@/types/database.types'
 import { ColumnDef, Table, flexRender } from '@tanstack/react-table'
@@ -12,8 +13,12 @@ const ApprovalRequestDataTableRow = <TData,>({
   table,
   columns,
 }: ApprovalRequestDataTableRowProps<TData>) => {
-  const handleOnClick = (originalData: TData) => {}
+  const { setIsModalOpen, setSelectedData } = useApprovalRequestContext()
 
+  const handleOnClick = (originalData: TData) => {
+    setIsModalOpen(true)
+    setSelectedData(originalData)
+  }
   return (
     <>
       {table.getRowModel().rows?.length ? (
