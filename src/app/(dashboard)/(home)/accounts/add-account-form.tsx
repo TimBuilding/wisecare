@@ -94,6 +94,34 @@ const AddAccountForm = ({ setIsOpen }: AddAccountFormProps) => {
         } = await supabase.auth.getUser()
         if (!user) return
 
+        // check if company_name already exists in pending_accounts
+        const { data: existingAccount } = await supabase
+          .from('pending_accounts')
+          .select('company_name')
+          .eq('company_name', data.company_name)
+          .single()
+
+        if (existingAccount) {
+          form.setError('company_name', {
+            message: 'Account already exists',
+          })
+          return
+        }
+
+        // check if company_name already exists in accounts
+        const { data: existingAccountInAccounts } = await supabase
+          .from('accounts')
+          .select('company_name')
+          .eq('company_name', data.company_name)
+          .single()
+
+        if (existingAccountInAccounts) {
+          form.setError('company_name', {
+            message: 'Account already exists',
+          })
+          return
+        }
+
         await mutateAsync([
           {
             company_name: data.company_name,

@@ -64,7 +64,7 @@ export type Database = {
           coc_issue_date: string | null
           commision_rate: number | null
           company_address: string | null
-          company_name: string | null
+          company_name: string
           contact_number: string | null
           contact_person: string | null
           created_at: string
@@ -102,7 +102,7 @@ export type Database = {
           coc_issue_date?: string | null
           commision_rate?: number | null
           company_address?: string | null
-          company_name?: string | null
+          company_name: string
           contact_number?: string | null
           contact_person?: string | null
           created_at?: string
@@ -140,7 +140,7 @@ export type Database = {
           coc_issue_date?: string | null
           commision_rate?: number | null
           company_address?: string | null
-          company_name?: string | null
+          company_name?: string
           contact_number?: string | null
           contact_person?: string | null
           created_at?: string
