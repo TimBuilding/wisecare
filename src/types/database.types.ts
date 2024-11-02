@@ -530,6 +530,7 @@ export type Database = {
       }
       pending_accounts: {
         Row: {
+          account_id: string | null
           account_type_id: string | null
           additional_benefits: string | null
           agent_id: string | null
@@ -558,6 +559,7 @@ export type Database = {
           mode_of_payment_id: string | null
           name_of_signatory: string | null
           nature_of_business: string | null
+          operation_type: Database['public']['Enums']['pending_operation']
           orientation_date: string | null
           previous_hmo_provider_id: string | null
           principal_plan_type_id: string | null
@@ -570,6 +572,7 @@ export type Database = {
           wellness_lecture_date: string | null
         }
         Insert: {
+          account_id?: string | null
           account_type_id?: string | null
           additional_benefits?: string | null
           agent_id?: string | null
@@ -598,6 +601,7 @@ export type Database = {
           mode_of_payment_id?: string | null
           name_of_signatory?: string | null
           nature_of_business?: string | null
+          operation_type: Database['public']['Enums']['pending_operation']
           orientation_date?: string | null
           previous_hmo_provider_id?: string | null
           principal_plan_type_id?: string | null
@@ -610,6 +614,7 @@ export type Database = {
           wellness_lecture_date?: string | null
         }
         Update: {
+          account_id?: string | null
           account_type_id?: string | null
           additional_benefits?: string | null
           agent_id?: string | null
@@ -638,6 +643,7 @@ export type Database = {
           mode_of_payment_id?: string | null
           name_of_signatory?: string | null
           nature_of_business?: string | null
+          operation_type?: Database['public']['Enums']['pending_operation']
           orientation_date?: string | null
           previous_hmo_provider_id?: string | null
           principal_plan_type_id?: string | null
@@ -651,6 +657,13 @@ export type Database = {
         }
         Relationships: [
           {
+            foreignKeyName: 'pending_accounts_account_id_fkey'
+            columns: ['account_id']
+            isOneToOne: false
+            referencedRelation: 'accounts'
+            referencedColumns: ['id']
+          },
+          {
             foreignKeyName: 'pending_accounts_account_type_id_fkey'
             columns: ['account_type_id']
             isOneToOne: false
@@ -661,8 +674,8 @@ export type Database = {
             foreignKeyName: 'pending_accounts_agent_id_fkey'
             columns: ['agent_id']
             isOneToOne: false
-            referencedRelation: 'company_employees'
-            referencedColumns: ['id']
+            referencedRelation: 'user_profiles'
+            referencedColumns: ['user_id']
           },
           {
             foreignKeyName: 'pending_accounts_created_by_fkey'
@@ -782,7 +795,7 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      [_ in never]: never
+      pending_operation: 'insert' | 'update' | 'delete'
     }
     CompositeTypes: {
       [_ in never]: never

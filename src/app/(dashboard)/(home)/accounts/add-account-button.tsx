@@ -27,7 +27,7 @@ const AddAccountButton = () => {
           <DialogTitle>Add Account</DialogTitle>
           <DialogDescription>Add a new account to the system</DialogDescription>
         </DialogHeader>
-        <AddAccountForm />
+        <AddAccountForm setIsOpen={setIsOpen} />
       </DialogContent>
     </Dialog>
   )

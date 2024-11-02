@@ -7,14 +7,17 @@ import { createBrowserClient } from '@/utils/supabase'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useInsertMutation } from '@supabase-cache-helpers/postgrest-react-query'
 import { Loader2 } from 'lucide-react'
-import { useRouter } from 'next/navigation'
-import { FormEventHandler, useCallback, useEffect } from 'react'
+import { FormEventHandler, useCallback } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import accountsSchema from './accounts-schema'
 import MarketingInputs from './forms/marketing-inputs'
 
-const AddAccountForm = () => {
+interface AddAccountFormProps {
+  setIsOpen: (isOpen: boolean) => void
+}
+
+const AddAccountForm = ({ setIsOpen }: AddAccountFormProps) => {
   const { toast } = useToast()
   const form = useForm<z.infer<typeof accountsSchema>>({
     resolver: zodResolver(accountsSchema),
@@ -55,13 +58,24 @@ const AddAccountForm = () => {
   })
 
   const supabase = createBrowserClient()
-  const router = useRouter()
-  const { mutateAsync, isPending, data, isSuccess } = useInsertMutation(
+
+  const { mutateAsync, isPending, isSuccess } = useInsertMutation(
     // @ts-ignore
-    supabase.from('accounts'),
+    supabase.from('pending_accounts'),
     ['id'],
-    'id',
+    null,
     {
+      onSuccess: () => {
+        toast({
+          title: 'Account created successfully',
+          description: 'The account is pending admin review',
+        })
+
+        form.reset()
+
+        // close the dialog
+        setIsOpen(false)
+      },
       onError: (error) => {
         toast({
           title: 'Something went wrong',
@@ -72,16 +86,14 @@ const AddAccountForm = () => {
     },
   )
 
-  // redirect to the new account
-  useEffect(() => {
-    if (data) {
-      router.push(`/accounts/${data[0].id}`)
-    }
-  }, [data, router])
-
   const onSubmitHandler = useCallback<FormEventHandler<HTMLFormElement>>(
     (e) => {
       form.handleSubmit(async (data) => {
+        const {
+          data: { user },
+        } = await supabase.auth.getUser()
+        if (!user) return
+
         await mutateAsync([
           {
             company_name: data.company_name,
@@ -119,11 +131,13 @@ const AddAccountForm = () => {
             designation_of_contact_person: data.designation_of_contact_person,
             email_address_of_contact_person:
               data.email_address_of_contact_person,
+            created_by: user?.id,
+            operation_type: 'insert',
           },
         ])
       })(e)
     },
-    [form, mutateAsync],
+    [form, mutateAsync, supabase],
   )
 
   return (
@@ -137,11 +151,7 @@ const AddAccountForm = () => {
               className="w-24"
               disabled={isPending || isSuccess}
             >
-              {isPending || isSuccess ? (
-                <Loader2 className="animate-spin" />
-              ) : (
-                'Cancel'
-              )}
+              Cancel
             </Button>
           </DialogClose>
           <Button
