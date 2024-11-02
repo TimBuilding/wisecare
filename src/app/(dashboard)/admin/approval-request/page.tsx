@@ -1,0 +1,26 @@
+'use server'
+
+import ApprovalRequestTable from '@/app/(dashboard)/admin/approval-request/approval-request-table'
+import getPendingAccounts from '@/queries/get-pending-accounts'
+import { createServerClient } from '@/utils/supabase'
+import { prefetchQuery } from '@supabase-cache-helpers/postgrest-react-query'
+import {
+  dehydrate,
+  HydrationBoundary,
+  QueryClient,
+} from '@tanstack/react-query'
+import { cookies } from 'next/headers'
+
+const ApprovalRequestPage = async () => {
+  const supabase = createServerClient(cookies())
+  const queryClient = new QueryClient()
+  await prefetchQuery(queryClient, getPendingAccounts(supabase, 'desc'))
+
+  return (
+    <HydrationBoundary state={dehydrate(queryClient)}>
+      <ApprovalRequestTable />
+    </HydrationBoundary>
+  )
+}
+
+export default ApprovalRequestPage

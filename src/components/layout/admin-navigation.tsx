@@ -1,4 +1,4 @@
-import { BookType, FileText, Users } from 'lucide-react'
+import { BookType, FileText, ListTodo, Users } from 'lucide-react'
 import NavigationItem from './navigation-item'
 import { createServerClient } from '@/utils/supabase'
 import { cookies } from 'next/headers'
@@ -17,6 +17,11 @@ const AdminNavigation = async () => {
         <span className="text-[11px] text-white/50">Administrator tools</span>
       </div>
       <div className="space-y-1">
+        <NavigationItem
+          title="Approval Requests"
+          href="/admin/approval-request"
+          icon={<ListTodo className="h-6 w-6 group-hover:text-white" />}
+        />
         <NavigationItem
           title="Users"
           href="/admin/users"

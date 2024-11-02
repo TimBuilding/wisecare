@@ -1,6 +1,9 @@
 import { TypedSupabaseClient } from '@/types/typedSupabaseClient'
 
-const getPendingAccounts = (supabase: TypedSupabaseClient) => {
+const getPendingAccounts = (
+  supabase: TypedSupabaseClient,
+  sort: 'asc' | 'desc' = 'desc',
+) => {
   return supabase
     .from('pending_accounts')
     .select(
@@ -52,7 +55,7 @@ const getPendingAccounts = (supabase: TypedSupabaseClient) => {
     )
     .eq('is_approved', 'false')
     .eq('is_active', true)
-    .order('created_at', { ascending: false })
+    .order('created_at', { ascending: sort === 'asc' })
     .throwOnError()
 
   // we don't need to check for the created_by column
