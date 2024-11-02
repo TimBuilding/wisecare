@@ -16,6 +16,7 @@ import { createBrowserClient } from '@/utils/supabase'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { maskitoTransform } from '@maskito/core'
 import {
+  useInsertMutation,
   useQuery,
   useUpdateMutation,
 } from '@supabase-cache-helpers/postgrest-react-query'
@@ -116,11 +117,11 @@ const CompanyAbout: FC<Props> = ({ companyId }) => {
     },
   })
 
-  const { mutateAsync } = useUpdateMutation(
+  const { mutateAsync } = useInsertMutation(
     //@ts-ignore
-    supabase.from('accounts'),
+    supabase.from('pending_accounts'),
     ['id'],
-    'id',
+    null,
     {
       onSuccess: () => {
         setEditMode(false)
@@ -138,42 +139,61 @@ const CompanyAbout: FC<Props> = ({ companyId }) => {
   const onSubmitHandler = useCallback<FormEventHandler<HTMLFormElement>>(
     (e) => {
       form.handleSubmit(async (data) => {
-        await mutateAsync({
-          id: companyId,
-          company_name: data.company_name,
-          company_address: data.company_address,
-          initial_head_count: data.initial_head_count,
-          nature_of_business: data.nature_of_business,
-          contact_person: data.contact_person,
-          contact_number: data.contact_number,
-          signatory_designation: data.signatory_designation,
-          name_of_signatory: data.name_of_signatory,
-          designation_of_contact_person: data.designation_of_contact_person,
-          email_address_of_contact_person: data.email_address_of_contact_person,
-          account_type_id: data?.account_type_id,
-          agent_id: data.agent_id,
-          is_active: data.is_active,
-          commision_rate: data.commision_rate,
-          hmo_provider_id: data?.hmo_provider_id,
-          previous_hmo_provider_id: data?.previous_hmo_provider_id,
-          current_hmo_provider_id: data?.current_hmo_provider_id,
-          principal_plan_type_id: data?.principal_plan_type_id,
-          dependent_plan_type_id: data?.dependent_plan_type_id,
-          total_utilization: data.total_utilization,
-          total_premium_paid: data.total_premium_paid,
-          additional_benefits: data.additional_benefits,
-          special_benefits: data.special_benefits,
-          initial_contract_value: data.initial_contract_value,
-          mode_of_payment_id: data?.mode_of_payment_id,
-          expiration_date: data.expiration_date,
-          effectivity_date: data.effectivity_date,
-          coc_issue_date: data.coc_issue_date,
-          delivery_date_of_membership_ids: data.delivery_date_of_membership_ids,
-          orientation_date: data.orientation_date,
-          wellness_lecture_date: data.wellness_lecture_date,
-          annual_physical_examination_date:
-            data.annual_physical_examination_date,
-        })
+        const {
+          data: { user },
+        } = await supabase.auth.getUser()
+
+        if (!user) {
+          toast({
+            title: 'Something went wrong',
+            description: 'Please try again',
+            variant: 'destructive',
+          })
+          return
+        }
+
+        await mutateAsync([
+          {
+            account_id: companyId,
+            company_name: data.company_name,
+            company_address: data.company_address,
+            initial_head_count: data.initial_head_count,
+            nature_of_business: data.nature_of_business,
+            contact_person: data.contact_person,
+            contact_number: data.contact_number,
+            signatory_designation: data.signatory_designation,
+            name_of_signatory: data.name_of_signatory,
+            designation_of_contact_person: data.designation_of_contact_person,
+            email_address_of_contact_person:
+              data.email_address_of_contact_person,
+            account_type_id: data?.account_type_id,
+            agent_id: data.agent_id,
+            is_active: data.is_active,
+            commision_rate: data.commision_rate,
+            hmo_provider_id: data?.hmo_provider_id,
+            previous_hmo_provider_id: data?.previous_hmo_provider_id,
+            current_hmo_provider_id: data?.current_hmo_provider_id,
+            principal_plan_type_id: data?.principal_plan_type_id,
+            dependent_plan_type_id: data?.dependent_plan_type_id,
+            total_utilization: data.total_utilization,
+            total_premium_paid: data.total_premium_paid,
+            additional_benefits: data.additional_benefits,
+            special_benefits: data.special_benefits,
+            initial_contract_value: data.initial_contract_value,
+            mode_of_payment_id: data?.mode_of_payment_id,
+            expiration_date: data.expiration_date,
+            effectivity_date: data.effectivity_date,
+            coc_issue_date: data.coc_issue_date,
+            delivery_date_of_membership_ids:
+              data.delivery_date_of_membership_ids,
+            orientation_date: data.orientation_date,
+            wellness_lecture_date: data.wellness_lecture_date,
+            annual_physical_examination_date:
+              data.annual_physical_examination_date,
+            created_by: user.id,
+            operation_type: 'update',
+          },
+        ])
       })(e)
     },
     [companyId, form, mutateAsync],

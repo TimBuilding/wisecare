@@ -1,4 +1,5 @@
 import { useApprovalRequestContext } from '@/app/(dashboard)/admin/approval-request/accounts/approval-request-provider'
+import OperationBadge from '@/app/(dashboard)/admin/approval-request/accounts/modal/operation-badge'
 import TableHeader from '@/components/table-header'
 import { Button } from '@/components/ui/button'
 import { Tables } from '@/types/database.types'
@@ -11,6 +12,9 @@ const accountsApprovalColumns: ColumnDef<Tables<'pending_accounts'>>[] = [
     accessorKey: 'operation_type',
     header: ({ column }) => <TableHeader column={column} title="Action" />,
     accessorFn: (row) => row.operation_type,
+    cell: ({ row }) => (
+      <OperationBadge operationType={row.original.operation_type} />
+    ),
   },
   {
     accessorKey: 'company_name',

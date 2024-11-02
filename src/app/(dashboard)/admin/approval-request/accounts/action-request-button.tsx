@@ -2,8 +2,8 @@ import { useApprovalRequestContext } from '@/app/(dashboard)/admin/approval-requ
 import { useToast } from '@/components/ui/use-toast'
 import { createBrowserClient } from '@/utils/supabase'
 import {
-  useInsertMutation,
   useUpdateMutation,
+  useUpsertMutation,
 } from '@supabase-cache-helpers/postgrest-react-query'
 import { FC, ReactNode, useEffect } from 'react'
 
@@ -22,10 +22,10 @@ const ActionRequestButton: FC<ActionRequestButtonProps> = ({
     useApprovalRequestContext()
 
   const {
-    mutateAsync: insertAccount,
-    isError: isInsertAccountError,
-    isPending: isInsertingAccount,
-  } = useInsertMutation(
+    mutateAsync: upsertAccount,
+    isError: isUpsertAccountError,
+    isPending: isUpsertingAccount,
+  } = useUpsertMutation(
     // @ts-expect-error
     supabase.from('accounts'),
     ['id'],
@@ -66,13 +66,14 @@ const ActionRequestButton: FC<ActionRequestButtonProps> = ({
   )
 
   const handleClick = async () => {
-    if (!selectedData?.id) throw new Error('ID is required')
+    if (!selectedData) throw new Error('Selected data is required')
 
     // Only insert account if action is approve
     if (action === 'approve') {
       // Insert account
-      await insertAccount([
+      await upsertAccount([
         {
+          id: selectedData.account_id,
           company_name: selectedData.company_name,
           is_active: selectedData.is_active,
           agent_id: (selectedData as any).agent?.user_id,
@@ -113,7 +114,7 @@ const ActionRequestButton: FC<ActionRequestButtonProps> = ({
             selectedData.email_address_of_contact_person,
         },
       ])
-      if (isInsertAccountError)
+      if (isUpsertAccountError)
         throw new Error('Error updating pending account')
     }
 
@@ -126,9 +127,9 @@ const ActionRequestButton: FC<ActionRequestButtonProps> = ({
   }
 
   useEffect(() => {
-    if (isInsertingAccount || isUpdatingPendingAccount) setIsLoading(true)
+    if (isUpsertingAccount || isUpdatingPendingAccount) setIsLoading(true)
     else setIsLoading(false)
-  }, [isInsertingAccount, isUpdatingPendingAccount, setIsLoading])
+  }, [isUpsertingAccount, isUpdatingPendingAccount, setIsLoading])
 
   return <div onClick={handleClick}>{children}</div>
 }
