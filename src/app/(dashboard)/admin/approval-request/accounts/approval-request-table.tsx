@@ -31,7 +31,7 @@ import { Skeleton } from '@/components/ui/skeleton'
 import getPendingAccounts from '@/queries/get-pending-accounts'
 import { createBrowserClient } from '@/utils/supabase'
 import { useQuery } from '@supabase-cache-helpers/postgrest-react-query'
-import approvalColumns from '@/app/(dashboard)/admin/approval-request/accounts/approval-columns'
+import accountsApprovalColumns from '@/app/(dashboard)/admin/approval-request/accounts/accounts-approval-columns'
 
 const ApprovalRequestTable = () => {
   const supabase = createBrowserClient()
@@ -44,7 +44,7 @@ const ApprovalRequestTable = () => {
 
   const table = useReactTable({
     data: (data as any) || [],
-    columns: approvalColumns,
+    columns: accountsApprovalColumns,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     onSortingChange: setSorting,
@@ -100,7 +100,7 @@ const ApprovalRequestTable = () => {
             <TableBody>
               <ApprovalRequestDataTableRow
                 table={table}
-                columns={approvalColumns}
+                columns={accountsApprovalColumns}
               />
             </TableBody>
           </Table>

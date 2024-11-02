@@ -1,11 +1,12 @@
+import { useApprovalRequestContext } from '@/app/(dashboard)/admin/approval-request/accounts/approval-request-provider'
 import TableHeader from '@/components/table-header'
 import { Button } from '@/components/ui/button'
 import { Tables } from '@/types/database.types'
 import { ColumnDef } from '@tanstack/react-table'
 import { formatDistanceToNow } from 'date-fns'
-import { Check, X } from 'lucide-react'
+import { Check, Eye, X } from 'lucide-react'
 
-const approvalColumns: ColumnDef<Tables<'pending_accounts'>>[] = [
+const accountsApprovalColumns: ColumnDef<Tables<'pending_accounts'>>[] = [
   {
     accessorKey: 'operation_type',
     header: ({ column }) => <TableHeader column={column} title="Action" />,
@@ -42,19 +43,14 @@ const approvalColumns: ColumnDef<Tables<'pending_accounts'>>[] = [
   },
   {
     id: 'actions',
-    cell: ({ row }) => {
+    cell: () => {
       return (
-        <div className="flex items-center gap-2">
-          <Button size={'icon'} variant="ghost" className="">
-            <Check className="h-4 w-4" />
-          </Button>
-          <Button size={'icon'} variant="ghost" className="">
-            <X className="h-4 w-4" />
-          </Button>
-        </div>
+        <Button size={'icon'} variant="ghost">
+          <Eye className="h-4 w-4 cursor-pointer" />
+        </Button>
       )
     },
   },
 ]
 
-export default approvalColumns
+export default accountsApprovalColumns
