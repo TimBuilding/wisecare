@@ -3,16 +3,17 @@ import {
   formatCurrency,
   formatPercentage,
 } from '@/app/(dashboard)/(home)/accounts/columns/accounts-columns'
-import { useApprovalRequestContext } from '@/app/(dashboard)/admin/approval-request/accounts/approval-request-provider'
 import ActionRequestButton from '@/app/(dashboard)/admin/approval-request/accounts/action-request-button'
+import { useApprovalRequestContext } from '@/app/(dashboard)/admin/approval-request/accounts/approval-request-provider'
 import ApprovalInformationItem from '@/app/(dashboard)/admin/approval-request/accounts/modal/approval-information-item'
+import OperationBadge from '@/app/(dashboard)/admin/approval-request/accounts/modal/operation-badge'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
   DialogContent,
-  DialogTitle,
-  DialogHeader,
   DialogDescription,
+  DialogHeader,
+  DialogTitle,
 } from '@/components/ui/dialog'
 import { formatDate } from 'date-fns'
 import { Loader2 } from 'lucide-react'
@@ -25,10 +26,18 @@ const ApprovalRequestInfo = () => {
     <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
       <DialogContent className="max-w-6xl">
         <DialogHeader>
-          <DialogTitle>New Account Approval Request</DialogTitle>
+          <DialogTitle className="flex items-center gap-x-2">
+            Account Approval Request
+            <OperationBadge
+              operationType={selectedData?.operation_type ?? ''}
+            />
+          </DialogTitle>
           <DialogDescription>
             Created by {(selectedData as any)?.created_by?.first_name}{' '}
-            {(selectedData as any)?.created_by?.last_name}
+            {(selectedData as any)?.created_by?.last_name} on{' '}
+            {selectedData?.created_at
+              ? formatDate(selectedData.created_at, 'PP')
+              : 'unknown date'}
           </DialogDescription>
         </DialogHeader>
         <div className="grid grid-cols-5">
