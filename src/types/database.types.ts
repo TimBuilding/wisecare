@@ -528,6 +528,193 @@ export type Database = {
         }
         Relationships: []
       }
+      pending_accounts: {
+        Row: {
+          account_type_id: string | null
+          additional_benefits: string | null
+          agent_id: string | null
+          annual_physical_examination_date: string | null
+          coc_issue_date: string | null
+          commision_rate: number | null
+          company_address: string | null
+          company_name: string
+          contact_number: string | null
+          contact_person: string | null
+          created_at: string
+          created_by: string | null
+          current_hmo_provider_id: string | null
+          delivery_date_of_membership_ids: string | null
+          dependent_plan_type_id: string | null
+          designation_of_contact_person: string | null
+          effectivity_date: string | null
+          email_address_of_contact_person: string | null
+          expiration_date: string | null
+          hmo_provider_id: string | null
+          id: string
+          initial_contract_value: number | null
+          initial_head_count: number | null
+          is_active: boolean
+          is_approved: boolean
+          mode_of_payment_id: string | null
+          name_of_signatory: string | null
+          nature_of_business: string | null
+          orientation_date: string | null
+          previous_hmo_provider_id: string | null
+          principal_plan_type_id: string | null
+          signatory_designation: string | null
+          special_benefits: string | null
+          summary_of_benefits: string | null
+          total_premium_paid: number | null
+          total_utilization: number | null
+          updated_at: string
+          wellness_lecture_date: string | null
+        }
+        Insert: {
+          account_type_id?: string | null
+          additional_benefits?: string | null
+          agent_id?: string | null
+          annual_physical_examination_date?: string | null
+          coc_issue_date?: string | null
+          commision_rate?: number | null
+          company_address?: string | null
+          company_name: string
+          contact_number?: string | null
+          contact_person?: string | null
+          created_at?: string
+          created_by?: string | null
+          current_hmo_provider_id?: string | null
+          delivery_date_of_membership_ids?: string | null
+          dependent_plan_type_id?: string | null
+          designation_of_contact_person?: string | null
+          effectivity_date?: string | null
+          email_address_of_contact_person?: string | null
+          expiration_date?: string | null
+          hmo_provider_id?: string | null
+          id?: string
+          initial_contract_value?: number | null
+          initial_head_count?: number | null
+          is_active?: boolean
+          is_approved?: boolean
+          mode_of_payment_id?: string | null
+          name_of_signatory?: string | null
+          nature_of_business?: string | null
+          orientation_date?: string | null
+          previous_hmo_provider_id?: string | null
+          principal_plan_type_id?: string | null
+          signatory_designation?: string | null
+          special_benefits?: string | null
+          summary_of_benefits?: string | null
+          total_premium_paid?: number | null
+          total_utilization?: number | null
+          updated_at?: string
+          wellness_lecture_date?: string | null
+        }
+        Update: {
+          account_type_id?: string | null
+          additional_benefits?: string | null
+          agent_id?: string | null
+          annual_physical_examination_date?: string | null
+          coc_issue_date?: string | null
+          commision_rate?: number | null
+          company_address?: string | null
+          company_name?: string
+          contact_number?: string | null
+          contact_person?: string | null
+          created_at?: string
+          created_by?: string | null
+          current_hmo_provider_id?: string | null
+          delivery_date_of_membership_ids?: string | null
+          dependent_plan_type_id?: string | null
+          designation_of_contact_person?: string | null
+          effectivity_date?: string | null
+          email_address_of_contact_person?: string | null
+          expiration_date?: string | null
+          hmo_provider_id?: string | null
+          id?: string
+          initial_contract_value?: number | null
+          initial_head_count?: number | null
+          is_active?: boolean
+          is_approved?: boolean
+          mode_of_payment_id?: string | null
+          name_of_signatory?: string | null
+          nature_of_business?: string | null
+          orientation_date?: string | null
+          previous_hmo_provider_id?: string | null
+          principal_plan_type_id?: string | null
+          signatory_designation?: string | null
+          special_benefits?: string | null
+          summary_of_benefits?: string | null
+          total_premium_paid?: number | null
+          total_utilization?: number | null
+          updated_at?: string
+          wellness_lecture_date?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: 'pending_accounts_account_type_id_fkey'
+            columns: ['account_type_id']
+            isOneToOne: false
+            referencedRelation: 'account_types'
+            referencedColumns: ['id']
+          },
+          {
+            foreignKeyName: 'pending_accounts_agent_id_fkey'
+            columns: ['agent_id']
+            isOneToOne: false
+            referencedRelation: 'company_employees'
+            referencedColumns: ['id']
+          },
+          {
+            foreignKeyName: 'pending_accounts_created_by_fkey'
+            columns: ['created_by']
+            isOneToOne: false
+            referencedRelation: 'user_profiles'
+            referencedColumns: ['user_id']
+          },
+          {
+            foreignKeyName: 'pending_accounts_current_hmo_provider_id_fkey'
+            columns: ['current_hmo_provider_id']
+            isOneToOne: false
+            referencedRelation: 'hmo_providers'
+            referencedColumns: ['id']
+          },
+          {
+            foreignKeyName: 'pending_accounts_dependent_plan_type_id_fkey'
+            columns: ['dependent_plan_type_id']
+            isOneToOne: false
+            referencedRelation: 'plan_types'
+            referencedColumns: ['id']
+          },
+          {
+            foreignKeyName: 'pending_accounts_hmo_provider_id_fkey'
+            columns: ['hmo_provider_id']
+            isOneToOne: false
+            referencedRelation: 'hmo_providers'
+            referencedColumns: ['id']
+          },
+          {
+            foreignKeyName: 'pending_accounts_mode_of_payment_id_fkey'
+            columns: ['mode_of_payment_id']
+            isOneToOne: false
+            referencedRelation: 'mode_of_payments'
+            referencedColumns: ['id']
+          },
+          {
+            foreignKeyName: 'pending_accounts_previous_hmo_provider_id_fkey'
+            columns: ['previous_hmo_provider_id']
+            isOneToOne: false
+            referencedRelation: 'hmo_providers'
+            referencedColumns: ['id']
+          },
+          {
+            foreignKeyName: 'pending_accounts_principal_plan_type_id_fkey'
+            columns: ['principal_plan_type_id']
+            isOneToOne: false
+            referencedRelation: 'plan_types'
+            referencedColumns: ['id']
+          },
+        ]
+      }
       plan_types: {
         Row: {
           created_at: string | null
@@ -592,127 +779,7 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      gtrgm_compress: {
-        Args: {
-          '': unknown
-        }
-        Returns: unknown
-      }
-      gtrgm_decompress: {
-        Args: {
-          '': unknown
-        }
-        Returns: unknown
-      }
-      gtrgm_in: {
-        Args: {
-          '': unknown
-        }
-        Returns: unknown
-      }
-      gtrgm_options: {
-        Args: {
-          '': unknown
-        }
-        Returns: undefined
-      }
-      gtrgm_out: {
-        Args: {
-          '': unknown
-        }
-        Returns: unknown
-      }
-      search_accounts: {
-        Args: {
-          account_term: string
-          start_offset: number
-          end_offset: number
-        }
-        Returns: {
-          id: string
-          is_active: boolean
-          agent: string
-          company_name: string
-          company_address: string
-          nature_of_business: string
-          hmo_provider: string
-          previous_hmo_provider: string
-          current_hmo_provider: string
-          account_type: string
-          total_utilization: number
-          total_premium_paid: number
-          signatory_designation: string
-          contact_person: string
-          contact_number: string
-          principal_plan_type: string
-          dependent_plan_type: string
-          initial_head_count: number
-          effectivity_date: string
-          coc_issue_date: string
-          expiration_date: string
-          delivery_date_of_membership_ids: string
-          orientation_date: string
-          initial_contract_value: number
-          mode_of_payment: string
-          wellness_lecture_date: string
-          annual_physical_examination_date: string
-          commision_rate: number
-          additional_benefits: string
-          special_benefits: string
-          summary_of_benefits: string
-          name_of_signatory: string
-          designation_of_contact_person: string
-          email_address_of_contact_person: string
-          created_at: string
-          updated_at: string
-          total_count: number
-        }[]
-      }
-      search_billing_statements: {
-        Args: {
-          billing_term: string
-          start_offset: number
-          end_offset: number
-        }
-        Returns: {
-          id: string
-          account_id: string
-          account_name: string
-          mode_of_payment: string
-          mode_of_payment_id: string
-          due_date: string
-          or_number: string
-          or_date: string
-          sa_number: string
-          amount: number
-          total_contract_value: number
-          balance: number
-          billing_period: number
-          amount_billed: number
-          amount_paid: number
-          commission_rate: number
-          commission_earned: number
-          created_at: string
-          updated_at: string
-          total_count: number
-        }[]
-      }
-      set_limit: {
-        Args: {
-          '': number
-        }
-        Returns: number
-      }
-      show_limit: {
-        Args: Record<PropertyKey, never>
-        Returns: number
-      }
-      show_trgm: {
-        Args: {
-          '': string
-        }
-        Returns: string[]
-      }
+      [_ in never]: never
     }
     Enums: {
       [_ in never]: never
