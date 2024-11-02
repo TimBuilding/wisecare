@@ -4,6 +4,7 @@ import {
   formatPercentage,
 } from '@/app/(dashboard)/(home)/accounts/columns/accounts-columns'
 import { useApprovalRequestContext } from '@/app/(dashboard)/admin/approval-request/accounts/approval-request-provider'
+import ApproveRequestButton from '@/app/(dashboard)/admin/approval-request/accounts/approve-request-button'
 import ApprovalInformationItem from '@/app/(dashboard)/admin/approval-request/accounts/modal/approval-information-item'
 import { Button } from '@/components/ui/button'
 import {
@@ -14,9 +15,10 @@ import {
   DialogDescription,
 } from '@/components/ui/dialog'
 import { formatDate } from 'date-fns'
+import { Loader2 } from 'lucide-react'
 
 const ApprovalRequestInfo = () => {
-  const { isModalOpen, setIsModalOpen, selectedData } =
+  const { isModalOpen, setIsModalOpen, selectedData, isLoading } =
     useApprovalRequestContext()
 
   return (
@@ -218,7 +220,11 @@ const ApprovalRequestInfo = () => {
             {/* Actions */}
             <div className="flex justify-end gap-x-2">
               <Button variant={'destructive'}>Reject</Button>
-              <Button variant={'default'}>Approve</Button>
+              <ApproveRequestButton>
+                <Button variant={'default'} disabled={isLoading}>
+                  {isLoading ? <Loader2 className="animate-spin" /> : 'Approve'}
+                </Button>
+              </ApproveRequestButton>
             </div>
           </div>
         </div>

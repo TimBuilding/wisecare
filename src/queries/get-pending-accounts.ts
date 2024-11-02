@@ -9,7 +9,7 @@ const getPendingAccounts = (
     .select(
       `
     id,
-    agent:agent_id(first_name, last_name),
+    agent:agent_id(first_name, last_name, user_id),
     company_name,
     company_address,
     nature_of_business,
@@ -22,8 +22,8 @@ const getPendingAccounts = (
     signatory_designation,
     contact_person,
     contact_number,
-    principal_plan_type_id,
-    dependent_plan_type_id,
+    principal_plan_type:principal_plan_type_id(name, id),
+    dependent_plan_type:dependent_plan_type_id(name, id),
     initial_head_count,
     effectivity_date,
     coc_issue_date,
