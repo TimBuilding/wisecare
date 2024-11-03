@@ -532,7 +532,7 @@ const CompanyContractInformation: FC<CompanyContractInformationProps> = ({
           />
         </>
       ) : (
-        <div className="grid grid-cols-2 gap-2 pt-4 lg:grid-cols-1">
+        <div className="flex flex-col gap-3 pt-4">
           <CompanyInformationItem
             label="Initial Contract Value"
             value={formatCurrency(account?.initial_contract_value)}

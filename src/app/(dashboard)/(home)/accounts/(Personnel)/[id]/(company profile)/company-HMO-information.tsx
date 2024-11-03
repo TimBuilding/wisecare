@@ -283,7 +283,7 @@ const CompanyHmoInformation: FC<CompanyHmoInformationProps> = ({ id }) => {
           />
         </>
       ) : (
-        <div className="grid grid-cols-2 gap-2 pt-4">
+        <div className="flex flex-col gap-3 pt-4 lg:grid lg:grid-cols-2">
           <CompanyInformationItem
             label={'HMO Provider'}
             value={
@@ -334,10 +334,15 @@ const CompanyHmoInformation: FC<CompanyHmoInformationProps> = ({ id }) => {
             label={'Additional Benefits'}
             value={account?.additional_benefits?.toString()}
           />
-          <CompanyInformationItem
-            label={'Special Benefits'}
-            value={account?.special_benefits?.toString()}
-          />
+          <div className="col-span-2 flex flex-col py-1">
+            <div className="text-sm font-medium text-muted-foreground">
+              {' '}
+              Special Benefits
+            </div>
+            <div className="text-md text-pretty font-semibold">
+              {account?.special_benefits?.toString()}
+            </div>
+          </div>
         </div>
       )}
     </>
