@@ -1,8 +1,10 @@
 'use client'
 import { formatCurrency } from '@/app/(dashboard)/(home)/accounts/columns/accounts-columns'
+import BillingStatementActionButton from '@/app/(dashboard)/admin/approval-request/billing-statements/billing-statement-action-button'
 import { useBillingStatementsRequestContext } from '@/app/(dashboard)/admin/approval-request/billing-statements/billing-statements-request-provider'
 import ApprovalInformationItem from '@/app/(dashboard)/admin/approval-request/components/approval-information-item'
 import OperationBadge from '@/app/(dashboard)/admin/approval-request/components/operation-badge'
+import { Button } from '@/components/ui/button'
 import {
   Dialog,
   DialogContent,
@@ -11,9 +13,10 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog'
 import { formatDate } from 'date-fns'
+import { Loader2 } from 'lucide-react'
 
 const BillingStatementInfo = () => {
-  const { selectedData, isModalOpen, setIsModalOpen } =
+  const { selectedData, isModalOpen, setIsModalOpen, isLoading } =
     useBillingStatementsRequestContext()
 
   return (
@@ -98,6 +101,20 @@ const BillingStatementInfo = () => {
             label="Commission Earned"
             value={formatCurrency(selectedData?.commission_earned)}
           />
+
+          {/* Actions */}
+          <div className="col-span-2 flex justify-end gap-x-2">
+            <BillingStatementActionButton action="reject">
+              <Button variant={'destructive'} disabled={isLoading}>
+                {isLoading ? <Loader2 className="animate-spin" /> : 'Reject'}
+              </Button>
+            </BillingStatementActionButton>
+            <BillingStatementActionButton action="approve">
+              <Button variant={'default'} disabled={isLoading}>
+                {isLoading ? <Loader2 className="animate-spin" /> : 'Approve'}
+              </Button>
+            </BillingStatementActionButton>
+          </div>
         </div>
       </DialogContent>
     </Dialog>
