@@ -62,6 +62,14 @@ const employeesColumns: ColumnDef<Tables<'company_employees'>>[] = [
         : '',
   },
   {
+    accessorKey: 'card_number',
+    header: ({ column }) => <TableHeader column={column} title="Card Number" />,
+    cell: ({ row }) => (
+      <span className="capitalize">{row.original.card_number}</span>
+    ),
+    accessorFn: (originalRow) => (originalRow as any)?.card_number ?? '',
+  },
+  {
     id: 'actions',
     cell: ({ row }) => {
       const employee = row.original
