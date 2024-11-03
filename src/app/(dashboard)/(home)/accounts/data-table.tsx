@@ -55,6 +55,7 @@ const DataTable = <TData extends IData, TValue>({
   const [sorting, setSorting] = useState<SortingState>([])
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
   const [globalFilter, setGlobalFilter] = useState<any>('')
+  const [isAccountLoading, setIsAccountLoading] = useState(false)
 
   const router = useRouter()
   const { toast } = useToast()
@@ -187,10 +188,11 @@ const DataTable = <TData extends IData, TValue>({
                       <TableRow
                         key={row.id}
                         data-state={row.getIsSelected() && 'selected'}
-                        className="cursor-pointer transition-colors hover:bg-muted/50"
-                        onClick={() =>
+                        className={`cursor-pointer transition-colors hover:bg-muted/50 ${isAccountLoading ? 'cursor-wait' : ''}`}
+                        onClick={() => {
+                          setIsAccountLoading(true)
                           router.push(`/accounts/${row.original.id}`)
-                        }
+                        }}
                       >
                         {row.getVisibleCells().map((cell) => (
                           <TableCell key={cell.id}>
