@@ -14,6 +14,7 @@ import { Tables } from '@/types/database.types'
 import { ColumnDef } from '@tanstack/react-table'
 import { format } from 'date-fns'
 import { Eye, MoreHorizontal, Pencil } from 'lucide-react'
+import normalizeToUTC from '@/utils/normalize-to-utc'
 
 const employeesColumns: ColumnDef<Tables<'company_employees'>>[] = [
   // company name is not needed since we are already in the company page
@@ -30,6 +31,12 @@ const employeesColumns: ColumnDef<Tables<'company_employees'>>[] = [
   {
     accessorKey: 'birth_date',
     header: ({ column }) => <TableHeader column={column} title="Birth Date" />,
+    cell: ({ row }) => {
+      const birthDate = row.original.birth_date
+        ? normalizeToUTC(new Date(row.original.birth_date))
+        : null
+      return <div> {birthDate ? format(birthDate, 'MMMM dd, yyyy') : ''}</div>
+    },
     accessorFn: (originalRow) =>
       (originalRow as any)?.birth_date
         ? format((originalRow as any).birth_date, 'PP')
@@ -56,6 +63,14 @@ const employeesColumns: ColumnDef<Tables<'company_employees'>>[] = [
     header: ({ column }) => (
       <TableHeader column={column} title="Effective Date" />
     ),
+    cell: ({ row }) => {
+      const effectiveDate = row.original.effective_date
+        ? normalizeToUTC(new Date(row.original.effective_date))
+        : null
+      return (
+        <div>{effectiveDate ? format(effectiveDate, 'MMMM dd, yyyy') : ''}</div>
+      )
+    },
     accessorFn: (originalRow) =>
       (originalRow as any)?.effective_date
         ? format((originalRow as any).effective_date, 'PP')
