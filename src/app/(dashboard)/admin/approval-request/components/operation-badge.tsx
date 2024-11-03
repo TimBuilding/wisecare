@@ -1,6 +1,11 @@
 import { Badge } from '@/components/ui/badge'
+import { Enums, Tables } from '@/types/database.types'
 
-const OperationBadge = ({ operationType }: { operationType: string }) => {
+const OperationBadge = ({
+  operationType,
+}: {
+  operationType?: Enums<'pending_operation'>
+}) => {
   switch (operationType) {
     case 'insert':
       return (

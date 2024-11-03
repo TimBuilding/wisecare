@@ -5,8 +5,8 @@ import {
 } from '@/app/(dashboard)/(home)/accounts/columns/accounts-columns'
 import ActionRequestButton from '@/app/(dashboard)/admin/approval-request/accounts/action-request-button'
 import { useApprovalRequestContext } from '@/app/(dashboard)/admin/approval-request/accounts/approval-request-provider'
-import ApprovalInformationItem from '@/app/(dashboard)/admin/approval-request/accounts/modal/approval-information-item'
-import OperationBadge from '@/app/(dashboard)/admin/approval-request/accounts/modal/operation-badge'
+import ApprovalInformationItem from '@/app/(dashboard)/admin/approval-request/components/approval-information-item'
+import OperationBadge from '@/app/(dashboard)/admin/approval-request/components/operation-badge'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
@@ -28,12 +28,10 @@ const ApprovalRequestInfo = () => {
         <DialogHeader>
           <DialogTitle className="flex items-center gap-x-2">
             Account Approval Request
-            <OperationBadge
-              operationType={selectedData?.operation_type ?? ''}
-            />
+            <OperationBadge operationType={selectedData?.operation_type} />
           </DialogTitle>
           <DialogDescription>
-            Created by {(selectedData as any)?.created_by?.first_name}{' '}
+            Created by {(selectedData?.created_by as any)?.first_name}{' '}
             {(selectedData as any)?.created_by?.last_name} on{' '}
             {selectedData?.created_at
               ? formatDate(selectedData.created_at, 'PP')

@@ -1,11 +1,10 @@
 'use client'
-
+import pendingBillingStatementsColumns from '@/app/(dashboard)/admin/approval-request/billing-statements/pending-billing-statements-column'
 import {
   PageDescription,
   PageHeader,
   PageTitle,
 } from '@/components/page-header'
-import TablePagination from '@/components/table-pagination'
 import {
   Table,
   TableBody,
@@ -13,6 +12,10 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
+import TableSearch from '@/components/table-search'
+import getPendingBillingStatements from '@/queries/ get-pending-billing-statements'
+import { createBrowserClient } from '@/utils/supabase'
+import { useQuery } from '@supabase-cache-helpers/postgrest-react-query'
 import {
   flexRender,
   getCoreRowModel,
@@ -23,20 +26,13 @@ import {
   useReactTable,
 } from '@tanstack/react-table'
 import { useState } from 'react'
+import PendingBillingStatementDataTableRow from '@/app/(dashboard)/admin/approval-request/billing-statements/pending-billing-statement-data-table-row'
+import TablePagination from '@/components/table-pagination'
 
-import ApprovalRequestDataTableRow from '@/app/(dashboard)/admin/approval-request/accounts/approval-request-data-table-row'
-
-import TableSearch from '@/components/table-search'
-import { Skeleton } from '@/components/ui/skeleton'
-import getPendingAccounts from '@/queries/get-pending-accounts'
-import { createBrowserClient } from '@/utils/supabase'
-import { useQuery } from '@supabase-cache-helpers/postgrest-react-query'
-import accountsApprovalColumns from '@/app/(dashboard)/admin/approval-request/accounts/accounts-approval-columns'
-
-const ApprovalRequestTable = () => {
+const PendingBillingStatementsTable = () => {
   const supabase = createBrowserClient()
-  const { data, count, isPending } = useQuery(
-    getPendingAccounts(supabase, 'desc'),
+  const { data, count } = useQuery(
+    getPendingBillingStatements(supabase, 'desc'),
   )
 
   const [sorting, setSorting] = useState<SortingState>([])
@@ -44,7 +40,7 @@ const ApprovalRequestTable = () => {
 
   const table = useReactTable({
     data: (data as any) || [],
-    columns: accountsApprovalColumns,
+    columns: pendingBillingStatementsColumns,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     onSortingChange: setSorting,
@@ -63,15 +59,13 @@ const ApprovalRequestTable = () => {
       <PageHeader>
         <div className="flex w-full flex-col gap-6 sm:flex-row sm:justify-between">
           <div>
-            <PageTitle>Pending Accounts</PageTitle>
-            {isPending ? (
-              <Skeleton className="h-4 w-20" />
-            ) : (
-              <PageDescription>{count} approval requests</PageDescription>
-            )}
+            <PageTitle>Pending Billing Statements</PageTitle>
+            <PageDescription>
+              {count} pending billing statements
+            </PageDescription>
           </div>
           <div>
-            <TableSearch table={table} placeholder="Search requests" />
+            <TableSearch table={table} />
           </div>
         </div>
       </PageHeader>
@@ -98,9 +92,9 @@ const ApprovalRequestTable = () => {
               ))}
             </TableHeader>
             <TableBody>
-              <ApprovalRequestDataTableRow
+              <PendingBillingStatementDataTableRow
                 table={table}
-                columns={accountsApprovalColumns}
+                columns={pendingBillingStatementsColumns}
               />
             </TableBody>
           </Table>
@@ -111,4 +105,4 @@ const ApprovalRequestTable = () => {
   )
 }
 
-export default ApprovalRequestTable
+export default PendingBillingStatementsTable

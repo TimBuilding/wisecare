@@ -23,6 +23,11 @@ const AdminNavigation = async () => {
           icon={<ListTodo className="h-6 w-6 group-hover:text-white" />}
         />
         <NavigationItem
+          title="Billing Statements Requests"
+          href="/admin/approval-request/billing-statements"
+          icon={<ListTodo className="h-6 w-6 group-hover:text-white" />}
+        />
+        <NavigationItem
           title="Users"
           href="/admin/users"
           icon={<Users className="h-6 w-6 group-hover:text-white" />}

@@ -1,22 +1,15 @@
-import { useApprovalRequestContext } from '@/app/(dashboard)/admin/approval-request/accounts/approval-request-provider'
 import { TableCell, TableRow } from '@/components/ui/table'
 import { ColumnDef, Table, flexRender } from '@tanstack/react-table'
 
-interface ApprovalRequestDataTableRowProps<TData> {
+interface PendingBillingStatementDataTableRowProps<TData> {
   table: Table<TData>
   columns: ColumnDef<TData>[]
 }
 
-const ApprovalRequestDataTableRow = <TData,>({
+const PendingBillingStatementDataTableRow = <TData,>({
   table,
   columns,
-}: ApprovalRequestDataTableRowProps<TData>) => {
-  const { setIsModalOpen, setSelectedData } = useApprovalRequestContext()
-
-  const handleOnClick = (originalData: TData) => {
-    setIsModalOpen(true)
-    setSelectedData(originalData)
-  }
+}: PendingBillingStatementDataTableRowProps<TData>) => {
   return (
     <>
       {table.getRowModel().rows?.length ? (
@@ -24,7 +17,7 @@ const ApprovalRequestDataTableRow = <TData,>({
           <TableRow
             key={row.id}
             className="cursor-pointer hover:!bg-muted"
-            onClick={() => handleOnClick(row.original)}
+            // onClick={() => handleOnClick(row.original)}
           >
             {row.getVisibleCells().map((cell) => (
               <TableCell key={cell.id}>
@@ -44,4 +37,4 @@ const ApprovalRequestDataTableRow = <TData,>({
   )
 }
 
-export default ApprovalRequestDataTableRow
+export default PendingBillingStatementDataTableRow

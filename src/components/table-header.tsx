@@ -22,7 +22,7 @@ interface DataTableColumnHeaderProps<TData, TValue>
   title: string
 }
 
-export const TableHeader = <TData, TValue>({
+const TableHeader = <TData, TValue>({
   column,
   title,
   className,

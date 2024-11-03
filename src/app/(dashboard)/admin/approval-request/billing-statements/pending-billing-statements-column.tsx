@@ -1,13 +1,14 @@
-import { useApprovalRequestContext } from '@/app/(dashboard)/admin/approval-request/accounts/approval-request-provider'
 import OperationBadge from '@/app/(dashboard)/admin/approval-request/components/operation-badge'
 import TableHeader from '@/components/table-header'
 import { Button } from '@/components/ui/button'
 import { Tables } from '@/types/database.types'
 import { ColumnDef } from '@tanstack/react-table'
 import { formatDistanceToNow } from 'date-fns'
-import { Check, Eye, X } from 'lucide-react'
+import { Eye } from 'lucide-react'
 
-const accountsApprovalColumns: ColumnDef<Tables<'pending_accounts'>>[] = [
+const pendingBillingStatementsColumns: ColumnDef<
+  Tables<'pending_billing_statements'>
+>[] = [
   {
     accessorKey: 'operation_type',
     header: ({ column }) => <TableHeader column={column} title="Action" />,
@@ -17,7 +18,7 @@ const accountsApprovalColumns: ColumnDef<Tables<'pending_accounts'>>[] = [
     ),
   },
   {
-    accessorKey: 'company_name',
+    accessorKey: 'account.company_name',
     header: ({ column }) => <TableHeader column={column} title="Account" />,
   },
   {
@@ -57,4 +58,4 @@ const accountsApprovalColumns: ColumnDef<Tables<'pending_accounts'>>[] = [
   },
 ]
 
-export default accountsApprovalColumns
+export default pendingBillingStatementsColumns
