@@ -1,3 +1,4 @@
+import { useBillingStatementsRequestContext } from '@/app/(dashboard)/admin/approval-request/billing-statements/billing-statements-request-provider'
 import { useToast } from '@/components/ui/use-toast'
 import { createBrowserClient } from '@/utils/supabase'
 import {
@@ -18,7 +19,7 @@ const BillingStatementActionButton = ({
   const supabase = createBrowserClient()
   const { toast } = useToast()
   const { selectedData, setIsModalOpen, setIsLoading } =
-    useBillingStatementContext()
+    useBillingStatementsRequestContext()
 
   const {
     mutateAsync: upsertBillingStatement,
@@ -47,6 +48,13 @@ const BillingStatementActionButton = ({
     ['id'],
     null,
     {
+      onSuccess: () => {
+        toast({
+          title: `Request ${action === 'approve' ? 'approved' : 'rejected'}`,
+          description: `The request has been ${action === 'approve' ? 'approved' : 'rejected'} successfully`,
+        })
+        setIsModalOpen(false)
+      },
       onError: () => {
         toast({
           title: 'Error',
@@ -57,6 +65,7 @@ const BillingStatementActionButton = ({
   )
 
   const handleClick = async () => {
+    if (!selectedData) return
     if (action === 'approve') {
       await upsertBillingStatement([
         {
@@ -76,8 +85,8 @@ const BillingStatementActionButton = ({
           commission_earned: selectedData.commission_earned,
           created_at: selectedData.created_at,
           updated_at: selectedData.updated_at,
-          account_id: selectedData.account.id,
-          mode_of_payment_id: selectedData.mode_of_payment.id,
+          account_id: (selectedData as any)?.account.id,
+          mode_of_payment_id: (selectedData as any)?.mode_of_payment?.id,
         },
       ]).catch((error) => {
         toast({
@@ -104,11 +113,3 @@ const BillingStatementActionButton = ({
 }
 
 export default BillingStatementActionButton
-
-function useBillingStatementContext(): {
-  selectedData: any
-  setIsModalOpen: any
-  setIsLoading: any
-} {
-  throw new Error('Function not implemented.')
-}
