@@ -6,13 +6,7 @@ import {
   formatCurrency,
   formatPercentage,
 } from '@/app/(dashboard)/(home)/accounts/columns/accounts-columns'
-
-const normalizeToUTC = (date: Date): Date => {
-  const utcDate = new Date(
-    Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()),
-  )
-  return utcDate
-}
+import normalizeToUTC from '@/utils/normalize-to-utc'
 
 const billingStatementsColumns: ColumnDef<Tables<'billing_statements'>>[] = [
   {

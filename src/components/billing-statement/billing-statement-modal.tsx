@@ -61,6 +61,7 @@ import {
 } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
+import normalizeToUTC from '@/utils/normalize-to-utc'
 
 interface Props<TData> {
   originalData?: TData & Tables<'billing_statements'>
@@ -78,12 +79,6 @@ const BillingStatementModal = <TData,>({
   const { toast } = useToast()
   const [tableRerender, setTableRerender] = useState(0)
 
-  const normalizeToUTC = (date: Date): Date => {
-    const utcDate = new Date(
-      Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()),
-    )
-    return utcDate
-  }
   const form = useForm<z.infer<typeof BillingStatementSchema>>({
     resolver: zodResolver(BillingStatementSchema),
     defaultValues: {
