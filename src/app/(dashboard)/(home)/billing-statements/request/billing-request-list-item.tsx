@@ -1,6 +1,7 @@
 import { Tables } from '@/types/database.types'
 import OperationTypeBadge from '@/app/(dashboard)/admin/approval-request/components/operation-badge'
 import { formatDistanceToNow } from 'date-fns'
+import DeleteBillingRequest from '@/app/(dashboard)/(home)/billing-statements/request/delete-billing-request'
 
 interface PendingRequestListItemProps {
   data: Tables<'pending_billing_statements'>
@@ -23,7 +24,7 @@ const PendingRequestListItem = ({
       <p className="text-sm font-medium">
         {company_name} - {data.or_number}
       </p>
-      {/* <DeleteRequest pendingAccountId={pendingAccount.id} /> */}
+      <DeleteBillingRequest pendingBillingId={data.id} />
     </div>
   )
 }
