@@ -1,3 +1,4 @@
+import { useBillingStatementsRequestContext } from '@/app/(dashboard)/admin/approval-request/billing-statements/billing-statements-request-provider'
 import { TableCell, TableRow } from '@/components/ui/table'
 import { ColumnDef, Table, flexRender } from '@tanstack/react-table'
 
@@ -10,6 +11,13 @@ const PendingBillingStatementDataTableRow = <TData,>({
   table,
   columns,
 }: PendingBillingStatementDataTableRowProps<TData>) => {
+  const { setIsModalOpen, setSelectedData } =
+    useBillingStatementsRequestContext()
+
+  const handleOnClick = (originalData: TData) => {
+    setIsModalOpen(true)
+    setSelectedData(originalData)
+  }
   return (
     <>
       {table.getRowModel().rows?.length ? (
@@ -17,7 +25,7 @@ const PendingBillingStatementDataTableRow = <TData,>({
           <TableRow
             key={row.id}
             className="cursor-pointer hover:!bg-muted"
-            // onClick={() => handleOnClick(row.original)}
+            onClick={() => handleOnClick(row.original)}
           >
             {row.getVisibleCells().map((cell) => (
               <TableCell key={cell.id}>

@@ -1,3 +1,4 @@
+'use client'
 import { Tables } from '@/types/database.types'
 import { createContext, ReactNode, useContext, useState } from 'react'
 

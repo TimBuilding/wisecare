@@ -1,4 +1,6 @@
 'use server'
+import BillingStatementInfo from '@/app/(dashboard)/admin/approval-request/billing-statements/billing-statement-info'
+import { BillingStatementsRequestProvider } from '@/app/(dashboard)/admin/approval-request/billing-statements/billing-statements-request-provider'
 import PendingBillingStatementsTable from '@/app/(dashboard)/admin/approval-request/billing-statements/pending-billing-statements-table'
 import getPendingBillingStatements from '@/queries/ get-pending-billing-statements'
 import { createServerClient } from '@/utils/supabase'
@@ -20,7 +22,10 @@ const BillingStatementsApprovalRequestPage = async () => {
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <PendingBillingStatementsTable />
+      <BillingStatementsRequestProvider>
+        <PendingBillingStatementsTable />
+        <BillingStatementInfo />
+      </BillingStatementsRequestProvider>
     </HydrationBoundary>
   )
 }
