@@ -92,6 +92,32 @@ const ApprovalRequestInfo = () => {
                 }
               />
               <ApprovalInformationItem
+                label={'Delivery Date of Membership IDs'}
+                value={
+                  selectedData?.delivery_date_of_membership_ids
+                    ? formatDate(
+                        normalizeToUTC(
+                          new Date(
+                            selectedData.delivery_date_of_membership_ids,
+                          ),
+                        ),
+                        'PP',
+                      )
+                    : 'undefined'
+                }
+              />
+              <ApprovalInformationItem
+                label={'Orientation Date'}
+                value={
+                  selectedData?.orientation_date
+                    ? formatDate(
+                        normalizeToUTC(new Date(selectedData.orientation_date)),
+                        'PP',
+                      )
+                    : 'undefined'
+                }
+              />
+              <ApprovalInformationItem
                 label={'Wellness Lecture Date'}
                 value={
                   selectedData?.wellness_lecture_date
