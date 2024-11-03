@@ -219,7 +219,7 @@ const BillingStatementModal = <TData,>({
           {
             ...data,
             // @ts-ignore
-            // id: originalData?.id ? originalData.id : undefined,
+            ...(originalData?.id && { billing_statement_id: originalData.id }),
             due_date: data.due_date
               ? normalizeToUTC(new Date(data.due_date))
               : undefined,
