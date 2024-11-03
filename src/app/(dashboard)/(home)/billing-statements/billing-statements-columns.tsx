@@ -7,6 +7,13 @@ import {
   formatPercentage,
 } from '@/app/(dashboard)/(home)/accounts/columns/accounts-columns'
 
+const normalizeToUTC = (date: Date): Date => {
+  const utcDate = new Date(
+    Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()),
+  )
+  return utcDate
+}
+
 const billingStatementsColumns: ColumnDef<Tables<'billing_statements'>>[] = [
   {
     accessorKey: 'account.company_name',
@@ -22,13 +29,10 @@ const billingStatementsColumns: ColumnDef<Tables<'billing_statements'>>[] = [
     accessorKey: 'due_date',
     header: ({ column }) => <TableHeader column={column} title="Due Date" />,
     cell: ({ row }) => {
-      return (
-        <div>
-          {row.original.due_date
-            ? format(row.getValue('due_date'), 'MMMM dd, yyyy')
-            : ''}
-        </div>
-      )
+      const dueDate = row.original.due_date
+        ? normalizeToUTC(new Date(row.original.due_date))
+        : null
+      return <div>{dueDate ? format(dueDate, 'MMMM dd, yyyy') : ''}</div>
     },
     accessorFn: (originalRow) =>
       originalRow.due_date ? format(originalRow.due_date, 'MMMM dd, yyyy') : '',
@@ -41,13 +45,10 @@ const billingStatementsColumns: ColumnDef<Tables<'billing_statements'>>[] = [
     accessorKey: 'or_date',
     header: ({ column }) => <TableHeader column={column} title="OR Date" />,
     cell: ({ row }) => {
-      return (
-        <div>
-          {row.original.or_date
-            ? format(row.getValue('or_date'), 'MMMM dd, yyyy')
-            : ''}
-        </div>
-      )
+      const orDate = row.original.or_date
+        ? normalizeToUTC(new Date(row.original.or_date))
+        : null
+      return <div>{orDate ? format(orDate, 'MMMM dd, yyyy') : ''}</div>
     },
     accessorFn: (originalRow) =>
       originalRow.or_date ? format(originalRow.or_date, 'MMMM dd, yyyy') : '',

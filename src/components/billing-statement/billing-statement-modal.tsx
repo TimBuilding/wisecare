@@ -78,6 +78,12 @@ const BillingStatementModal = <TData,>({
   const { toast } = useToast()
   const [tableRerender, setTableRerender] = useState(0)
 
+  const normalizeToUTC = (date: Date): Date => {
+    const utcDate = new Date(
+      Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()),
+    )
+    return utcDate
+  }
   const form = useForm<z.infer<typeof BillingStatementSchema>>({
     resolver: zodResolver(BillingStatementSchema),
     defaultValues: {
@@ -155,10 +161,10 @@ const BillingStatementModal = <TData,>({
         account_id: (originalData as any).account?.id,
         mode_of_payment_id: (originalData as any).mode_of_payment?.id,
         due_date: originalData.due_date
-          ? new Date(originalData.due_date)
+          ? normalizeToUTC(new Date(originalData.due_date))
           : undefined,
         or_date: originalData.or_date
-          ? new Date(originalData.or_date)
+          ? normalizeToUTC(new Date(originalData.or_date))
           : undefined,
         amount: originalData.amount
           ? maskitoTransform(originalData.amount.toString(), currencyOptions)
@@ -214,6 +220,12 @@ const BillingStatementModal = <TData,>({
             ...data,
             // @ts-ignore
             // id: originalData?.id ? originalData.id : undefined,
+            due_date: data.due_date
+              ? normalizeToUTC(new Date(data.due_date))
+              : undefined,
+            or_date: data.or_date
+              ? normalizeToUTC(new Date(data.or_date))
+              : undefined,
             operation_type: originalData ? 'update' : 'insert',
             created_by: user?.id,
           },
