@@ -47,8 +47,8 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { maskitoTransform } from '@maskito/core'
 import { useMaskito } from '@maskito/react'
 import {
+  useInsertMutation,
   useQuery,
-  useUpsertMutation,
 } from '@supabase-cache-helpers/postgrest-react-query'
 import { format } from 'date-fns'
 import { CalendarIcon, Loader2 } from 'lucide-react'
@@ -105,9 +105,9 @@ const BillingStatementModal = <TData,>({
 
   const { data: accounts } = useQuery(getAllAccounts(supabase))
 
-  const { mutateAsync, isPending } = useUpsertMutation(
+  const { mutateAsync, isPending } = useInsertMutation(
     // @ts-ignore
-    supabase.from('billing_statements'),
+    supabase.from('pending_billing_statements'),
     ['id'],
     null,
     {
@@ -117,11 +117,11 @@ const BillingStatementModal = <TData,>({
         toast({
           variant: 'default',
           title: originalData
-            ? 'Billing Statement updated!'
-            : 'Billing Statement created!',
+            ? 'Billing Statement update request submitted!'
+            : 'Billing Statement creation request submitted!',
           description: originalData
-            ? 'Successfully updated billing statement'
-            : 'Successfully created billing statement',
+            ? 'Your request to update the billing statement has been submitted successfully and is awaiting approval.'
+            : 'Your request to create a new billing statement has been submitted successfully and is awaiting approval.',
         })
 
         // if creating new billing statement. then we should reset the form
@@ -205,11 +205,19 @@ const BillingStatementModal = <TData,>({
   const onSubmitHandler = useCallback<FormEventHandler<HTMLFormElement>>(
     (e) => {
       form.handleSubmit(async (data) => {
-        await mutateAsync({
-          ...data,
-          // @ts-ignore
-          id: originalData?.id ? originalData.id : undefined,
-        })
+        const {
+          data: { user },
+        } = await supabase.auth.getUser()
+
+        await mutateAsync([
+          {
+            ...data,
+            // @ts-ignore
+            // id: originalData?.id ? originalData.id : undefined,
+            operation_type: originalData ? 'update' : 'insert',
+            created_by: user?.id,
+          },
+        ])
       })(e)
     },
     [form, originalData?.id, mutateAsync],
@@ -269,11 +277,12 @@ const BillingStatementModal = <TData,>({
                           <SelectValue placeholder="Select Account" />
                         </SelectTrigger>
                         <SelectContent>
-                          {accounts?.map((item) => (
-                            <SelectItem key={item.id} value={item.id}>
-                              {item.company_name}
-                            </SelectItem>
-                          ))}
+                          {accounts &&
+                            accounts?.map((item) => (
+                              <SelectItem key={item.id} value={item.id}>
+                                {item.company_name}
+                              </SelectItem>
+                            ))}
                         </SelectContent>
                       </Select>
                     </FormControl>
@@ -300,11 +309,12 @@ const BillingStatementModal = <TData,>({
                           <SelectValue placeholder="Select Mode of Payment" />
                         </SelectTrigger>
                         <SelectContent>
-                          {modeOfPayments?.map((item) => (
-                            <SelectItem key={item.id} value={item.id}>
-                              {item.name}
-                            </SelectItem>
-                          ))}
+                          {modeOfPayments &&
+                            modeOfPayments?.map((item) => (
+                              <SelectItem key={item.id} value={item.id}>
+                                {item.name}
+                              </SelectItem>
+                            ))}
                         </SelectContent>
                       </Select>
                     </FormControl>

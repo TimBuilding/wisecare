@@ -731,6 +731,103 @@ export type Database = {
           },
         ]
       }
+      pending_billing_statements: {
+        Row: {
+          account_id: string
+          amount: number | null
+          amount_billed: number | null
+          amount_paid: number | null
+          balance: number | null
+          billing_period: number | null
+          commission_earned: number | null
+          commission_rate: number | null
+          created_at: string
+          created_by: string
+          due_date: string | null
+          id: string
+          is_active: boolean
+          is_approved: boolean
+          is_delete_billing_statement: boolean
+          mode_of_payment_id: string | null
+          operation_type: Database['public']['Enums']['pending_operation']
+          or_date: string | null
+          or_number: string | null
+          sa_number: string | null
+          total_contract_value: number | null
+          updated_at: string
+        }
+        Insert: {
+          account_id: string
+          amount?: number | null
+          amount_billed?: number | null
+          amount_paid?: number | null
+          balance?: number | null
+          billing_period?: number | null
+          commission_earned?: number | null
+          commission_rate?: number | null
+          created_at?: string
+          created_by: string
+          due_date?: string | null
+          id?: string
+          is_active?: boolean
+          is_approved?: boolean
+          is_delete_billing_statement?: boolean
+          mode_of_payment_id?: string | null
+          operation_type: Database['public']['Enums']['pending_operation']
+          or_date?: string | null
+          or_number?: string | null
+          sa_number?: string | null
+          total_contract_value?: number | null
+          updated_at?: string
+        }
+        Update: {
+          account_id?: string
+          amount?: number | null
+          amount_billed?: number | null
+          amount_paid?: number | null
+          balance?: number | null
+          billing_period?: number | null
+          commission_earned?: number | null
+          commission_rate?: number | null
+          created_at?: string
+          created_by?: string
+          due_date?: string | null
+          id?: string
+          is_active?: boolean
+          is_approved?: boolean
+          is_delete_billing_statement?: boolean
+          mode_of_payment_id?: string | null
+          operation_type?: Database['public']['Enums']['pending_operation']
+          or_date?: string | null
+          or_number?: string | null
+          sa_number?: string | null
+          total_contract_value?: number | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: 'pending_billing_statements_account_id_fkey'
+            columns: ['account_id']
+            isOneToOne: false
+            referencedRelation: 'accounts'
+            referencedColumns: ['id']
+          },
+          {
+            foreignKeyName: 'pending_billing_statements_created_by_fkey'
+            columns: ['created_by']
+            isOneToOne: false
+            referencedRelation: 'user_profiles'
+            referencedColumns: ['user_id']
+          },
+          {
+            foreignKeyName: 'pending_billing_statements_mode_of_payment_id_fkey'
+            columns: ['mode_of_payment_id']
+            isOneToOne: false
+            referencedRelation: 'mode_of_payments'
+            referencedColumns: ['id']
+          },
+        ]
+      }
       plan_types: {
         Row: {
           created_at: string | null
