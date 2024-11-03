@@ -22,6 +22,10 @@ const pendingBillingStatementsColumns: ColumnDef<
     header: ({ column }) => <TableHeader column={column} title="Account" />,
   },
   {
+    accessorKey: 'or_number',
+    header: ({ column }) => <TableHeader column={column} title="OR Number" />,
+  },
+  {
     accessorKey: 'created_by',
     header: ({ column }) => (
       <TableHeader column={column} title="Requested By" />

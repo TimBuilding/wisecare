@@ -739,6 +739,7 @@ export type Database = {
           amount_paid: number | null
           balance: number | null
           billing_period: number | null
+          billing_statement_id: string | null
           commission_earned: number | null
           commission_rate: number | null
           created_at: string
@@ -763,6 +764,7 @@ export type Database = {
           amount_paid?: number | null
           balance?: number | null
           billing_period?: number | null
+          billing_statement_id?: string | null
           commission_earned?: number | null
           commission_rate?: number | null
           created_at?: string
@@ -787,6 +789,7 @@ export type Database = {
           amount_paid?: number | null
           balance?: number | null
           billing_period?: number | null
+          billing_statement_id?: string | null
           commission_earned?: number | null
           commission_rate?: number | null
           created_at?: string
@@ -810,6 +813,13 @@ export type Database = {
             columns: ['account_id']
             isOneToOne: false
             referencedRelation: 'accounts'
+            referencedColumns: ['id']
+          },
+          {
+            foreignKeyName: 'pending_billing_statements_billing_statement_id_fkey'
+            columns: ['billing_statement_id']
+            isOneToOne: false
+            referencedRelation: 'billing_statements'
             referencedColumns: ['id']
           },
           {

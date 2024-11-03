@@ -628,7 +628,13 @@ const BillingStatementModal = <TData,>({
             >
               {originalData && (
                 <DeleteBillingStatement
-                  id={originalData.id}
+                  originalData={{
+                    ...originalData,
+                    account_id: (originalData as any).account.id,
+                    mode_of_payment_id:
+                      (originalData as any).mode_of_payment?.id ?? '',
+                    updated_at: originalData.created_at,
+                  }}
                   setOpen={setOpen}
                 />
               )}

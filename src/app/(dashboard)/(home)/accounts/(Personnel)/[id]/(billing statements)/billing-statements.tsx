@@ -63,7 +63,15 @@ const BillingStatements: FC<Props> = ({ companyId }) => {
                   data={{ ...billing } as BillingInfoProps['data']}
                 />
                 <div className="flex flex-row items-center justify-end lg:ml-auto lg:items-end">
-                  <DeleteBillingStatement setOpen={() => {}} id={billing.id} />
+                  <DeleteBillingStatement
+                    setOpen={() => {}}
+                    originalData={{
+                      ...billing,
+                      account_id: companyId,
+                      mode_of_payment_id: billing.mode_of_payments?.id ?? '',
+                      updated_at: billing.created_at,
+                    }}
+                  />
                 </div>
               </div>
             </CollapsibleContent>

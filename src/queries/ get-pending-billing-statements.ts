@@ -29,7 +29,8 @@ const getPendingBillingStatements = (
       created_by(first_name, last_name),
       is_approved,
       operation_type,
-      is_delete_billing_statement
+      is_delete_billing_statement,
+      billing_statement_id
     `,
       {
         count: 'exact',

@@ -69,7 +69,9 @@ const BillingStatementActionButton = ({
     if (action === 'approve') {
       await upsertBillingStatement([
         {
-          ...(selectedData.id && { id: selectedData.id }),
+          ...(selectedData.billing_statement_id && {
+            id: selectedData.billing_statement_id,
+          }),
           due_date: selectedData.due_date,
           or_number: selectedData.or_number,
           or_date: selectedData.or_date,
@@ -78,7 +80,7 @@ const BillingStatementActionButton = ({
           total_contract_value: selectedData.total_contract_value,
           balance: selectedData.balance,
           billing_period: selectedData.billing_period,
-          is_active: selectedData.is_active,
+          is_active: selectedData.is_delete_billing_statement ? false : true,
           amount_billed: selectedData.amount_billed,
           amount_paid: selectedData.amount_paid,
           commission_rate: selectedData.commission_rate,
