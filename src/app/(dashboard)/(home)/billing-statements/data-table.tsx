@@ -34,6 +34,7 @@ import { useQuery } from '@supabase-cache-helpers/postgrest-react-query'
 import DataTableRow from './data-table-row'
 import AddBillingStatementButton from '@/app/(dashboard)/(home)/billing-statements/add-billing-statement-button'
 import getBillingStatements from '@/queries/get-billing-statements'
+import BillingStatementRequest from '@/app/(dashboard)/(home)/billing-statements/request/billing-statement-request'
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
@@ -84,6 +85,9 @@ const DataTable = <TData, TValue>({
           </div>
         </div>
       </PageHeader>
+      <div>
+        <BillingStatementRequest />
+      </div>
       <div className="flex h-full flex-col justify-between bg-card">
         <div className="h-full rounded-md border">
           <Table>
