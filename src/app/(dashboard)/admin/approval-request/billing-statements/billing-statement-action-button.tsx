@@ -100,6 +100,7 @@ const BillingStatementActionButton = ({
     await updatePendingBillingStatement({
       id: selectedData.id,
       is_approved: action === 'approve',
+      is_active: action === 'approve',
     })
   }
 
