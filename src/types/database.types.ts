@@ -79,7 +79,7 @@ export type Database = {
           id: string
           initial_contract_value: number | null
           initial_head_count: number | null
-          is_active: boolean | null
+          is_active: boolean
           mode_of_payment_id: string | null
           name_of_signatory: string | null
           nature_of_business: string | null
@@ -117,7 +117,7 @@ export type Database = {
           id?: string
           initial_contract_value?: number | null
           initial_head_count?: number | null
-          is_active?: boolean | null
+          is_active?: boolean
           mode_of_payment_id?: string | null
           name_of_signatory?: string | null
           nature_of_business?: string | null
@@ -155,7 +155,7 @@ export type Database = {
           id?: string
           initial_contract_value?: number | null
           initial_head_count?: number | null
-          is_active?: boolean | null
+          is_active?: boolean
           mode_of_payment_id?: string | null
           name_of_signatory?: string | null
           nature_of_business?: string | null
@@ -556,6 +556,7 @@ export type Database = {
           initial_head_count: number | null
           is_active: boolean
           is_approved: boolean
+          is_delete_account: boolean
           mode_of_payment_id: string | null
           name_of_signatory: string | null
           nature_of_business: string | null
@@ -598,6 +599,7 @@ export type Database = {
           initial_head_count?: number | null
           is_active?: boolean
           is_approved?: boolean
+          is_delete_account?: boolean
           mode_of_payment_id?: string | null
           name_of_signatory?: string | null
           nature_of_business?: string | null
@@ -640,6 +642,7 @@ export type Database = {
           initial_head_count?: number | null
           is_active?: boolean
           is_approved?: boolean
+          is_delete_account?: boolean
           mode_of_payment_id?: string | null
           name_of_signatory?: string | null
           nature_of_business?: string | null

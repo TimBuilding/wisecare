@@ -73,9 +73,9 @@ const ActionRequestButton: FC<ActionRequestButtonProps> = ({
       // Insert account
       await upsertAccount([
         {
-          id: selectedData.account_id,
+          ...(selectedData.account_id && { id: selectedData.account_id }),
           company_name: selectedData.company_name,
-          is_active: selectedData.is_active,
+          is_active: selectedData.is_delete_account ? false : true, // if delete account is true, then is_active is false
           agent_id: (selectedData as any).agent?.user_id,
           company_address: selectedData.company_address,
           nature_of_business: selectedData.nature_of_business,

@@ -47,7 +47,8 @@ const getPendingAccounts = (
     is_approved,
     created_by(first_name, last_name),
     account_id,
-    operation_type
+    operation_type,
+    is_delete_account
   `,
       {
         count: 'exact',

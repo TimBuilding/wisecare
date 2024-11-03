@@ -1,4 +1,5 @@
 'use client'
+import EditPendingRequest from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(company profile)/edit-pending-request'
 import { DeleteCompanySchema } from '@/app/(dashboard)/(home)/accounts/(Personnel)/delete-company-schema'
 import {
   AlertDialog,
@@ -25,11 +26,10 @@ import getAccountById from '@/queries/get-account-by-id'
 import { createBrowserClient } from '@/utils/supabase'
 import { zodResolver } from '@hookform/resolvers/zod'
 import {
+  useInsertMutation,
   useQuery,
-  useUpdateMutation,
 } from '@supabase-cache-helpers/postgrest-react-query'
 import { Loader2, Trash, X } from 'lucide-react'
-import { useRouter } from 'next/navigation'
 import { FC, FormEventHandler, useCallback, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
@@ -47,25 +47,28 @@ const CompanyDeleteButton: FC<Props> = ({ accountId }) => {
       companyName: '',
     },
   })
-
-  const router = useRouter()
+  const [isEditPendingRequestOpen, setIsEditPendingRequestOpen] =
+    useState(false)
+  const [pendingRequestId, setPendingRequestId] = useState('')
 
   const supabase = createBrowserClient()
   const { data: account } = useQuery(getAccountById(supabase, accountId))
 
-  const { mutateAsync, isPending, isSuccess } = useUpdateMutation(
+  const { mutateAsync, isPending } = useInsertMutation(
     // @ts-ignore
-    supabase.from('accounts'),
+    supabase.from('pending_accounts'),
     ['id'],
     null,
     {
       onSuccess: () => {
-        router.push('/accounts')
         toast({
           variant: 'default',
-          title: 'Success',
-          description: 'Account deleted',
+          title: 'Deletion Request Submitted',
+          description:
+            'Your request to delete the company account has been submitted successfully and is awaiting approval.',
         })
+
+        setIsOpen(false)
       },
       onError: (error) => {
         toast({
@@ -89,70 +92,101 @@ const CompanyDeleteButton: FC<Props> = ({ accountId }) => {
           return
         }
 
-        await mutateAsync({
-          id: accountId,
-          is_active: false,
-        })
+        // check if there is already a pending request
+        const { data: pendingRequest } = await supabase
+          .from('pending_accounts')
+          .select('id')
+          .eq('account_id', accountId)
+          .eq('is_active', true)
+          .eq('is_approved', false)
+          .single()
+
+        if (pendingRequest) {
+          setIsEditPendingRequestOpen(true)
+          setPendingRequestId(pendingRequest.id)
+          return
+        }
+
+        const {
+          data: { user },
+        } = await supabase.auth.getUser()
+
+        await mutateAsync([
+          {
+            account_id: accountId,
+            is_delete_account: true,
+            company_name: data.companyName,
+            created_by: user?.id,
+            operation_type: 'delete',
+          },
+        ])
       })(e)
     },
     [account?.company_name, accountId, form, mutateAsync],
   )
 
   return (
-    <AlertDialog open={isOpen} onOpenChange={setIsOpen}>
-      <AlertDialogTrigger asChild={true}>
-        <Button className="w-fit" variant={'destructive'}>
-          <Trash />
-        </Button>
-      </AlertDialogTrigger>
-      <AlertDialogContent>
-        <Form {...form}>
-          <form onSubmit={onUpdateHandler}>
-            <AlertDialogCancel className="absolute right-5 top-5 h-fit w-fit border-0 p-0">
-              <X className="h-4 w-4" />
-            </AlertDialogCancel>
-            <AlertDialogHeader className="mb-3">
-              <AlertDialogTitle>Are you sure?</AlertDialogTitle>
-              <AlertDialogDescription className="text-black">
-                This action <span className="font-bold">CANNOT</span> be undone.
-                This will permanently delete the{' '}
-                <span className="font-bold">{account?.company_name}</span>{' '}
-                account.
-              </AlertDialogDescription>
-            </AlertDialogHeader>
-            <FormField
-              control={form.control}
-              name="companyName"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>
-                    Please type in the name of the account to confirm.
-                  </FormLabel>
-                  <FormControl>
-                    <Input {...field} disabled={isPending || isSuccess} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <AlertDialogFooter className="mt-3">
-              <Button
-                variant={'destructive'}
-                className="w-full"
-                type="submit"
-                disabled={isPending || isSuccess}
-              >
-                {isPending || isSuccess ? (
-                  <Loader2 className="h-4 w-4 animate-spin" />
-                ) : (
-                  'I understand, delete this account'
+    <>
+      <AlertDialog open={isOpen} onOpenChange={setIsOpen}>
+        <AlertDialogTrigger asChild={true}>
+          <Button className="w-fit" variant={'destructive'}>
+            <Trash />
+          </Button>
+        </AlertDialogTrigger>
+        <AlertDialogContent>
+          <Form {...form}>
+            <form onSubmit={onUpdateHandler}>
+              <AlertDialogCancel className="absolute right-5 top-5 h-fit w-fit border-0 p-0">
+                <X className="h-4 w-4" />
+              </AlertDialogCancel>
+              <AlertDialogHeader className="mb-3">
+                <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+                <AlertDialogDescription className="text-black">
+                  This action <span className="font-bold">CANNOT</span> be
+                  undone. This will permanently delete the{' '}
+                  <span className="font-bold">{account?.company_name}</span>{' '}
+                  account.
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+              <FormField
+                control={form.control}
+                name="companyName"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>
+                      Please type in the name of the account to confirm.
+                    </FormLabel>
+                    <FormControl>
+                      <Input {...field} disabled={isPending} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
                 )}
-              </Button>
-            </AlertDialogFooter>
-          </form>
-        </Form>
-      </AlertDialogContent>
-    </AlertDialog>
+              />
+              <AlertDialogFooter className="mt-3">
+                <Button
+                  variant={'destructive'}
+                  className="w-full"
+                  type="submit"
+                  disabled={isPending}
+                >
+                  {isPending ? (
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                  ) : (
+                    'I understand, delete this account'
+                  )}
+                </Button>
+              </AlertDialogFooter>
+            </form>
+          </Form>
+        </AlertDialogContent>
+      </AlertDialog>
+      <EditPendingRequest
+        isOpen={isEditPendingRequestOpen}
+        onClose={() => setIsEditPendingRequestOpen(false)}
+        pendingRequestId={pendingRequestId}
+      />
+    </>
   )
 }
 
