@@ -79,8 +79,9 @@ const EmployeeForm: FC<EmployeeFormProps> = ({
 
         toast({
           variant: 'default',
-          title: 'Employee added!',
-          description: 'Successfully added employee',
+          title: 'Employee submission request submitted!',
+          description:
+            'Your request to submit the employee details has been submitted successfully and is awaiting approval.',
         })
       },
       onError: (err: any) => {

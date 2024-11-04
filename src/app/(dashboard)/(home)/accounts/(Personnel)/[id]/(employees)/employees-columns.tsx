@@ -129,7 +129,7 @@ const employeesColumns: ColumnDef<Tables<'company_employees'>>[] = [
             {/* Edit employee End */}
 
             {/* Delete employee Start */}
-            <DeleteEmployee employeeId={employee.id} />
+            <DeleteEmployee originalData={employee} />
             {/* Delete employee End */}
           </DropdownMenuContent>
         </DropdownMenu>

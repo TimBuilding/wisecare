@@ -68,8 +68,9 @@ const AddAccountForm = ({ setIsOpen }: AddAccountFormProps) => {
     {
       onSuccess: () => {
         toast({
-          title: 'Account created successfully',
-          description: 'The account is pending admin review',
+          title: 'Account creation request submitted!',
+          description:
+            'Your request to create a new account has been submitted successfully and is awaiting approval.',
         })
 
         form.reset()

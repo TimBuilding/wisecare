@@ -4,31 +4,33 @@ import useConfirmationStore from '@/components/confirmation-dialog/confirmationS
 import { DropdownMenuItem } from '@/components/ui/dropdown-menu'
 import { useToast } from '@/components/ui/use-toast'
 import { createBrowserClient } from '@/utils/supabase'
-import { useUpdateMutation } from '@supabase-cache-helpers/postgrest-react-query'
+import { useInsertMutation } from '@supabase-cache-helpers/postgrest-react-query'
 import { Trash2 } from 'lucide-react'
 import { FC } from 'react'
+import { v4 as uuidv4 } from 'uuid'
 
-interface DeleteEmployeeProps {
-  employeeId: string
+interface DeleteEmployeeProps<TData> {
+  originalData: TData
 }
 
-const DeleteEmployee: FC<DeleteEmployeeProps> = ({ employeeId }) => {
+const DeleteEmployee: FC<DeleteEmployeeProps<any>> = ({ originalData }) => {
   const { userRole } = useCompanyContext()
   const { openConfirmation, closeConfirmation } = useConfirmationStore()
   const supabase = createBrowserClient()
   const { toast } = useToast()
 
-  const { mutateAsync, isPending } = useUpdateMutation(
+  const { mutateAsync, isPending } = useInsertMutation(
     // @ts-ignore
-    supabase.from('company_employees'),
+    supabase.from('pending_company_employees'),
     ['id'],
     null,
     {
       onSuccess: () => {
         toast({
           variant: 'default',
-          title: 'Success',
-          description: 'Employee deleted',
+          title: 'Employee deletion request submitted!',
+          description:
+            'Your request to delete the employee has been submitted successfully and is awaiting approval.',
         })
         closeConfirmation()
       },
@@ -51,6 +53,33 @@ const DeleteEmployee: FC<DeleteEmployeeProps> = ({ employeeId }) => {
     return null
   }
 
+  const handleDelete = async () => {
+    const {
+      data: { user },
+    } = await supabase.auth.getUser()
+
+    await mutateAsync([
+      {
+        account_id: originalData.account_id,
+        first_name: originalData.first_name,
+        last_name: originalData.last_name,
+        birth_date: originalData.birth_date,
+        gender: originalData.gender,
+        civil_status: originalData.civil_status,
+        card_number: originalData.card_number,
+        effective_date: originalData.effective_date,
+        room_plan: originalData.room_plan,
+        maximum_benefit_limit: originalData.maximum_benefit_limit,
+        company_employee_id: originalData.id,
+        operation_type: 'delete',
+        is_delete_employee: true,
+        is_active: true,
+        created_by: user?.id,
+        batch_id: uuidv4(),
+      },
+    ])
+  }
+
   return (
     <>
       <DropdownMenuItem
@@ -64,11 +93,7 @@ const DeleteEmployee: FC<DeleteEmployeeProps> = ({ employeeId }) => {
             cancelLabel: 'Cancel',
             actionLabel: 'I understand, delete this employee',
             confirmationButtonVariant: 'destructive',
-            onAction: async () =>
-              await mutateAsync({
-                id: employeeId,
-                is_active: false,
-              }),
+            onAction: handleDelete,
             onCancel: () => {},
           })
         }}

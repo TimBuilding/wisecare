@@ -27,7 +27,8 @@ const getPendingCompanyEmployees = (
       is_approved,
       is_delete_employee,
       operation_type,
-      batch_id
+      batch_id,
+      company_employee_id
     `,
       {
         count: 'exact',

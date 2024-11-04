@@ -421,6 +421,13 @@ export type Database = {
             referencedRelation: 'accounts'
             referencedColumns: ['id']
           },
+          {
+            foreignKeyName: 'company_employees_created_by_fkey1'
+            columns: ['created_by']
+            isOneToOne: false
+            referencedRelation: 'user_profiles'
+            referencedColumns: ['user_id']
+          },
         ]
       }
       departments: {
@@ -845,6 +852,7 @@ export type Database = {
           birth_date: string | null
           card_number: string | null
           civil_status: string | null
+          company_employee_id: string | null
           created_at: string
           created_by: string
           effective_date: string | null
@@ -866,6 +874,7 @@ export type Database = {
           birth_date?: string | null
           card_number?: string | null
           civil_status?: string | null
+          company_employee_id?: string | null
           created_at?: string
           created_by: string
           effective_date?: string | null
@@ -887,6 +896,7 @@ export type Database = {
           birth_date?: string | null
           card_number?: string | null
           civil_status?: string | null
+          company_employee_id?: string | null
           created_at?: string
           created_by?: string
           effective_date?: string | null
@@ -908,6 +918,13 @@ export type Database = {
             columns: ['account_id']
             isOneToOne: false
             referencedRelation: 'accounts'
+            referencedColumns: ['id']
+          },
+          {
+            foreignKeyName: 'pending_company_employees_company_employee_id_fkey'
+            columns: ['company_employee_id']
+            isOneToOne: false
+            referencedRelation: 'company_employees'
             referencedColumns: ['id']
           },
           {

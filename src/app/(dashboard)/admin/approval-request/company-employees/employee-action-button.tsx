@@ -69,7 +69,9 @@ const EmployeeActionButton: FC<EmployeeActionButtonProps> = ({
     if (action === 'approve') {
       await upsertEmployee([
         {
-          // id: selectedData.id,
+          ...(selectedData.company_employee_id && {
+            id: selectedData.company_employee_id,
+          }),
           account_id: selectedData.account_id,
           first_name: selectedData.first_name,
           last_name: selectedData.last_name,

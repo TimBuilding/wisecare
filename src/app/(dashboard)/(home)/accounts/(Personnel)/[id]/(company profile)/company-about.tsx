@@ -126,7 +126,7 @@ const CompanyAbout: FC<Props> = ({ companyId }) => {
     {
       onSuccess: () => {
         toast({
-          title: 'Edit Request Submitted',
+          title: 'Company details edit request submitted!',
           description:
             'Your request to edit the company details has been submitted successfully and is awaiting approval.',
         })
