@@ -47,6 +47,7 @@ const ImportEmployees = ({ isOpen, setIsOpen }: ImportEmployeesProps) => {
     } = await supabase.auth.getUser()
     if (!user) throw new Error('User not found')
 
+    const batchId = uuidv4()
     const employees = data.validData.map((employee) => ({
       account_id: accountId,
       first_name: employee.first_name,
@@ -60,7 +61,7 @@ const ImportEmployees = ({ isOpen, setIsOpen }: ImportEmployeesProps) => {
       maximum_benefit_limit: employee.maximum_benefit_limit,
       created_by: user.id,
       operation_type: 'insert',
-      batch_id: uuidv4(),
+      batch_id: batchId,
     }))
 
     await mutateAsync(employees)

@@ -1,5 +1,6 @@
 'use client'
 
+import groupData from '@/app/(dashboard)/admin/approval-request/company-employees/groupData'
 import pendingCompanyEmployeesColumns from '@/app/(dashboard)/admin/approval-request/company-employees/pending-company-employees-columns'
 import PendingEmployeesRow from '@/app/(dashboard)/admin/approval-request/company-employees/pending-employees-row'
 import {
@@ -28,17 +29,19 @@ import {
   SortingState,
   useReactTable,
 } from '@tanstack/react-table'
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 
 const PendingCompanyEmployeesTable = () => {
   const supabase = createBrowserClient()
   const { count, data } = useQuery(getPendingCompanyEmployees(supabase, 'desc'))
 
+  const memoizedData = useMemo(() => groupData(data as any), [data])
+
   const [sorting, setSorting] = useState<SortingState>([])
   const [globalFilter, setGlobalFilter] = useState<any>('')
 
   const table = useReactTable({
-    data: (data as any) || [],
+    data: memoizedData,
     columns: pendingCompanyEmployeesColumns,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),

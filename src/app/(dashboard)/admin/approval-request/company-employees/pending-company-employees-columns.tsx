@@ -1,5 +1,6 @@
 import OperationBadge from '@/app/(dashboard)/admin/approval-request/components/operation-badge'
 import TableHeader from '@/components/table-header'
+import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Tables } from '@/types/database.types'
 import { ColumnDef } from '@tanstack/react-table'
@@ -14,7 +15,15 @@ const pendingCompanyEmployeesColumns: ColumnDef<
     header: ({ column }) => <TableHeader column={column} title="Action" />,
     accessorFn: (row) => row.operation_type,
     cell: ({ row }) => (
-      <OperationBadge operationType={row.original.operation_type} />
+      <div className="flex items-center gap-1">
+        <OperationBadge operationType={row.original.operation_type} />
+        {(row.original as any).items &&
+          (row.original as any).items.length > 1 && (
+            <Badge variant="outline" className="w-fit bg-blue-400 text-blue-50">
+              Batch
+            </Badge>
+          )}
+      </div>
     ),
   },
   {
@@ -23,11 +32,25 @@ const pendingCompanyEmployeesColumns: ColumnDef<
   },
   {
     accessorKey: 'last_name',
-    header: ({ column }) => <TableHeader column={column} title="Last Name" />,
+    header: ({ column }) => <TableHeader column={column} title="Surname" />,
+    cell: ({ row }) => {
+      if (!row.original.last_name) {
+        return (row.original as any)?.items
+          ? (row.original as any)?.items.length
+          : 0
+      }
+      return <div>{row.original.last_name}</div>
+    },
   },
   {
     accessorKey: 'first_name',
-    header: ({ column }) => <TableHeader column={column} title="First" />,
+    header: ({ column }) => <TableHeader column={column} title="First Name" />,
+    cell: ({ row }) => {
+      if (!row.original.first_name) {
+        return <div>-</div>
+      }
+      return <div>{row.original.first_name}</div>
+    },
   },
   {
     accessorKey: 'created_by',
