@@ -1,6 +1,8 @@
 'use server'
 
 import PendingCompanyEmployeesTable from '@/app/(dashboard)/admin/approval-request/company-employees/pending-company-employees-table'
+import PendingEmployeeInfo from '@/app/(dashboard)/admin/approval-request/company-employees/pending-employee-info'
+import { PendingEmployeeProvider } from '@/app/(dashboard)/admin/approval-request/company-employees/pending-employee-provider'
 import getPendingCompanyEmployees from '@/queries/get-pending-company-employees'
 import { createServerClient } from '@/utils/supabase'
 import { prefetchQuery } from '@supabase-cache-helpers/postgrest-react-query'
@@ -18,7 +20,10 @@ const CompanyEmployeesApprovalRequestPage = async () => {
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <PendingCompanyEmployeesTable />
+      <PendingEmployeeProvider>
+        <PendingCompanyEmployeesTable />
+        <PendingEmployeeInfo />
+      </PendingEmployeeProvider>
     </HydrationBoundary>
   )
 }

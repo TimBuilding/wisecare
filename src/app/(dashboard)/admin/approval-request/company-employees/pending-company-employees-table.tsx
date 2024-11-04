@@ -7,6 +7,8 @@ import {
   PageHeader,
   PageTitle,
 } from '@/components/page-header'
+import TablePagination from '@/components/table-pagination'
+import TableSearch from '@/components/table-search'
 import {
   Table,
   TableBody,
@@ -59,6 +61,9 @@ const PendingCompanyEmployeesTable = () => {
             <PageTitle>Pending Company Employees</PageTitle>
             <PageDescription>{count} pending company employees</PageDescription>
           </div>
+          <div>
+            <TableSearch table={table} />
+          </div>
         </div>
       </PageHeader>
 
@@ -91,6 +96,7 @@ const PendingCompanyEmployeesTable = () => {
             </TableBody>
           </Table>
         </div>
+        <TablePagination table={table} />
       </div>
     </div>
   )

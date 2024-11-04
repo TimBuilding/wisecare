@@ -25,7 +25,7 @@ const BillingStatementInfo = () => {
         <DialogHeader>
           <DialogTitle className="flex items-center gap-x-2">
             Billing Statement Approval Request
-            {/* <OperationBadge operationType={selectedData?.operation_type} /> */}
+            <OperationBadge operationType={selectedData?.operation_type} />
           </DialogTitle>
           <DialogDescription>
             Created by {(selectedData?.created_by as any)?.first_name}{' '}
