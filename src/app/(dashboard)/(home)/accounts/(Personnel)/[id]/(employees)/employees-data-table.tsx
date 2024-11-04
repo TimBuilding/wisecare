@@ -3,6 +3,7 @@
 import EmployeeFormModal from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(employees)/employee-form-modal'
 import EmployeesTableSearch from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(employees)/employees-table-search'
 import ExportEmployees from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(employees)/export-employees'
+import ImportEmployeesButton from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(employees)/import/import-employees-button'
 import EmployeeRequest from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(employees)/request/employee-request'
 import TablePagination from '@/components/table-pagination'
 import { Button } from '@/components/ui/button'
@@ -28,13 +29,6 @@ import {
 import { Plus } from 'lucide-react'
 import dynamic from 'next/dynamic'
 import { useState } from 'react'
-
-const ImportEmployees = dynamic(
-  () =>
-    import(
-      '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(employees)/import/import-employees'
-    ),
-)
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
@@ -79,7 +73,7 @@ const EmployeesDataTable = <TData, TValue>({
               </Button>
             }
           />
-          <ImportEmployees />
+          <ImportEmployeesButton />
           <ExportEmployees />
         </div>
       </div>

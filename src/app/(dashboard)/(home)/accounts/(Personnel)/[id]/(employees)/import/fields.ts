@@ -5,7 +5,13 @@ const importFields = [
     // This is the key used for this field when we call onSubmit.
     key: 'full_name',
     // Allows for better automatic column matching. Optional.
-    alternateMatches: ['first name', 'first'],
+    alternateMatches: [
+      'first name',
+      'first',
+      'member name',
+      'member_name',
+      'MEMBER NAME',
+    ],
     // Used when editing and validating information.
     fieldType: {
       // There are 3 types - "input" / "checkbox" / "select".
