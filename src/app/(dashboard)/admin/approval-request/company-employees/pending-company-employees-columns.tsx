@@ -22,12 +22,12 @@ const pendingCompanyEmployeesColumns: ColumnDef<
     header: ({ column }) => <TableHeader column={column} title="Company" />,
   },
   {
-    accessorKey: 'first_name',
-    header: ({ column }) => <TableHeader column={column} title="Employee" />,
-  },
-  {
     accessorKey: 'last_name',
     header: ({ column }) => <TableHeader column={column} title="Last Name" />,
+  },
+  {
+    accessorKey: 'first_name',
+    header: ({ column }) => <TableHeader column={column} title="First" />,
   },
   {
     accessorKey: 'created_by',

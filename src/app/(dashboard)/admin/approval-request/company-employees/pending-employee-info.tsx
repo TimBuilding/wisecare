@@ -1,4 +1,5 @@
 'use client'
+import EmployeeActionButton from '@/app/(dashboard)/admin/approval-request/company-employees/employee-action-button'
 import { usePendingEmployeeContext } from '@/app/(dashboard)/admin/approval-request/company-employees/pending-employee-provider'
 import ApprovalInformationItem from '@/app/(dashboard)/admin/approval-request/components/approval-information-item'
 import OperationBadge from '@/app/(dashboard)/admin/approval-request/components/operation-badge'
@@ -12,9 +13,10 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog'
 import { formatDate } from 'date-fns'
+import { Loader2 } from 'lucide-react'
 
 const PendingEmployeeInfo = () => {
-  const { selectedData, isModalOpen, setIsModalOpen } =
+  const { selectedData, isModalOpen, setIsModalOpen, isLoading } =
     usePendingEmployeeContext()
 
   return (
@@ -86,8 +88,16 @@ const PendingEmployeeInfo = () => {
         </div>
 
         <DialogFooter>
-          <Button variant={'destructive'}>Reject</Button>
-          <Button variant={'default'}>Approve</Button>
+          <EmployeeActionButton action="reject">
+            <Button variant={'destructive'} disabled={isLoading}>
+              {isLoading ? <Loader2 className="animate-spin" /> : 'Reject'}
+            </Button>
+          </EmployeeActionButton>
+          <EmployeeActionButton action="approve">
+            <Button variant={'default'} disabled={isLoading}>
+              {isLoading ? <Loader2 className="animate-spin" /> : 'Approve'}
+            </Button>
+          </EmployeeActionButton>
         </DialogFooter>
       </DialogContent>
     </Dialog>

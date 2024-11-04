@@ -23,7 +23,7 @@ const getPendingCompanyEmployees = (
       maximum_benefit_limit,
       created_at,
       updated_at,
-      created_by(first_name, last_name),
+      created_by(first_name, last_name, user_id),
       is_approved,
       is_delete_employee,
       operation_type,
