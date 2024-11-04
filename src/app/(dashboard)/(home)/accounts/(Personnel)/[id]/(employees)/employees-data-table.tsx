@@ -26,7 +26,15 @@ import {
   VisibilityState,
 } from '@tanstack/react-table'
 import { Plus } from 'lucide-react'
+import dynamic from 'next/dynamic'
 import { useState } from 'react'
+
+const ImportEmployees = dynamic(
+  () =>
+    import(
+      '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(employees)/import/import-employees'
+    ),
+)
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
@@ -71,6 +79,7 @@ const EmployeesDataTable = <TData, TValue>({
               </Button>
             }
           />
+          <ImportEmployees />
           <ExportEmployees />
         </div>
       </div>
