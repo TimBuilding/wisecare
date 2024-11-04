@@ -846,7 +846,7 @@ export type Database = {
           card_number: string | null
           civil_status: string | null
           created_at: string
-          created_by: string | null
+          created_by: string
           effective_date: string | null
           first_name: string | null
           gender: string | null
@@ -867,7 +867,7 @@ export type Database = {
           card_number?: string | null
           civil_status?: string | null
           created_at?: string
-          created_by?: string | null
+          created_by: string
           effective_date?: string | null
           first_name?: string | null
           gender?: string | null
@@ -888,7 +888,7 @@ export type Database = {
           card_number?: string | null
           civil_status?: string | null
           created_at?: string
-          created_by?: string | null
+          created_by?: string
           effective_date?: string | null
           first_name?: string | null
           gender?: string | null
@@ -909,6 +909,13 @@ export type Database = {
             isOneToOne: false
             referencedRelation: 'accounts'
             referencedColumns: ['id']
+          },
+          {
+            foreignKeyName: 'pending_company_employees_created_by_fkey1'
+            columns: ['created_by']
+            isOneToOne: false
+            referencedRelation: 'user_profiles'
+            referencedColumns: ['user_id']
           },
         ]
       }
