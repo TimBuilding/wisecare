@@ -4,6 +4,7 @@ import getAccounts from '@/queries/get-accounts'
 import { Tables } from '@/types/database.types'
 import { ColumnDef } from '@tanstack/react-table'
 import { format } from 'date-fns'
+import normalizeToUTC from '@/utils/normalize-to-utc'
 
 export const formatCurrency = (value: number | null | undefined) => {
   if (value === null || value === undefined) {
@@ -138,6 +139,16 @@ const accountsColumns: ColumnDef<Tables<'accounts'>>[] = [
     header: ({ column }) => (
       <TableHeader column={column} title="Effectivity Date" />
     ),
+    cell: ({ row }) => {
+      const effectivityDate = row.original.effectivity_date
+        ? normalizeToUTC(new Date(row.original.effectivity_date))
+        : null
+      return (
+        <div>
+          {effectivityDate ? format(effectivityDate, 'MMMM dd, yyyy') : ''}
+        </div>
+      )
+    },
     accessorFn: (originalRow) =>
       (originalRow as any)?.effectivity_date
         ? format((originalRow as any).effectivity_date, 'MMMM dd, yyyy')
@@ -148,6 +159,14 @@ const accountsColumns: ColumnDef<Tables<'accounts'>>[] = [
     header: ({ column }) => (
       <TableHeader column={column} title="COC Issue Date" />
     ),
+    cell: ({ row }) => {
+      const cocIssueDate = row.original.coc_issue_date
+        ? normalizeToUTC(new Date(row.original.coc_issue_date))
+        : null
+      return (
+        <div>{cocIssueDate ? format(cocIssueDate, 'MMMM dd, yyyy') : ''}</div>
+      )
+    },
     accessorFn: (originalRow) =>
       (originalRow as any)?.coc_issue_date
         ? format((originalRow as any).coc_issue_date, 'MMMM dd, yyyy')
@@ -158,6 +177,16 @@ const accountsColumns: ColumnDef<Tables<'accounts'>>[] = [
     header: ({ column }) => (
       <TableHeader column={column} title="Expiration Date" />
     ),
+    cell: ({ row }) => {
+      const expirationDate = row.original.expiration_date
+        ? normalizeToUTC(new Date(row.original.expiration_date))
+        : null
+      return (
+        <div>
+          {expirationDate ? format(expirationDate, 'MMMM dd, yyyy') : ''}
+        </div>
+      )
+    },
     accessorFn: (originalRow) =>
       (originalRow as any)?.expiration_date
         ? format((originalRow as any).expiration_date, 'MMMM dd, yyyy')
@@ -168,6 +197,14 @@ const accountsColumns: ColumnDef<Tables<'accounts'>>[] = [
     header: ({ column }) => (
       <TableHeader column={column} title="Delivery Date of Membership IDs" />
     ),
+    cell: ({ row }) => {
+      const deliveryDate = row.original.delivery_date_of_membership_ids
+        ? normalizeToUTC(new Date(row.original.delivery_date_of_membership_ids))
+        : null
+      return (
+        <div>{deliveryDate ? format(deliveryDate, 'MMMM dd, yyyy') : ''}</div>
+      )
+    },
     accessorFn: (originalRow) =>
       (originalRow as any)?.delivery_date_of_membership_ids
         ? format(
@@ -181,6 +218,16 @@ const accountsColumns: ColumnDef<Tables<'accounts'>>[] = [
     header: ({ column }) => (
       <TableHeader column={column} title="Orientation Date" />
     ),
+    cell: ({ row }) => {
+      const orientationDate = row.original.orientation_date
+        ? normalizeToUTC(new Date(row.original.orientation_date))
+        : null
+      return (
+        <div>
+          {orientationDate ? format(orientationDate, 'MMMM dd, yyyy') : ''}
+        </div>
+      )
+    },
     accessorFn: (originalRow) =>
       (originalRow as any)?.orientation_date
         ? format((originalRow as any).orientation_date, 'MMMM dd, yyyy')
@@ -205,6 +252,18 @@ const accountsColumns: ColumnDef<Tables<'accounts'>>[] = [
     header: ({ column }) => (
       <TableHeader column={column} title="Wellness Lecture Date" />
     ),
+    cell: ({ row }) => {
+      const wellnessLectureDate = row.original.wellness_lecture_date
+        ? normalizeToUTC(new Date(row.original.wellness_lecture_date))
+        : null
+      return (
+        <div>
+          {wellnessLectureDate
+            ? format(wellnessLectureDate, 'MMMM dd, yyyy')
+            : ''}
+        </div>
+      )
+    },
     accessorFn: (originalRow) =>
       (originalRow as any)?.wellness_lecture_date
         ? format((originalRow as any).wellness_lecture_date, 'MMMM dd, yyyy')
@@ -215,6 +274,21 @@ const accountsColumns: ColumnDef<Tables<'accounts'>>[] = [
     header: ({ column }) => (
       <TableHeader column={column} title="Annual Physical Examination Date" />
     ),
+    cell: ({ row }) => {
+      const annualPhysicalExaminationDate = row.original
+        .annual_physical_examination_date
+        ? normalizeToUTC(
+            new Date(row.original.annual_physical_examination_date),
+          )
+        : null
+      return (
+        <div>
+          {annualPhysicalExaminationDate
+            ? format(annualPhysicalExaminationDate, 'MMMM dd, yyyy')
+            : ''}
+        </div>
+      )
+    },
     accessorFn: (originalRow) =>
       (originalRow as any)?.annual_physical_examination_date
         ? format(

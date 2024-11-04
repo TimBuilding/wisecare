@@ -37,6 +37,7 @@ import { CalendarIcon, Loader2 } from 'lucide-react'
 import { FC, FormEventHandler, useCallback, useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
+import normalizeToUTC from '@/utils/normalize-to-utc'
 
 interface EmployeeFormProps {
   setIsOpen: (value: boolean) => void
@@ -105,9 +106,11 @@ const EmployeeForm: FC<EmployeeFormProps> = ({
           ...data,
           // @ts-ignore
           effective_date: data.effective_date
-            ? new Date(data.effective_date)
+            ? normalizeToUTC(new Date(data.effective_date))
             : undefined,
-          birth_date: data.birth_date ? new Date(data.birth_date) : undefined,
+          birth_date: data.birth_date
+            ? normalizeToUTC(new Date(data.birth_date))
+            : undefined,
           account_id: accountId,
           created_by: user.id,
           id: oldEmployeeData?.id ?? undefined,
@@ -124,14 +127,14 @@ const EmployeeForm: FC<EmployeeFormProps> = ({
         first_name: oldEmployeeData.first_name ?? undefined,
         last_name: oldEmployeeData.last_name ?? undefined,
         birth_date: oldEmployeeData
-          ? new Date(oldEmployeeData.birth_date ?? '')
+          ? normalizeToUTC(new Date(oldEmployeeData.birth_date ?? ''))
           : undefined,
         gender: (oldEmployeeData.gender as any).toString() ?? undefined,
         civil_status:
           (oldEmployeeData.civil_status as any).toString() ?? undefined,
         card_number: oldEmployeeData.card_number ?? undefined,
         effective_date: oldEmployeeData.effective_date
-          ? new Date(oldEmployeeData.effective_date ?? '')
+          ? normalizeToUTC(new Date(oldEmployeeData.effective_date ?? ''))
           : undefined,
         room_plan: oldEmployeeData.room_plan ?? undefined,
         maximum_benefit_limit:

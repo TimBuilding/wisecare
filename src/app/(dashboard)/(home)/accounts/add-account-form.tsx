@@ -12,6 +12,7 @@ import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import accountsSchema from './accounts-schema'
 import MarketingInputs from './forms/marketing-inputs'
+import normalizeToUTC from '@/utils/normalize-to-utc'
 
 interface AddAccountFormProps {
   setIsOpen: (isOpen: boolean) => void
@@ -141,17 +142,33 @@ const AddAccountForm = ({ setIsOpen }: AddAccountFormProps) => {
             principal_plan_type_id: data.principal_plan_type_id,
             dependent_plan_type_id: data.dependent_plan_type_id,
             initial_head_count: data.initial_head_count,
-            effectivity_date: data.effectivity_date,
-            coc_issue_date: data.coc_issue_date,
-            expiration_date: data.expiration_date,
+            effectivity_date: data.effectivity_date
+              ? normalizeToUTC(new Date(data.effectivity_date))
+              : null,
+            coc_issue_date: data.coc_issue_date
+              ? normalizeToUTC(new Date(data.coc_issue_date))
+              : null,
+            expiration_date: data.expiration_date
+              ? normalizeToUTC(new Date(data.expiration_date))
+              : null,
             delivery_date_of_membership_ids:
-              data.delivery_date_of_membership_ids,
-            orientation_date: data.orientation_date,
+              data.delivery_date_of_membership_ids
+                ? normalizeToUTC(new Date(data.delivery_date_of_membership_ids))
+                : null,
+            orientation_date: data.orientation_date
+              ? normalizeToUTC(new Date(data.orientation_date))
+              : null,
             initial_contract_value: data.initial_contract_value,
             mode_of_payment_id: data.mode_of_payment_id,
-            wellness_lecture_date: data.wellness_lecture_date,
+            wellness_lecture_date: data.wellness_lecture_date
+              ? normalizeToUTC(new Date(data.wellness_lecture_date))
+              : null,
             annual_physical_examination_date:
-              data.annual_physical_examination_date,
+              data.annual_physical_examination_date
+                ? normalizeToUTC(
+                    new Date(data.annual_physical_examination_date),
+                  )
+                : null,
             commision_rate: data.commision_rate,
             additional_benefits: data.additional_benefits,
             special_benefits: data.special_benefits,

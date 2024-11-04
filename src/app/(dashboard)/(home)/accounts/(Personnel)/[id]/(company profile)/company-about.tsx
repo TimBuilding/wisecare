@@ -23,6 +23,7 @@ import {
 import { FC, FormEventHandler, useCallback } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
+import normalizeToUTC from '@/utils/normalize-to-utc'
 
 interface Props {
   companyId: string
@@ -71,19 +72,19 @@ const CompanyAbout: FC<Props> = ({ companyId }) => {
         : null,
       initial_head_count: account?.initial_head_count ?? null,
       effectivity_date: account?.effectivity_date
-        ? new Date(account.effectivity_date)
+        ? normalizeToUTC(new Date(account.effectivity_date))
         : null,
       coc_issue_date: account?.coc_issue_date
-        ? new Date(account.coc_issue_date)
+        ? normalizeToUTC(new Date(account.coc_issue_date))
         : null,
       expiration_date: account?.expiration_date
-        ? new Date(account.expiration_date)
+        ? normalizeToUTC(new Date(account.expiration_date))
         : null,
       delivery_date_of_membership_ids: account?.delivery_date_of_membership_ids
-        ? new Date(account.delivery_date_of_membership_ids)
+        ? normalizeToUTC(new Date(account.delivery_date_of_membership_ids))
         : null,
       orientation_date: account?.orientation_date
-        ? new Date(account.orientation_date)
+        ? normalizeToUTC(new Date(account.orientation_date))
         : null,
       initial_contract_value: account?.initial_contract_value
         ? (maskitoTransform(
@@ -95,11 +96,11 @@ const CompanyAbout: FC<Props> = ({ companyId }) => {
         ? (account.mode_of_payment as any).id
         : null,
       wellness_lecture_date: account?.wellness_lecture_date
-        ? new Date(account.wellness_lecture_date)
+        ? normalizeToUTC(new Date(account.wellness_lecture_date))
         : null,
       annual_physical_examination_date:
         account?.annual_physical_examination_date
-          ? new Date(account.annual_physical_examination_date)
+          ? normalizeToUTC(new Date(account.annual_physical_examination_date))
           : null,
       commision_rate: account?.commision_rate
         ? (maskitoTransform(
@@ -186,15 +187,31 @@ const CompanyAbout: FC<Props> = ({ companyId }) => {
             special_benefits: data.special_benefits,
             initial_contract_value: data.initial_contract_value,
             mode_of_payment_id: data?.mode_of_payment_id,
-            expiration_date: data.expiration_date,
-            effectivity_date: data.effectivity_date,
-            coc_issue_date: data.coc_issue_date,
+            expiration_date: data.expiration_date
+              ? normalizeToUTC(new Date(data.expiration_date))
+              : null,
+            effectivity_date: data.effectivity_date
+              ? normalizeToUTC(new Date(data.effectivity_date))
+              : null,
+            coc_issue_date: data.coc_issue_date
+              ? normalizeToUTC(new Date(data.coc_issue_date))
+              : null,
             delivery_date_of_membership_ids:
-              data.delivery_date_of_membership_ids,
-            orientation_date: data.orientation_date,
-            wellness_lecture_date: data.wellness_lecture_date,
+              data.delivery_date_of_membership_ids
+                ? normalizeToUTC(new Date(data.delivery_date_of_membership_ids))
+                : null,
+            orientation_date: data.orientation_date
+              ? normalizeToUTC(new Date(data.orientation_date))
+              : null,
+            wellness_lecture_date: data.wellness_lecture_date
+              ? normalizeToUTC(new Date(data.wellness_lecture_date))
+              : null,
             annual_physical_examination_date:
-              data.annual_physical_examination_date,
+              data.annual_physical_examination_date
+                ? normalizeToUTC(
+                    new Date(data.annual_physical_examination_date),
+                  )
+                : null,
             created_by: user.id,
             operation_type: 'update',
           },

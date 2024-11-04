@@ -17,6 +17,7 @@ import {
 } from '@/components/ui/dialog'
 import { formatDate } from 'date-fns'
 import { Loader2 } from 'lucide-react'
+import normalizeToUTC from '@/utils/normalize-to-utc'
 
 const ApprovalRequestInfo = () => {
   const { isModalOpen, setIsModalOpen, selectedData, isLoading } =
@@ -61,7 +62,10 @@ const ApprovalRequestInfo = () => {
                 label={'Expiration Date'}
                 value={
                   selectedData?.expiration_date
-                    ? formatDate(selectedData.expiration_date, 'PP')
+                    ? formatDate(
+                        normalizeToUTC(new Date(selectedData.expiration_date)),
+                        'PP',
+                      )
                     : 'undefined'
                 }
               />
@@ -69,7 +73,10 @@ const ApprovalRequestInfo = () => {
                 label={'Effectivity Date'}
                 value={
                   selectedData?.effectivity_date
-                    ? formatDate(selectedData.effectivity_date, 'PP')
+                    ? formatDate(
+                        normalizeToUTC(new Date(selectedData.effectivity_date)),
+                        'PP',
+                      )
                     : 'undefined'
                 }
               />
@@ -77,7 +84,36 @@ const ApprovalRequestInfo = () => {
                 label={'COC Issue Date'}
                 value={
                   selectedData?.coc_issue_date
-                    ? formatDate(selectedData.coc_issue_date, 'PP')
+                    ? formatDate(
+                        normalizeToUTC(new Date(selectedData.coc_issue_date)),
+                        'PP',
+                      )
+                    : 'undefined'
+                }
+              />
+              <ApprovalInformationItem
+                label={'Delivery Date of Membership IDs'}
+                value={
+                  selectedData?.delivery_date_of_membership_ids
+                    ? formatDate(
+                        normalizeToUTC(
+                          new Date(
+                            selectedData.delivery_date_of_membership_ids,
+                          ),
+                        ),
+                        'PP',
+                      )
+                    : 'undefined'
+                }
+              />
+              <ApprovalInformationItem
+                label={'Orientation Date'}
+                value={
+                  selectedData?.orientation_date
+                    ? formatDate(
+                        normalizeToUTC(new Date(selectedData.orientation_date)),
+                        'PP',
+                      )
                     : 'undefined'
                 }
               />
@@ -85,7 +121,12 @@ const ApprovalRequestInfo = () => {
                 label={'Wellness Lecture Date'}
                 value={
                   selectedData?.wellness_lecture_date
-                    ? formatDate(selectedData.wellness_lecture_date, 'PP')
+                    ? formatDate(
+                        normalizeToUTC(
+                          new Date(selectedData.wellness_lecture_date),
+                        ),
+                        'PP',
+                      )
                     : 'undefined'
                 }
               />
@@ -94,7 +135,11 @@ const ApprovalRequestInfo = () => {
                 value={
                   selectedData?.annual_physical_examination_date
                     ? formatDate(
-                        selectedData.annual_physical_examination_date,
+                        normalizeToUTC(
+                          new Date(
+                            selectedData.annual_physical_examination_date,
+                          ),
+                        ),
                         'PP',
                       )
                     : 'undefined'
