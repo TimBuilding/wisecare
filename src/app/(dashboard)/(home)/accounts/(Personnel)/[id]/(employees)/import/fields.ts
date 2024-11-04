@@ -1,9 +1,9 @@
 const importFields = [
   {
     // Visible in table header and when matching columns.
-    label: 'Name',
+    label: 'Full Name',
     // This is the key used for this field when we call onSubmit.
-    key: 'name',
+    key: 'full_name',
     // Allows for better automatic column matching. Optional.
     alternateMatches: ['first name', 'first'],
     // Used when editing and validating information.
@@ -12,17 +12,8 @@ const importFields = [
       type: 'input',
     },
     // Used in the first step to provide an example of what data is expected in this field. Optional.
-    example: 'Stephanie',
+    example: 'Francisco, Jeremy',
     // Can have multiple validations that are visible in Validation Step table.
-    validations: [
-      {
-        // Can be "required" / "unique" / "regex"
-        rule: 'required',
-        errorMessage: 'Name is required',
-        // There can be "info" / "warning" / "error" levels. Optional. Default "error".
-        level: 'error',
-      },
-    ],
   },
   {
     label: 'First Name',
@@ -82,7 +73,7 @@ const importFields = [
   {
     label: 'Gender',
     key: 'gender',
-    alternateMatches: ['gender'],
+    alternateMatches: ['gender', 'sex', 'Gender', 'Sex'],
     fieldType: {
       type: 'select',
       options: [
@@ -152,7 +143,14 @@ const importFields = [
   {
     label: 'Room Plan',
     key: 'room_plan',
-    alternateMatches: ['room plan', 'room', 'room_plan'],
+    alternateMatches: [
+      'room plan',
+      'room',
+      'room_plan',
+      'Room Limit',
+      'room limit',
+      'room_limit',
+    ],
     fieldType: {
       type: 'input',
     },
