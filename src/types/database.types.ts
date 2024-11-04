@@ -838,6 +838,80 @@ export type Database = {
           },
         ]
       }
+      pending_company_employees: {
+        Row: {
+          account_id: string | null
+          batch_id: string
+          birth_date: string | null
+          card_number: string | null
+          civil_status: string | null
+          created_at: string
+          created_by: string | null
+          effective_date: string | null
+          first_name: string | null
+          gender: string | null
+          id: string
+          is_active: boolean
+          is_approved: boolean
+          is_delete_employee: boolean
+          last_name: string | null
+          maximum_benefit_limit: string | null
+          operation_type: Database['public']['Enums']['pending_operation']
+          room_plan: string | null
+          updated_at: string
+        }
+        Insert: {
+          account_id?: string | null
+          batch_id: string
+          birth_date?: string | null
+          card_number?: string | null
+          civil_status?: string | null
+          created_at?: string
+          created_by?: string | null
+          effective_date?: string | null
+          first_name?: string | null
+          gender?: string | null
+          id?: string
+          is_active?: boolean
+          is_approved?: boolean
+          is_delete_employee?: boolean
+          last_name?: string | null
+          maximum_benefit_limit?: string | null
+          operation_type: Database['public']['Enums']['pending_operation']
+          room_plan?: string | null
+          updated_at?: string
+        }
+        Update: {
+          account_id?: string | null
+          batch_id?: string
+          birth_date?: string | null
+          card_number?: string | null
+          civil_status?: string | null
+          created_at?: string
+          created_by?: string | null
+          effective_date?: string | null
+          first_name?: string | null
+          gender?: string | null
+          id?: string
+          is_active?: boolean
+          is_approved?: boolean
+          is_delete_employee?: boolean
+          last_name?: string | null
+          maximum_benefit_limit?: string | null
+          operation_type?: Database['public']['Enums']['pending_operation']
+          room_plan?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: 'pending_company_employees_account_id_fkey'
+            columns: ['account_id']
+            isOneToOne: false
+            referencedRelation: 'accounts'
+            referencedColumns: ['id']
+          },
+        ]
+      }
       plan_types: {
         Row: {
           created_at: string | null
