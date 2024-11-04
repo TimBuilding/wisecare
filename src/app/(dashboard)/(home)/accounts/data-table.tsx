@@ -1,6 +1,5 @@
 'use client'
 
-import ExportAccounts from '@/app/(dashboard)/(home)/accounts/export-accounts'
 import {
   PageDescription,
   PageHeader,
@@ -23,14 +22,14 @@ import { createBrowserClient } from '@/utils/supabase'
 import { useQuery } from '@supabase-cache-helpers/postgrest-react-query'
 import {
   ColumnDef,
-  SortingState,
-  VisibilityState,
   flexRender,
   getCoreRowModel,
   getFilteredRowModel,
   getPaginationRowModel,
   getSortedRowModel,
+  SortingState,
   useReactTable,
+  VisibilityState,
 } from '@tanstack/react-table'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
@@ -38,6 +37,7 @@ import AccountsProvider from './accounts-provider'
 import AddAccountButton from './add-account-button'
 import getAccounts from '@/queries/get-accounts'
 import AccountRequest from '@/app/(dashboard)/(home)/accounts/request/account-request'
+import ExportAccountsModal from '@/app/(dashboard)/(home)/accounts/export-requests/export-accounts-modal'
 
 interface IData {
   id: string
@@ -152,7 +152,7 @@ const DataTable = <TData extends IData, TValue>({
             <div className="flex flex-row gap-4">
               <TableSearch table={table} />
               <AddAccountButton />
-              <ExportAccounts />
+              <ExportAccountsModal />
             </div>
           </div>
         </PageHeader>

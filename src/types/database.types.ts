@@ -936,6 +936,57 @@ export type Database = {
           },
         ]
       }
+      pending_export_requests: {
+        Row: {
+          account_id: string | null
+          created_at: string
+          created_by: string
+          data: Json | null
+          export_type: Database['public']['Enums']['export_type']
+          id: string
+          is_active: boolean
+          is_approved: boolean
+          updated_at: string
+        }
+        Insert: {
+          account_id?: string | null
+          created_at?: string
+          created_by?: string
+          data?: Json | null
+          export_type: Database['public']['Enums']['export_type']
+          id?: string
+          is_active?: boolean
+          is_approved?: boolean
+          updated_at?: string
+        }
+        Update: {
+          account_id?: string | null
+          created_at?: string
+          created_by?: string
+          data?: Json | null
+          export_type?: Database['public']['Enums']['export_type']
+          id?: string
+          is_active?: boolean
+          is_approved?: boolean
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: 'pending_export_requests_account_id_fkey'
+            columns: ['account_id']
+            isOneToOne: false
+            referencedRelation: 'accounts'
+            referencedColumns: ['id']
+          },
+          {
+            foreignKeyName: 'pending_export_requests_created_by_fkey'
+            columns: ['created_by']
+            isOneToOne: false
+            referencedRelation: 'user_profiles'
+            referencedColumns: ['user_id']
+          },
+        ]
+      }
       plan_types: {
         Row: {
           created_at: string | null
@@ -1003,6 +1054,7 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
+      export_type: 'accounts' | 'employees'
       pending_operation: 'insert' | 'update' | 'delete'
     }
     CompositeTypes: {
