@@ -2,6 +2,7 @@ import { Tables } from '@/types/database.types'
 import { FC } from 'react'
 import OperationTypeBadge from '@/app/(dashboard)/admin/approval-request/components/operation-badge'
 import { formatDistanceToNow } from 'date-fns'
+import DeleteEmployeeRequest from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(employees)/request/delete-employee-request'
 
 interface EmployeeRequestListItemProps {
   data: Tables<'pending_company_employees'>
@@ -22,7 +23,7 @@ const EmployeeRequestListItem: FC<EmployeeRequestListItemProps> = ({
       <p className="text-sm font-medium">
         {data.first_name} {data.last_name}
       </p>
-      {/* <DeleteEmployeeRequest pendingEmployeeId={data.id} /> */}
+      <DeleteEmployeeRequest data={data} />
     </div>
   )
 }

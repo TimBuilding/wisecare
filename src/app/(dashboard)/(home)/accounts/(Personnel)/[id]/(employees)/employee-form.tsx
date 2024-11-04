@@ -1,5 +1,5 @@
-import employeeSchema from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(employees)/employee-schema'
 import { useCompanyContext } from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(company profile)/company-provider'
+import employeeSchema from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(employees)/employee-schema'
 import { Button } from '@/components/ui/button'
 import { Calendar } from '@/components/ui/calendar'
 import {
@@ -25,21 +25,17 @@ import {
 } from '@/components/ui/select'
 import { useToast } from '@/components/ui/use-toast'
 import { Tables } from '@/types/database.types'
+import normalizeToUTC from '@/utils/normalize-to-utc'
 import { createBrowserClient } from '@/utils/supabase'
 import { cn } from '@/utils/tailwind'
 import { zodResolver } from '@hookform/resolvers/zod'
-import {
-  useInsertMutation,
-  useUpdateMutation,
-  useUpsertMutation,
-} from '@supabase-cache-helpers/postgrest-react-query'
+import { useInsertMutation } from '@supabase-cache-helpers/postgrest-react-query'
 import { format } from 'date-fns'
 import { CalendarIcon, Loader2 } from 'lucide-react'
 import { FC, FormEventHandler, useCallback, useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { z } from 'zod'
-import normalizeToUTC from '@/utils/normalize-to-utc'
 import { v4 as uuidv4 } from 'uuid'
+import { z } from 'zod'
 
 interface EmployeeFormProps {
   setIsOpen: (value: boolean) => void
