@@ -107,16 +107,18 @@ const EmployeeForm: FC<EmployeeFormProps> = ({
 
         await mutateAsync([
           {
+            ...(oldEmployeeData && {
+              company_employee_id: oldEmployeeData.id,
+            }),
             ...data,
             effective_date: data.effective_date
               ? normalizeToUTC(new Date(data.effective_date))
-            : undefined,
-          birth_date: data.birth_date
-            ? normalizeToUTC(new Date(data.birth_date))
               : undefined,
-              account_id: accountId,
+            birth_date: data.birth_date
+              ? normalizeToUTC(new Date(data.birth_date))
+              : undefined,
+            account_id: accountId,
             created_by: user.id,
-            // id: oldEmployeeData?.id ?? undefined,
             operation_type: oldEmployeeData ? 'update' : 'insert',
             batch_id: uuidv4(),
           },
