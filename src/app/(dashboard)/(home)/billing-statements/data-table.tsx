@@ -15,7 +15,6 @@ import {
 } from '@/components/ui/table'
 import {
   ColumnDef,
-  ColumnFiltersState,
   flexRender,
   getCoreRowModel,
   getFilteredRowModel,
@@ -26,15 +25,14 @@ import {
 } from '@tanstack/react-table'
 import { useState } from 'react'
 
+import AddBillingStatementButton from '@/app/(dashboard)/(home)/billing-statements/add-billing-statement-button'
+import BillingStatementRequest from '@/app/(dashboard)/(home)/billing-statements/request/billing-statement-request'
 import TableSearch from '@/components/table-search'
 import { Skeleton } from '@/components/ui/skeleton'
-import { useTableContext } from '@/providers/TableProvider'
+import getBillingStatements from '@/queries/get-billing-statements'
 import { createBrowserClient } from '@/utils/supabase'
 import { useQuery } from '@supabase-cache-helpers/postgrest-react-query'
 import DataTableRow from './data-table-row'
-import AddBillingStatementButton from '@/app/(dashboard)/(home)/billing-statements/add-billing-statement-button'
-import getBillingStatements from '@/queries/get-billing-statements'
-import BillingStatementRequest from '@/app/(dashboard)/(home)/billing-statements/request/billing-statement-request'
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]

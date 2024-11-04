@@ -1,6 +1,9 @@
+'use client'
+
 import EmployeeFormModal from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(employees)/employee-form-modal'
 import EmployeesTableSearch from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(employees)/employees-table-search'
 import ExportEmployees from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(employees)/export-employees'
+import EmployeeRequest from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(employees)/request/employee-request'
 import TablePagination from '@/components/table-pagination'
 import { Button } from '@/components/ui/button'
 import {
@@ -13,7 +16,6 @@ import {
 } from '@/components/ui/table'
 import {
   ColumnDef,
-  ColumnFiltersState,
   flexRender,
   getCoreRowModel,
   getFilteredRowModel,
@@ -72,6 +74,7 @@ const EmployeesDataTable = <TData, TValue>({
           <ExportEmployees />
         </div>
       </div>
+      <EmployeeRequest />
       <div className="rounded-md border">
         <Table>
           <TableHeader>
