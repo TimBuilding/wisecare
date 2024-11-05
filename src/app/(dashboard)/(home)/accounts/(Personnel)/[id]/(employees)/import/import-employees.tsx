@@ -3,6 +3,7 @@ import { useCompanyContext } from '@/app/(dashboard)/(home)/accounts/(Personnel)
 import importFields from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(employees)/import/fields'
 import parseDate from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(employees)/import/parseDate'
 import parseRow from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(employees)/import/parseRow'
+import themeOverrides from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(employees)/import/themeOverrides'
 import { useToast } from '@/components/ui/use-toast'
 import { createBrowserClient } from '@/utils/supabase'
 import { useInsertMutation } from '@supabase-cache-helpers/postgrest-react-query'
@@ -66,16 +67,20 @@ const ImportEmployees = ({ isOpen, setIsOpen }: ImportEmployeesProps) => {
 
     await mutateAsync(employees)
   }
-
   return (
-    <ReactSpreadsheetImport
-      isOpen={isOpen}
-      onClose={() => setIsOpen(false)}
-      onSubmit={handleSubmit}
-      fields={importFields}
-      rowHook={parseRow}
-      uploadStepHook={parseDate}
-    />
+    <>
+      {isOpen && (
+        <ReactSpreadsheetImport
+          isOpen={isOpen}
+          onClose={() => setIsOpen(false)}
+          onSubmit={handleSubmit}
+          fields={importFields}
+          rowHook={parseRow}
+          uploadStepHook={parseDate}
+          customTheme={themeOverrides}
+        />
+      )}
+    </>
   )
 }
 
