@@ -8,7 +8,7 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog'
 import { Button } from '@/components/ui/button'
-import { FileDown } from 'lucide-react'
+import { FileDown, Loader2 } from 'lucide-react'
 import { useState } from 'react'
 import { createBrowserClient } from '@/utils/supabase'
 import { useInsertMutation } from '@supabase-cache-helpers/postgrest-react-query'
@@ -83,7 +83,7 @@ const ExportAccountsModal: FC<ExportAccountsModalProps> = ({ exportData }) => {
             onClick={handleConfirm}
             disabled={isPending}
           >
-            Confirm
+            {isPending ? <Loader2 className="animate-spin" /> : 'Confirm'}
           </Button>
           <Button variant={'outline'} onClick={() => setIsOpen(false)}>
             Cancel
