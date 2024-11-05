@@ -1,5 +1,4 @@
 'use client'
-import AddUserForm from '@/app/(dashboard)/admin/users/create/add-user-form'
 import { Button } from '@/components/ui/button'
 import {
   Sheet,
@@ -9,8 +8,14 @@ import {
   SheetTrigger,
 } from '@/components/ui/sheet'
 import { Plus, X } from 'lucide-react'
-import { useState } from 'react'
+import dynamic from 'next/dynamic'
+import { Suspense, useState } from 'react'
 import Avatar, { genConfig } from 'react-nice-avatar'
+
+const AddUserForm = dynamic(
+  () => import('@/app/(dashboard)/admin/users/create/add-user-form'),
+  { ssr: false },
+)
 
 const AddUser = () => {
   const config = genConfig({
@@ -52,7 +57,11 @@ const AddUser = () => {
             className="mx-6 h-32 w-32 -translate-y-16 rounded-full border-4 border-card"
             {...config}
           />
-          <AddUserForm onOpenChange={setIsFormOpen} />
+          {
+            <Suspense fallback={<div>Loading...</div>}>
+              <AddUserForm onOpenChange={setIsFormOpen} />
+            </Suspense>
+          }
         </div>
       </SheetContent>
     </Sheet>

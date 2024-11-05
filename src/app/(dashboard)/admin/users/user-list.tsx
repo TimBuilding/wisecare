@@ -1,6 +1,5 @@
 'use client'
 
-import EditUserForm from '@/app/(dashboard)/admin/users/edit/edit-user-form'
 import { Button } from '@/components/ui/button'
 import {
   Sheet,
@@ -13,8 +12,14 @@ import getUsers from '@/queries/get-users'
 import { createBrowserClient } from '@/utils/supabase'
 import { useQuery } from '@supabase-cache-helpers/postgrest-react-query'
 import { X } from 'lucide-react'
-import { useState } from 'react'
+import dynamic from 'next/dynamic'
+import { Suspense, useState } from 'react'
 import Avatar, { genConfig } from 'react-nice-avatar'
+
+const EditUserForm = dynamic(
+  () => import('@/app/(dashboard)/admin/users/edit/edit-user-form'),
+  { ssr: false },
+)
 
 const UserListItem = ({
   userId,
@@ -70,14 +75,16 @@ const UserListItem = ({
             className="mx-6 h-32 w-32 -translate-y-16 rounded-full border-4 border-card"
             {...config}
           />
-          <EditUserForm
-            onOpenChange={setIsEditOpen}
-            userId={userId}
-            firstName={firstName}
-            lastName={lastName}
-            department={department}
-            email={email}
-          />
+          <Suspense fallback={<div>Loading...</div>}>
+            <EditUserForm
+              onOpenChange={setIsEditOpen}
+              userId={userId}
+              firstName={firstName}
+              lastName={lastName}
+              department={department}
+              email={email}
+            />
+          </Suspense>
         </div>
       </SheetContent>
     </Sheet>
