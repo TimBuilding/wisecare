@@ -4,7 +4,6 @@ import ApprovalInformationItem from '@/app/(dashboard)/admin/approval-request/co
 
 const BatchEmployee = () => {
   const { selectedData } = usePendingEmployeeContext()
-  console.log(selectedData)
   return (
     <div className="max-h-[500px] divide-y-2 overflow-y-auto">
       {(selectedData as any)?.items.map((item: any) => (
