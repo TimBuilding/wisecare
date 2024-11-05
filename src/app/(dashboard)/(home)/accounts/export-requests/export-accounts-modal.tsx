@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { FC } from 'react'
 import {
   Dialog,
   DialogContent,
@@ -10,9 +10,56 @@ import {
 import { Button } from '@/components/ui/button'
 import { FileDown } from 'lucide-react'
 import { useState } from 'react'
+import { createBrowserClient } from '@/utils/supabase'
+import { useInsertMutation } from '@supabase-cache-helpers/postgrest-react-query'
+import { toast } from '@/components/ui/use-toast'
+import { Enums } from '@/types/database.types'
 
-const ExportAccountsModal = () => {
+interface ExportAccountsModalProps {
+  exportData: Enums<'export_type'>
+}
+
+const ExportAccountsModal: FC<ExportAccountsModalProps> = ({ exportData }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false)
+  const supabase = createBrowserClient()
+
+  const { mutateAsync, isPending } = useInsertMutation(
+    //@ts-ignore
+    supabase.from('pending_export_requests'),
+    ['id'],
+    null,
+    {
+      onSuccess: () => {
+        toast({
+          title: 'Export Request Submitted',
+          variant: 'default',
+          description:
+            'Your export request has been submitted and is waiting for approval',
+        })
+        setIsOpen(false)
+      },
+      onError: (error) => {
+        toast({
+          title: 'Something went wrong',
+          variant: 'destructive',
+          description: error.message,
+        })
+      },
+    },
+  )
+
+  const handleConfirm = async () => {
+    const {
+      data: { user },
+    } = await supabase.auth.getUser()
+
+    await mutateAsync([
+      {
+        export_type: exportData,
+        created_by: user?.id,
+      },
+    ])
+  }
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
@@ -31,7 +78,11 @@ const ExportAccountsModal = () => {
           request will be reviewed before it is processed.
         </div>
         <DialogFooter>
-          <Button variant={'default'} onClick={() => setIsOpen(false)}>
+          <Button
+            variant={'default'}
+            onClick={handleConfirm}
+            disabled={isPending}
+          >
             Confirm
           </Button>
           <Button variant={'outline'} onClick={() => setIsOpen(false)}>

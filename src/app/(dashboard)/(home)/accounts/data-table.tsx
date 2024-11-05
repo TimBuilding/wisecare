@@ -152,7 +152,7 @@ const DataTable = <TData extends IData, TValue>({
             <div className="flex flex-row gap-4">
               <TableSearch table={table} />
               <AddAccountButton />
-              <ExportAccountsModal />
+              <ExportAccountsModal exportData={'accounts'} />
             </div>
           </div>
         </PageHeader>
