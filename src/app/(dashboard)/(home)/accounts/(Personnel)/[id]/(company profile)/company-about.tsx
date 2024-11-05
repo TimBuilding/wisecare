@@ -12,18 +12,17 @@ import { Button } from '@/components/ui/button'
 import { Form } from '@/components/ui/form'
 import { toast } from '@/components/ui/use-toast'
 import getAccountById from '@/queries/get-account-by-id'
+import normalizeToUTC from '@/utils/normalize-to-utc'
 import { createBrowserClient } from '@/utils/supabase'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { maskitoTransform } from '@maskito/core'
 import {
   useInsertMutation,
   useQuery,
-  useUpdateMutation,
 } from '@supabase-cache-helpers/postgrest-react-query'
 import { FC, FormEventHandler, useCallback } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
-import normalizeToUTC from '@/utils/normalize-to-utc'
 
 interface Props {
   companyId: string
@@ -218,7 +217,7 @@ const CompanyAbout: FC<Props> = ({ companyId }) => {
         ])
       })(e)
     },
-    [companyId, form, mutateAsync],
+    [companyId, form, mutateAsync, supabase.auth],
   )
 
   return (

@@ -1,7 +1,6 @@
 'use client'
 
 import CompanyAbout from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(company profile)/company-about'
-import CompanyDeleteButton from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(company profile)/company-delete-button'
 import CompanyEditButton from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(company profile)/company-edit-button'
 import CompanyEditProvider from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(company profile)/company-edit-provider'
 import CompanyHeader from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/company-header'
@@ -10,6 +9,7 @@ import { Tabs, TabsContent } from '@/components/ui/tabs'
 import { FC, useEffect } from 'react'
 import AddBillingStatementButton from '@/app/(dashboard)/(home)/billing-statements/add-billing-statement-button'
 import dynamic from 'next/dynamic'
+import CompanyDeleteButton from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(company profile)/delete/company-delete-button'
 
 interface Props {
   companyId: string

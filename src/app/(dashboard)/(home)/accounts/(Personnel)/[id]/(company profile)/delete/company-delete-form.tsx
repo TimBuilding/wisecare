@@ -1,15 +1,12 @@
 'use client'
-import EditPendingRequest from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(company profile)/edit-pending-request'
 import { DeleteCompanySchema } from '@/app/(dashboard)/(home)/accounts/(Personnel)/delete-company-schema'
 import {
-  AlertDialog,
   AlertDialogCancel,
   AlertDialogContent,
   AlertDialogDescription,
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-  AlertDialogTrigger,
 } from '@/components/ui/alert-dialog'
 import { Button } from '@/components/ui/button'
 import {
@@ -29,17 +26,24 @@ import {
   useInsertMutation,
   useQuery,
 } from '@supabase-cache-helpers/postgrest-react-query'
-import { Loader2, Trash, X } from 'lucide-react'
-import { FC, FormEventHandler, useCallback, useState } from 'react'
+import { Loader2, X } from 'lucide-react'
+import { FC, FormEventHandler, useCallback } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
 interface Props {
   accountId: string
+  setIsOpen: (value: boolean) => void
+  setIsEditPendingRequestOpen: (value: boolean) => void
+  setPendingRequestId: (value: string) => void
 }
 
-const CompanyDeleteButton: FC<Props> = ({ accountId }) => {
-  const [isOpen, setIsOpen] = useState(false)
+const CompanyDeleteForm: FC<Props> = ({
+  accountId,
+  setIsOpen,
+  setIsEditPendingRequestOpen,
+  setPendingRequestId,
+}) => {
   const { toast } = useToast()
   const form = useForm<z.infer<typeof DeleteCompanySchema>>({
     resolver: zodResolver(DeleteCompanySchema),
@@ -47,9 +51,6 @@ const CompanyDeleteButton: FC<Props> = ({ accountId }) => {
       companyName: '',
     },
   })
-  const [isEditPendingRequestOpen, setIsEditPendingRequestOpen] =
-    useState(false)
-  const [pendingRequestId, setPendingRequestId] = useState('')
 
   const supabase = createBrowserClient()
   const { data: account } = useQuery(getAccountById(supabase, accountId))
@@ -122,72 +123,65 @@ const CompanyDeleteButton: FC<Props> = ({ accountId }) => {
         ])
       })(e)
     },
-    [account?.company_name, accountId, form, mutateAsync],
+    [
+      account?.company_name,
+      accountId,
+      form,
+      mutateAsync,
+      setIsEditPendingRequestOpen,
+      setPendingRequestId,
+      supabase,
+    ],
   )
-
   return (
-    <>
-      <AlertDialog open={isOpen} onOpenChange={setIsOpen}>
-        <AlertDialogTrigger asChild={true}>
-          <Button className="w-fit" variant={'destructive'}>
-            <Trash />
-          </Button>
-        </AlertDialogTrigger>
-        <AlertDialogContent>
-          <Form {...form}>
-            <form onSubmit={onUpdateHandler}>
-              <AlertDialogCancel className="absolute right-5 top-5 h-fit w-fit border-0 p-0">
-                <X className="h-4 w-4" />
-              </AlertDialogCancel>
-              <AlertDialogHeader className="mb-3">
-                <AlertDialogTitle>Are you sure?</AlertDialogTitle>
-                <AlertDialogDescription className="text-black">
-                  This action <span className="font-bold">CANNOT</span> be
-                  undone. This will permanently delete the{' '}
-                  <span className="font-bold">{account?.company_name}</span>{' '}
-                  account.
-                </AlertDialogDescription>
-              </AlertDialogHeader>
-              <FormField
-                control={form.control}
-                name="companyName"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>
-                      Please type in the name of the account to confirm.
-                    </FormLabel>
-                    <FormControl>
-                      <Input {...field} disabled={isPending} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <AlertDialogFooter className="mt-3">
-                <Button
-                  variant={'destructive'}
-                  className="w-full"
-                  type="submit"
-                  disabled={isPending}
-                >
-                  {isPending ? (
-                    <Loader2 className="h-4 w-4 animate-spin" />
-                  ) : (
-                    'I understand, delete this account'
-                  )}
-                </Button>
-              </AlertDialogFooter>
-            </form>
-          </Form>
-        </AlertDialogContent>
-      </AlertDialog>
-      <EditPendingRequest
-        isOpen={isEditPendingRequestOpen}
-        onClose={() => setIsEditPendingRequestOpen(false)}
-        pendingRequestId={pendingRequestId}
-      />
-    </>
+    <AlertDialogContent>
+      <Form {...form}>
+        <form onSubmit={onUpdateHandler}>
+          <AlertDialogCancel className="absolute right-5 top-5 h-fit w-fit border-0 p-0">
+            <X className="h-4 w-4" />
+          </AlertDialogCancel>
+          <AlertDialogHeader className="mb-3">
+            <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+            <AlertDialogDescription className="text-black">
+              This action <span className="font-bold">CANNOT</span> be undone.
+              This will permanently delete the{' '}
+              <span className="font-bold">{account?.company_name}</span>{' '}
+              account.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <FormField
+            control={form.control}
+            name="companyName"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>
+                  Please type in the name of the account to confirm.
+                </FormLabel>
+                <FormControl>
+                  <Input {...field} disabled={isPending} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <AlertDialogFooter className="mt-3">
+            <Button
+              variant={'destructive'}
+              className="w-full"
+              type="submit"
+              disabled={isPending}
+            >
+              {isPending ? (
+                <Loader2 className="h-4 w-4 animate-spin" />
+              ) : (
+                'I understand, delete this account'
+              )}
+            </Button>
+          </AlertDialogFooter>
+        </form>
+      </Form>
+    </AlertDialogContent>
   )
 }
 
-export default CompanyDeleteButton
+export default CompanyDeleteForm
