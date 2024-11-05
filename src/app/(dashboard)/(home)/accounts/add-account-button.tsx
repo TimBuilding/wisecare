@@ -10,7 +10,7 @@ import {
 } from '@/components/ui/dialog'
 import { Plus } from 'lucide-react'
 import dynamic from 'next/dynamic'
-import { useState } from 'react'
+import { Suspense, useState } from 'react'
 
 const AddAccountForm = dynamic(
   () => import('@/app/(dashboard)/(home)/accounts/add-account-form'),
@@ -32,7 +32,11 @@ const AddAccountButton = () => {
           <DialogTitle>Add Account</DialogTitle>
           <DialogDescription>Add a new account to the system</DialogDescription>
         </DialogHeader>
-        <AddAccountForm setIsOpen={setIsOpen} />
+        {isOpen && (
+          <Suspense fallback={<div>Loading...</div>}>
+            <AddAccountForm setIsOpen={setIsOpen} />
+          </Suspense>
+        )}
       </DialogContent>
     </Dialog>
   )

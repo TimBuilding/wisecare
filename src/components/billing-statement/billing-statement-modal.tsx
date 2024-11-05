@@ -3,6 +3,7 @@
 import { useCompanyContext } from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(company profile)/company-provider'
 import BillingStatementSchema from '@/app/(dashboard)/(home)/billing-statements/billing-statement-schema'
 import DeleteBillingStatement from '@/components/billing-statement/delete-billing-statement'
+import formatOriginalData from '@/components/billing-statement/formatOriginalData'
 import currencyOptions from '@/components/maskito/currency-options'
 import percentageOptions from '@/components/maskito/percentage-options'
 import { Button } from '@/components/ui/button'
@@ -41,10 +42,10 @@ import { useToast } from '@/components/ui/use-toast'
 import getAllAccounts from '@/queries/get-all-accounts'
 import getTypes from '@/queries/get-types'
 import { Tables } from '@/types/database.types'
+import normalizeToUTC from '@/utils/normalize-to-utc'
 import { createBrowserClient } from '@/utils/supabase'
 import { cn } from '@/utils/tailwind'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { maskitoTransform } from '@maskito/core'
 import { useMaskito } from '@maskito/react'
 import {
   useInsertMutation,
@@ -52,16 +53,9 @@ import {
 } from '@supabase-cache-helpers/postgrest-react-query'
 import { format } from 'date-fns'
 import { CalendarIcon, Loader2 } from 'lucide-react'
-import {
-  FormEventHandler,
-  ReactNode,
-  useCallback,
-  useEffect,
-  useState,
-} from 'react'
+import { FormEventHandler, ReactNode, useCallback, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
-import normalizeToUTC from '@/utils/normalize-to-utc'
 
 interface Props<TData> {
   originalData?: TData & Tables<'billing_statements'>
@@ -78,6 +72,8 @@ const BillingStatementModal = <TData,>({
 }: Props<TData>) => {
   const { toast } = useToast()
   const [tableRerender, setTableRerender] = useState(0)
+
+  const CompanyContext = useCompanyContext()
 
   const form = useForm<z.infer<typeof BillingStatementSchema>>({
     resolver: zodResolver(BillingStatementSchema),
@@ -96,6 +92,10 @@ const BillingStatementModal = <TData,>({
       commission_rate: undefined,
       commission_earned: undefined,
       account_id: undefined,
+    },
+    values: {
+      account_id: CompanyContext?.accountId ?? undefined,
+      ...(originalData && formatOriginalData(originalData as any)),
     },
   })
 
@@ -143,66 +143,6 @@ const BillingStatementModal = <TData,>({
     },
   )
 
-  // only used for edit. it fetches the original data from the database
-  useEffect(() => {
-    if (originalData) {
-      const resetData = {
-        ...Object.fromEntries(
-          Object.entries(originalData).map(([key, value]) => [
-            key,
-            value === null ? undefined : value,
-          ]),
-        ),
-        account_id: (originalData as any).account?.id,
-        mode_of_payment_id: (originalData as any).mode_of_payment?.id,
-        due_date: originalData.due_date
-          ? normalizeToUTC(new Date(originalData.due_date))
-          : undefined,
-        or_date: originalData.or_date
-          ? normalizeToUTC(new Date(originalData.or_date))
-          : undefined,
-        amount: originalData.amount
-          ? maskitoTransform(originalData.amount.toString(), currencyOptions)
-          : undefined,
-        total_contract_value: originalData.total_contract_value
-          ? maskitoTransform(
-              originalData.total_contract_value.toString(),
-              currencyOptions,
-            )
-          : undefined,
-        balance: originalData.balance
-          ? maskitoTransform(originalData.balance.toString(), currencyOptions)
-          : undefined,
-        amount_billed: originalData.amount_billed
-          ? maskitoTransform(
-              originalData.amount_billed.toString(),
-              currencyOptions,
-            )
-          : undefined,
-        amount_paid: originalData.amount_paid
-          ? maskitoTransform(
-              originalData.amount_paid.toString(),
-              currencyOptions,
-            )
-          : undefined,
-        commission_rate: originalData.commission_rate
-          ? maskitoTransform(
-              originalData.commission_rate.toString(),
-              percentageOptions,
-            )
-          : undefined,
-        commission_earned: originalData.commission_earned
-          ? maskitoTransform(
-              originalData.commission_earned.toString(),
-              currencyOptions,
-            )
-          : undefined,
-      } as unknown as z.infer<typeof BillingStatementSchema>
-
-      form.reset(resetData)
-    }
-  }, [originalData, form])
-
   const onSubmitHandler = useCallback<FormEventHandler<HTMLFormElement>>(
     (e) => {
       form.handleSubmit(async (data) => {
@@ -227,20 +167,20 @@ const BillingStatementModal = <TData,>({
         ])
       })(e)
     },
-    [form, originalData?.id, mutateAsync],
+    [form, supabase.auth, mutateAsync, originalData],
   )
 
   // if the modal is opened from the Company Profile page,
   // it should automatically fill the account_id field with the company id
-  const CompanyContext = useCompanyContext()
-  useEffect(() => {
-    // check if context exist
-    if (CompanyContext && CompanyContext !== undefined) {
-      form.reset({
-        account_id: CompanyContext.accountId,
-      })
-    }
-  }, [CompanyContext, form])
+  // const CompanyContext = useCompanyContext()
+  // useEffect(() => {
+  //   // check if context exist
+  //   if (CompanyContext && CompanyContext !== undefined) {
+  //     form.reset({
+  //       account_id: CompanyContext.accountId,
+  //     })
+  //   }
+  // }, [CompanyContext, form])
 
   const maskedAmountRef = useMaskito({ options: currencyOptions })
   const maskedTotalContractValueRef = useMaskito({ options: currencyOptions })

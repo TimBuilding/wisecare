@@ -1,5 +1,4 @@
 'use client'
-import BillingRequestList from '@/app/(dashboard)/(home)/billing-statements/request/billing-request-list'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
@@ -12,6 +11,16 @@ import {
 import getPendingBillingStatements from '@/queries/ get-pending-billing-statements'
 import { createBrowserClient } from '@/utils/supabase'
 import { useQuery } from '@supabase-cache-helpers/postgrest-react-query'
+import dynamic from 'next/dynamic'
+import { Suspense } from 'react'
+
+const BillingRequestList = dynamic(
+  () =>
+    import(
+      '@/app/(dashboard)/(home)/billing-statements/request/billing-request-list'
+    ),
+  { ssr: false },
+)
 
 const BillingStatementRequest = () => {
   const supabase = createBrowserClient()
@@ -35,7 +44,9 @@ const BillingStatementRequest = () => {
             View and manage billing statement requests and submissions
           </DialogDescription>
         </DialogHeader>
-        <BillingRequestList />
+        <Suspense fallback={<div>Loading...</div>}>
+          <BillingRequestList />
+        </Suspense>
       </DialogContent>
     </Dialog>
   )

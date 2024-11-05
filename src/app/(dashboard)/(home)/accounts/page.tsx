@@ -1,6 +1,6 @@
 'use server'
-import TableProvider from '@/providers/TableProvider'
 import getAccounts from '@/queries/get-accounts'
+import pageProtect from '@/utils/page-protect'
 import { createServerClient } from '@/utils/supabase'
 import { prefetchQuery } from '@supabase-cache-helpers/postgrest-react-query'
 import {
@@ -8,10 +8,9 @@ import {
   QueryClient,
   dehydrate,
 } from '@tanstack/react-query'
+import { Metadata } from 'next'
 import { cookies } from 'next/headers'
 import AccountsTable from './accounts-table'
-import pageProtect from '@/utils/page-protect'
-import { Metadata } from 'next'
 
 export const metadata = async (): Promise<Metadata> => {
   return {
@@ -34,9 +33,7 @@ const AccountsPage = async () => {
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <TableProvider>
-        <AccountsTable />
-      </TableProvider>
+      <AccountsTable />
     </HydrationBoundary>
   )
 }

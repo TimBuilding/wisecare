@@ -23,13 +23,16 @@ import {
   SortingState,
   useReactTable,
 } from '@tanstack/react-table'
-import { useState } from 'react'
+import { Suspense, useState } from 'react'
 
 import AddBillingStatementButton from '@/app/(dashboard)/(home)/billing-statements/add-billing-statement-button'
+import { useBillingContext } from '@/app/(dashboard)/(home)/billing-statements/billing-provider'
 import BillingStatementRequest from '@/app/(dashboard)/(home)/billing-statements/request/billing-statement-request'
+import BillingStatementModal from '@/components/billing-statement/billing-statement-modal'
 import TableSearch from '@/components/table-search'
 import { Skeleton } from '@/components/ui/skeleton'
 import getBillingStatements from '@/queries/get-billing-statements'
+import { Tables } from '@/types/database.types'
 import { createBrowserClient } from '@/utils/supabase'
 import { useQuery } from '@supabase-cache-helpers/postgrest-react-query'
 import DataTableRow from './data-table-row'
@@ -64,6 +67,9 @@ const DataTable = <TData, TValue>({
 
   const supabase = createBrowserClient()
   const { count, isLoading } = useQuery(getBillingStatements(supabase))
+
+  const { isEditModalOpen, setIsEditModalOpen, originalData } =
+    useBillingContext()
 
   return (
     <div className="flex flex-col">
@@ -115,6 +121,16 @@ const DataTable = <TData, TValue>({
         </div>
         <TablePagination table={table} />
       </div>
+
+      {isEditModalOpen && (
+        <Suspense fallback={<div>Loading...</div>}>
+          <BillingStatementModal
+            originalData={originalData as any & Tables<'billing_statements'>}
+            open={isEditModalOpen}
+            setOpen={setIsEditModalOpen}
+          />
+        </Suspense>
+      )}
     </div>
   )
 }

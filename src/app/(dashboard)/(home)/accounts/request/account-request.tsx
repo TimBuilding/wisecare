@@ -12,7 +12,7 @@ import getPendingAccounts from '@/queries/get-pending-accounts'
 import { createBrowserClient } from '@/utils/supabase'
 import { useQuery } from '@supabase-cache-helpers/postgrest-react-query'
 import dynamic from 'next/dynamic'
-import { useState } from 'react'
+import { Suspense, useState } from 'react'
 
 const AccountRequestList = dynamic(
   () =>
@@ -44,7 +44,11 @@ const AccountRequest = () => {
             View and manage account requests and submissions
           </DialogDescription>
         </DialogHeader>
-        <AccountRequestList />
+        {isOpen && (
+          <Suspense fallback={<div>Loading...</div>}>
+            <AccountRequestList />
+          </Suspense>
+        )}
       </DialogContent>
     </Dialog>
   )
