@@ -3,9 +3,10 @@ import { Bell, Menu } from 'lucide-react'
 import { Button } from '../ui/button'
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
 import Navbar from './navbar'
-import NotificationBell from './notification-bell'
+
 import { createServerClient } from '@/utils/supabase'
 import { cookies } from 'next/headers'
+import NotificationBell from '@/components/layout/notification/notification-bell'
 
 const Header = async () => {
   const supabase = createServerClient(cookies())

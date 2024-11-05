@@ -68,19 +68,15 @@ const ImportEmployees = ({ isOpen, setIsOpen }: ImportEmployeesProps) => {
     await mutateAsync(employees)
   }
   return (
-    <>
-      {isOpen && (
-        <ReactSpreadsheetImport
-          isOpen={isOpen}
-          onClose={() => setIsOpen(false)}
-          onSubmit={handleSubmit}
-          fields={importFields}
-          rowHook={parseRow}
-          uploadStepHook={parseDate}
-          customTheme={themeOverrides}
-        />
-      )}
-    </>
+    <ReactSpreadsheetImport
+      isOpen={isOpen}
+      onClose={() => setIsOpen(false)}
+      onSubmit={handleSubmit}
+      fields={importFields}
+      rowHook={parseRow}
+      uploadStepHook={parseDate}
+      customTheme={themeOverrides}
+    />
   )
 }
 

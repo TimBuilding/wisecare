@@ -16,7 +16,7 @@ const ImportEmployeesButton = () => {
   return (
     <>
       <Button onClick={() => setIsOpen(true)}>Import</Button>
-      <ImportEmployees isOpen={isOpen} setIsOpen={setIsOpen} />
+      {isOpen && <ImportEmployees isOpen={isOpen} setIsOpen={setIsOpen} />}
     </>
   )
 }
