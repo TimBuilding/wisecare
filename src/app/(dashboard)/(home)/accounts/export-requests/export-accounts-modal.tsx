@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import React, { FC, useCallback } from 'react'
 import {
   Dialog,
   DialogContent,
@@ -14,6 +14,7 @@ import { createBrowserClient } from '@/utils/supabase'
 import { useInsertMutation } from '@supabase-cache-helpers/postgrest-react-query'
 import { toast } from '@/components/ui/use-toast'
 import { Enums } from '@/types/database.types'
+import DeletePendingExportRequests from '@/app/(dashboard)/(home)/accounts/export-requests/delete-pending-export-requests'
 
 interface ExportAccountsModalProps {
   exportData: Enums<'export_type'>
@@ -22,6 +23,8 @@ interface ExportAccountsModalProps {
 const ExportAccountsModal: FC<ExportAccountsModalProps> = ({ exportData }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false)
   const supabase = createBrowserClient()
+  const [pendingRequest, setIsPendingRequest] = useState('')
+  const [isDeleteOpen, setIsDeleteOpen] = useState(false)
 
   const { mutateAsync, isPending } = useInsertMutation(
     //@ts-ignore
@@ -48,11 +51,30 @@ const ExportAccountsModal: FC<ExportAccountsModalProps> = ({ exportData }) => {
     },
   )
 
+  const handleApproval = useCallback(async () => {
+    const {
+      data: { user },
+    } = await supabase.auth.getUser()
+    const { data } = await supabase
+      .from('pending_export_requests')
+      .select('id')
+      .eq('export_type', exportData)
+      .eq('created_by', user?.id)
+      .eq('is_active', true)
+      .eq('is_approved', false)
+      .single()
+    if (data) {
+      setIsDeleteOpen(true)
+      setIsPendingRequest(data.id)
+    } else {
+      setIsOpen(true)
+    }
+  }, [exportData, supabase])
+
   const handleConfirm = async () => {
     const {
       data: { user },
     } = await supabase.auth.getUser()
-
     await mutateAsync([
       {
         export_type: exportData,
@@ -62,35 +84,44 @@ const ExportAccountsModal: FC<ExportAccountsModalProps> = ({ exportData }) => {
   }
 
   return (
-    <Dialog open={isOpen} onOpenChange={setIsOpen}>
-      <DialogTrigger asChild={true}>
-        <Button className="space-x-2" variant={'outline'}>
-          <FileDown />
-          <span>Export</span>
-        </Button>
-      </DialogTrigger>
-      <DialogContent className="max-h-[80vh] overflow-y-auto">
-        <DialogHeader>
-          <DialogTitle>Confirm Export Submission</DialogTitle>
-        </DialogHeader>
-        <div>
-          Are you sure you want to submit this file for approval? Your export
-          request will be reviewed before it is processed.
-        </div>
-        <DialogFooter>
-          <Button
-            variant={'default'}
-            onClick={handleConfirm}
-            disabled={isPending}
-          >
-            {isPending ? <Loader2 className="animate-spin" /> : 'Confirm'}
-          </Button>
-          <Button variant={'outline'} onClick={() => setIsOpen(false)}>
-            Cancel
-          </Button>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
+    <>
+      <Button
+        className="space-x-2"
+        variant={'outline'}
+        onClick={handleApproval}
+      >
+        <FileDown />
+        <span>Export</span>
+      </Button>
+      <Dialog open={isOpen} onOpenChange={setIsOpen}>
+        <DialogContent className="max-h-[80vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle>Confirm Export Submission</DialogTitle>
+          </DialogHeader>
+          <div>
+            Are you sure you want to submit this file for approval? Your export
+            request will be reviewed before it is processed.
+          </div>
+          <DialogFooter>
+            <Button
+              variant={'default'}
+              onClick={handleConfirm}
+              disabled={isPending}
+            >
+              {isPending ? <Loader2 className="animate-spin" /> : 'Confirm'}
+            </Button>
+            <Button variant={'outline'} onClick={() => setIsOpen(false)}>
+              Cancel
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+      <DeletePendingExportRequests
+        pendingRequestsId={pendingRequest}
+        onClose={() => setIsDeleteOpen(false)}
+        isOpen={isDeleteOpen}
+      />
+    </>
   )
 }
 
