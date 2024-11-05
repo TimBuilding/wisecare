@@ -1,6 +1,5 @@
 'use server'
 
-import PendingEmployeeInfo from '@/app/(dashboard)/admin/approval-request/company-employees/information/pending-employee-info'
 import PendingCompanyEmployeesTable from '@/app/(dashboard)/admin/approval-request/company-employees/pending-company-employees-table'
 import { PendingEmployeeProvider } from '@/app/(dashboard)/admin/approval-request/company-employees/pending-employee-provider'
 import getPendingCompanyEmployees from '@/queries/get-pending-company-employees'
@@ -11,7 +10,17 @@ import {
   HydrationBoundary,
   QueryClient,
 } from '@tanstack/react-query'
+import dynamic from 'next/dynamic'
 import { cookies } from 'next/headers'
+import { Suspense } from 'react'
+
+const PendingEmployeeInfo = dynamic(
+  () =>
+    import(
+      '@/app/(dashboard)/admin/approval-request/company-employees/information/pending-employee-info'
+    ),
+  { ssr: false },
+)
 
 const CompanyEmployeesApprovalRequestPage = async () => {
   const supabase = createServerClient(cookies())
@@ -22,7 +31,9 @@ const CompanyEmployeesApprovalRequestPage = async () => {
     <HydrationBoundary state={dehydrate(queryClient)}>
       <PendingEmployeeProvider>
         <PendingCompanyEmployeesTable />
-        <PendingEmployeeInfo />
+        <Suspense fallback={<div>Loading...</div>}>
+          <PendingEmployeeInfo />
+        </Suspense>
       </PendingEmployeeProvider>
     </HydrationBoundary>
   )
