@@ -1,7 +1,7 @@
 'use server'
 
+import PendingEmployeeInfo from '@/app/(dashboard)/admin/approval-request/company-employees/information/pending-employee-info'
 import PendingCompanyEmployeesTable from '@/app/(dashboard)/admin/approval-request/company-employees/pending-company-employees-table'
-import PendingEmployeeInfo from '@/app/(dashboard)/admin/approval-request/company-employees/pending-employee-info'
 import { PendingEmployeeProvider } from '@/app/(dashboard)/admin/approval-request/company-employees/pending-employee-provider'
 import getPendingCompanyEmployees from '@/queries/get-pending-company-employees'
 import { createServerClient } from '@/utils/supabase'
