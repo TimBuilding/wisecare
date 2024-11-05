@@ -1,32 +1,21 @@
 import { TypeTabs } from '@/app/(dashboard)/admin/types/type-card'
 import typeSchema from '@/app/(dashboard)/admin/types/type-schema'
 import { Button } from '@/components/ui/button'
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from '@/components/ui/dialog'
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-} from '@/components/ui/form'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
+import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog'
+import { Form } from '@/components/ui/form'
 import { useToast } from '@/components/ui/use-toast'
 import { createBrowserClient } from '@/utils/supabase'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useUpdateMutation } from '@supabase-cache-helpers/postgrest-react-query'
-import { Loader2, Pencil } from 'lucide-react'
-import { FC, FormEvent, FormEventHandler, useCallback } from 'react'
+import { Pencil } from 'lucide-react'
+import dynamic from 'next/dynamic'
+import { FC, FormEventHandler, Suspense, useCallback } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
+
+const EditTypeFields = dynamic(() => import('./edit-type-fields'), {
+  ssr: false,
+})
 
 interface EditTypeProps {
   id: string
@@ -82,43 +71,13 @@ const EditType: FC<EditTypeProps> = ({ id, name, page }) => {
           </Button>
         </DialogTrigger>
         <DialogContent>
-          <form onSubmit={handleEdit}>
-            <DialogHeader>
-              <DialogTitle className="break-all pt-2 text-left">
-                Edit {name} type
-              </DialogTitle>
-              <DialogDescription className="text-left">
-                Edit the type name
-              </DialogDescription>
-            </DialogHeader>
-            <div className="grid gap-4 py-4">
-              <FormField
-                control={form.control}
-                name="name"
-                render={({ field }) => (
-                  <FormItem className="grid grid-cols-4 items-center gap-4">
-                    <FormLabel className="text-right">Name</FormLabel>
-                    <FormControl>
-                      <Input
-                        {...field}
-                        disabled={isPending}
-                        className="col-span-3"
-                      />
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
-            </div>
-            <DialogFooter>
-              <Button disabled={isPending}>
-                {isPending ? (
-                  <Loader2 className="h-4 w-4 animate-spin" />
-                ) : (
-                  'Save changes'
-                )}
-              </Button>
-            </DialogFooter>
-          </form>
+          <Suspense fallback={<div>Loading...</div>}>
+            <EditTypeFields
+              handleEdit={handleEdit}
+              isPending={isPending}
+              name={name}
+            />
+          </Suspense>
         </DialogContent>
       </Form>
     </Dialog>
