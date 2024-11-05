@@ -8,9 +8,17 @@ import {
 } from '@/components/ui/sheet'
 import { Plus, X } from 'lucide-react'
 import config from 'next/config'
-import Avatar from 'react-nice-avatar'
-import AddAgentForm from './add-agent-form'
-import { useState } from 'react'
+import { Suspense, useState } from 'react'
+import dynamic from 'next/dynamic'
+import { Skeleton } from '@/components/ui/skeleton'
+
+const Avatar = dynamic(() => import('react-nice-avatar'), {
+  ssr: false,
+})
+
+const AddAgentForm = dynamic(() => import('./add-agent-form'), {
+  ssr: false,
+})
 
 const AddAgent = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false)
@@ -31,11 +39,17 @@ const AddAgent = () => {
           </SheetClose>
         </div>
         <div>
-          <Avatar
-            className="mx-6 h-32 w-32 -translate-y-16 rounded-full border-4 border-card"
-            {...config}
-          />
-          <AddAgentForm setIsOpen={setIsOpen} />
+          <Suspense
+            fallback={
+              <Skeleton className="mx-6 h-32 w-32 rounded-full rounded-full" />
+            }
+          >
+            <Avatar
+              className="mx-6 h-32 w-32 -translate-y-16 rounded-full border-4 border-card"
+              {...config}
+            />
+            <AddAgentForm setIsOpen={setIsOpen} />
+          </Suspense>
         </div>
       </SheetContent>
     </Sheet>

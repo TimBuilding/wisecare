@@ -1,5 +1,4 @@
 'use client'
-import EditAgentForm from '@/app/(dashboard)/admin/agents/edit/edit-agent-form'
 import { Button } from '@/components/ui/button'
 import {
   Sheet,
@@ -13,8 +12,13 @@ import { createBrowserClient } from '@/utils/supabase'
 import { useQuery } from '@supabase-cache-helpers/postgrest-react-query'
 import { format } from 'date-fns'
 import { X } from 'lucide-react'
-import { useState } from 'react'
+import dynamic from 'next/dynamic'
+import { Suspense, useState } from 'react'
 import Avatar, { genConfig } from 'react-nice-avatar'
+
+const EditAgentForm = dynamic(() => import('./edit/edit-agent-form'), {
+  ssr: false,
+})
 
 const AgentsListItem = ({
   userId,
@@ -74,17 +78,23 @@ const AgentsListItem = ({
           </SheetClose>
         </div>
         <div>
-          <Avatar
-            className="mx-6 h-32 w-32 -translate-y-16 rounded-full border-4 border-card"
-            {...config}
-          />
-          <EditAgentForm
-            userId={userId}
-            firstName={firstName}
-            lastName={lastName}
-            email={email}
-            onOpenChange={setIsEditOpen}
-          />
+          <Suspense
+            fallback={
+              <Skeleton className="mx-6 h-32 w-32 rounded-full rounded-full" />
+            }
+          >
+            <Avatar
+              className="mx-6 h-32 w-32 -translate-y-16 rounded-full border-4 border-card"
+              {...config}
+            />
+            <EditAgentForm
+              userId={userId}
+              firstName={firstName}
+              lastName={lastName}
+              email={email}
+              onOpenChange={setIsEditOpen}
+            />
+          </Suspense>
         </div>
       </SheetContent>
     </Sheet>

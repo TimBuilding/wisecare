@@ -7,10 +7,15 @@ import {
   SheetFooter,
   SheetTrigger,
 } from '@/components/ui/sheet'
+import { Skeleton } from '@/components/ui/skeleton'
 import { Plus, X } from 'lucide-react'
 import dynamic from 'next/dynamic'
 import { Suspense, useState } from 'react'
-import Avatar, { genConfig } from 'react-nice-avatar'
+import { genConfig } from 'react-nice-avatar'
+
+const Avatar = dynamic(() => import('react-nice-avatar'), {
+  ssr: false,
+})
 
 const AddUserForm = dynamic(
   () => import('@/app/(dashboard)/admin/users/create/add-user-form'),
@@ -53,15 +58,17 @@ const AddUser = () => {
           </SheetClose>
         </div>
         <div>
-          <Avatar
-            className="mx-6 h-32 w-32 -translate-y-16 rounded-full border-4 border-card"
-            {...config}
-          />
-          {
-            <Suspense fallback={<div>Loading...</div>}>
-              <AddUserForm onOpenChange={setIsFormOpen} />
-            </Suspense>
-          }
+          <Suspense
+            fallback={
+              <Skeleton className="mx-6 h-32 w-32 rounded-full rounded-full" />
+            }
+          >
+            <Avatar
+              className="mx-6 h-32 w-32 -translate-y-16 rounded-full border-4 border-card"
+              {...config}
+            />
+            <AddUserForm onOpenChange={setIsFormOpen} />
+          </Suspense>
         </div>
       </SheetContent>
     </Sheet>
