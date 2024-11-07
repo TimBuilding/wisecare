@@ -93,6 +93,14 @@ const CompanyDeleteForm: FC<Props> = ({
           return
         }
 
+        const {
+          data: { user },
+        } = await supabase.auth.getUser()
+
+        if (!user) {
+          return
+        }
+
         // check if there is already a pending request
         const { data: pendingRequest } = await supabase
           .from('pending_accounts')
@@ -100,17 +108,15 @@ const CompanyDeleteForm: FC<Props> = ({
           .eq('account_id', accountId)
           .eq('is_active', true)
           .eq('is_approved', false)
-          .single()
+          .eq('created_by', user?.id)
+          .limit(1)
+          .maybeSingle()
 
         if (pendingRequest) {
           setIsEditPendingRequestOpen(true)
           setPendingRequestId(pendingRequest.id)
-          return
+          return Error('Request already exists')
         }
-
-        const {
-          data: { user },
-        } = await supabase.auth.getUser()
 
         await mutateAsync([
           {

@@ -1,5 +1,6 @@
 'use client'
-import EditPendingRequest from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(company profile)/edit-pending-request'
+import { useCompanyEditContext } from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(company profile)/company-edit-provider'
+import { useCompanyContext } from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(company profile)/company-provider'
 import { AlertDialog, AlertDialogTrigger } from '@/components/ui/alert-dialog'
 import { Button } from '@/components/ui/button'
 import { Trash } from 'lucide-react'
@@ -14,41 +15,61 @@ const CompanyDeleteForm = dynamic(
   { ssr: false },
 )
 
+const EditPendingRequest = dynamic(
+  () =>
+    import(
+      '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(company profile)/edit-pending-request'
+    ),
+  { ssr: false },
+)
+
 interface Props {
   accountId: string
 }
 
 const CompanyDeleteButton: FC<Props> = ({ accountId }) => {
   const [isOpen, setIsOpen] = useState(false)
+  const { userRole } = useCompanyContext()
+  const { editMode } = useCompanyEditContext()
 
   const [isEditPendingRequestOpen, setIsEditPendingRequestOpen] =
     useState(false)
   const [pendingRequestId, setPendingRequestId] = useState('')
 
-  return (
-    <>
-      <AlertDialog open={isOpen} onOpenChange={setIsOpen}>
-        <AlertDialogTrigger asChild={true}>
-          <Button className="w-fit" variant={'destructive'}>
-            <Trash />
-          </Button>
-        </AlertDialogTrigger>
+  if (
+    ['marketing', 'finance', 'admin', 'under-sales', 'after-sales'].includes(
+      userRole || '',
+    ) &&
+    !editMode
+  ) {
+    return (
+      <>
+        <AlertDialog open={isOpen} onOpenChange={setIsOpen}>
+          <AlertDialogTrigger asChild={true}>
+            <Button variant={'link'} className="text-red-500" type="button">
+              <Trash className="mr-2" /> Delete Account
+            </Button>
+          </AlertDialogTrigger>
+          <Suspense fallback={<div>Loading...</div>}>
+            <CompanyDeleteForm
+              accountId={accountId}
+              setIsOpen={setIsOpen}
+              setIsEditPendingRequestOpen={setIsEditPendingRequestOpen}
+              setPendingRequestId={setPendingRequestId}
+            />
+          </Suspense>
+        </AlertDialog>
         <Suspense fallback={<div>Loading...</div>}>
-          <CompanyDeleteForm
-            accountId={accountId}
-            setIsOpen={setIsOpen}
-            setIsEditPendingRequestOpen={setIsEditPendingRequestOpen}
-            setPendingRequestId={setPendingRequestId}
+          <EditPendingRequest
+            isOpen={isEditPendingRequestOpen}
+            onClose={() => setIsEditPendingRequestOpen(false)}
+            pendingRequestId={pendingRequestId}
           />
         </Suspense>
-      </AlertDialog>
-      <EditPendingRequest
-        isOpen={isEditPendingRequestOpen}
-        onClose={() => setIsEditPendingRequestOpen(false)}
-        pendingRequestId={pendingRequestId}
-      />
-    </>
-  )
+      </>
+    )
+  }
+  return null
 }
 
 export default CompanyDeleteButton

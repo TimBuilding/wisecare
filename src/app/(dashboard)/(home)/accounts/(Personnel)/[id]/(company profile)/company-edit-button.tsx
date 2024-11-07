@@ -27,14 +27,17 @@ const CompanyEditButton: FC<Props> = ({ role }) => {
   const supabase = createBrowserClient()
 
   const handleClick = useCallback(async () => {
+    // check if there is already a pending request
     const { data } = await supabase
       .from('pending_accounts')
       .select('id')
       .eq('account_id', accountId)
       .eq('is_active', true)
       .eq('is_approved', false)
-      .single()
+      .limit(1)
+      .maybeSingle()
 
+    // if there is already a pending request, open the edit pending request modal
     if (data) {
       setIsEditPendingRequestOpen(true)
       setPendingRequestId(data.id)

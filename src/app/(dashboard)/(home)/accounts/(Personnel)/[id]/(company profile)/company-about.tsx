@@ -2,7 +2,6 @@ import CompanyAccountInformation from '@/app/(dashboard)/(home)/accounts/(Person
 import CompanyCancelButton from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(company profile)/company-cancel-button'
 import CompanyContractInformation from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(company profile)/company-contract-information'
 import { useCompanyEditContext } from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(company profile)/company-edit-provider'
-
 import CompanyHMOInformation from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(company profile)/company-HMO-information'
 import CompanyInformation from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(company profile)/company-information'
 import accountsSchema from '@/app/(dashboard)/(home)/accounts/accounts-schema'
