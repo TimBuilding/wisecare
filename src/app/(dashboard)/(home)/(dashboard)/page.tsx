@@ -1,4 +1,6 @@
 'use server'
+
+import ClientAcquisitionCard from '@/app/(dashboard)/(home)/(dashboard)/client-acquisition/client-acquisition-card'
 import PageTitle from './page-title'
 import PreviousStatement from './previous-statement'
 import { Metadata } from 'next'
@@ -17,6 +19,7 @@ const Dashboard = () => {
         description="Welcome to the dashboard"
       />
       <div className="grid grid-cols-1 gap-8 py-8 md:grid-cols-2">
+        <ClientAcquisitionCard />
         <PreviousStatement />
         <PreviousStatement />
       </div>

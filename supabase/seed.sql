@@ -109,7 +109,7 @@ DECLARE
     plan_type_id uuid;
     mode_of_payment_id uuid;
 BEGIN
-    FOR i IN 1..50 LOOP
+    FOR i IN 1..550 LOOP
         -- Randomly select agent_id, hmo_provider_id, account_type_id, plan_type_id, mode_of_payment_id
         SELECT user_id INTO agent_id FROM user_profiles OFFSET floor(random() * (SELECT count(*) FROM user_profiles)) LIMIT 1;
         SELECT id INTO hmo_provider_id FROM hmo_providers OFFSET floor(random() * (SELECT count(*) FROM hmo_providers)) LIMIT 1;
@@ -150,7 +150,8 @@ BEGIN
             summary_of_benefits,
             name_of_signatory,
             designation_of_contact_person,
-            email_address_of_contact_person
+            email_address_of_contact_person,
+            created_at
         ) VALUES (
             true,
             agent_id,
@@ -184,7 +185,8 @@ BEGIN
             'Comprehensive health coverage',
             'Signatory ' || i,
             'Designation ' || i,
-            'contact' || i || '@example.com'
+            'contact' || i || '@example.com',
+            timestamp '2022-01-01 00:00:00' + random() * (timestamp '2024-12-31 23:59:59' - timestamp '2022-01-01 00:00:00')
         );
     END LOOP;
 END $$;
