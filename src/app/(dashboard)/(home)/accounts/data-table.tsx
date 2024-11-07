@@ -38,6 +38,7 @@ import AddAccountButton from './add-account-button'
 import getAccounts from '@/queries/get-accounts'
 import AccountRequest from '@/app/(dashboard)/(home)/accounts/request/account-request'
 import ExportAccountsModal from '@/app/(dashboard)/(home)/accounts/export-requests/export-accounts-modal'
+import ExportAccountRequests from '@/app/(dashboard)/(home)/accounts/export-requests/export-account-requests'
 
 interface IData {
   id: string
@@ -158,6 +159,7 @@ const DataTable = <TData extends IData, TValue>({
         </PageHeader>
         <div className="flex flex-row">
           <AccountRequest />
+          <ExportAccountRequests />
           <TableViewOptions table={table} />
         </div>
         <div className="h-full bg-card">
