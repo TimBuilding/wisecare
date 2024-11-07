@@ -3,6 +3,7 @@ import ThemeProvider from '@/providers/ThemeProvider'
 import dynamic from 'next/dynamic'
 import { Inter } from 'next/font/google'
 import NextTopLoader from 'nextjs-toploader'
+import { TooltipProvider } from '@/components/ui/tooltip'
 import './globals.css'
 
 const inter = Inter({
@@ -52,14 +53,16 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <ReactQueryProvider>
-            <main className="flex min-h-screen flex-col items-center">
-              {children}
-              <Toaster />
-              <ConfirmationDialog />
-            </main>
-            {/* <ReactQueryDevtools initialIsOpen={false} /> */}
-          </ReactQueryProvider>
+          <TooltipProvider>
+            <ReactQueryProvider>
+              <main className="flex min-h-screen flex-col items-center">
+                {children}
+                <Toaster />
+                <ConfirmationDialog />
+              </main>
+              {/* <ReactQueryDevtools initialIsOpen={false} /> */}
+            </ReactQueryProvider>
+          </TooltipProvider>
         </ThemeProvider>
       </body>
     </html>

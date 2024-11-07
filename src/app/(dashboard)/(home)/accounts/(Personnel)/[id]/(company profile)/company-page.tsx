@@ -31,6 +31,14 @@ const BillingStatements = dynamic(
   { ssr: false },
 )
 
+const ToggleCompanyActive = dynamic(
+  () =>
+    import(
+      '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(company profile)/toggle-company-active'
+    ),
+  { ssr: false },
+)
+
 const CompanyPage: FC<Props> = ({ companyId, role }) => {
   const { setUserRole, setAccountId } = useCompanyContext()
 
@@ -53,6 +61,7 @@ const CompanyPage: FC<Props> = ({ companyId, role }) => {
         <TabsContent value="about">
           <CompanyEditProvider>
             <div className="flex w-full flex-row items-center gap-2 pb-4 sm:justify-end">
+              {role === 'admin' && <ToggleCompanyActive />}
               <CompanyEditButton role={role} />
             </div>
             <CompanyAbout companyId={companyId} />
