@@ -15,6 +15,7 @@ import { toast } from '@/components/ui/use-toast'
 import { useState } from 'react'
 import { Enums } from '@/types/database.types'
 import EmployeeDeleteRequests from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(employees)/export-requests/employee-delete-requests'
+import { useCompanyContext } from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(company profile)/company-provider'
 
 interface EmployeeExportModalProps {
   exportData: Enums<'export_type'>
@@ -24,6 +25,7 @@ const EmployeeExportModal: FC<EmployeeExportModalProps> = ({ exportData }) => {
   const [isOpen, setIsOpen] = useState(false)
   const [isDeleteOpen, setIsDeleteOpen] = useState(false)
   const [pendingRequests, setPendingRequests] = useState('')
+  const { accountId } = useCompanyContext()
   const supabase = createBrowserClient()
 
   const { mutateAsync, isPending } = useInsertMutation(
@@ -60,6 +62,7 @@ const EmployeeExportModal: FC<EmployeeExportModalProps> = ({ exportData }) => {
       .from('pending_export_requests')
       .select('id')
       .eq('created_by', user?.id)
+      .eq('account_id', accountId)
       .eq('export_type', exportData)
       .eq('is_active', true)
       .eq('is_approved', false)
@@ -77,10 +80,12 @@ const EmployeeExportModal: FC<EmployeeExportModalProps> = ({ exportData }) => {
     const {
       data: { user },
     } = await supabase.auth.getUser()
+    console.log(accountId)
     await mutateAsync([
       {
         export_type: exportData,
         created_by: user?.id,
+        account_id: accountId,
       },
     ])
   }
