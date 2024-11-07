@@ -13,8 +13,6 @@ const EmployeeExportRequestList = () => {
     getPendingEmployeeExports(supabase, accountId, 'employees'),
   )
 
-  console.log(pendingEmployeeExports)
-
   return (
     <div className="grid grid-cols-1 divide-y">
       {pendingEmployeeExports?.map((pendingExports) => (

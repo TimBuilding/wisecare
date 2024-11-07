@@ -12,6 +12,7 @@ import EmployeeExportRequestList from '@/app/(dashboard)/(home)/accounts/(Person
 import { createBrowserClient } from '@/utils/supabase'
 import { useQuery } from '@supabase-cache-helpers/postgrest-react-query'
 import getPendingAccountExports from '@/queries/get-pending-account-exports'
+import ExportAccountRequestList from '@/app/(dashboard)/(home)/accounts/export-requests/export-account-request-list'
 
 const ExportAccountRequests = () => {
   const supabase = createBrowserClient()
@@ -35,7 +36,7 @@ const ExportAccountRequests = () => {
             View and manage export requests and submissions
           </DialogDescription>
         </DialogHeader>
-        <EmployeeExportRequestList />
+        <ExportAccountRequestList />
       </DialogContent>
     </Dialog>
   )
