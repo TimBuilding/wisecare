@@ -5,6 +5,8 @@ import { Tables } from '@/types/database.types'
 import { ColumnDef } from '@tanstack/react-table'
 import { format } from 'date-fns'
 import normalizeToUTC from '@/utils/normalize-to-utc'
+import { Badge } from '@/components/ui/badge'
+import ActiveBadge from '@/components/active-badge'
 
 export const formatCurrency = (value: number | null | undefined) => {
   if (value === null || value === undefined) {
@@ -20,6 +22,13 @@ export const formatPercentage = (value: number | null | undefined) => {
   return `${value.toFixed(2)}%`
 }
 const accountsColumns: ColumnDef<Tables<'accounts'>>[] = [
+  {
+    accessorKey: 'is_account_active',
+    header: ({ column }) => <TableHeader column={column} title="Active" />,
+    cell: ({ row }) => (
+      <ActiveBadge isActive={row.original.is_account_active} />
+    ),
+  },
   {
     accessorKey: 'company_name',
     header: ({ column }) => (

@@ -79,6 +79,7 @@ export type Database = {
           id: string
           initial_contract_value: number | null
           initial_head_count: number | null
+          is_account_active: boolean
           is_active: boolean
           mode_of_payment_id: string | null
           name_of_signatory: string | null
@@ -117,6 +118,7 @@ export type Database = {
           id?: string
           initial_contract_value?: number | null
           initial_head_count?: number | null
+          is_account_active?: boolean
           is_active?: boolean
           mode_of_payment_id?: string | null
           name_of_signatory?: string | null
@@ -155,6 +157,7 @@ export type Database = {
           id?: string
           initial_contract_value?: number | null
           initial_head_count?: number | null
+          is_account_active?: boolean
           is_active?: boolean
           mode_of_payment_id?: string | null
           name_of_signatory?: string | null
