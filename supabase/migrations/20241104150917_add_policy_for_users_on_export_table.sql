@@ -1,8 +1,8 @@
-drop policy "Enable read access for users except agent" on "public"."company_employees";
+drop policy "all departments can insert company employees except agent" on "public"."company_employees";
 
-drop policy "Enable update access for admin" on "public"."company_employees";
+drop policy "all departments can update company employees except agent" on "public"."company_employees";
 
-drop policy "Enable update for users based on created_by" on "public"."pending_company_employees";
+drop policy "user can see company employees" on "public"."company_employees";
 
 create policy "all departments can insert company employees except agent"
 on "public"."company_employees"
