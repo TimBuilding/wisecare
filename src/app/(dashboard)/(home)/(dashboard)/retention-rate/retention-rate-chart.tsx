@@ -1,10 +1,10 @@
 'use client'
 
 import chartConfig from '@/app/(dashboard)/(home)/(dashboard)/retention-rate/chart-config'
-import { ChartConfig, ChartContainer } from '@/components/ui/chart'
+import { ChartContainer } from '@/components/ui/chart'
 import { createBrowserClient } from '@/utils/supabase'
 import { useQuery } from '@supabase-cache-helpers/postgrest-react-query'
-import { subMonths, subYears } from 'date-fns'
+import { subMonths } from 'date-fns'
 import { useMemo } from 'react'
 import {
   Label,

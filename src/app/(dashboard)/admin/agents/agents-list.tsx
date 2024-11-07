@@ -79,9 +79,7 @@ const AgentsListItem = ({
         </div>
         <div>
           <Suspense
-            fallback={
-              <Skeleton className="mx-6 h-32 w-32 rounded-full rounded-full" />
-            }
+            fallback={<Skeleton className="mx-6 h-32 w-32 rounded-full" />}
           >
             <Avatar
               className="mx-6 h-32 w-32 -translate-y-16 rounded-full border-4 border-card"
