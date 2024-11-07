@@ -8,6 +8,7 @@ import getAccountById from '@/queries/get-account-by-id'
 import getEmployeeCount from '@/queries/get-employee-count'
 import { Skeleton } from '@/components/ui/skeleton'
 import BillingStatementTab from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(billing statements)/billing-statement-tab'
+import ActiveBadge from '@/components/active-badge'
 
 interface CompanyHeaderProps {
   id: string
@@ -37,6 +38,11 @@ const CompanyHeader: FC<CompanyHeaderProps> = ({ id }) => {
           <div className="lg:text-wrap text-xs text-[#64748b]">
             {account?.company_address || ''}
           </div>
+          {account?.is_account_active === false && (
+            <div>
+              <ActiveBadge isActive={false} />
+            </div>
+          )}
         </div>
         <div className="flex w-full flex-col items-center justify-evenly gap-4 xl:flex-row">
           <Separator

@@ -6,7 +6,8 @@ const getAccountById = (supabase: TypedSupabaseClient, id: string) => {
     .select(
       `
       id, 
-      is_active, 
+      is_active,
+      is_account_active,
       agent:user_profiles(first_name, last_name, user_id),
       company_name, 
       company_address, 
