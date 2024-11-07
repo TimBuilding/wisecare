@@ -30,6 +30,7 @@ import { Plus } from 'lucide-react'
 import dynamic from 'next/dynamic'
 import { useState } from 'react'
 import EmployeeExportModal from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(employees)/export-requests/employee-export-modal'
+import EmployeeExportRequests from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(employees)/export-requests/employee-export-requests'
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
@@ -78,7 +79,10 @@ const EmployeesDataTable = <TData, TValue>({
           <EmployeeExportModal exportData={'employees'} />
         </div>
       </div>
-      <EmployeeRequest />
+      <div className="flex flex-row">
+        <EmployeeRequest />
+        <EmployeeExportRequests />
+      </div>
       <div className="rounded-md border">
         <Table>
           <TableHeader>
