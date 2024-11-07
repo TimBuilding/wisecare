@@ -4,6 +4,7 @@ import ClientAcquisitionCard from '@/app/(dashboard)/(home)/(dashboard)/client-a
 import PageTitle from './page-title'
 import PreviousStatement from './previous-statement'
 import { Metadata } from 'next'
+import RetentionRateCard from '@/app/(dashboard)/(home)/(dashboard)/retention-rate/retention-rate-card'
 
 export const metadata = async (): Promise<Metadata> => {
   return {
@@ -20,6 +21,7 @@ const Dashboard = () => {
       />
       <div className="grid grid-cols-1 gap-8 py-8 md:grid-cols-2">
         <ClientAcquisitionCard />
+        <RetentionRateCard />
         <PreviousStatement />
         <PreviousStatement />
       </div>
