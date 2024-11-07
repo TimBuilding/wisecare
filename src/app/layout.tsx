@@ -1,9 +1,14 @@
-import { GeistSans } from 'geist/font/sans'
+import ReactQueryProvider from '@/providers/ReactQueryProvider'
 import ThemeProvider from '@/providers/ThemeProvider'
+import dynamic from 'next/dynamic'
+import { Inter } from 'next/font/google'
 import NextTopLoader from 'nextjs-toploader'
 import './globals.css'
-import ReactQueryProvider from '@/providers/ReactQueryProvider'
-import dynamic from 'next/dynamic'
+
+const inter = Inter({
+  subsets: ['latin'],
+  variable: '--font-sans',
+})
 
 const Toaster = dynamic(
   () => import('@/components/ui/toaster').then((mod) => mod.Toaster),
@@ -38,11 +43,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html
-      lang="en"
-      className={GeistSans.className}
-      style={{ colorScheme: 'dark' }}
-    >
+    <html lang="en" className={inter.className} style={{ colorScheme: 'dark' }}>
       <body className="bg-background text-foreground">
         <NextTopLoader showSpinner={false} height={2} color="#2acf80" />
         <ThemeProvider
