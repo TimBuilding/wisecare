@@ -2,8 +2,8 @@
 
 import getRole from '@/utils/get-role'
 import { Book, BookCopy, ClipboardCheck } from 'lucide-react'
-import AdminNavigation from './admin-navigation'
 import NavigationItem from './navigation-item'
+import AdminNavigation from '@/components/layout/navigation/admin-navigation'
 
 const Navigation = async () => {
   const role = await getRole()

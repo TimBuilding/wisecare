@@ -1,7 +1,7 @@
 'use client'
 import Link from 'next/link'
 import { ComponentType, ReactNode } from 'react'
-import { cn } from '../../utils/tailwind'
+import { cn } from '../../../utils/tailwind'
 import { usePathname } from 'next/navigation'
 
 const NavigationItem = ({
@@ -11,7 +11,7 @@ const NavigationItem = ({
 }: {
   title: string
   href: string
-  icon: ReactNode
+  icon?: ReactNode
 }) => {
   const pathName = usePathname()
 
@@ -25,7 +25,7 @@ const NavigationItem = ({
         'group flex flex-row items-center justify-start gap-4 rounded-lg px-4 py-2.5 text-white/80',
       )}
     >
-      {Icon}
+      {Icon && Icon}
       <span className="text-[13px] font-medium group-hover:text-white">
         {title}
       </span>
