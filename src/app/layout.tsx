@@ -55,11 +55,11 @@ export default function RootLayout({
         >
           <TooltipProvider>
             <ReactQueryProvider>
-              <main className="flex min-h-screen flex-col items-center">
+              <div>
                 {children}
                 <Toaster />
                 <ConfirmationDialog />
-              </main>
+              </div>
               {/* <ReactQueryDevtools initialIsOpen={false} /> */}
             </ReactQueryProvider>
           </TooltipProvider>

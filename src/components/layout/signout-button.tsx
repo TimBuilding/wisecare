@@ -34,7 +34,7 @@ const SignOutButton = () => {
       onClick={() => clickHandler()}
       className="flex cursor-pointer flex-row items-center justify-start gap-4"
     >
-      <LogOut className="h-6 w-6" />
+      <LogOut className="h-4 w-4" />
       <span className="text-sm">Sign out</span>
     </DropdownMenuItem>
   )

@@ -7,6 +7,12 @@ import Navbar from '../../components/layout/navbar'
 import { cookies } from 'next/headers'
 import { createServerClient } from '@/utils/supabase'
 import { redirect } from 'next/navigation'
+import {
+  SidebarInset,
+  SidebarProvider,
+  SidebarTrigger,
+} from '@/components/ui/sidebar'
+import AppSidebar from '@/components/layout/navigation/app-sidebar'
 
 interface Props {
   children: ReactNode
@@ -23,15 +29,15 @@ const DashboardLayout: FC<Props> = async ({ children }) => {
   }
 
   return (
-    <div className="flex w-full flex-row">
-      <div className="hidden md:block">
-        <Navbar />
-      </div>
-      <div className="w-full overflow-hidden">
-        <Header />
-        <main>{children}</main>
-      </div>
-    </div>
+    <SidebarProvider>
+      <AppSidebar />
+      <SidebarInset>
+        <main>
+          <Header />
+          {children}
+        </main>
+      </SidebarInset>
+    </SidebarProvider>
   )
 }
 
