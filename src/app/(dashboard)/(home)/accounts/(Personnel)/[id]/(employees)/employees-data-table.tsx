@@ -31,6 +31,7 @@ import dynamic from 'next/dynamic'
 import { useState } from 'react'
 import EmployeeExportModal from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(employees)/export-requests/employee-export-modal'
 import EmployeeExportRequests from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(employees)/export-requests/employee-export-requests'
+import EmployeeActionsDropdown from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(employees)/employee-actions-dropdown'
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
@@ -68,15 +69,16 @@ const EmployeesDataTable = <TData, TValue>({
       <div className="flex flex-row items-center justify-between gap-2 py-4">
         <EmployeesTableSearch table={table} />
         <div className="flex items-center space-x-1">
-          <EmployeeFormModal
+          {/* <EmployeeFormModal
             button={
               <Button className="gap-2">
                 <Plus /> <span> Add Employee </span>
               </Button>
             }
-          />
+          /> */}
           <ImportEmployeesButton />
-          <EmployeeExportModal exportData={'employees'} />
+          {/* <EmployeeExportModal exportData={'employees'} /> */}
+          <EmployeeActionsDropdown />
         </div>
       </div>
       <div className="flex flex-row">

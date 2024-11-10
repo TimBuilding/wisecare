@@ -1,4 +1,4 @@
-import React, { FC, useCallback } from 'react'
+import React, { FC, ReactNode, useCallback } from 'react'
 import {
   Dialog,
   DialogContent,
@@ -19,9 +19,13 @@ import { useCompanyContext } from '@/app/(dashboard)/(home)/accounts/(Personnel)
 
 interface EmployeeExportModalProps {
   exportData: Enums<'export_type'>
+  button: ReactNode
 }
 
-const EmployeeExportModal: FC<EmployeeExportModalProps> = ({ exportData }) => {
+const EmployeeExportModal: FC<EmployeeExportModalProps> = ({
+  exportData,
+  button,
+}) => {
   const [isOpen, setIsOpen] = useState(false)
   const [isDeleteOpen, setIsDeleteOpen] = useState(false)
   const [pendingRequests, setPendingRequests] = useState('')
@@ -74,7 +78,7 @@ const EmployeeExportModal: FC<EmployeeExportModalProps> = ({ exportData }) => {
     } else {
       setIsOpen(true)
     }
-  }, [exportData, supabase])
+  }, [accountId, exportData, supabase])
 
   const handleConfirm = async () => {
     const {
@@ -92,14 +96,7 @@ const EmployeeExportModal: FC<EmployeeExportModalProps> = ({ exportData }) => {
 
   return (
     <>
-      <Button
-        className="space-x-2"
-        variant={'outline'}
-        onClick={handleApproval}
-      >
-        <FileDown />
-        <span>Export</span>
-      </Button>
+      <div onClick={handleApproval}>{button}</div>
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
         <DialogContent className="max-h-[80vh] overflow-y-auto">
           <DialogHeader>
