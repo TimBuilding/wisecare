@@ -42,6 +42,7 @@ const DeleteEmployeeRequest = ({ data }: DeleteEmployeeRequestProps) => {
     updatePendingEmployee({
       id: data.id,
       is_active: false,
+      updated_at: new Date().toISOString(),
     })
   }
   return (

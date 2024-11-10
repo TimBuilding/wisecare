@@ -1,5 +1,6 @@
 'use client'
 import { useCompanyContext } from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(company profile)/company-provider'
+import ClearEmployeeRequests from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(employees)/request/clear-employee-requests'
 import EmployeeRequestList from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(employees)/request/employee-request-list'
 import { Button } from '@/components/ui/button'
 import {
@@ -13,7 +14,6 @@ import {
 import getPendingEmployeeByCompanyId from '@/queries/get-pending-employee-by-company-id'
 import { createBrowserClient } from '@/utils/supabase'
 import { useQuery } from '@supabase-cache-helpers/postgrest-react-query'
-import getPendingEmployeeExports from '@/queries/get-pending-employee-exports'
 
 const EmployeeRequest = () => {
   const { accountId } = useCompanyContext()
@@ -28,15 +28,15 @@ const EmployeeRequest = () => {
           size={'sm'}
           className="flex h-8 w-full rounded-none"
         >
-          {/* TODO: add count */}
           {count} Employee Requests
         </Button>
       </DialogTrigger>
       <DialogContent className="max-h-[80vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle>Submission Requests</DialogTitle>
-          <DialogDescription>
-            View and manage employee requests and submissions
+          <DialogDescription className="flex items-start justify-between gap-2">
+            <span>View and manage employee requests and submissions</span>
+            <ClearEmployeeRequests />
           </DialogDescription>
         </DialogHeader>
         <EmployeeRequestList />
