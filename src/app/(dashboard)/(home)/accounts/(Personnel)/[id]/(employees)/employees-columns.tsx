@@ -19,6 +19,14 @@ import normalizeToUTC from '@/utils/normalize-to-utc'
 const employeesColumns: ColumnDef<Tables<'company_employees'>>[] = [
   // company name is not needed since we are already in the company page
   {
+    accessorKey: 'card_number',
+    header: ({ column }) => <TableHeader column={column} title="Card Number" />,
+    cell: ({ row }) => (
+      <span className="capitalize">{row.original.card_number}</span>
+    ),
+    accessorFn: (originalRow) => (originalRow as any)?.card_number ?? '',
+  },
+  {
     accessorKey: 'first_name',
     header: ({ column }) => <TableHeader column={column} title="First Name" />,
     cell: ({ row }) => row.original.first_name,
@@ -29,60 +37,11 @@ const employeesColumns: ColumnDef<Tables<'company_employees'>>[] = [
     cell: ({ row }) => row.original.last_name,
   },
   {
-    accessorKey: 'birth_date',
-    header: ({ column }) => <TableHeader column={column} title="Birth Date" />,
-    cell: ({ row }) => {
-      const birthDate = row.original.birth_date
-        ? normalizeToUTC(new Date(row.original.birth_date))
-        : null
-      return <div> {birthDate ? format(birthDate, 'MMMM dd, yyyy') : ''}</div>
-    },
-    accessorFn: (originalRow) =>
-      (originalRow as any)?.birth_date
-        ? format((originalRow as any).birth_date, 'PP')
-        : '',
-  },
-  {
     accessorKey: 'gender',
     header: ({ column }) => <TableHeader column={column} title="Gender" />,
     cell: ({ row }) => (
       <span className="capitalize">{row.original.gender}</span>
     ),
-  },
-  {
-    accessorKey: 'civil_status',
-    header: ({ column }) => (
-      <TableHeader column={column} title="Civil Status" />
-    ),
-    cell: ({ row }) => (
-      <span className="capitalize">{row.original.civil_status}</span>
-    ),
-  },
-  {
-    accessorKey: 'effective_date',
-    header: ({ column }) => (
-      <TableHeader column={column} title="Effective Date" />
-    ),
-    cell: ({ row }) => {
-      const effectiveDate = row.original.effective_date
-        ? normalizeToUTC(new Date(row.original.effective_date))
-        : null
-      return (
-        <div>{effectiveDate ? format(effectiveDate, 'MMMM dd, yyyy') : ''}</div>
-      )
-    },
-    accessorFn: (originalRow) =>
-      (originalRow as any)?.effective_date
-        ? format((originalRow as any).effective_date, 'PP')
-        : '',
-  },
-  {
-    accessorKey: 'card_number',
-    header: ({ column }) => <TableHeader column={column} title="Card Number" />,
-    cell: ({ row }) => (
-      <span className="capitalize">{row.original.card_number}</span>
-    ),
-    accessorFn: (originalRow) => (originalRow as any)?.card_number ?? '',
   },
   {
     id: 'actions',
