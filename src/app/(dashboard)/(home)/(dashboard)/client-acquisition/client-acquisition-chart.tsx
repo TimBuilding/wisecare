@@ -71,7 +71,9 @@ const ClientAcquisitionChart = () => {
     // force rerender to ensure chart updates
     setRerender(rerender + 1)
     return completeData
-  }, [data, rerender])
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data])
 
   return (
     <ChartContainer
