@@ -10,6 +10,7 @@ import {
   HydrationBoundary,
   QueryClient,
 } from '@tanstack/react-query'
+import { Metadata } from 'next'
 import dynamic from 'next/dynamic'
 import { cookies } from 'next/headers'
 import { Suspense } from 'react'
@@ -21,6 +22,12 @@ const PendingEmployeeInfo = dynamic(
     ),
   { ssr: false },
 )
+
+export const metadata = async (): Promise<Metadata> => {
+  return {
+    title: 'Review Employees',
+  }
+}
 
 const CompanyEmployeesApprovalRequestPage = async () => {
   const supabase = createServerClient(cookies())

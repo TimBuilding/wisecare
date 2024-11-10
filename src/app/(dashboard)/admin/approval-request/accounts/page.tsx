@@ -12,6 +12,7 @@ import {
 import { cookies } from 'next/headers'
 import dynamic from 'next/dynamic'
 import { Suspense } from 'react'
+import { Metadata } from 'next'
 
 const ApprovalRequestInfo = dynamic(
   () =>
@@ -20,6 +21,12 @@ const ApprovalRequestInfo = dynamic(
     ),
   { ssr: false },
 )
+
+export const metadata = async (): Promise<Metadata> => {
+  return {
+    title: 'Review Accounts',
+  }
+}
 
 const ApprovalRequestPage = async () => {
   const supabase = createServerClient(cookies())
