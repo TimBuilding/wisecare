@@ -86,12 +86,12 @@ const importFields = [
         {
           label: 'Male',
           value: 'male',
-          alternateMatches: ['male', 'm'],
+          alternateMatches: ['male', 'm', 'MALE'],
         },
         {
           label: 'Female',
           value: 'female',
-          alternateMatches: ['female', 'f'],
+          alternateMatches: ['female', 'f', 'FEMALE'],
         },
       ],
     },
@@ -107,22 +107,22 @@ const importFields = [
         {
           label: 'Single',
           value: 'single',
-          alternateMatches: ['Single', 'single'],
+          alternateMatches: ['Single', 'single', 'SINGLE'],
         },
         {
           label: 'Married',
           value: 'married',
-          alternateMatches: ['Married', 'married'],
+          alternateMatches: ['Married', 'married', 'MARRIED'],
         },
         {
           label: 'Divorced',
           value: 'divorced',
-          alternateMatches: ['Divorced', 'divorced', 'divorce'],
+          alternateMatches: ['Divorced', 'divorced', 'divorce', 'DIVORCED'],
         },
         {
           label: 'Widowed',
           value: 'widowed',
-          alternateMatches: ['Widowed', 'widowed'],
+          alternateMatches: ['Widowed', 'widowed', 'WIDOWED'],
         },
       ],
     },
