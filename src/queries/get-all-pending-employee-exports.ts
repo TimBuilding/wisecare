@@ -8,7 +8,7 @@ const getAllPendingEmployeeExports = (
   return supabase
     .from('pending_export_requests')
     .select(
-      `id, export_type, created_at, created_by(first_name, last_name, user_id)`,
+      `id, export_type, created_at, created_by(first_name, last_name, user_id), account_id(company_name)`,
       {
         count: 'exact',
       },
