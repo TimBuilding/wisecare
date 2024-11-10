@@ -51,8 +51,8 @@ const AdminNavigation = async () => {
               href="/admin/approval-request/billing-statements"
             />
             <NavigationItem
-              title={'Export Requests'}
-              href={'/admin/approval-request/exports'}
+              title={'Account Export Requests'}
+              href={'/admin/approval-request/account-exports'}
             />
           </CollapsibleContent>
         </Collapsible>
