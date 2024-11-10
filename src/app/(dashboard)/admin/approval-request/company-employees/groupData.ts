@@ -23,6 +23,7 @@ const groupData = (data: any) => {
         account: firstItem.account,
         created_at: firstItem.created_at,
         operation_type: firstItem.operation_type,
+        company_employee_id: firstItem.company_employee_id,
         first_name: '-',
         last_name: '-',
       })

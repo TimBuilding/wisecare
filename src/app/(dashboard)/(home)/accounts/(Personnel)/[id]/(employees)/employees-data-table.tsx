@@ -1,12 +1,11 @@
 'use client'
 
-import EmployeeFormModal from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(employees)/employee-information/employee-form-modal'
+import EmployeeActionsDropdown from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(employees)/employee-actions-dropdown'
 import EmployeesTableSearch from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(employees)/employees-table-search'
-import ExportEmployees from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(employees)/export-employees'
+import EmployeeExportRequests from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(employees)/export-requests/employee-export-requests'
 import ImportEmployeesButton from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(employees)/import/import-employees-button'
 import EmployeeRequest from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(employees)/request/employee-request'
 import TablePagination from '@/components/table-pagination'
-import { Button } from '@/components/ui/button'
 import {
   Table,
   TableBody,
@@ -26,12 +25,7 @@ import {
   useReactTable,
   VisibilityState,
 } from '@tanstack/react-table'
-import { Plus } from 'lucide-react'
-import dynamic from 'next/dynamic'
 import { useState } from 'react'
-import EmployeeExportModal from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(employees)/export-requests/employee-export-modal'
-import EmployeeExportRequests from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(employees)/export-requests/employee-export-requests'
-import EmployeeActionsDropdown from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(employees)/employee-actions-dropdown'
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
@@ -69,15 +63,7 @@ const EmployeesDataTable = <TData, TValue>({
       <div className="flex flex-row items-center justify-between gap-2 py-4">
         <EmployeesTableSearch table={table} />
         <div className="flex items-center space-x-1">
-          {/* <EmployeeFormModal
-            button={
-              <Button className="gap-2">
-                <Plus /> <span> Add Employee </span>
-              </Button>
-            }
-          /> */}
           <ImportEmployeesButton />
-          {/* <EmployeeExportModal exportData={'employees'} /> */}
           <EmployeeActionsDropdown />
         </div>
       </div>

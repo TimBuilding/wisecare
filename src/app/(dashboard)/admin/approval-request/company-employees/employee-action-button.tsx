@@ -65,9 +65,14 @@ const EmployeeActionButton: FC<EmployeeActionButtonProps> = ({
   const handleClick = async () => {
     if (!selectedData) return
     if (action === 'approve') {
+      // If its approved then we upsert the employee
       await upsertEmployee(
+        // Data is an array of items (batch)
         (selectedData as any)?.items
           ? (selectedData as any)?.items.map((item: any) => ({
+              ...(item.company_employee_id && {
+                id: item.company_employee_id,
+              }),
               account_id: item.account_id,
               first_name: item.first_name,
               last_name: item.last_name,
@@ -79,8 +84,10 @@ const EmployeeActionButton: FC<EmployeeActionButtonProps> = ({
               room_plan: item.room_plan,
               maximum_benefit_limit: item.maximum_benefit_limit,
               created_by: (item.created_by as any)?.user_id,
+              is_active: item.is_delete_employee ? false : true,
             }))
           : [
+              // Data is a single item
               {
                 ...(selectedData.company_employee_id && {
                   id: selectedData.company_employee_id,
@@ -107,14 +114,15 @@ const EmployeeActionButton: FC<EmployeeActionButtonProps> = ({
       })
     }
 
-    // Update pending employee
+    // Update pending employee either it is approved or rejected
+    // If the selected data is an array of items, then we need to update each item
     if ((selectedData as any)?.items) {
       await updatePendingEmployee(
         (selectedData as any).items.map(
           (item: Tables<'pending_company_employees'>) => ({
             id: item.id,
-            is_approved: action === 'approve',
-            is_active: action === 'approve',
+            is_approved: action === 'approve', // Approve or reject
+            is_active: action === 'approve', // Approve or reject
             created_by: (item.created_by as any)?.user_id,
             operation_type: item.operation_type,
             batch_id: item.batch_id,
@@ -136,11 +144,13 @@ const EmployeeActionButton: FC<EmployeeActionButtonProps> = ({
         })
       })
     } else {
+      // Update pending employee
+      // If the selected data is not an array of items, then we need to update the single item
       await updatePendingEmployee([
         {
           id: selectedData.id,
-          is_approved: action === 'approve',
-          is_active: action === 'approve',
+          is_approved: action === 'approve', // Approve or reject
+          is_active: action === 'approve', // Approve or reject
           created_by: (selectedData.created_by as any)?.user_id,
           operation_type: selectedData.operation_type,
           batch_id: selectedData.batch_id,
