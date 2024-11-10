@@ -50,6 +50,10 @@ const AdminNavigation = async () => {
               title="Billing Statements"
               href="/admin/approval-request/billing-statements"
             />
+            <NavigationItem
+              title={'Export Requests'}
+              href={'/admin/approval-request/exports'}
+            />
           </CollapsibleContent>
         </Collapsible>
         <NavigationItem
