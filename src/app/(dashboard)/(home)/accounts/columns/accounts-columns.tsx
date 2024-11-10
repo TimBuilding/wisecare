@@ -68,6 +68,7 @@ const accountsColumns: ColumnDef<Tables<'accounts'>>[] = [
     header: ({ column }) => (
       <TableHeader column={column} title="Company Address" />
     ),
+    accessorFn: (originalRow) => (originalRow as any)?.company_address ?? '',
   },
   {
     accessorKey: 'nature_of_business',
