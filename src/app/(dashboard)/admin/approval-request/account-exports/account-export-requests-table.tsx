@@ -10,13 +10,53 @@ import { createBrowserClient } from '@/utils/supabase'
 import getPendingAccountExports from '@/queries/get-pending-account-exports'
 import { useQuery } from '@supabase-cache-helpers/postgrest-react-query'
 import { Skeleton } from '@/components/ui/skeleton'
+import {
+  Table,
+  TableBody,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table'
+import ApprovalRequestDataTableRow from '@/app/(dashboard)/admin/approval-request/accounts/approval-request-data-table-row'
+import accountsApprovalColumns from '@/app/(dashboard)/admin/approval-request/accounts/accounts-approval-columns'
+import TablePagination from '@/components/table-pagination'
+import {
+  flexRender,
+  getCoreRowModel,
+  getFilteredRowModel,
+  getPaginationRowModel,
+  getSortedRowModel,
+  SortingState,
+  useReactTable,
+} from '@tanstack/react-table'
+import accountExportRequestsColumns from '@/app/(dashboard)/admin/approval-request/account-exports/account-export-requests-columns'
+import { useState } from 'react'
+import AccountExportRequestsRows from '@/app/(dashboard)/admin/approval-request/account-exports/account-export-requests-rows'
 
 const AccountExportRequestsTable = () => {
   const supabase = createBrowserClient()
-  // TODO: Add data from table
-  const { count, isPending } = useQuery(
+  const { data, count, isPending } = useQuery(
     getPendingAccountExports(supabase, 'accounts'),
   )
+
+  const [sorting, setSorting] = useState<SortingState>([])
+  const [globalFilter, setGlobalFilter] = useState<any>('')
+
+  const table = useReactTable({
+    data: (data as any) || [],
+    columns: accountExportRequestsColumns,
+    getCoreRowModel: getCoreRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
+    onSortingChange: setSorting,
+    getSortedRowModel: getSortedRowModel(),
+    getFilteredRowModel: getFilteredRowModel(),
+    onGlobalFilterChange: setGlobalFilter,
+    globalFilterFn: 'includesString',
+    state: {
+      sorting,
+      globalFilter,
+    },
+  })
   return (
     <div className="flex flex-col">
       <PageHeader>
@@ -35,6 +75,38 @@ const AccountExportRequestsTable = () => {
           </div>
         </div>
       </PageHeader>
+
+      <div className="flex h-full flex-col justify-between bg-card">
+        <div className="h-full rounded-md border">
+          <Table>
+            <TableHeader>
+              {table.getHeaderGroups().map((headerGroup) => (
+                <TableRow key={headerGroup.id}>
+                  {headerGroup.headers.map((header) => {
+                    return (
+                      <TableHead key={header.id}>
+                        {header.isPlaceholder
+                          ? null
+                          : flexRender(
+                              header.column.columnDef.header,
+                              header.getContext(),
+                            )}
+                      </TableHead>
+                    )
+                  })}
+                </TableRow>
+              ))}
+            </TableHeader>
+            <TableBody>
+              <AccountExportRequestsRows
+                table={table}
+                columns={accountExportRequestsColumns}
+              />
+            </TableBody>
+          </Table>
+        </div>
+        <TablePagination table={table} />
+      </div>
     </div>
   )
 }
