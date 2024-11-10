@@ -121,7 +121,7 @@ const EmployeeForm: FC<EmployeeFormProps> = ({
         ])
       })(e)
     },
-    [accountId, form, mutateAsync, oldEmployeeData?.id, supabase.auth],
+    [accountId, form, mutateAsync, oldEmployeeData, supabase.auth],
   )
 
   // If oldEmployeeData is provided, we are editing an existing employee

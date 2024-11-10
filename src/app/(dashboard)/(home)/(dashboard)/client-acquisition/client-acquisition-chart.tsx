@@ -71,7 +71,7 @@ const ClientAcquisitionChart = () => {
     // force rerender to ensure chart updates
     setRerender(rerender + 1)
     return completeData
-  }, [data])
+  }, [data, rerender])
 
   return (
     <ChartContainer

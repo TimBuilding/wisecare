@@ -110,7 +110,11 @@ const BillingStatementActionButton = ({
     if (isUpsertingBillingStatement || isUpdatingPendingBillingStatement)
       setIsLoading(true)
     else setIsLoading(false)
-  }, [isUpsertingBillingStatement, isUpdatingPendingBillingStatement])
+  }, [
+    isUpsertingBillingStatement,
+    isUpdatingPendingBillingStatement,
+    setIsLoading,
+  ])
 
   return <div onClick={handleClick}>{children}</div>
 }
