@@ -1,6 +1,6 @@
 'use client'
 
-import EmployeeFormModal from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(employees)/employee-form-modal'
+import EmployeeFormModal from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(employees)/employee-information/employee-form-modal'
 import EmployeesTableSearch from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(employees)/employees-table-search'
 import ExportEmployees from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(employees)/export-employees'
 import ImportEmployeesButton from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(employees)/import/import-employees-button'
