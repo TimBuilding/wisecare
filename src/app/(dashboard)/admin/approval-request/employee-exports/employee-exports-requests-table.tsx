@@ -33,6 +33,7 @@ import {
 import employeeExportRequestsColumns from '@/app/(dashboard)/admin/approval-request/employee-exports/employee-export-requests-columns'
 import { useState } from 'react'
 import EmployeeExportRequestsRows from '@/app/(dashboard)/admin/approval-request/employee-exports/employee-export-requests-rows'
+import TableSearch from '@/components/table-search'
 
 const EmployeeExportsRequestsTable = () => {
   const supabase = createBrowserClient()
@@ -73,8 +74,7 @@ const EmployeeExportsRequestsTable = () => {
             )}
           </div>
           <div>
-            {/*TODO: Add table search component*/}
-            {/*<TableSearch table={table} placeholder="Search requests" />*/}
+            <TableSearch table={table} placeholder="Search requests" />
           </div>
         </div>
       </PageHeader>
