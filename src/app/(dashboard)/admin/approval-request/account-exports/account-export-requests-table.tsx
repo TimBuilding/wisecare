@@ -37,7 +37,7 @@ import TableSearch from '@/components/table-search'
 const AccountExportRequestsTable = () => {
   const supabase = createBrowserClient()
   const { data, count, isPending } = useQuery(
-    getPendingAccountExports(supabase, 'accounts'),
+    getPendingAccountExports(supabase, 'accounts', 'desc'),
   )
 
   const [sorting, setSorting] = useState<SortingState>([])
