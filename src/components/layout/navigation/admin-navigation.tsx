@@ -60,6 +60,14 @@ const AdminNavigation = async () => {
                       title="Billing Statements"
                       href="/admin/approval-request/billing-statements"
                     />
+                    <SubNavigationItem
+                      title="Account Exports"
+                      href="/admin/approval-request/account-exports"
+                    />
+                    <SubNavigationItem
+                      title="Company Employee Exports"
+                      href="/admin/approval-request/employee-exports"
+                    />
                   </SidebarMenuSub>
                 </CollapsibleContent>
               </SidebarMenuItem>
@@ -89,7 +97,6 @@ const AdminNavigation = async () => {
         </SidebarGroupContent>
       </SidebarGroup>
     </>
-
   )
 }
 
