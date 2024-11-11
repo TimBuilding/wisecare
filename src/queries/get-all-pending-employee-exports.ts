@@ -4,6 +4,7 @@ import { Enums } from '@/types/database.types'
 const getAllPendingEmployeeExports = (
   supabase: TypedSupabaseClient,
   exportType: Enums<'export_type'>,
+  sort: 'asc' | 'desc' = 'desc',
 ) => {
   return supabase
     .from('pending_export_requests')
@@ -16,6 +17,7 @@ const getAllPendingEmployeeExports = (
     .eq('is_approved', false)
     .eq('is_active', true)
     .eq('export_type', exportType)
+    .order('created_at', { ascending: sort === 'asc' })
     .throwOnError()
 }
 

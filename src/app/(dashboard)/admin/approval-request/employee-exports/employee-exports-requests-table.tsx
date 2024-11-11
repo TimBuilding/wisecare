@@ -39,7 +39,7 @@ const EmployeeExportsRequestsTable = () => {
   const supabase = createBrowserClient()
   // TODO: Add data from table
   const { data, count, isPending } = useQuery(
-    getAllPendingEmployeeExports(supabase, 'employees'),
+    getAllPendingEmployeeExports(supabase, 'employees', 'desc'),
   )
 
   const [sorting, setSorting] = useState<SortingState>([])
