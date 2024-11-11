@@ -179,7 +179,7 @@ const EditUserForm: FC<Props> = ({
               </FormItem>
             )}
           />
-          <ConfirmEmail email={email} />
+          {/* <ConfirmEmail email={email} /> */}
         </div>
         <div className="fixed bottom-0 flex w-full flex-row items-center justify-between gap-2 bg-[#f1f5f9] px-4 py-3 md:max-w-2xl">
           <DeleteUser

@@ -19,7 +19,7 @@ import { useEffect, useState } from 'react'
 import { Loader2 } from 'lucide-react'
 import { createBrowserClient } from '@/utils/supabase'
 import Message from '@/components/message'
-import { useRouter } from 'next/navigation'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import setPasswordSchema from '@/app/(auth)/confirm-account/set-password-schema'
 
 const SetPasswordForm = () => {
@@ -64,6 +64,18 @@ const SetPasswordForm = () => {
     // if success, then redirect to home page
     router.push('/')
   }
+
+  // check if there is an error in the url
+  const params = new URLSearchParams(window.location.hash.slice())
+
+  if (params.get('error_code')?.startsWith('4')) {
+    // show error message if error is a 4xx error
+    return <Message variant="error">{params.get('error_description')}</Message>
+  }
+
+  // if (error_code && error_description) {
+  //   return <Message variant="error">{error_description}</Message>
+  // }
 
   return (
     <div className="flex flex-col gap-8 border-border pt-8 md:rounded-xl md:border md:bg-card md:p-12 md:shadow-sm">
