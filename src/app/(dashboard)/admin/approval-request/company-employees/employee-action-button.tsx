@@ -47,8 +47,8 @@ const EmployeeActionButton: FC<EmployeeActionButtonProps> = ({
     {
       onSuccess: () => {
         toast({
-          title: 'Success',
-          description: 'The request has been approved successfully',
+          title: `Request ${action === 'approve' ? 'approved' : 'rejected'}`,
+          description: `The request has been ${action === 'approve' ? 'approved' : 'rejected'} successfully`,
         })
         setIsModalOpen(false)
       },
