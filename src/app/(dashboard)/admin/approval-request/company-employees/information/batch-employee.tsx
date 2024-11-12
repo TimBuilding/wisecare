@@ -23,7 +23,7 @@ const BatchEmployee = () => {
           <ApprovalInformationItem
             label="Birth Date"
             value={
-              (selectedData as any)?.birth_date
+              (item as any)?.birth_date
                 ? formatDate((item as any).birth_date, 'PP')
                 : undefined
             }
