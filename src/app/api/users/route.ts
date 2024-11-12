@@ -37,10 +37,7 @@ export const POST = async (req: NextRequest) => {
     })
 
     if (error) {
-      return NextResponse.json(
-        { error: 'Agent creation failed' },
-        { status: 500 },
-      )
+      return NextResponse.json({ error: error.message }, { status: 500 })
     }
 
     return NextResponse.json({ message: 'Agent created' }, { status: 200 })
@@ -101,7 +98,7 @@ export const PUT = async (req: NextRequest) => {
   })
 
   if (error) {
-    return NextResponse.json({ error: 'User update failed' }, { status: 500 })
+    return NextResponse.json({ error: error.message }, { status: 500 })
   }
 
   return NextResponse.json({ message: 'User updated' }, { status: 200 })

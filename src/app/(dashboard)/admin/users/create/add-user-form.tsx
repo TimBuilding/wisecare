@@ -68,6 +68,8 @@ const AddUserForm = ({ onOpenChange }: Props) => {
 
     if (data.error) {
       setError(data.error)
+      setIsLoading(false)
+      return
     }
 
     // clear cache

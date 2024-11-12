@@ -90,6 +90,8 @@ const EditUserForm: FC<Props> = ({
 
     if (data.error) {
       setError(data.error)
+      setIsLoading(false)
+      return
     }
 
     toast({
@@ -102,6 +104,7 @@ const EditUserForm: FC<Props> = ({
 
     // clear form
     setIsLoading(false)
+    onOpenChange(false)
   }
   return (
     <Form {...form}>
