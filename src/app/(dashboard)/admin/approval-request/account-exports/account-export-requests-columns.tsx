@@ -3,6 +3,8 @@ import { Tables } from '@/types/database.types'
 import TableHeader from '@/components/table-header'
 import { ColumnDef } from '@tanstack/react-table'
 import { formatDistanceToNow } from 'date-fns'
+import { Button } from '@/components/ui/button'
+import { MoreHorizontal } from 'lucide-react'
 
 const accountExportRequestsColumns: ColumnDef<
   Tables<'pending_export_requests'>
@@ -29,6 +31,16 @@ const accountExportRequestsColumns: ColumnDef<
             addSuffix: true,
           })}
         </div>
+      )
+    },
+  },
+  {
+    id: 'actions',
+    cell: ({ row }) => {
+      return (
+        <Button size={'icon'} variant="ghost">
+          <MoreHorizontal className="cursor-pointer" />
+        </Button>
       )
     },
   },
