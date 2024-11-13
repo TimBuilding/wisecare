@@ -1,6 +1,6 @@
 import React from 'react'
 import EmployeeExportsRequestsTable from '@/app/(dashboard)/admin/approval-request/employee-exports/employee-exports-requests-table'
-import { createBrowserClient } from '@/utils/supabase'
+import { createServerClient } from '@/utils/supabase'
 import {
   dehydrate,
   HydrationBoundary,
@@ -8,9 +8,12 @@ import {
 } from '@tanstack/react-query'
 import { prefetchQuery } from '@supabase-cache-helpers/postgrest-react-query'
 import getAllPendingEmployeeExports from '@/queries/get-all-pending-employee-exports'
+import { cookies } from 'next/headers'
+import EmployeeExportRequestsModal from '@/app/(dashboard)/admin/approval-request/employee-exports/employee-export-requests-modal'
+import { EmployeeExportRequestsProvider } from '@/app/(dashboard)/admin/approval-request/employee-exports/employee-export-requests-provider'
 
 const Page = async () => {
-  const supabase = createBrowserClient()
+  const supabase = createServerClient(cookies())
   const queryClient = new QueryClient()
   await prefetchQuery(
     queryClient,
@@ -18,7 +21,10 @@ const Page = async () => {
   )
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <EmployeeExportsRequestsTable />
+      <EmployeeExportRequestsProvider>
+        <EmployeeExportsRequestsTable />
+        <EmployeeExportRequestsModal />
+      </EmployeeExportRequestsProvider>
     </HydrationBoundary>
   )
 }

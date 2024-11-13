@@ -1,6 +1,7 @@
 import React from 'react'
 import { TableCell, TableRow } from '@/components/ui/table'
 import { ColumnDef, flexRender, Table } from '@tanstack/react-table'
+import { useEmployeeExportRequestsContext } from '@/app/(dashboard)/admin/approval-request/employee-exports/employee-export-requests-provider'
 
 interface EmployeeExportRequestsRowsProps<TData> {
   table: Table<TData>
@@ -11,6 +12,12 @@ const EmployeeExportRequestsRows = <TData,>({
   table,
   columns,
 }: EmployeeExportRequestsRowsProps<TData>) => {
+  const { setIsModalOpen, setSelectedData } = useEmployeeExportRequestsContext()
+
+  const handleOnClick = (originalData: TData) => {
+    setIsModalOpen(true)
+    setSelectedData(originalData)
+  }
   return (
     <>
       {table.getRowModel().rows?.length ? (
@@ -18,7 +25,7 @@ const EmployeeExportRequestsRows = <TData,>({
           <TableRow
             key={row.id}
             className="cursor-pointer hover:!bg-muted"
-            // onClick={() => handleOnClick(row.original)}
+            onClick={() => handleOnClick(row.original)}
           >
             {row.getVisibleCells().map((cell) => (
               <TableCell key={cell.id}>

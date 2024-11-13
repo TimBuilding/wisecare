@@ -37,7 +37,6 @@ import TableSearch from '@/components/table-search'
 
 const EmployeeExportsRequestsTable = () => {
   const supabase = createBrowserClient()
-  // TODO: Add data from table
   const { data, count, isPending } = useQuery(
     getAllPendingEmployeeExports(supabase, 'employees', 'desc'),
   )
