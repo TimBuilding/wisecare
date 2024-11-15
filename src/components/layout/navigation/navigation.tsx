@@ -7,7 +7,7 @@ import {
   SidebarMenu,
 } from '@/components/ui/sidebar'
 import getRole from '@/utils/get-role'
-import { Book, BookCopy, Gauge } from 'lucide-react'
+import { Book, BookCopy, Gauge, LucideDownload } from 'lucide-react'
 import NavigationItem from './navigation-item'
 
 const Navigation = async () => {
@@ -45,6 +45,18 @@ const Navigation = async () => {
                 />
               )
             }
+          </SidebarMenu>
+        </SidebarGroupContent>
+      </SidebarGroup>
+      <SidebarGroup>
+        <SidebarGroupLabel>File Manager</SidebarGroupLabel>
+        <SidebarGroupContent>
+          <SidebarMenu>
+            <NavigationItem
+              title="Download Files"
+              href="/file-manager"
+              icon={<LucideDownload className="h-6 w-6" />}
+            />
           </SidebarMenu>
         </SidebarGroupContent>
       </SidebarGroup>
