@@ -3,10 +3,27 @@
 import ClientAcquisitionCard from '@/app/(dashboard)/(home)/(dashboard)/client-acquisition/client-acquisition-card'
 import RetentionRateCard from '@/app/(dashboard)/(home)/(dashboard)/retention-rate/retention-rate-card'
 import TopAgentsCard from '@/app/(dashboard)/(home)/(dashboard)/top-agents/top-agents-card'
+import getRole from '@/utils/get-role'
 import { Metadata } from 'next'
+import dynamic from 'next/dynamic'
 import PageTitle from './page-title'
-import RenewalCard from '@/app/(dashboard)/(home)/(dashboard)/upcoming-renewals/renewal-card'
-import CommissionCard from '@/app/(dashboard)/(home)/(dashboard)/commission/commission-card'
+
+const RenewalCard = dynamic(
+  () =>
+    import(
+      '@/app/(dashboard)/(home)/(dashboard)/upcoming-renewals/renewal-card'
+    ),
+  {
+    loading: () => <div>Loading...</div>,
+  },
+)
+const CommissionCard = dynamic(
+  () =>
+    import('@/app/(dashboard)/(home)/(dashboard)/commission/commission-card'),
+  {
+    loading: () => <div>Loading...</div>,
+  },
+)
 
 export const metadata = async (): Promise<Metadata> => {
   return {
@@ -14,7 +31,9 @@ export const metadata = async (): Promise<Metadata> => {
   }
 }
 
-const Dashboard = () => {
+const Dashboard = async () => {
+  const role = await getRole()
+
   return (
     <div className="p-6">
       <PageTitle title="Dashboard" description="Welcome to the dashboard" />
@@ -22,8 +41,13 @@ const Dashboard = () => {
         <ClientAcquisitionCard />
         <RetentionRateCard />
         <TopAgentsCard />
-        <RenewalCard />
-        <CommissionCard />
+
+        {(role === 'finance' || role === 'admin') && (
+          <>
+            <RenewalCard />
+            <CommissionCard />
+          </>
+        )}
       </div>
     </div>
   )
