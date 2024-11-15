@@ -1,11 +1,21 @@
 'use client'
 
-import { ChevronsUpDown } from 'lucide-react'
+import {
+  Bell,
+  BadgeCheck,
+  ChevronsUpDown,
+  CreditCard,
+  Settings,
+  Lock,
+  UserCog,
+} from 'lucide-react'
 
 import SignOutButton from '@/components/layout/signout-button'
 import {
   DropdownMenu,
   DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
@@ -21,6 +31,7 @@ import { User } from '@supabase/supabase-js'
 import dynamic from 'next/dynamic'
 import { Suspense } from 'react'
 import { genConfig } from 'react-nice-avatar'
+import Link from 'next/link'
 
 const Avatar = dynamic(() => import('react-nice-avatar'), {
   ssr: true,
@@ -73,29 +84,30 @@ const NavUser = ({ user }: { user?: User | null }) => {
               </div>
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
-            {/* <DropdownMenuGroup>
-              <DropdownMenuItem>
-                <Sparkles />
-                Upgrade to Pro
+            <DropdownMenuGroup>
+              <DropdownMenuItem asChild={true}>
+                <Link
+                  href="/settings/account"
+                  className="flex cursor-pointer flex-row items-center justify-start gap-4"
+                >
+                  <UserCog className="h-4 w-4" />
+                  Account
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild={true}>
+                <Link
+                  href="/settings/security"
+                  className="flex cursor-pointer flex-row items-center justify-start gap-4"
+                >
+                  <Lock className="h-4 w-4" />
+                  Security
+                </Link>
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
-              <DropdownMenuItem>
-                <BadgeCheck />
-                Account
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <CreditCard />
-                Billing
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <Bell />
-                Notifications
-              </DropdownMenuItem>
+              <SignOutButton />
             </DropdownMenuGroup>
-            <DropdownMenuSeparator /> */}
-            <SignOutButton />
           </DropdownMenuContent>
         </DropdownMenu>
       </SidebarMenuItem>

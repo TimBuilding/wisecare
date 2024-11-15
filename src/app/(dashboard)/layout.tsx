@@ -2,17 +2,12 @@
 
 import { FC, ReactNode } from 'react'
 import Header from '../../components/layout/header'
-import Navbar from '../../components/layout/navbar'
 
-import { cookies } from 'next/headers'
-import { createServerClient } from '@/utils/supabase'
-import { redirect } from 'next/navigation'
-import {
-  SidebarInset,
-  SidebarProvider,
-  SidebarTrigger,
-} from '@/components/ui/sidebar'
 import AppSidebar from '@/components/layout/navigation/app-sidebar'
+import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar'
+import { createServerClient } from '@/utils/supabase'
+import { cookies } from 'next/headers'
+import { redirect } from 'next/navigation'
 
 interface Props {
   children: ReactNode
