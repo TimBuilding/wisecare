@@ -9,11 +9,9 @@ import {
 } from '@/components/ui/dialog'
 import { useAccountExportRequestsContext } from '@/app/(dashboard)/admin/approval-request/account-exports/account-export-requests-provider'
 import { formatDate } from 'date-fns'
-import ActionRequestButton from '@/app/(dashboard)/admin/approval-request/accounts/action-request-button'
 import { Button } from '@/components/ui/button'
-import AccountExportRequestsApprovalButton from '@/app/(dashboard)/admin/approval-request/account-exports/account-export-requests-approval-button'
+import ExportRequestsApprovalButton from '@/app/(dashboard)/admin/approval-request/components/export-requests-approval-button'
 import { Loader2 } from 'lucide-react'
-import { useCompanyContext } from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(company profile)/company-provider'
 
 const AccountExportRequestModal = () => {
   const { isModalOpen, setIsModalOpen, selectedData, isLoading } =
@@ -45,22 +43,22 @@ const AccountExportRequestModal = () => {
           ?
         </div>
         <div className="flex justify-end gap-x-2">
-          <AccountExportRequestsApprovalButton
+          <ExportRequestsApprovalButton
             action="reject"
             exportId={selectedData?.id as any}
           >
             <Button variant={'destructive'} disabled={isLoading}>
               {isLoading ? <Loader2 className="animate-spin" /> : 'Reject'}
             </Button>
-          </AccountExportRequestsApprovalButton>
-          <AccountExportRequestsApprovalButton
+          </ExportRequestsApprovalButton>
+          <ExportRequestsApprovalButton
             action="approve"
             exportId={selectedData?.id as any}
           >
             <Button variant={'default'} disabled={isLoading}>
               {isLoading ? <Loader2 className="animate-spin" /> : 'Approve'}
             </Button>
-          </AccountExportRequestsApprovalButton>
+          </ExportRequestsApprovalButton>
         </div>
       </DialogContent>
     </Dialog>

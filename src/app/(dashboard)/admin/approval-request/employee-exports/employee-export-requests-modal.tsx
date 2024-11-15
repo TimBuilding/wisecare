@@ -9,9 +9,12 @@ import {
 } from '@/components/ui/dialog'
 import { useEmployeeExportRequestsContext } from '@/app/(dashboard)/admin/approval-request/employee-exports/employee-export-requests-provider'
 import { formatDate } from 'date-fns'
+import ExportRequestsApprovalButton from '@/app/(dashboard)/admin/approval-request/components/export-requests-approval-button'
+import { Button } from '@/components/ui/button'
+import { Loader2 } from 'lucide-react'
 
 const EmployeeExportRequestsModal = () => {
-  const { isModalOpen, setIsModalOpen, selectedData } =
+  const { isModalOpen, setIsModalOpen, selectedData, isLoading } =
     useEmployeeExportRequestsContext()
 
   return (
@@ -40,7 +43,22 @@ const EmployeeExportRequestsModal = () => {
           ?
         </div>
         <div className="flex justify-end gap-x-2">
-          {/* TODO: Buttons for reject and approved*/}
+          <ExportRequestsApprovalButton
+            action="reject"
+            exportId={selectedData?.id as any}
+          >
+            <Button variant={'destructive'} disabled={isLoading}>
+              {isLoading ? <Loader2 className="animate-spin" /> : 'Reject'}
+            </Button>
+          </ExportRequestsApprovalButton>
+          <ExportRequestsApprovalButton
+            action="approve"
+            exportId={selectedData?.id as any}
+          >
+            <Button variant={'default'} disabled={isLoading}>
+              {isLoading ? <Loader2 className="animate-spin" /> : 'Approve'}
+            </Button>
+          </ExportRequestsApprovalButton>
         </div>
       </DialogContent>
     </Dialog>

@@ -4,6 +4,7 @@ import { createBrowserClient } from '@/utils/supabase'
 import { useUpdateMutation } from '@supabase-cache-helpers/postgrest-react-query'
 import { toast } from '@/components/ui/use-toast'
 import { useAccountExportRequestsContext } from '@/app/(dashboard)/admin/approval-request/account-exports/account-export-requests-provider'
+import { useEmployeeExportRequestsContext } from '@/app/(dashboard)/admin/approval-request/employee-exports/employee-export-requests-provider'
 
 interface AccountExportRequestsApprovalButtonProps {
   children: ReactNode
@@ -11,11 +12,14 @@ interface AccountExportRequestsApprovalButtonProps {
   exportId: string
 }
 
-const AccountExportRequestsApprovalButton: FC<
+const ExportRequestsApprovalButton: FC<
   AccountExportRequestsApprovalButtonProps
 > = ({ children, action, exportId }) => {
   const supabase = createBrowserClient()
-  const { setIsModalOpen } = useAccountExportRequestsContext()
+  const { setIsModalOpen: setAccountModalOpen } =
+    useAccountExportRequestsContext()
+  const { setIsModalOpen: setEmployeeModalOpen } =
+    useEmployeeExportRequestsContext()
 
   const { mutateAsync, isPending } = useUpdateMutation(
     //@ts-expect-error
@@ -28,7 +32,8 @@ const AccountExportRequestsApprovalButton: FC<
           title: `Request ${action === 'approve' ? 'approved' : 'rejected'}`,
           description: `The request has been ${action === 'approve' ? 'approved' : 'rejected'} successfully`,
         })
-        setIsModalOpen(false)
+        setAccountModalOpen(false)
+        setEmployeeModalOpen(false)
       },
       onError: () => {
         toast({
@@ -50,4 +55,4 @@ const AccountExportRequestsApprovalButton: FC<
   return <div onClick={handleApproval}> {children} </div>
 }
 
-export default AccountExportRequestsApprovalButton
+export default ExportRequestsApprovalButton
