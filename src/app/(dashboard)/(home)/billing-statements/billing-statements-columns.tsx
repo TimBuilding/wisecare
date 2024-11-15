@@ -105,7 +105,7 @@ const billingStatementsColumns: ColumnDef<Tables<'billing_statements'>>[] = [
       <TableHeader column={column} title="Commission Earned" />
     ),
     cell: ({ getValue }) =>
-      formatPercentage(getValue<number | null | undefined>()),
+      formatCurrency(getValue<number | null | undefined>()),
   },
 ]
 
