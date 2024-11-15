@@ -66,7 +66,7 @@ const ApprovalRequestInfo = () => {
                         normalizeToUTC(new Date(selectedData.expiration_date)),
                         'PP',
                       )
-                    : 'undefined'
+                    : '-'
                 }
               />
               <ApprovalInformationItem
@@ -77,7 +77,7 @@ const ApprovalRequestInfo = () => {
                         normalizeToUTC(new Date(selectedData.effectivity_date)),
                         'PP',
                       )
-                    : 'undefined'
+                    : '-'
                 }
               />
               <ApprovalInformationItem
@@ -88,7 +88,7 @@ const ApprovalRequestInfo = () => {
                         normalizeToUTC(new Date(selectedData.coc_issue_date)),
                         'PP',
                       )
-                    : 'undefined'
+                    : '-'
                 }
               />
               <ApprovalInformationItem
@@ -103,7 +103,7 @@ const ApprovalRequestInfo = () => {
                         ),
                         'PP',
                       )
-                    : 'undefined'
+                    : '-'
                 }
               />
               <ApprovalInformationItem
@@ -114,7 +114,7 @@ const ApprovalRequestInfo = () => {
                         normalizeToUTC(new Date(selectedData.orientation_date)),
                         'PP',
                       )
-                    : 'undefined'
+                    : '-'
                 }
               />
               <ApprovalInformationItem
@@ -127,7 +127,7 @@ const ApprovalRequestInfo = () => {
                         ),
                         'PP',
                       )
-                    : 'undefined'
+                    : '-'
                 }
               />
               <ApprovalInformationItem
@@ -142,7 +142,7 @@ const ApprovalRequestInfo = () => {
                         ),
                         'PP',
                       )
-                    : 'undefined'
+                    : '-'
                 }
               />
             </div>
@@ -165,9 +165,9 @@ const ApprovalRequestInfo = () => {
               <ApprovalInformationItem
                 label={'Commission Rate'}
                 value={
-                  selectedData?.commision_rate !== undefined
+                  selectedData?.commision_rate
                     ? formatPercentage(selectedData.commision_rate)
-                    : 'undefined'
+                    : '-'
                 }
               />
             </div>
@@ -248,7 +248,7 @@ const ApprovalRequestInfo = () => {
                 value={
                   selectedData?.total_utilization
                     ? formatCurrency(selectedData.total_utilization)
-                    : 'undefined'
+                    : '-'
                 }
               />
               <ApprovalInformationItem
@@ -256,7 +256,7 @@ const ApprovalRequestInfo = () => {
                 value={
                   selectedData?.total_premium_paid
                     ? formatCurrency(selectedData.total_premium_paid)
-                    : 'undefined'
+                    : '-'
                 }
               />
               <ApprovalInformationItem
