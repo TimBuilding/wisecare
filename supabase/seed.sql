@@ -195,8 +195,10 @@ END $$;
 DO $$
 DECLARE
     i integer;
+    random_created_at timestamp;
 BEGIN
     FOR i IN 1..500 LOOP
+        random_created_at := (current_date - interval '2 years') + (random() * (current_date - (current_date - interval '2 years')));
         INSERT INTO billing_statements (
             id,
             account_id,
@@ -233,7 +235,7 @@ BEGIN
             50.0 * i,
             5.0,
             25.0 * i,
-            now(),
+            random_created_at,
             now()
         );
     END LOOP;

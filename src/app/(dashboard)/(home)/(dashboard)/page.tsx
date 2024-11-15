@@ -6,6 +6,7 @@ import TopAgentsCard from '@/app/(dashboard)/(home)/(dashboard)/top-agents/top-a
 import { Metadata } from 'next'
 import PageTitle from './page-title'
 import RenewalCard from '@/app/(dashboard)/(home)/(dashboard)/upcoming-renewals/renewal-card'
+import CommissionCard from '@/app/(dashboard)/(home)/(dashboard)/commission/commission-card'
 
 export const metadata = async (): Promise<Metadata> => {
   return {
@@ -22,6 +23,7 @@ const Dashboard = () => {
         <RetentionRateCard />
         <TopAgentsCard />
         <RenewalCard />
+        <CommissionCard />
       </div>
     </div>
   )
