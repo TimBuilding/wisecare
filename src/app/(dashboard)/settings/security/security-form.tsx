@@ -1,11 +1,11 @@
 'use client'
-
-import UserSchema from '@/app/(dashboard)/settings/account/user-schema'
+import { SecuritySchema } from '@/app/(dashboard)/settings/security/security-schema'
 import Message from '@/components/message'
 import { Button } from '@/components/ui/button'
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -16,52 +16,44 @@ import { Separator } from '@/components/ui/separator'
 import { useToast } from '@/components/ui/use-toast'
 import { createBrowserClient } from '@/utils/supabase'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { UserMetadata } from '@supabase/supabase-js'
 import { Loader2 } from 'lucide-react'
-import { FC, useState } from 'react'
+import { useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { z } from 'zod'
 
-const items: {
+const formFields: {
   label: string
-  name: keyof z.infer<typeof UserSchema>
+  name: keyof SecuritySchema
 }[] = [
   {
-    label: 'First Name',
-    name: 'firstName',
+    label: 'Password',
+    name: 'password',
   },
   {
-    label: 'Last Name',
-    name: 'lastName',
+    label: 'Confirm Password',
+    name: 'confirmPassword',
   },
 ]
 
-interface Props {
-  user?: UserMetadata
-}
-
-const AccountForm: FC<Props> = ({ user }) => {
+const SecurityForm = () => {
   const { toast } = useToast()
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
   const [isLoading, setIsLoading] = useState<boolean>(false)
-  const form = useForm<z.infer<typeof UserSchema>>({
-    resolver: zodResolver(UserSchema),
+  const form = useForm<z.infer<typeof SecuritySchema>>({
+    resolver: zodResolver(SecuritySchema),
     defaultValues: {
-      firstName: user?.first_name ?? '',
-      lastName: user?.last_name ?? '',
+      password: '',
+      confirmPassword: '',
     },
   })
 
-  const handleSubmit: SubmitHandler<z.infer<typeof UserSchema>> = async (
+  const handleSubmit: SubmitHandler<z.infer<typeof SecuritySchema>> = async (
     formData,
   ) => {
     setIsLoading(true)
     const supabase = createBrowserClient()
     const { error } = await supabase.auth.updateUser({
-      data: {
-        first_name: formData.firstName,
-        last_name: formData.lastName,
-      },
+      password: formData.password,
     })
 
     if (error) {
@@ -76,15 +68,17 @@ const AccountForm: FC<Props> = ({ user }) => {
     setIsLoading(false)
     toast({
       title: 'Success',
-      description: 'Your account has been updated',
+      description: 'Your password has been updated',
     })
+    // reset form
+    form.reset()
   }
 
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-8">
         {errorMessage && <Message variant={'error'}>{errorMessage}</Message>}
-        {items.map((item) => (
+        {formFields.map((item) => (
           <FormField
             key={item.name}
             control={form.control}
@@ -93,22 +87,24 @@ const AccountForm: FC<Props> = ({ user }) => {
               <FormItem>
                 <FormLabel>{item.label}</FormLabel>
                 <FormControl>
-                  <Input
-                    placeholder={item.label}
-                    {...field}
-                    disabled={isLoading}
-                  />
+                  <Input placeholder={item.label} {...field} type="password" />
                 </FormControl>
+                <FormDescription>
+                  {item.name === 'confirmPassword' && 'Minimum 8 characters.'}
+                </FormDescription>
                 <FormMessage />
               </FormItem>
             )}
           />
         ))}
-
         <Separator />
         <div className="flex justify-end">
           <Button type="submit" disabled={isLoading}>
-            {isLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : 'Save'}
+            {isLoading ? (
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+            ) : (
+              'Save'
+            )}
           </Button>
         </div>
       </form>
@@ -116,4 +112,4 @@ const AccountForm: FC<Props> = ({ user }) => {
   )
 }
 
-export default AccountForm
+export default SecurityForm
