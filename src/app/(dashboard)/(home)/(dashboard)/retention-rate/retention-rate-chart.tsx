@@ -13,52 +13,33 @@ import {
   RadialBar,
   RadialBarChart,
 } from 'recharts'
+import { calculateRetentionRate } from '@/utils/retentionRate'
+
+// Define the type for the data returned from the query
+interface AccountStatusChange {
+  account_id: string
+  is_account_active: boolean
+  changed_at: string
+}
+
+const periodEnd = new Date()
+const periodStart = subMonths(periodEnd, 1)
 
 const RetentionRateChart = () => {
   const supabase = createBrowserClient()
 
-  const { data } = useQuery(
+  const { data } = useQuery<AccountStatusChange[]>(
     supabase
-      .from('accounts')
-      .select('is_account_active, created_at', {
-        count: 'exact',
-      })
-      .lte(
-        'created_at',
-        new Date().toLocaleString('en-US', { timeZone: 'UTC' }),
-      )
+      .from('account_status_changes')
+      .select('account_id, is_account_active, changed_at')
+      .order('changed_at', { ascending: false })
       .throwOnError(),
   )
 
-  const retentionRate = useMemo(() => {
-    if (!data) return 0
-
-    const periodEnd = new Date()
-    const periodStart = subMonths(periodEnd, 12)
-
-    // Active clients during the period, filtered by `created_at` and `is_active`
-    const activeClientsAtEnd = data.filter(
-      (client) =>
-        client.is_account_active && new Date(client.created_at) <= periodEnd,
-    ).length
-
-    // Clients who existed at the start of the period
-    const clientsAtStart = data.filter(
-      (client) => new Date(client.created_at) <= periodStart,
-    ).length
-
-    const newClientsDuringPeriod = data.filter(
-      (client) =>
-        new Date(client.created_at) > periodStart &&
-        new Date(client.created_at) <= periodEnd,
-    ).length
-
-    // Retention Rate Calculation
-    const retentionRate =
-      ((activeClientsAtEnd - newClientsDuringPeriod) / clientsAtStart) * 100
-
-    return Math.round(retentionRate) // Returns as a rounded number
-  }, [data])
+  const retentionRate = useMemo(
+    () => calculateRetentionRate(data ?? [], periodStart, periodEnd),
+    [data],
+  )
 
   const chartData = useMemo(
     () => [

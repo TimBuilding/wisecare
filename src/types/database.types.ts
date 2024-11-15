@@ -34,6 +34,35 @@ export type Database = {
   }
   public: {
     Tables: {
+      account_status_changes: {
+        Row: {
+          account_id: string
+          changed_at: string
+          id: string
+          is_account_active: boolean
+        }
+        Insert: {
+          account_id: string
+          changed_at?: string
+          id?: string
+          is_account_active: boolean
+        }
+        Update: {
+          account_id?: string
+          changed_at?: string
+          id?: string
+          is_account_active?: boolean
+        }
+        Relationships: [
+          {
+            foreignKeyName: 'account_status_changes_account_id_fkey'
+            columns: ['account_id']
+            isOneToOne: false
+            referencedRelation: 'accounts'
+            referencedColumns: ['id']
+          },
+        ]
+      }
       account_types: {
         Row: {
           created_at: string | null

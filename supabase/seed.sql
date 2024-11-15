@@ -186,7 +186,7 @@ BEGIN
             'Signatory ' || i,
             'Designation ' || i,
             'contact' || i || '@example.com',
-            timestamp '2022-01-01 00:00:00' + random() * (timestamp '2024-12-31 23:59:59' - timestamp '2022-01-01 00:00:00')
+            timestamp '2022-10-01' + random() * (timestamp '2024-10-01' - timestamp '2022-10-01')
         );
     END LOOP;
 END $$;
@@ -284,3 +284,20 @@ BEGIN
     END LOOP;
 END $$;
 
+
+DO $$
+DECLARE
+    account RECORD;
+BEGIN
+    FOR account IN SELECT id, created_at, is_active FROM accounts LOOP
+        INSERT INTO public.account_status_changes (
+            account_id,
+            is_account_active,
+            changed_at
+        ) VALUES (
+            account.id,
+            account.is_active, -- Use the is_active status from the accounts table
+            account.created_at -- Use the created_at date from the accounts table
+        );
+    END LOOP;
+END $$;
