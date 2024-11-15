@@ -1,19 +1,10 @@
 import TopAgentsList from '@/app/(dashboard)/(home)/(dashboard)/top-agents/top-agents-list'
 import { Badge } from '@/components/ui/badge'
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card'
-import { format, subMonths } from 'date-fns'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 
 const TopAgentsCard = () => {
-  const last12Months = subMonths(new Date(), 12)
-
   return (
-    <Card className="col-span-1">
+    <Card className="col-span-1 md:col-span-2">
       <CardHeader>
         <CardTitle className="flex flex-row items-center justify-between">
           <span className="text-base font-medium">Top Agents</span>
