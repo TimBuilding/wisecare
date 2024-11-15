@@ -4,8 +4,8 @@ import {
   PageHeader,
   PageTitle,
 } from '@/components/page-header'
-import AccountDownloads from '@/app/(dashboard)/(home)/file-manager/account-downloads'
-import EmployeeDownloads from '@/app/(dashboard)/(home)/file-manager/employee-downloads'
+import AccountDownloads from '@/app/(dashboard)/(home)/file-manager/account-files/account-downloads'
+import EmployeeDownloads from '@/app/(dashboard)/(home)/file-manager/employee-files/employee-downloads'
 
 const DownloadableFiles = () => {
   return (
