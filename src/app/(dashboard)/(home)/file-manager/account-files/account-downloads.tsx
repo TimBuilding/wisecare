@@ -9,12 +9,12 @@ import {
   SheetTrigger,
 } from '@/components/ui/sheet'
 import AccountDownloadsSheet from '@/app/(dashboard)/(home)/file-manager/account-files/account-downloads-sheet'
-import { useAccountDownloadsContext } from '@/app/(dashboard)/(home)/file-manager/account-files/account-downloads-provider'
+import { useDownloadsContext } from '@/app/(dashboard)/(home)/file-manager/downloads-provider'
 import { Button } from '@/components/ui/button'
 import AccountDownloadsButton from '@/app/(dashboard)/(home)/file-manager/account-files/account-downloads-button'
 
 const AccountDownloads = () => {
-  const { setIsSheetOpen } = useAccountDownloadsContext()
+  const { setIsSheetOpen } = useDownloadsContext()
   const handleClick = () => {
     setIsSheetOpen(true)
   }

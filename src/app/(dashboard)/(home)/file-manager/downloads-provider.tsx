@@ -2,28 +2,28 @@
 import React from 'react'
 import { createContext, ReactNode, useContext, useState } from 'react'
 
-const useAccountDownloadsContext = () => {
-  const context = useContext(AccountDownloadsContext)
+const useDownloadsContext = () => {
+  const context = useContext(DownloadsContext)
   if (!context) {
     throw new Error(
-      'useAccountDownloadsContext must be used within a AccountDownloadsProvider',
+      'useAccountDownloadsContext must be used within a DownloadsProvider',
     )
   }
   return context
 }
 
-const AccountDownloadsContext = createContext({
+const DownloadsContext = createContext({
   isSheetOpen: false,
   setIsSheetOpen: (_value: boolean) => {},
   isLoading: false,
   setIsLoading: (_value: boolean) => {},
 })
 
-const AccountDownloadsProvider = ({ children }: { children: ReactNode }) => {
+const DownloadsProvider = ({ children }: { children: ReactNode }) => {
   const [isSheetOpen, setIsSheetOpen] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   return (
-    <AccountDownloadsContext.Provider
+    <DownloadsContext.Provider
       value={{
         isSheetOpen,
         setIsSheetOpen,
@@ -32,8 +32,8 @@ const AccountDownloadsProvider = ({ children }: { children: ReactNode }) => {
       }}
     >
       {children}
-    </AccountDownloadsContext.Provider>
+    </DownloadsContext.Provider>
   )
 }
 
-export { AccountDownloadsProvider, useAccountDownloadsContext }
+export { DownloadsProvider, useDownloadsContext }

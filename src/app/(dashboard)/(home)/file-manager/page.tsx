@@ -1,13 +1,13 @@
 import React from 'react'
 import DownloadableFiles from '@/app/(dashboard)/(home)/file-manager/downloadable-files'
-import { AccountDownloadsProvider } from '@/app/(dashboard)/(home)/file-manager/account-files/account-downloads-provider'
+import { DownloadsProvider } from '@/app/(dashboard)/(home)/file-manager/downloads-provider'
 
 const Page = () => {
   return (
     <>
-      <AccountDownloadsProvider>
+      <DownloadsProvider>
         <DownloadableFiles />
-      </AccountDownloadsProvider>
+      </DownloadsProvider>
     </>
   )
 }
