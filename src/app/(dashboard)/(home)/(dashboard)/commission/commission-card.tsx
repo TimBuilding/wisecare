@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 
 const CommissionCard = () => {
   return (
-    <Card className="col-span-1 md:col-span-3">
+    <Card className="col-span-1 h-[490px] md:col-span-4 xl:col-span-3">
       <CardHeader>
         <CardTitle className="flex flex-row items-center justify-between">
           <span className="text-base font-medium">Total Commission Earned</span>

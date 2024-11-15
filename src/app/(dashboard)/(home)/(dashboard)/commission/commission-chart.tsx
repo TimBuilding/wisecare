@@ -35,7 +35,7 @@ const CommissionChart = () => {
   const processedData = useMemo(() => processChartData(data), [data])
 
   return (
-    <ChartContainer config={chartConfig}>
+    <ChartContainer config={chartConfig} className="h-[400px] w-full">
       <AreaChart
         accessibilityLayer
         data={processedData}

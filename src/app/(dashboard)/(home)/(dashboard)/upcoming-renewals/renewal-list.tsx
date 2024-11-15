@@ -18,7 +18,7 @@ const RenewalList = () => {
   )
 
   return (
-    <div className="space-y-4">
+    <div className="max-h-[370px] space-y-4 overflow-y-auto">
       {data?.map((item) => (
         <RenewalItem key={item.id} data={item as Tables<'accounts'>} />
       ))}
