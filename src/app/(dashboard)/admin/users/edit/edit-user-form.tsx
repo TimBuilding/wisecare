@@ -1,4 +1,3 @@
-import ConfirmEmail from '@/app/(dashboard)/admin/users/edit/confirm-email'
 import DeleteUser from '@/app/(dashboard)/admin/users/edit/delete-user'
 import userSchema from '@/app/(dashboard)/admin/users/user-schema'
 import Message from '@/components/message'
@@ -144,7 +143,7 @@ const EditUserForm: FC<Props> = ({
               <FormItem>
                 <FormLabel>Email</FormLabel>
                 <FormControl>
-                  <Input {...field} disabled={isLoading} />
+                  <Input {...field} disabled={true} />
                 </FormControl>
                 <FormMessage />
               </FormItem>

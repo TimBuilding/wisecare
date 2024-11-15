@@ -126,7 +126,7 @@ const EditAgentForm: FC<Props> = ({
               <FormItem>
                 <FormLabel>Email</FormLabel>
                 <FormControl>
-                  <Input {...field} disabled={isLoading} />
+                  <Input {...field} disabled={true} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
