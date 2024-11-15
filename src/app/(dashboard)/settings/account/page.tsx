@@ -1,5 +1,12 @@
+import SettingsPageTitle from '@/app/(dashboard)/settings/(layout)/settings-page-title'
+
 const AccountSettings = () => {
-  return <div>AccountSettings</div>
+  return (
+    <>
+      <SettingsPageTitle title="Account Settings" />
+      HEHE
+    </>
+  )
 }
 
 export default AccountSettings
