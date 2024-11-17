@@ -12,11 +12,11 @@ import { Separator } from '@/components/ui/separator'
 import { Button } from '@/components/ui/button'
 import AccountDownloadsButton from '@/app/(dashboard)/(home)/file-manager/account-files/account-downloads-button'
 import { useDownloadsContext } from '@/app/(dashboard)/(home)/file-manager/downloads-provider'
-import { createBrowserClient } from '@/utils/supabase'
+import { formatDate } from 'date-fns'
 
 const AccountDownloadsSheet = () => {
-  const supabase = createBrowserClient()
   const { file, setFile } = useDownloadsContext()
+
   return (
     <Sheet open={!!file} onOpenChange={() => setFile(null)}>
       <SheetContent className="xs:w-screen flex w-screen flex-col justify-between overflow-auto bg-card sm:max-w-none md:max-w-md">
@@ -49,20 +49,24 @@ const AccountDownloadsSheet = () => {
               <span className="text-sm font-medium text-[#64748b]">
                 Approved at
               </span>
-              <span className="text-sm text-[#1e293b]">November 15, 2024</span>
+              <span className="text-sm text-[#1e293b]">
+                {file?.approved_at ? formatDate(file.approved_at, 'PPpp') : '-'}
+              </span>
             </div>
             <Separator />
             <div className=" flex flex-row justify-between pb-1 pt-1 ">
               <span className="text-sm font-medium text-[#64748b]">
                 Approved by
               </span>
-              <span className="text-sm text-[#1e293b]">Jane Doe</span>
+              <span className="text-sm text-[#1e293b]">
+                {(file?.approved_by as any)?.first_name}{' '}
+                {(file?.approved_by as any)?.last_name}
+              </span>
             </div>
             <Separator />
           </div>
         </div>
         <SheetFooter className="mt-auto flex flex-row items-center justify-between gap-4 p-12">
-          {/*  TODO : Buttons functionality */}
           <AccountDownloadsButton />
         </SheetFooter>
       </SheetContent>
