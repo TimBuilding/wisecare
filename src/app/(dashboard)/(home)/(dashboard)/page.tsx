@@ -7,6 +7,7 @@ import getRole from '@/utils/get-role'
 import { Metadata } from 'next'
 import dynamic from 'next/dynamic'
 import PageTitle from './page-title'
+import TopHmoCard from '@/app/(dashboard)/(home)/(dashboard)/top-hmo/top-hmo-card'
 
 const RenewalCard = dynamic(
   () =>
@@ -39,8 +40,9 @@ const Dashboard = async () => {
       <PageTitle title="Dashboard" description="Welcome to the dashboard" />
       <div className="grid grid-cols-1 gap-8 py-8 md:grid-cols-4">
         <ClientAcquisitionCard />
-        <RetentionRateCard />
         <TopAgentsCard />
+        <RetentionRateCard />
+        <TopHmoCard />
 
         {(role === 'finance' || role === 'admin') && (
           <>
