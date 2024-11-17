@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 
 const TopAgentsCard = () => {
   return (
-    <Card className="col-span-1 md:col-span-2">
+    <Card className="col-span-1 md:col-span-4 lg:col-span-2">
       <CardHeader>
         <CardTitle className="flex flex-row items-center justify-between">
           <span className="text-base font-medium">Top Agents</span>

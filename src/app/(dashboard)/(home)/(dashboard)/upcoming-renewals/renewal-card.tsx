@@ -9,7 +9,7 @@ import {
 
 const RenewalCard = () => {
   return (
-    <Card className="col-span-1 h-[490px] md:col-span-4 xl:col-span-1">
+    <Card className="col-span-1 h-[490px] md:col-span-4 lg:col-span-2 xl:col-span-1">
       <CardHeader>
         <CardTitle className="text-base font-medium">
           Upcoming Renewals

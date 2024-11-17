@@ -12,7 +12,7 @@ const RetentionRateCard = () => {
   const lastMonth = subMonths(new Date(), 1)
 
   return (
-    <Card className="col-span-1">
+    <Card className="col-span-1 md:col-span-4 lg:col-span-2 xl:col-span-1">
       <CardHeader>
         <CardTitle className="text-base font-medium">Retention Rate</CardTitle>
         <CardDescription className="text-xs font-medium">
