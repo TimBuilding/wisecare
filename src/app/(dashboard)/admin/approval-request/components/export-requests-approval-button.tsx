@@ -45,8 +45,17 @@ const ExportRequestsApprovalButton: FC<
   )
 
   const handleApproval = async () => {
+    const {
+      data: { user },
+    } = await supabase.auth.getUser()
+
     if (action === 'approve') {
-      await mutateAsync({ id: exportId, is_approved: true })
+      await mutateAsync({
+        id: exportId,
+        is_approved: true,
+        approved_by: user?.id,
+        approved_at: new Date().toISOString(),
+      })
     } else {
       await mutateAsync({ id: exportId, is_approved: false, is_active: false })
     }
