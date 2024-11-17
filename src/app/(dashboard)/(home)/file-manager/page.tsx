@@ -4,6 +4,7 @@ import AccountDownloads from '@/app/(dashboard)/(home)/file-manager/account-file
 import AccountDownloadsSheet from '@/app/(dashboard)/(home)/file-manager/account-files/account-downloads-sheet'
 import DownloadsPageTitle from '@/app/(dashboard)/(home)/file-manager/downloads-page-title'
 import EmployeeDownloads from '@/app/(dashboard)/(home)/file-manager/employee-files/employee-downloads'
+import EmployeeDownloadsSheet from '@/app/(dashboard)/(home)/file-manager/employee-files/employee-downloads-sheet'
 
 const Page = () => {
   return (
@@ -21,6 +22,7 @@ const Page = () => {
           </div>
         </div>
         <AccountDownloadsSheet />
+        <EmployeeDownloadsSheet />
       </DownloadsProvider>
     </>
   )

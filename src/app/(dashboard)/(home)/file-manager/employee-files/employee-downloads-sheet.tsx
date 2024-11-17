@@ -12,6 +12,7 @@ import { File, X } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { useDownloadsContext } from '@/app/(dashboard)/(home)/file-manager/downloads-provider'
 import EmployeeDownloadsButton from '@/app/(dashboard)/(home)/file-manager/employee-files/employee-downloads-button'
+import { formatDate } from 'date-fns'
 
 const EmployeeDownloadsSheet = () => {
   const { file, setFile } = useDownloadsContext()
@@ -45,22 +46,36 @@ const EmployeeDownloadsSheet = () => {
             <Separator />
             <div className=" flex flex-row justify-between pb-1 pt-1 ">
               <span className="text-sm font-medium text-[#64748b]">
+                Company name
+              </span>
+              <span className="text-sm text-[#1e293b]">
+                {' '}
+                {(file?.account_id as any)?.company_name}{' '}
+              </span>
+            </div>
+            <Separator />
+            <div className=" flex flex-row justify-between pb-1 pt-1 ">
+              <span className="text-sm font-medium text-[#64748b]">
                 Approved at
               </span>
-              <span className="text-sm text-[#1e293b]">November 15, 2024</span>
+              <span className="text-sm text-[#1e293b]">
+                {file?.approved_at ? formatDate(file.approved_at, 'PPpp') : '-'}
+              </span>
             </div>
             <Separator />
             <div className=" flex flex-row justify-between pb-1 pt-1 ">
               <span className="text-sm font-medium text-[#64748b]">
                 Approved by
               </span>
-              <span className="text-sm text-[#1e293b]">Jane Doe</span>
+              <span className="text-sm text-[#1e293b]">
+                {(file?.approved_by as any)?.first_name}{' '}
+                {(file?.approved_by as any)?.last_name}
+              </span>
             </div>
             <Separator />
           </div>
         </div>
         <SheetFooter className="mt-auto flex flex-row items-center justify-between gap-4 p-12">
-          {/*  TODO : Buttons functionality */}
           <EmployeeDownloadsButton />
         </SheetFooter>
       </SheetContent>
