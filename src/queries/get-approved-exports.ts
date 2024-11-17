@@ -1,9 +1,7 @@
 import { TypedSupabaseClient } from '@/types/typedSupabaseClient'
-import { Enums } from '@/types/database.types'
 
-const getApprovedPendingEmployeeExports = (
+const getApprovedExports = (
   supabase: TypedSupabaseClient,
-  exportType: Enums<'export_type'>,
   sort: 'asc' | 'desc' = 'desc',
 ) => {
   return supabase
@@ -16,9 +14,8 @@ const getApprovedPendingEmployeeExports = (
     )
     .eq('is_approved', true)
     .eq('is_active', true)
-    .eq('export_type', exportType)
     .order('created_at', { ascending: sort === 'asc' })
     .throwOnError()
 }
 
-export default getApprovedPendingEmployeeExports
+export default getApprovedExports
