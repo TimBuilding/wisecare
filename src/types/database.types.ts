@@ -971,6 +971,8 @@ export type Database = {
       pending_export_requests: {
         Row: {
           account_id: string | null
+          approved_at: string | null
+          approved_by: string | null
           created_at: string
           created_by: string
           data: Json | null
@@ -982,6 +984,8 @@ export type Database = {
         }
         Insert: {
           account_id?: string | null
+          approved_at?: string | null
+          approved_by?: string | null
           created_at?: string
           created_by?: string
           data?: Json | null
@@ -993,6 +997,8 @@ export type Database = {
         }
         Update: {
           account_id?: string | null
+          approved_at?: string | null
+          approved_by?: string | null
           created_at?: string
           created_by?: string
           data?: Json | null
@@ -1009,6 +1015,13 @@ export type Database = {
             isOneToOne: false
             referencedRelation: 'accounts'
             referencedColumns: ['id']
+          },
+          {
+            foreignKeyName: 'pending_export_requests_approved_by_fkey'
+            columns: ['approved_by']
+            isOneToOne: false
+            referencedRelation: 'user_profiles'
+            referencedColumns: ['user_id']
           },
           {
             foreignKeyName: 'pending_export_requests_created_by_fkey'

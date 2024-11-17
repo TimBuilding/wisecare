@@ -12,8 +12,10 @@ import { Separator } from '@/components/ui/separator'
 import { Button } from '@/components/ui/button'
 import AccountDownloadsButton from '@/app/(dashboard)/(home)/file-manager/account-files/account-downloads-button'
 import { useDownloadsContext } from '@/app/(dashboard)/(home)/file-manager/downloads-provider'
+import { createBrowserClient } from '@/utils/supabase'
 
 const AccountDownloadsSheet = () => {
+  const supabase = createBrowserClient()
   const { file, setFile } = useDownloadsContext()
   return (
     <Sheet open={!!file} onOpenChange={() => setFile(null)}>
