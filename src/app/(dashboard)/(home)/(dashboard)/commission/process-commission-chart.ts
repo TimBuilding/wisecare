@@ -1,5 +1,8 @@
 const processChartData = (
-  data: { commission_earned: number; created_at: string }[] | null | undefined,
+  data:
+    | { commission_earned: number; or_date: string | null | undefined }[]
+    | null
+    | undefined,
 ): { month: string; commission_earned: number }[] => {
   if (!data) {
     return []
@@ -25,7 +28,8 @@ const processChartData = (
     })
 
     const filteredData = data.filter((item) => {
-      const itemDate = new Date(item.created_at)
+      if (!item.or_date) return false
+      const itemDate = new Date(item.or_date)
       return (
         itemDate.getFullYear() === monthDate.getFullYear() &&
         itemDate.getMonth() === monthDate.getMonth()

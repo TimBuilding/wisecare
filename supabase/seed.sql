@@ -196,9 +196,11 @@ DO $$
 DECLARE
     i integer;
     random_created_at timestamp;
+    random_or_date timestamp;
 BEGIN
     FOR i IN 1..500 LOOP
         random_created_at := (current_date - interval '2 years') + (random() * (current_date - (current_date - interval '2 years')));
+        random_or_date := (current_date - interval '1 year') + (random() * (current_date - (current_date - interval '1 year')));
         INSERT INTO billing_statements (
             id,
             account_id,
@@ -224,7 +226,7 @@ BEGIN
             (SELECT id FROM mode_of_payments LIMIT 1 OFFSET floor(random() * (SELECT count(*) FROM mode_of_payments))),
             current_date + (i * interval '1 month'),
             'OR' || i,
-            current_date + (i * interval '1 month'),
+            random_or_date,
             'SA' || i,
             100.0 * i,
             1000.0 * i,

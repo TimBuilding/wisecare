@@ -26,11 +26,13 @@ const CommissionChart = () => {
     // @ts-ignore
     supabase
       .from('billing_statements')
-      .select('commission_earned, created_at, id')
+      .select('commission_earned, or_date, id')
       .order('created_at', { ascending: true })
       .eq('is_active', true)
       .gte('created_at', subMonths(startOfMonth(new Date()), 12).toISOString()),
   )
+
+  console.log(data)
 
   const processedData = useMemo(() => processChartData(data), [data])
 
