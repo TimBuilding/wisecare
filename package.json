@@ -69,6 +69,7 @@
     "axios": "^1.6.8",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
+    "cmdk": "1.0.0",
     "date-fns": "^3.6.0",
     "geist": "^1.3.0",
     "generate-password": "^1.7.1",

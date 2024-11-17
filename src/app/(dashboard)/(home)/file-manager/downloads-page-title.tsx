@@ -9,6 +9,7 @@ import { useQuery } from '@supabase-cache-helpers/postgrest-react-query'
 import getApprovedExports from '@/queries/get-approved-exports'
 import { createBrowserClient } from '@/utils/supabase'
 import { Skeleton } from '@/components/ui/skeleton'
+import ExportButton from '@/app/(dashboard)/(home)/file-manager/export/export-button'
 
 const DownloadsPageTitle = () => {
   const supabase = createBrowserClient()
@@ -25,6 +26,7 @@ const DownloadsPageTitle = () => {
             <PageDescription>{count} files </PageDescription>
           )}
         </div>
+        <ExportButton />
       </div>
     </PageHeader>
   )
