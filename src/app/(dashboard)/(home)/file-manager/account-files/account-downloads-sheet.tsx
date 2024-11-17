@@ -6,11 +6,9 @@ import {
   SheetContent,
   SheetFooter,
   SheetHeader,
-  SheetTrigger,
 } from '@/components/ui/sheet'
 import { File, X } from 'lucide-react'
 import { Separator } from '@/components/ui/separator'
-import AccountDownloadsFileItem from '@/app/(dashboard)/(home)/file-manager/account-files/account-downloads-file-item'
 import { Button } from '@/components/ui/button'
 import AccountDownloadsButton from '@/app/(dashboard)/(home)/file-manager/account-files/account-downloads-button'
 import { useDownloadsContext } from '@/app/(dashboard)/(home)/file-manager/downloads-provider'

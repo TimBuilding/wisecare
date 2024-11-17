@@ -1,13 +1,13 @@
 import React, { FC } from 'react'
-import { File } from 'lucide-react'
 import { Tables } from '@/types/database.types'
 import { useDownloadsContext } from '@/app/(dashboard)/(home)/file-manager/downloads-provider'
+import { File } from 'lucide-react'
 
-interface AccountDownloadsFileItemProps {
+interface EmployeeDownloadsFileItemProps {
   data: Tables<'pending_export_requests'>
 }
 
-const AccountDownloadsFileItem: FC<AccountDownloadsFileItemProps> = ({
+const EmployeeDownloadsFileItem: FC<EmployeeDownloadsFileItemProps> = ({
   data,
 }) => {
   const { setFile } = useDownloadsContext()
@@ -24,10 +24,10 @@ const AccountDownloadsFileItem: FC<AccountDownloadsFileItemProps> = ({
         </div>
       </div>
       <span className="text-center text-xs font-medium text-[#1e293b]">
-        {new Date(data.created_at).toLocaleDateString()} - Account Sheet
+        {(data.account_id as any).company_name} - Employee Sheet
       </span>
     </div>
   )
 }
 
-export default AccountDownloadsFileItem
+export default EmployeeDownloadsFileItem
