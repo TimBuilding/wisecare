@@ -12,6 +12,10 @@ const EmployeesExport = dynamic(() => import('./employees-export'), {
   ssr: false,
 })
 
+const AccountsExport = dynamic(() => import('./accounts-export'), {
+  ssr: false,
+})
+
 interface ExportModalProps {
   exportType: 'employees' | 'accounts' | null
   onClose: () => void
@@ -23,10 +27,15 @@ const ExportModal = ({ onClose, exportType }: ExportModalProps) => {
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Export {exportType}</DialogTitle>
-          <DialogDescription>Select an account to export</DialogDescription>
+          <DialogDescription>
+            {exportType === 'employees'
+              ? 'Select an account to export'
+              : 'Confirm export request'}
+          </DialogDescription>
         </DialogHeader>
         <Suspense fallback={<div>Loading...</div>}>
           {exportType === 'employees' && <EmployeesExport onClose={onClose} />}
+          {exportType === 'accounts' && <AccountsExport onClose={onClose} />}
         </Suspense>
       </DialogContent>
     </Dialog>
