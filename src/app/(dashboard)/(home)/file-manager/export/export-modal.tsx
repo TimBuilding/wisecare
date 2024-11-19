@@ -1,4 +1,3 @@
-import EmployeesExport from '@/app/(dashboard)/(home)/file-manager/export/employees-export'
 import {
   Dialog,
   DialogContent,
@@ -6,6 +5,12 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog'
+import dynamic from 'next/dynamic'
+import { Suspense } from 'react'
+
+const EmployeesExport = dynamic(() => import('./employees-export'), {
+  ssr: false,
+})
 
 interface ExportModalProps {
   exportType: 'employees' | 'accounts' | null
@@ -20,8 +25,9 @@ const ExportModal = ({ onClose, exportType }: ExportModalProps) => {
           <DialogTitle>Export {exportType}</DialogTitle>
           <DialogDescription>Select an account to export</DialogDescription>
         </DialogHeader>
-
-        {exportType === 'employees' && <EmployeesExport />}
+        <Suspense fallback={<div>Loading...</div>}>
+          {exportType === 'employees' && <EmployeesExport onClose={onClose} />}
+        </Suspense>
       </DialogContent>
     </Dialog>
   )

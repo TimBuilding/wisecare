@@ -24,10 +24,14 @@ import {
   useInsertMutation,
   useQuery,
 } from '@supabase-cache-helpers/postgrest-react-query'
-import { Check, ChevronsUpDown } from 'lucide-react'
+import { Check, ChevronsUpDown, Loader2 } from 'lucide-react'
 import { useState } from 'react'
 
-const EmployeesExport = () => {
+interface EmployeesExportProps {
+  onClose: () => void
+}
+
+const EmployeesExport = ({ onClose }: EmployeesExportProps) => {
   const { toast } = useToast()
   const [open, setOpen] = useState(false)
   const [value, setValue] = useState('')
@@ -35,14 +39,14 @@ const EmployeesExport = () => {
   const supabase = createBrowserClient()
   const { data: accounts } = useQuery(getAllAccounts(supabase))
 
-  const { mutateAsync } = useInsertMutation(
+  const { mutateAsync, isPending } = useInsertMutation(
     // @ts-ignore
     supabase.from('pending_export_requests'),
     ['id'],
     null,
     {
       onSuccess: () => {
-        setOpen(false)
+        onClose()
         toast({
           title: 'Export Request Submitted',
           variant: 'default',
@@ -126,11 +130,18 @@ const EmployeesExport = () => {
               },
             ])
           }
+          disabled={isPending || !value}
         >
-          Request Export
+          {isPending ? (
+            <Loader2 className="h-4 w-4 animate-spin" />
+          ) : (
+            'Request Export'
+          )}
         </Button>
         <DialogClose asChild>
-          <Button variant="outline">Cancel</Button>
+          <Button variant="outline" disabled={isPending} type="button">
+            Cancel
+          </Button>
         </DialogClose>
       </div>
     </div>
