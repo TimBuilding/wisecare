@@ -1,10 +1,9 @@
 import React from 'react'
 import { DownloadsProvider } from '@/app/(dashboard)/(home)/file-manager/downloads-provider'
 import AccountDownloads from '@/app/(dashboard)/(home)/file-manager/account-files/account-downloads'
-import AccountDownloadsSheet from '@/app/(dashboard)/(home)/file-manager/account-files/account-downloads-sheet'
 import DownloadsPageTitle from '@/app/(dashboard)/(home)/file-manager/downloads-page-title'
 import EmployeeDownloads from '@/app/(dashboard)/(home)/file-manager/employee-files/employee-downloads'
-import EmployeeDownloadsSheet from '@/app/(dashboard)/(home)/file-manager/employee-files/employee-downloads-sheet'
+import DownloadsSheet from '@/app/(dashboard)/(home)/file-manager/downloads-sheet'
 
 const Page = () => {
   return (
@@ -21,8 +20,7 @@ const Page = () => {
             <EmployeeDownloads />
           </div>
         </div>
-        <AccountDownloadsSheet />
-        <EmployeeDownloadsSheet />
+        <DownloadsSheet />
       </DownloadsProvider>
     </>
   )

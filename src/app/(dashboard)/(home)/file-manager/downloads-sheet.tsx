@@ -7,16 +7,16 @@ import {
   SheetFooter,
   SheetHeader,
 } from '@/components/ui/sheet'
-import { File, X } from 'lucide-react'
 import { Separator } from '@/components/ui/separator'
+import { File, X } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import AccountDownloadsButton from '@/app/(dashboard)/(home)/file-manager/account-files/account-downloads-button'
 import { useDownloadsContext } from '@/app/(dashboard)/(home)/file-manager/downloads-provider'
+import EmployeeDownloadsButton from '@/app/(dashboard)/(home)/file-manager/employee-files/employee-downloads-button'
 import { formatDate } from 'date-fns'
+import AccountDownloadsButton from '@/app/(dashboard)/(home)/file-manager/account-files/account-downloads-button'
 
-const AccountDownloadsSheet = () => {
+const DownloadsSheet = () => {
   const { file, setFile } = useDownloadsContext()
-
   return (
     <Sheet open={!!file} onOpenChange={() => setFile(null)}>
       <SheetContent className="xs:w-screen flex w-screen flex-col justify-between overflow-auto bg-card sm:max-w-none md:max-w-md">
@@ -35,7 +35,9 @@ const AccountDownloadsSheet = () => {
           </SheetHeader>
           <div className="space-y-2">
             <span className="text-xl font-medium text-[#1e293b]">
-              Account File
+              {file?.export_type === 'accounts'
+                ? 'Accounts File'
+                : 'Employees File'}
             </span>
             <div className="h-5 w-9 rounded-md bg-green-600 py-0.5 text-center text-xs font-semibold text-white">
               {' '}
@@ -45,6 +47,20 @@ const AccountDownloadsSheet = () => {
           <div className="space-y-4">
             <span className="text-lg font-medium">Information</span>
             <Separator />
+            {file?.export_type === 'employees' && (
+              <>
+                <div className=" flex flex-row justify-between pb-1 pt-1 ">
+                  <span className="text-sm font-medium text-[#64748b]">
+                    Company name
+                  </span>
+                  <span className="text-sm text-[#1e293b]">
+                    {' '}
+                    {(file?.account_id as any)?.company_name}{' '}
+                  </span>
+                </div>
+                <Separator />
+              </>
+            )}
             <div className=" flex flex-row justify-between pb-1 pt-1 ">
               <span className="text-sm font-medium text-[#64748b]">
                 Approved at
@@ -67,11 +83,15 @@ const AccountDownloadsSheet = () => {
           </div>
         </div>
         <SheetFooter className="mt-auto flex flex-row items-center justify-between gap-4 p-12">
-          <AccountDownloadsButton />
+          {file?.export_type === 'accounts' ? (
+            <AccountDownloadsButton />
+          ) : (
+            <EmployeeDownloadsButton />
+          )}
         </SheetFooter>
       </SheetContent>
     </Sheet>
   )
 }
 
-export default AccountDownloadsSheet
+export default DownloadsSheet
