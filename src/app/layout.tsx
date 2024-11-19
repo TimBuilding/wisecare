@@ -44,13 +44,18 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" className={inter.className} style={{ colorScheme: 'dark' }}>
+    <html
+      lang="en"
+      className={inter.className}
+      style={{ colorScheme: 'dark' }}
+      suppressHydrationWarning={true}
+    >
       <body className="bg-background text-foreground">
         <NextTopLoader showSpinner={false} height={2} color="#2acf80" />
         <ThemeProvider
           attribute="class"
-          defaultTheme="dark"
-          enableSystem
+          defaultTheme="light"
+          enableSystem={false}
           disableTransitionOnChange
         >
           <TooltipProvider>
