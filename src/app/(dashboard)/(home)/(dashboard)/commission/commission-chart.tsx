@@ -32,8 +32,6 @@ const CommissionChart = () => {
       .gte('created_at', subMonths(startOfMonth(new Date()), 12).toISOString()),
   )
 
-  console.log(data)
-
   const processedData = useMemo(() => processChartData(data), [data])
 
   return (

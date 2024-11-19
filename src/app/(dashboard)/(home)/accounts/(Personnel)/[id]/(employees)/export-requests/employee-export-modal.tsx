@@ -84,7 +84,6 @@ const EmployeeExportModal: FC<EmployeeExportModalProps> = ({
     const {
       data: { user },
     } = await supabase.auth.getUser()
-    console.log(accountId)
     await mutateAsync([
       {
         export_type: exportData,

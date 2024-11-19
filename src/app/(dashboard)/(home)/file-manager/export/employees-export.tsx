@@ -15,23 +15,50 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover'
+import { useToast } from '@/components/ui/use-toast'
 import getAllAccounts from '@/queries/get-all-accounts'
+import { Enums } from '@/types/database.types'
 import { createBrowserClient } from '@/utils/supabase'
 import { cn } from '@/utils/tailwind'
-import { useQuery } from '@supabase-cache-helpers/postgrest-react-query'
+import {
+  useInsertMutation,
+  useQuery,
+} from '@supabase-cache-helpers/postgrest-react-query'
 import { Check, ChevronsUpDown } from 'lucide-react'
 import { useState } from 'react'
 
 const EmployeesExport = () => {
+  const { toast } = useToast()
   const [open, setOpen] = useState(false)
   const [value, setValue] = useState('')
 
   const supabase = createBrowserClient()
   const { data: accounts } = useQuery(getAllAccounts(supabase))
 
-  const handleExport = () => {
-    // TODO: Implement export
-  }
+  const { mutateAsync } = useInsertMutation(
+    // @ts-ignore
+    supabase.from('pending_export_requests'),
+    ['id'],
+    null,
+    {
+      onSuccess: () => {
+        setOpen(false)
+        toast({
+          title: 'Export Request Submitted',
+          variant: 'default',
+          description:
+            'Your export request has been submitted and is waiting for approval',
+        })
+      },
+      onError: (error) => {
+        toast({
+          title: 'Something went wrong',
+          variant: 'destructive',
+          description: error.message,
+        })
+      },
+    },
+  )
 
   return (
     <div className="flex flex-col gap-10">
@@ -90,7 +117,18 @@ const EmployeesExport = () => {
       </Popover>
 
       <div className="flex justify-end gap-2">
-        <Button onClick={handleExport}>Request Export</Button>
+        <Button
+          onClick={() =>
+            mutateAsync([
+              {
+                account_id: value,
+                export_type: 'employees' as Enums<'export_type'>,
+              },
+            ])
+          }
+        >
+          Request Export
+        </Button>
         <DialogClose asChild>
           <Button variant="outline">Cancel</Button>
         </DialogClose>
