@@ -12,6 +12,8 @@ module.exports = withBundleAnalyzer(nextConfig)
 const { withSentryConfig } = require('@sentry/nextjs')
 
 module.exports = withSentryConfig(module.exports, {
+  enabled: process.env.NODE_ENV === 'production',
+
   // For all available options, see:
   // https://github.com/getsentry/sentry-webpack-plugin#options
 
