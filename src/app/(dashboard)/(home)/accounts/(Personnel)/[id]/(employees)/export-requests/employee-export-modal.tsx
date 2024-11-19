@@ -84,11 +84,33 @@ const EmployeeExportModal: FC<EmployeeExportModalProps> = ({
     const {
       data: { user },
     } = await supabase.auth.getUser()
+
+    const { data: oldEmployeesData } = await supabase
+      .from('company_employees')
+      .select('*')
+      .eq('is_active', true)
+      .eq('account_id', accountId)
+
+    if (!oldEmployeesData || oldEmployeesData.length === 0) {
+      toast({
+        title: 'No employees data found',
+        variant: 'destructive',
+        description: 'No employees data found to export',
+      })
+      return
+    }
+
+    const employeesData = oldEmployeesData.map((employee) => {
+      const { id, account_id, ...rest } = employee
+      return rest
+    })
+
     await mutateAsync([
       {
         export_type: exportData,
         created_by: user?.id,
         account_id: accountId,
+        data: employeesData,
       },
     ])
   }
