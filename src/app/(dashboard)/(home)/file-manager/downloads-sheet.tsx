@@ -14,6 +14,7 @@ import { useDownloadsContext } from '@/app/(dashboard)/(home)/file-manager/downl
 import EmployeeDownloadsButton from '@/app/(dashboard)/(home)/file-manager/employee-files/employee-downloads-button'
 import { formatDate } from 'date-fns'
 import AccountDownloadsButton from '@/app/(dashboard)/(home)/file-manager/account-files/account-downloads-button'
+import ExportAccounts from '@/app/(dashboard)/(home)/accounts/export-requests/export-accounts'
 
 const DownloadsSheet = () => {
   const { file, setFile } = useDownloadsContext()
@@ -84,7 +85,10 @@ const DownloadsSheet = () => {
         </div>
         <SheetFooter className="mt-auto flex flex-row items-center justify-between gap-4 p-12">
           {file?.export_type === 'accounts' ? (
-            <AccountDownloadsButton />
+            <>
+              <ExportAccounts id={file.id} />
+              <AccountDownloadsButton />
+            </>
           ) : (
             <EmployeeDownloadsButton />
           )}

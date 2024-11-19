@@ -24,7 +24,7 @@ const AccountDownloadsFileItem: FC<AccountDownloadsFileItemProps> = ({
         </div>
       </div>
       <span className="text-center text-xs font-medium text-[#1e293b]">
-        {new Date(data.created_at).toLocaleDateString()} - Account Sheet
+        {new Date(data.created_at).toLocaleDateString()} - Accounts Sheet
       </span>
     </div>
   )

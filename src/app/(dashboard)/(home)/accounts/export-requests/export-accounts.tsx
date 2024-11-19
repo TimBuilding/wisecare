@@ -1,59 +1,41 @@
 import { Button } from '@/components/ui/button'
-import getAccounts from '@/queries/get-accounts'
 import { createBrowserClient } from '@/utils/supabase'
-import { useQuery } from '@supabase-cache-helpers/postgrest-react-query'
-import { FileDown } from 'lucide-react'
 import * as XLSX from 'xlsx'
+import React from 'react'
 
-const ExportAccounts = () => {
+const ExportAccounts = ({ id }: { id: string }) => {
   const supabase = createBrowserClient()
-  const { data: accounts } = useQuery(getAccounts(supabase))
 
-  const exportAccounts = () => {
-    if (!accounts) return
+  const exportAccounts = async () => {
+    const { data: accountsData } = await supabase
+      .from('pending_export_requests')
+      .select('data')
+      .eq('export_type', 'accounts')
+      .eq('id', id)
+      .eq('is_active', true)
+      .eq('is_approved', true)
 
-    const accountsData = accounts.map((account) => ({
-      ...account,
-      agent: account.agent
-        ? `${account.agent.first_name} ${account.agent.last_name}`
-        : '',
-      hmo_count: account.hmo_provider ? (account.hmo_provider as any).name : '',
-      previous_hmo_provider: account.previous_hmo_provider
-        ? (account.previous_hmo_provider as any).name
-        : '',
-      current_hmo_provider: account.current_hmo_provider
-        ? (account.current_hmo_provider as any).name
-        : '',
-      account_type: account.account_type
-        ? (account.account_type as any).name
-        : '',
-      principal_plan_type: account.principal_plan_type
-        ? (account.principal_plan_type as any).name
-        : '',
-      dependent_plan_type: account.dependent_plan_type
-        ? (account.dependent_plan_type as any).name
-        : '',
-      mode_of_payment: account.mode_of_payment
-        ? (account.mode_of_payment as any).name
-        : '',
-    }))
+    console.log(accountsData)
 
-    const fileName = `accounts-${new Date().toLocaleDateString('en-US', {
+    if (!accountsData) return
+
+    const fileName = `${new Date().toLocaleDateString('en-US', {
       year: 'numeric',
       month: 'long',
       day: 'numeric',
-    })}.xlsx`
+    })}-Accounts_Sheet.xlsx`
 
-    const worksheet = XLSX.utils.json_to_sheet(accountsData)
+    const worksheet = XLSX.utils.json_to_sheet(
+      accountsData.flatMap((item) => item.data),
+    )
     const workbook = XLSX.utils.book_new()
     XLSX.utils.book_append_sheet(workbook, worksheet, 'Sheet1')
     XLSX.writeFile(workbook, fileName)
   }
 
   return (
-    <Button className="space-x-2" variant={'outline'} onClick={exportAccounts}>
-      <FileDown />
-      <span>Export</span>
+    <Button className="w-full" onClick={exportAccounts}>
+      Export File
     </Button>
   )
 }

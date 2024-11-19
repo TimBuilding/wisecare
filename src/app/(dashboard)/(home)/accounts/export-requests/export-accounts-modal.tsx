@@ -11,10 +11,14 @@ import { Button } from '@/components/ui/button'
 import { FileDown, Loader2 } from 'lucide-react'
 import { useState } from 'react'
 import { createBrowserClient } from '@/utils/supabase'
-import { useInsertMutation } from '@supabase-cache-helpers/postgrest-react-query'
+import {
+  useInsertMutation,
+  useQuery,
+} from '@supabase-cache-helpers/postgrest-react-query'
 import { toast } from '@/components/ui/use-toast'
 import { Enums } from '@/types/database.types'
 import DeletePendingExportRequests from '@/app/(dashboard)/(home)/accounts/export-requests/delete-pending-export-requests'
+import getAccounts from '@/queries/get-accounts'
 
 interface ExportAccountsModalProps {
   exportData: Enums<'export_type'>
@@ -25,6 +29,7 @@ const ExportAccountsModal: FC<ExportAccountsModalProps> = ({ exportData }) => {
   const supabase = createBrowserClient()
   const [pendingRequest, setIsPendingRequest] = useState('')
   const [isDeleteOpen, setIsDeleteOpen] = useState(false)
+  const { data: oldAccountsData } = useQuery(getAccounts(supabase))
 
   const { mutateAsync, isPending } = useInsertMutation(
     //@ts-ignore
@@ -76,11 +81,6 @@ const ExportAccountsModal: FC<ExportAccountsModalProps> = ({ exportData }) => {
       data: { user },
     } = await supabase.auth.getUser()
 
-    const { data: oldAccountsData } = await supabase
-      .from('accounts')
-      .select('*')
-      .eq('is_active', true)
-
     if (!oldAccountsData || oldAccountsData.length === 0) {
       toast({
         title: 'No accounts data found',
@@ -91,31 +91,38 @@ const ExportAccountsModal: FC<ExportAccountsModalProps> = ({ exportData }) => {
       return
     }
 
-    const accountsData = oldAccountsData.map((account) => ({
-      ...account,
-      agent: account.agent
-        ? `${account.agent.first_name} ${account.agent.last_name}`
-        : '',
-      hmo_count: account.hmo_provider ? (account.hmo_provider as any).name : '',
-      previous_hmo_provider: account.previous_hmo_provider
-        ? (account.previous_hmo_provider as any).name
-        : '',
-      current_hmo_provider: account.current_hmo_provider
-        ? (account.current_hmo_provider as any).name
-        : '',
-      account_type: account.account_type
-        ? (account.account_type as any).name
-        : '',
-      principal_plan_type: account.principal_plan_type
-        ? (account.principal_plan_type as any).name
-        : '',
-      dependent_plan_type: account.dependent_plan_type
-        ? (account.dependent_plan_type as any).name
-        : '',
-      mode_of_payment: account.mode_of_payment
-        ? (account.mode_of_payment as any).name
-        : '',
-    }))
+    const accountsData = oldAccountsData.map((account) => {
+      const { id, created_at, updated_at, ...rest } = account
+
+      return {
+        ...rest,
+        agent: account.agent
+          ? `${account.agent.first_name} ${account.agent.last_name}`
+          : '',
+        hmo_count: account.hmo_provider
+          ? (account.hmo_provider as any).name
+          : '',
+        previous_hmo_provider: account.previous_hmo_provider
+          ? (account.previous_hmo_provider as any).name
+          : '',
+        current_hmo_provider: account.current_hmo_provider
+          ? (account.current_hmo_provider as any).name
+          : '',
+        account_type: account.account_type
+          ? (account.account_type as any).name
+          : '',
+        principal_plan_type: account.principal_plan_type
+          ? (account.principal_plan_type as any).name
+          : '',
+        dependent_plan_type: account.dependent_plan_type
+          ? (account.dependent_plan_type as any).name
+          : '',
+        mode_of_payment: account.mode_of_payment
+          ? (account.mode_of_payment as any).name
+          : '',
+      }
+    })
+    console.log(accountsData)
 
     await mutateAsync([
       {
