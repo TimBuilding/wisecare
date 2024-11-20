@@ -101,7 +101,15 @@ const EmployeeExportModal: FC<EmployeeExportModalProps> = ({
     }
 
     const employeesData = oldEmployeesData.map((employee) => {
-      const { id, account_id, ...rest } = employee
+      const {
+        id,
+        account_id,
+        is_active,
+        created_at,
+        created_by,
+        updated_at,
+        ...rest
+      } = employee
       return rest
     })
 
