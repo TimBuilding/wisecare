@@ -27,6 +27,15 @@ const ExportAccounts = ({ id }: { id: string }) => {
       accountsData.flatMap((item) => item.data),
     )
     const workbook = XLSX.utils.book_new()
+
+    if (worksheet['!ref']) {
+      const range = XLSX.utils.decode_range(worksheet['!ref'])
+      const numCols = range.e.c - range.s.c + 1
+      worksheet['!cols'] = Array(numCols).fill({ wch: 30 })
+    } else {
+      console.error("worksheet['!ref'] is undefined")
+    }
+
     XLSX.utils.book_append_sheet(workbook, worksheet, 'Sheet1')
     XLSX.writeFile(workbook, fileName)
   }

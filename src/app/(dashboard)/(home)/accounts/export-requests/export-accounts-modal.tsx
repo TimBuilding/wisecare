@@ -92,37 +92,60 @@ const ExportAccountsModal: FC<ExportAccountsModalProps> = ({ exportData }) => {
     }
 
     const accountsData = oldAccountsData.map((account) => {
-      const { id, created_at, updated_at, ...rest } = account
+      const { id, created_at, updated_at, is_account_active, ...rest } = account
 
       return {
-        ...rest,
-        agent: account.agent
+        Agent: account.agent
           ? `${account.agent.first_name} ${account.agent.last_name}`
           : '',
-        hmo_count: account.hmo_provider
+        'Company Name': account.company_name || '',
+        'Company Address': account.company_address || '',
+        'HMO Provider': account.hmo_provider
           ? (account.hmo_provider as any).name
           : '',
-        previous_hmo_provider: account.previous_hmo_provider
-          ? (account.previous_hmo_provider as any).name
-          : '',
-        current_hmo_provider: account.current_hmo_provider
+        'Current HMO Provider': account.current_hmo_provider
           ? (account.current_hmo_provider as any).name
           : '',
-        account_type: account.account_type
-          ? (account.account_type as any).name
+        'Previous HMO Provider': account.previous_hmo_provider
+          ? (account.previous_hmo_provider as any).name
           : '',
-        principal_plan_type: account.principal_plan_type
-          ? (account.principal_plan_type as any).name
-          : '',
-        dependent_plan_type: account.dependent_plan_type
-          ? (account.dependent_plan_type as any).name
-          : '',
-        mode_of_payment: account.mode_of_payment
+        'COC Issue Date': account.coc_issue_date || '',
+        'Commission Rate': account.commision_rate || '',
+        'Contact Number': account.contact_number || '',
+        'Contact Person': account.contact_person || '',
+        'Expiration Date': account.expiration_date || '',
+        'Mode of Payment': account.mode_of_payment
           ? (account.mode_of_payment as any).name
           : '',
+        'Effectivity Date': account.effectivity_date || '',
+        'Orientation Date': account.orientation_date || '',
+        'Name of Signatory': account.name_of_signatory || '',
+        'Total Utilization': account.total_utilization || '',
+        'Initial Head Count': account.initial_head_count || '',
+        'Nature of Business': account.nature_of_business || '',
+        'Total Premium Paid': account.total_premium_paid || '',
+        'Dependent Plan Type': account.dependent_plan_type
+          ? (account.dependent_plan_type as any).name
+          : '',
+        'Principal Plan Type': account.principal_plan_type
+          ? (account.principal_plan_type as any).name
+          : '',
+        'Signatory Designation': account.signatory_designation || '',
+        'Wellness Lecture Date': account.wellness_lecture_date || '',
+        'Initial Contract Value': account.initial_contract_value || '',
+        'Designation of Contact Person':
+          account.designation_of_contact_person || '',
+        'Delivery Date of Membership IDs':
+          account.delivery_date_of_membership_ids || '',
+        'Email Address of Contact Person':
+          account.email_address_of_contact_person || '',
+        'Annual Physical Examination Date':
+          account.annual_physical_examination_date || '',
+        'Additional Benefits': account.additional_benefits || '',
+        'Special Benefits': account.special_benefits || '',
+        'Summary of Benefits': account.summary_of_benefits || '',
       }
     })
-    console.log(accountsData)
 
     await mutateAsync([
       {
