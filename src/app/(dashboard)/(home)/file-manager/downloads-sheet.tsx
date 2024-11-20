@@ -15,6 +15,7 @@ import EmployeeDownloadsButton from '@/app/(dashboard)/(home)/file-manager/emplo
 import { formatDate } from 'date-fns'
 import AccountDownloadsButton from '@/app/(dashboard)/(home)/file-manager/account-files/account-downloads-button'
 import ExportAccounts from '@/app/(dashboard)/(home)/accounts/export-requests/export-accounts'
+import ExportEmployees from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(employees)/export-employees'
 
 const DownloadsSheet = () => {
   const { file, setFile } = useDownloadsContext()
@@ -90,7 +91,10 @@ const DownloadsSheet = () => {
               <AccountDownloadsButton />
             </>
           ) : (
-            <EmployeeDownloadsButton />
+            <>
+              <ExportEmployees />
+              <EmployeeDownloadsButton />
+            </>
           )}
         </SheetFooter>
       </SheetContent>

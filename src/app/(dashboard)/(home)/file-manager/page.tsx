@@ -4,6 +4,7 @@ import AccountDownloads from '@/app/(dashboard)/(home)/file-manager/account-file
 import DownloadsPageTitle from '@/app/(dashboard)/(home)/file-manager/downloads-page-title'
 import EmployeeDownloads from '@/app/(dashboard)/(home)/file-manager/employee-files/employee-downloads'
 import DownloadsSheet from '@/app/(dashboard)/(home)/file-manager/downloads-sheet'
+import CompanyProvider from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(company profile)/company-provider'
 
 const Page = () => {
   return (

@@ -1,42 +1,36 @@
-import { useCompanyContext } from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(company profile)/company-provider'
 import { Button } from '@/components/ui/button'
-import getEmployeeByCompanyId from '@/queries/get-employee-by-company-id'
 import { createBrowserClient } from '@/utils/supabase'
-import { useQuery } from '@supabase-cache-helpers/postgrest-react-query'
-import { FileDown } from 'lucide-react'
 import * as XLSX from 'xlsx'
+import React from 'react'
+import { useDownloadsContext } from '@/app/(dashboard)/(home)/file-manager/downloads-provider'
 
 const ExportEmployees = () => {
-  const { accountId } = useCompanyContext()
-
   const supabase = createBrowserClient()
-  const { data: employees } = useQuery(
-    getEmployeeByCompanyId(supabase, accountId),
-  )
+  const { file } = useDownloadsContext()
 
-  const onExportEmployees = () => {
-    if (!employees) return
+  const onExportEmployees = async () => {
+    const { data: employeesData, error } = await supabase
+      .from('pending_export_requests')
+      .select('data')
+      .eq('export_type', 'employees')
+      .eq('id', file?.id)
+      .eq('is_active', true)
+      .eq('is_approved', true)
 
-    const employeesData = employees.map((employee) => {
-      const { id, account_id, ...rest } = employee
-      return rest
-    })
+    if (!employeesData) return
 
-    const fileName = `employees-${new Date().toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-    })}.xlsx`
+    const fileName = `${(file?.account_id as any)?.company_name}-Employees_Sheet.xlsx`
 
-    const worksheet = XLSX.utils.json_to_sheet(employeesData)
+    const worksheet = XLSX.utils.json_to_sheet(
+      employeesData.flatMap((item) => item.data),
+    )
     const workbook = XLSX.utils.book_new()
     XLSX.utils.book_append_sheet(workbook, worksheet, 'Sheet1')
     XLSX.writeFile(workbook, fileName)
   }
   return (
-    <Button className="gap-2" variant={'outline'} onClick={onExportEmployees}>
-      <FileDown />
-      <span>Export</span>
+    <Button className="w-full" onClick={onExportEmployees}>
+      Export File
     </Button>
   )
 }

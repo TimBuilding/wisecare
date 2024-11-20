@@ -15,8 +15,6 @@ const ExportAccounts = ({ id }: { id: string }) => {
       .eq('is_active', true)
       .eq('is_approved', true)
 
-    console.log(accountsData)
-
     if (!accountsData) return
 
     const fileName = `${new Date().toLocaleDateString('en-US', {
