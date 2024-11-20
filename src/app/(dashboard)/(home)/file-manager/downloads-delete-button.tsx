@@ -17,7 +17,7 @@ import { toast } from '@/components/ui/use-toast'
 import { useUpdateMutation } from '@supabase-cache-helpers/postgrest-react-query'
 import { useDownloadsContext } from '@/app/(dashboard)/(home)/file-manager/downloads-provider'
 
-const AccountDeleteButton = () => {
+const DownloadsDeleteButton = () => {
   const supabase = createBrowserClient()
   const { file, isSheetOpen, setIsSheetOpen } = useDownloadsContext()
 
@@ -59,9 +59,15 @@ const AccountDeleteButton = () => {
         </AlertDialogTrigger>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Delete Account Sheet</AlertDialogTitle>
+            <AlertDialogTitle>
+              {file?.export_type === 'accounts'
+                ? 'Delete Account Sheet'
+                : 'Delete Employee Sheet'}
+            </AlertDialogTitle>
             <AlertDialogDescription>
-              Are you sure you want to delete this account sheet?
+              {file?.export_type === 'accounts'
+                ? 'Are you sure you want to delete this account sheet?'
+                : 'Are you sure you want to delete this employee sheet?'}
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
@@ -80,4 +86,4 @@ const AccountDeleteButton = () => {
   )
 }
 
-export default AccountDeleteButton
+export default DownloadsDeleteButton

@@ -11,9 +11,8 @@ import { Separator } from '@/components/ui/separator'
 import { File, X } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { useDownloadsContext } from '@/app/(dashboard)/(home)/file-manager/downloads-provider'
-import EmployeeDownloadsButton from '@/app/(dashboard)/(home)/file-manager/employee-files/employee-downloads-button'
 import { formatDate } from 'date-fns'
-import AccountDeleteButton from '@/app/(dashboard)/(home)/file-manager/account-files/account-delete-button'
+import DownloadsDeleteButton from '@/app/(dashboard)/(home)/file-manager/downloads-delete-button'
 import ExportAccounts from '@/app/(dashboard)/(home)/accounts/export-requests/export-accounts'
 import ExportEmployees from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(employees)/export-employees'
 
@@ -88,14 +87,13 @@ const DownloadsSheet = () => {
           {file?.export_type === 'accounts' ? (
             <>
               <ExportAccounts id={file.id} />
-              <AccountDeleteButton />
             </>
           ) : (
             <>
               <ExportEmployees />
-              <EmployeeDownloadsButton />
             </>
           )}
+          <DownloadsDeleteButton />
         </SheetFooter>
       </SheetContent>
     </Sheet>
