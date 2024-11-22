@@ -1,15 +1,13 @@
-import React, { FC, useCallback } from 'react'
+import React, { FC, useCallback, useState } from 'react'
 import {
   Dialog,
   DialogContent,
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from '@/components/ui/dialog'
 import { Button } from '@/components/ui/button'
 import { FileDown, Loader2 } from 'lucide-react'
-import { useState } from 'react'
 import { createBrowserClient } from '@/utils/supabase'
 import {
   useInsertMutation,

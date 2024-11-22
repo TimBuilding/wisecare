@@ -1,18 +1,16 @@
-import React, { FC, ReactNode, useCallback } from 'react'
+import React, { FC, ReactNode, useCallback, useState } from 'react'
 import {
   Dialog,
   DialogContent,
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from '@/components/ui/dialog'
 import { Button } from '@/components/ui/button'
-import { FileDown, Loader2 } from 'lucide-react'
+import { Loader2 } from 'lucide-react'
 import { createBrowserClient } from '@/utils/supabase'
 import { useInsertMutation } from '@supabase-cache-helpers/postgrest-react-query'
 import { toast } from '@/components/ui/use-toast'
-import { useState } from 'react'
 import { Enums } from '@/types/database.types'
 import EmployeeDeleteRequests from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(employees)/export-requests/employee-delete-requests'
 import { useCompanyContext } from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(company profile)/company-provider'
@@ -110,7 +108,17 @@ const EmployeeExportModal: FC<EmployeeExportModalProps> = ({
         updated_at,
         ...rest
       } = employee
-      return rest
+      return {
+        'First Name': employee.first_name || '',
+        'Last Name': employee.last_name || '',
+        'Card Number': employee.card_number || '',
+        'Effective Date': employee.effective_date || '',
+        'Room Plan': employee.room_plan || '',
+        'Maximum Benefit Limit': employee.maximum_benefit_limit || '',
+        Gender: employee.gender || '',
+        'Date of Birth': employee.birth_date || '',
+        'Civil Status': employee.civil_status || '',
+      }
     })
 
     await mutateAsync([
