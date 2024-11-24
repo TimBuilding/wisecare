@@ -4,7 +4,6 @@ import { DownloadsProvider } from '@/app/(dashboard)/(home)/file-manager/downloa
 import AccountDownloads from '@/app/(dashboard)/(home)/file-manager/account-files/account-downloads'
 import DownloadsPageTitle from '@/app/(dashboard)/(home)/file-manager/downloads-page-title'
 import EmployeeDownloads from '@/app/(dashboard)/(home)/file-manager/employee-files/employee-downloads'
-import DownloadsSheet from '@/app/(dashboard)/(home)/file-manager/downloads-sheet'
 import { createServerClient } from '@/utils/supabase'
 import { prefetchQuery } from '@supabase-cache-helpers/postgrest-react-query'
 import { cookies } from 'next/headers'
@@ -14,6 +13,12 @@ import {
   QueryClient,
 } from '@tanstack/react-query'
 import getExports from '@/queries/get-approved-exports'
+import dynamic from 'next/dynamic'
+
+const DownloadsSheet = dynamic(
+  () => import('@/app/(dashboard)/(home)/file-manager/downloads-sheet'),
+  { ssr: false },
+)
 
 const FileManagerPage = async () => {
   const supabase = createServerClient(cookies())

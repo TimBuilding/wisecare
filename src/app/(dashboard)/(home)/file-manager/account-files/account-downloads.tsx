@@ -2,8 +2,21 @@
 import React from 'react'
 import { createBrowserClient } from '@/utils/supabase'
 import { useQuery } from '@supabase-cache-helpers/postgrest-react-query'
-import AccountDownloadsFileItem from '@/app/(dashboard)/(home)/file-manager/account-files/account-downloads-file-item'
 import getExports from '@/queries/get-approved-exports'
+import { Skeleton } from '@/components/ui/skeleton'
+import dynamic from 'next/dynamic'
+
+const AccountDownloadsFileItem = dynamic(
+  () =>
+    import(
+      '@/app/(dashboard)/(home)/file-manager/account-files/account-downloads-file-item'
+    ),
+  {
+    loading: () => (
+      <Skeleton className="flex h-40 w-40 flex-col items-center justify-center gap-4 rounded-2xl" />
+    ),
+  },
+)
 
 const AccountDownloads = () => {
   const supabase = createBrowserClient()

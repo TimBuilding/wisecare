@@ -13,8 +13,20 @@ import { Button } from '@/components/ui/button'
 import { useDownloadsContext } from '@/app/(dashboard)/(home)/file-manager/downloads-provider'
 import { formatDate } from 'date-fns'
 import DownloadsDeleteButton from '@/app/(dashboard)/(home)/file-manager/downloads-delete-button'
-import ExportAccounts from '@/app/(dashboard)/(home)/accounts/export-requests/export-accounts'
-import ExportEmployees from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(employees)/export-employees'
+import dynamic from 'next/dynamic'
+
+const ExportAccounts = dynamic(
+  () =>
+    import('@/app/(dashboard)/(home)/accounts/export-requests/export-accounts'),
+  { ssr: false },
+)
+const ExportEmployees = dynamic(
+  () =>
+    import(
+      '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(employees)/export-employees'
+    ),
+  { ssr: false },
+)
 
 const DownloadsSheet = () => {
   const { file, setFile } = useDownloadsContext()
