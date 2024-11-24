@@ -19,7 +19,7 @@ import { useDownloadsContext } from '@/app/(dashboard)/(home)/file-manager/downl
 
 const DownloadsDeleteButton = () => {
   const supabase = createBrowserClient()
-  const { file, isSheetOpen, setIsSheetOpen } = useDownloadsContext()
+  const { file, setIsSheetOpen, setFile } = useDownloadsContext()
 
   const { mutateAsync, isPending } = useUpdateMutation(
     // @ts-expect-error
@@ -34,6 +34,7 @@ const DownloadsDeleteButton = () => {
           description: 'Successfully deleted request',
         })
         setIsSheetOpen(false)
+        setFile(null)
       },
       onError: (err: any) => {
         toast({
