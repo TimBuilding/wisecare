@@ -12,7 +12,7 @@ const AccountDownloads = () => {
   const accounts = data?.filter((item) => item.export_type === 'accounts')
 
   return (
-    <div className="flex flex-row gap-6">
+    <div className="grid grid-cols-[repeat(auto-fill,minmax(10rem,1fr))] place-items-center justify-items-center gap-6">
       {accounts?.map((exportFiles) => (
         <AccountDownloadsFileItem
           key={exportFiles.id}

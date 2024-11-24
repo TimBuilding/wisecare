@@ -12,7 +12,7 @@ const EmployeeDownloads = () => {
   const employees = data?.filter((item) => item.export_type === 'employees')
 
   return (
-    <div className="flex flex-row gap-6">
+    <div className="grid grid-cols-[repeat(auto-fill,minmax(10rem,1fr))] place-items-center justify-items-center gap-6">
       {employees?.map((exportFiles) => (
         <EmployeeDownloadsFileItem
           data={exportFiles as any}
