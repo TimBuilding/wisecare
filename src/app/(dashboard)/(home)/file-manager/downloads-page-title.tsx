@@ -6,14 +6,14 @@ import {
   PageTitle,
 } from '@/components/page-header'
 import { useQuery } from '@supabase-cache-helpers/postgrest-react-query'
-import getApprovedExports from '@/queries/get-approved-exports'
+import getExports from '@/queries/get-approved-exports'
 import { createBrowserClient } from '@/utils/supabase'
 import { Skeleton } from '@/components/ui/skeleton'
 import ExportButton from '@/app/(dashboard)/(home)/file-manager/export/export-button'
 
 const DownloadsPageTitle = () => {
   const supabase = createBrowserClient()
-  const { count, isPending } = useQuery(getApprovedExports(supabase))
+  const { count, isPending } = useQuery(getExports(supabase))
 
   return (
     <PageHeader>

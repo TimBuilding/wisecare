@@ -27,16 +27,16 @@ const ExportButton = () => {
           <DropdownMenuLabel>New Export</DropdownMenuLabel>
           <DropdownMenuSeparator />
           <DropdownMenuItem
-            onClick={() => setExportType('employees')}
-            className="cursor-pointer"
-          >
-            Employees
-          </DropdownMenuItem>
-          <DropdownMenuItem
             onClick={() => setExportType('accounts')}
             className="cursor-pointer"
           >
             Accounts
+          </DropdownMenuItem>
+          <DropdownMenuItem
+            onClick={() => setExportType('employees')}
+            className="cursor-pointer"
+          >
+            Employees
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>

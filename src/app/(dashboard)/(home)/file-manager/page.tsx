@@ -13,12 +13,12 @@ import {
   HydrationBoundary,
   QueryClient,
 } from '@tanstack/react-query'
-import getApprovedExports from '@/queries/get-approved-exports'
+import getExports from '@/queries/get-approved-exports'
 
 const FileManagerPage = async () => {
   const supabase = createServerClient(cookies())
   const queryClient = new QueryClient()
-  await prefetchQuery(queryClient, getApprovedExports(supabase))
+  await prefetchQuery(queryClient, getExports(supabase))
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
