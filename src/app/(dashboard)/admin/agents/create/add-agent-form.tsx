@@ -56,6 +56,8 @@ const AddAgentForm = ({ setIsOpen }: Props) => {
 
     if (data.error) {
       setError(data.error)
+      setIsLoading(false)
+      return
     }
 
     // clean up

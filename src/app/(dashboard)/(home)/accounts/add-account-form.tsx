@@ -7,14 +7,18 @@ import { createBrowserClient } from '@/utils/supabase'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useInsertMutation } from '@supabase-cache-helpers/postgrest-react-query'
 import { Loader2 } from 'lucide-react'
-import { useRouter } from 'next/navigation'
-import { FormEventHandler, useCallback, useEffect } from 'react'
+import { FormEventHandler, useCallback } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import accountsSchema from './accounts-schema'
 import MarketingInputs from './forms/marketing-inputs'
+import normalizeToUTC from '@/utils/normalize-to-utc'
 
-const AddAccountForm = () => {
+interface AddAccountFormProps {
+  setIsOpen: (isOpen: boolean) => void
+}
+
+const AddAccountForm = ({ setIsOpen }: AddAccountFormProps) => {
   const { toast } = useToast()
   const form = useForm<z.infer<typeof accountsSchema>>({
     resolver: zodResolver(accountsSchema),
@@ -55,13 +59,25 @@ const AddAccountForm = () => {
   })
 
   const supabase = createBrowserClient()
-  const router = useRouter()
-  const { mutateAsync, isPending, data, isSuccess } = useInsertMutation(
+
+  const { mutateAsync, isPending, isSuccess } = useInsertMutation(
     // @ts-ignore
-    supabase.from('accounts'),
+    supabase.from('pending_accounts'),
     ['id'],
-    'id',
+    null,
     {
+      onSuccess: () => {
+        toast({
+          title: 'Account creation request submitted!',
+          description:
+            'Your request to create a new account has been submitted successfully and is awaiting approval.',
+        })
+
+        form.reset()
+
+        // close the dialog
+        setIsOpen(false)
+      },
       onError: (error) => {
         toast({
           title: 'Something went wrong',
@@ -72,16 +88,42 @@ const AddAccountForm = () => {
     },
   )
 
-  // redirect to the new account
-  useEffect(() => {
-    if (data) {
-      router.push(`/accounts/${data[0].id}`)
-    }
-  }, [data, router])
-
   const onSubmitHandler = useCallback<FormEventHandler<HTMLFormElement>>(
     (e) => {
       form.handleSubmit(async (data) => {
+        const {
+          data: { user },
+        } = await supabase.auth.getUser()
+        if (!user) return
+
+        // check if company_name already exists in pending_accounts
+        const { data: existingAccount } = await supabase
+          .from('pending_accounts')
+          .select('company_name')
+          .eq('company_name', data.company_name)
+          .single()
+
+        if (existingAccount) {
+          form.setError('company_name', {
+            message: 'Account already exists',
+          })
+          return
+        }
+
+        // check if company_name already exists in accounts
+        const { data: existingAccountInAccounts } = await supabase
+          .from('accounts')
+          .select('company_name')
+          .eq('company_name', data.company_name)
+          .single()
+
+        if (existingAccountInAccounts) {
+          form.setError('company_name', {
+            message: 'Account already exists',
+          })
+          return
+        }
+
         await mutateAsync([
           {
             company_name: data.company_name,
@@ -101,17 +143,33 @@ const AddAccountForm = () => {
             principal_plan_type_id: data.principal_plan_type_id,
             dependent_plan_type_id: data.dependent_plan_type_id,
             initial_head_count: data.initial_head_count,
-            effectivity_date: data.effectivity_date,
-            coc_issue_date: data.coc_issue_date,
-            expiration_date: data.expiration_date,
+            effectivity_date: data.effectivity_date
+              ? normalizeToUTC(new Date(data.effectivity_date))
+              : null,
+            coc_issue_date: data.coc_issue_date
+              ? normalizeToUTC(new Date(data.coc_issue_date))
+              : null,
+            expiration_date: data.expiration_date
+              ? normalizeToUTC(new Date(data.expiration_date))
+              : null,
             delivery_date_of_membership_ids:
-              data.delivery_date_of_membership_ids,
-            orientation_date: data.orientation_date,
+              data.delivery_date_of_membership_ids
+                ? normalizeToUTC(new Date(data.delivery_date_of_membership_ids))
+                : null,
+            orientation_date: data.orientation_date
+              ? normalizeToUTC(new Date(data.orientation_date))
+              : null,
             initial_contract_value: data.initial_contract_value,
             mode_of_payment_id: data.mode_of_payment_id,
-            wellness_lecture_date: data.wellness_lecture_date,
+            wellness_lecture_date: data.wellness_lecture_date
+              ? normalizeToUTC(new Date(data.wellness_lecture_date))
+              : null,
             annual_physical_examination_date:
-              data.annual_physical_examination_date,
+              data.annual_physical_examination_date
+                ? normalizeToUTC(
+                    new Date(data.annual_physical_examination_date),
+                  )
+                : null,
             commision_rate: data.commision_rate,
             additional_benefits: data.additional_benefits,
             special_benefits: data.special_benefits,
@@ -119,11 +177,13 @@ const AddAccountForm = () => {
             designation_of_contact_person: data.designation_of_contact_person,
             email_address_of_contact_person:
               data.email_address_of_contact_person,
+            created_by: user?.id,
+            operation_type: 'insert',
           },
         ])
       })(e)
     },
-    [form, mutateAsync],
+    [form, mutateAsync, supabase],
   )
 
   return (
@@ -137,11 +197,7 @@ const AddAccountForm = () => {
               className="w-24"
               disabled={isPending || isSuccess}
             >
-              {isPending || isSuccess ? (
-                <Loader2 className="animate-spin" />
-              ) : (
-                'Cancel'
-              )}
+              Cancel
             </Button>
           </DialogClose>
           <Button

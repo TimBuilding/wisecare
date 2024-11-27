@@ -2,7 +2,6 @@ import CompanyAccountInformation from '@/app/(dashboard)/(home)/accounts/(Person
 import CompanyCancelButton from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(company profile)/company-cancel-button'
 import CompanyContractInformation from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(company profile)/company-contract-information'
 import { useCompanyEditContext } from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(company profile)/company-edit-provider'
-
 import CompanyHMOInformation from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(company profile)/company-HMO-information'
 import CompanyInformation from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(company profile)/company-information'
 import accountsSchema from '@/app/(dashboard)/(home)/accounts/accounts-schema'
@@ -12,12 +11,13 @@ import { Button } from '@/components/ui/button'
 import { Form } from '@/components/ui/form'
 import { toast } from '@/components/ui/use-toast'
 import getAccountById from '@/queries/get-account-by-id'
+import normalizeToUTC from '@/utils/normalize-to-utc'
 import { createBrowserClient } from '@/utils/supabase'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { maskitoTransform } from '@maskito/core'
 import {
+  useInsertMutation,
   useQuery,
-  useUpdateMutation,
 } from '@supabase-cache-helpers/postgrest-react-query'
 import { FC, FormEventHandler, useCallback } from 'react'
 import { useForm } from 'react-hook-form'
@@ -70,19 +70,19 @@ const CompanyAbout: FC<Props> = ({ companyId }) => {
         : null,
       initial_head_count: account?.initial_head_count ?? null,
       effectivity_date: account?.effectivity_date
-        ? new Date(account.effectivity_date)
+        ? normalizeToUTC(new Date(account.effectivity_date))
         : null,
       coc_issue_date: account?.coc_issue_date
-        ? new Date(account.coc_issue_date)
+        ? normalizeToUTC(new Date(account.coc_issue_date))
         : null,
       expiration_date: account?.expiration_date
-        ? new Date(account.expiration_date)
+        ? normalizeToUTC(new Date(account.expiration_date))
         : null,
       delivery_date_of_membership_ids: account?.delivery_date_of_membership_ids
-        ? new Date(account.delivery_date_of_membership_ids)
+        ? normalizeToUTC(new Date(account.delivery_date_of_membership_ids))
         : null,
       orientation_date: account?.orientation_date
-        ? new Date(account.orientation_date)
+        ? normalizeToUTC(new Date(account.orientation_date))
         : null,
       initial_contract_value: account?.initial_contract_value
         ? (maskitoTransform(
@@ -94,11 +94,11 @@ const CompanyAbout: FC<Props> = ({ companyId }) => {
         ? (account.mode_of_payment as any).id
         : null,
       wellness_lecture_date: account?.wellness_lecture_date
-        ? new Date(account.wellness_lecture_date)
+        ? normalizeToUTC(new Date(account.wellness_lecture_date))
         : null,
       annual_physical_examination_date:
         account?.annual_physical_examination_date
-          ? new Date(account.annual_physical_examination_date)
+          ? normalizeToUTC(new Date(account.annual_physical_examination_date))
           : null,
       commision_rate: account?.commision_rate
         ? (maskitoTransform(
@@ -116,13 +116,18 @@ const CompanyAbout: FC<Props> = ({ companyId }) => {
     },
   })
 
-  const { mutateAsync } = useUpdateMutation(
+  const { mutateAsync } = useInsertMutation(
     //@ts-ignore
-    supabase.from('accounts'),
+    supabase.from('pending_accounts'),
     ['id'],
-    'id',
+    null,
     {
       onSuccess: () => {
+        toast({
+          title: 'Company details edit request submitted!',
+          description:
+            'Your request to edit the company details has been submitted successfully and is awaiting approval.',
+        })
         setEditMode(false)
       },
       onError: (error) => {
@@ -138,45 +143,80 @@ const CompanyAbout: FC<Props> = ({ companyId }) => {
   const onSubmitHandler = useCallback<FormEventHandler<HTMLFormElement>>(
     (e) => {
       form.handleSubmit(async (data) => {
-        await mutateAsync({
-          id: companyId,
-          company_name: data.company_name,
-          company_address: data.company_address,
-          initial_head_count: data.initial_head_count,
-          nature_of_business: data.nature_of_business,
-          contact_person: data.contact_person,
-          contact_number: data.contact_number,
-          signatory_designation: data.signatory_designation,
-          name_of_signatory: data.name_of_signatory,
-          designation_of_contact_person: data.designation_of_contact_person,
-          email_address_of_contact_person: data.email_address_of_contact_person,
-          account_type_id: data?.account_type_id,
-          agent_id: data.agent_id,
-          is_active: data.is_active,
-          commision_rate: data.commision_rate,
-          hmo_provider_id: data?.hmo_provider_id,
-          previous_hmo_provider_id: data?.previous_hmo_provider_id,
-          current_hmo_provider_id: data?.current_hmo_provider_id,
-          principal_plan_type_id: data?.principal_plan_type_id,
-          dependent_plan_type_id: data?.dependent_plan_type_id,
-          total_utilization: data.total_utilization,
-          total_premium_paid: data.total_premium_paid,
-          additional_benefits: data.additional_benefits,
-          special_benefits: data.special_benefits,
-          initial_contract_value: data.initial_contract_value,
-          mode_of_payment_id: data?.mode_of_payment_id,
-          expiration_date: data.expiration_date,
-          effectivity_date: data.effectivity_date,
-          coc_issue_date: data.coc_issue_date,
-          delivery_date_of_membership_ids: data.delivery_date_of_membership_ids,
-          orientation_date: data.orientation_date,
-          wellness_lecture_date: data.wellness_lecture_date,
-          annual_physical_examination_date:
-            data.annual_physical_examination_date,
-        })
+        const {
+          data: { user },
+        } = await supabase.auth.getUser()
+
+        if (!user) {
+          toast({
+            title: 'Something went wrong',
+            description: 'Please try again',
+            variant: 'destructive',
+          })
+          return
+        }
+
+        await mutateAsync([
+          {
+            account_id: companyId,
+            company_name: data.company_name,
+            company_address: data.company_address,
+            initial_head_count: data.initial_head_count,
+            nature_of_business: data.nature_of_business,
+            contact_person: data.contact_person,
+            contact_number: data.contact_number,
+            signatory_designation: data.signatory_designation,
+            name_of_signatory: data.name_of_signatory,
+            designation_of_contact_person: data.designation_of_contact_person,
+            email_address_of_contact_person:
+              data.email_address_of_contact_person,
+            account_type_id: data?.account_type_id,
+            agent_id: data.agent_id,
+            is_active: data.is_active,
+            commision_rate: data.commision_rate,
+            hmo_provider_id: data?.hmo_provider_id,
+            previous_hmo_provider_id: data?.previous_hmo_provider_id,
+            current_hmo_provider_id: data?.current_hmo_provider_id,
+            principal_plan_type_id: data?.principal_plan_type_id,
+            dependent_plan_type_id: data?.dependent_plan_type_id,
+            total_utilization: data.total_utilization,
+            total_premium_paid: data.total_premium_paid,
+            additional_benefits: data.additional_benefits,
+            special_benefits: data.special_benefits,
+            initial_contract_value: data.initial_contract_value,
+            mode_of_payment_id: data?.mode_of_payment_id,
+            expiration_date: data.expiration_date
+              ? normalizeToUTC(new Date(data.expiration_date))
+              : null,
+            effectivity_date: data.effectivity_date
+              ? normalizeToUTC(new Date(data.effectivity_date))
+              : null,
+            coc_issue_date: data.coc_issue_date
+              ? normalizeToUTC(new Date(data.coc_issue_date))
+              : null,
+            delivery_date_of_membership_ids:
+              data.delivery_date_of_membership_ids
+                ? normalizeToUTC(new Date(data.delivery_date_of_membership_ids))
+                : null,
+            orientation_date: data.orientation_date
+              ? normalizeToUTC(new Date(data.orientation_date))
+              : null,
+            wellness_lecture_date: data.wellness_lecture_date
+              ? normalizeToUTC(new Date(data.wellness_lecture_date))
+              : null,
+            annual_physical_examination_date:
+              data.annual_physical_examination_date
+                ? normalizeToUTC(
+                    new Date(data.annual_physical_examination_date),
+                  )
+                : null,
+            created_by: user.id,
+            operation_type: 'update',
+          },
+        ])
       })(e)
     },
-    [companyId, form, mutateAsync],
+    [companyId, form, mutateAsync, supabase.auth],
   )
 
   return (

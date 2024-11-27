@@ -34,6 +34,35 @@ export type Database = {
   }
   public: {
     Tables: {
+      account_status_changes: {
+        Row: {
+          account_id: string
+          changed_at: string
+          id: string
+          is_account_active: boolean
+        }
+        Insert: {
+          account_id: string
+          changed_at?: string
+          id?: string
+          is_account_active: boolean
+        }
+        Update: {
+          account_id?: string
+          changed_at?: string
+          id?: string
+          is_account_active?: boolean
+        }
+        Relationships: [
+          {
+            foreignKeyName: 'account_status_changes_account_id_fkey'
+            columns: ['account_id']
+            isOneToOne: false
+            referencedRelation: 'accounts'
+            referencedColumns: ['id']
+          },
+        ]
+      }
       account_types: {
         Row: {
           created_at: string | null
@@ -64,7 +93,7 @@ export type Database = {
           coc_issue_date: string | null
           commision_rate: number | null
           company_address: string | null
-          company_name: string | null
+          company_name: string
           contact_number: string | null
           contact_person: string | null
           created_at: string
@@ -79,7 +108,8 @@ export type Database = {
           id: string
           initial_contract_value: number | null
           initial_head_count: number | null
-          is_active: boolean | null
+          is_account_active: boolean
+          is_active: boolean
           mode_of_payment_id: string | null
           name_of_signatory: string | null
           nature_of_business: string | null
@@ -102,7 +132,7 @@ export type Database = {
           coc_issue_date?: string | null
           commision_rate?: number | null
           company_address?: string | null
-          company_name?: string | null
+          company_name: string
           contact_number?: string | null
           contact_person?: string | null
           created_at?: string
@@ -117,7 +147,8 @@ export type Database = {
           id?: string
           initial_contract_value?: number | null
           initial_head_count?: number | null
-          is_active?: boolean | null
+          is_account_active?: boolean
+          is_active?: boolean
           mode_of_payment_id?: string | null
           name_of_signatory?: string | null
           nature_of_business?: string | null
@@ -140,7 +171,7 @@ export type Database = {
           coc_issue_date?: string | null
           commision_rate?: number | null
           company_address?: string | null
-          company_name?: string | null
+          company_name?: string
           contact_number?: string | null
           contact_person?: string | null
           created_at?: string
@@ -155,7 +186,8 @@ export type Database = {
           id?: string
           initial_contract_value?: number | null
           initial_head_count?: number | null
-          is_active?: boolean | null
+          is_account_active?: boolean
+          is_active?: boolean
           mode_of_payment_id?: string | null
           name_of_signatory?: string | null
           nature_of_business?: string | null
@@ -421,6 +453,13 @@ export type Database = {
             referencedRelation: 'accounts'
             referencedColumns: ['id']
           },
+          {
+            foreignKeyName: 'company_employees_created_by_fkey1'
+            columns: ['created_by']
+            isOneToOne: false
+            referencedRelation: 'user_profiles'
+            referencedColumns: ['user_id']
+          },
         ]
       }
       departments: {
@@ -528,6 +567,471 @@ export type Database = {
         }
         Relationships: []
       }
+      pending_accounts: {
+        Row: {
+          account_id: string | null
+          account_type_id: string | null
+          additional_benefits: string | null
+          agent_id: string | null
+          annual_physical_examination_date: string | null
+          coc_issue_date: string | null
+          commision_rate: number | null
+          company_address: string | null
+          company_name: string
+          contact_number: string | null
+          contact_person: string | null
+          created_at: string
+          created_by: string
+          current_hmo_provider_id: string | null
+          delivery_date_of_membership_ids: string | null
+          dependent_plan_type_id: string | null
+          designation_of_contact_person: string | null
+          effectivity_date: string | null
+          email_address_of_contact_person: string | null
+          expiration_date: string | null
+          hmo_provider_id: string | null
+          id: string
+          initial_contract_value: number | null
+          initial_head_count: number | null
+          is_active: boolean
+          is_approved: boolean
+          is_delete_account: boolean
+          mode_of_payment_id: string | null
+          name_of_signatory: string | null
+          nature_of_business: string | null
+          operation_type: Database['public']['Enums']['pending_operation']
+          orientation_date: string | null
+          previous_hmo_provider_id: string | null
+          principal_plan_type_id: string | null
+          signatory_designation: string | null
+          special_benefits: string | null
+          summary_of_benefits: string | null
+          total_premium_paid: number | null
+          total_utilization: number | null
+          updated_at: string
+          wellness_lecture_date: string | null
+        }
+        Insert: {
+          account_id?: string | null
+          account_type_id?: string | null
+          additional_benefits?: string | null
+          agent_id?: string | null
+          annual_physical_examination_date?: string | null
+          coc_issue_date?: string | null
+          commision_rate?: number | null
+          company_address?: string | null
+          company_name: string
+          contact_number?: string | null
+          contact_person?: string | null
+          created_at?: string
+          created_by: string
+          current_hmo_provider_id?: string | null
+          delivery_date_of_membership_ids?: string | null
+          dependent_plan_type_id?: string | null
+          designation_of_contact_person?: string | null
+          effectivity_date?: string | null
+          email_address_of_contact_person?: string | null
+          expiration_date?: string | null
+          hmo_provider_id?: string | null
+          id?: string
+          initial_contract_value?: number | null
+          initial_head_count?: number | null
+          is_active?: boolean
+          is_approved?: boolean
+          is_delete_account?: boolean
+          mode_of_payment_id?: string | null
+          name_of_signatory?: string | null
+          nature_of_business?: string | null
+          operation_type: Database['public']['Enums']['pending_operation']
+          orientation_date?: string | null
+          previous_hmo_provider_id?: string | null
+          principal_plan_type_id?: string | null
+          signatory_designation?: string | null
+          special_benefits?: string | null
+          summary_of_benefits?: string | null
+          total_premium_paid?: number | null
+          total_utilization?: number | null
+          updated_at?: string
+          wellness_lecture_date?: string | null
+        }
+        Update: {
+          account_id?: string | null
+          account_type_id?: string | null
+          additional_benefits?: string | null
+          agent_id?: string | null
+          annual_physical_examination_date?: string | null
+          coc_issue_date?: string | null
+          commision_rate?: number | null
+          company_address?: string | null
+          company_name?: string
+          contact_number?: string | null
+          contact_person?: string | null
+          created_at?: string
+          created_by?: string
+          current_hmo_provider_id?: string | null
+          delivery_date_of_membership_ids?: string | null
+          dependent_plan_type_id?: string | null
+          designation_of_contact_person?: string | null
+          effectivity_date?: string | null
+          email_address_of_contact_person?: string | null
+          expiration_date?: string | null
+          hmo_provider_id?: string | null
+          id?: string
+          initial_contract_value?: number | null
+          initial_head_count?: number | null
+          is_active?: boolean
+          is_approved?: boolean
+          is_delete_account?: boolean
+          mode_of_payment_id?: string | null
+          name_of_signatory?: string | null
+          nature_of_business?: string | null
+          operation_type?: Database['public']['Enums']['pending_operation']
+          orientation_date?: string | null
+          previous_hmo_provider_id?: string | null
+          principal_plan_type_id?: string | null
+          signatory_designation?: string | null
+          special_benefits?: string | null
+          summary_of_benefits?: string | null
+          total_premium_paid?: number | null
+          total_utilization?: number | null
+          updated_at?: string
+          wellness_lecture_date?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: 'pending_accounts_account_id_fkey'
+            columns: ['account_id']
+            isOneToOne: false
+            referencedRelation: 'accounts'
+            referencedColumns: ['id']
+          },
+          {
+            foreignKeyName: 'pending_accounts_account_type_id_fkey'
+            columns: ['account_type_id']
+            isOneToOne: false
+            referencedRelation: 'account_types'
+            referencedColumns: ['id']
+          },
+          {
+            foreignKeyName: 'pending_accounts_agent_id_fkey'
+            columns: ['agent_id']
+            isOneToOne: false
+            referencedRelation: 'user_profiles'
+            referencedColumns: ['user_id']
+          },
+          {
+            foreignKeyName: 'pending_accounts_created_by_fkey'
+            columns: ['created_by']
+            isOneToOne: false
+            referencedRelation: 'user_profiles'
+            referencedColumns: ['user_id']
+          },
+          {
+            foreignKeyName: 'pending_accounts_current_hmo_provider_id_fkey'
+            columns: ['current_hmo_provider_id']
+            isOneToOne: false
+            referencedRelation: 'hmo_providers'
+            referencedColumns: ['id']
+          },
+          {
+            foreignKeyName: 'pending_accounts_dependent_plan_type_id_fkey'
+            columns: ['dependent_plan_type_id']
+            isOneToOne: false
+            referencedRelation: 'plan_types'
+            referencedColumns: ['id']
+          },
+          {
+            foreignKeyName: 'pending_accounts_hmo_provider_id_fkey'
+            columns: ['hmo_provider_id']
+            isOneToOne: false
+            referencedRelation: 'hmo_providers'
+            referencedColumns: ['id']
+          },
+          {
+            foreignKeyName: 'pending_accounts_mode_of_payment_id_fkey'
+            columns: ['mode_of_payment_id']
+            isOneToOne: false
+            referencedRelation: 'mode_of_payments'
+            referencedColumns: ['id']
+          },
+          {
+            foreignKeyName: 'pending_accounts_previous_hmo_provider_id_fkey'
+            columns: ['previous_hmo_provider_id']
+            isOneToOne: false
+            referencedRelation: 'hmo_providers'
+            referencedColumns: ['id']
+          },
+          {
+            foreignKeyName: 'pending_accounts_principal_plan_type_id_fkey'
+            columns: ['principal_plan_type_id']
+            isOneToOne: false
+            referencedRelation: 'plan_types'
+            referencedColumns: ['id']
+          },
+        ]
+      }
+      pending_billing_statements: {
+        Row: {
+          account_id: string
+          amount: number | null
+          amount_billed: number | null
+          amount_paid: number | null
+          balance: number | null
+          billing_period: number | null
+          billing_statement_id: string | null
+          commission_earned: number | null
+          commission_rate: number | null
+          created_at: string
+          created_by: string
+          due_date: string | null
+          id: string
+          is_active: boolean
+          is_approved: boolean
+          is_delete_billing_statement: boolean
+          mode_of_payment_id: string | null
+          operation_type: Database['public']['Enums']['pending_operation']
+          or_date: string | null
+          or_number: string | null
+          sa_number: string | null
+          total_contract_value: number | null
+          updated_at: string
+        }
+        Insert: {
+          account_id: string
+          amount?: number | null
+          amount_billed?: number | null
+          amount_paid?: number | null
+          balance?: number | null
+          billing_period?: number | null
+          billing_statement_id?: string | null
+          commission_earned?: number | null
+          commission_rate?: number | null
+          created_at?: string
+          created_by: string
+          due_date?: string | null
+          id?: string
+          is_active?: boolean
+          is_approved?: boolean
+          is_delete_billing_statement?: boolean
+          mode_of_payment_id?: string | null
+          operation_type: Database['public']['Enums']['pending_operation']
+          or_date?: string | null
+          or_number?: string | null
+          sa_number?: string | null
+          total_contract_value?: number | null
+          updated_at?: string
+        }
+        Update: {
+          account_id?: string
+          amount?: number | null
+          amount_billed?: number | null
+          amount_paid?: number | null
+          balance?: number | null
+          billing_period?: number | null
+          billing_statement_id?: string | null
+          commission_earned?: number | null
+          commission_rate?: number | null
+          created_at?: string
+          created_by?: string
+          due_date?: string | null
+          id?: string
+          is_active?: boolean
+          is_approved?: boolean
+          is_delete_billing_statement?: boolean
+          mode_of_payment_id?: string | null
+          operation_type?: Database['public']['Enums']['pending_operation']
+          or_date?: string | null
+          or_number?: string | null
+          sa_number?: string | null
+          total_contract_value?: number | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: 'pending_billing_statements_account_id_fkey'
+            columns: ['account_id']
+            isOneToOne: false
+            referencedRelation: 'accounts'
+            referencedColumns: ['id']
+          },
+          {
+            foreignKeyName: 'pending_billing_statements_billing_statement_id_fkey'
+            columns: ['billing_statement_id']
+            isOneToOne: false
+            referencedRelation: 'billing_statements'
+            referencedColumns: ['id']
+          },
+          {
+            foreignKeyName: 'pending_billing_statements_created_by_fkey'
+            columns: ['created_by']
+            isOneToOne: false
+            referencedRelation: 'user_profiles'
+            referencedColumns: ['user_id']
+          },
+          {
+            foreignKeyName: 'pending_billing_statements_mode_of_payment_id_fkey'
+            columns: ['mode_of_payment_id']
+            isOneToOne: false
+            referencedRelation: 'mode_of_payments'
+            referencedColumns: ['id']
+          },
+        ]
+      }
+      pending_company_employees: {
+        Row: {
+          account_id: string | null
+          batch_id: string
+          birth_date: string | null
+          card_number: string | null
+          civil_status: string | null
+          company_employee_id: string | null
+          created_at: string
+          created_by: string
+          effective_date: string | null
+          first_name: string | null
+          gender: string | null
+          id: string
+          is_active: boolean
+          is_approved: boolean
+          is_delete_employee: boolean
+          last_name: string | null
+          maximum_benefit_limit: string | null
+          operation_type: Database['public']['Enums']['pending_operation']
+          room_plan: string | null
+          updated_at: string
+        }
+        Insert: {
+          account_id?: string | null
+          batch_id: string
+          birth_date?: string | null
+          card_number?: string | null
+          civil_status?: string | null
+          company_employee_id?: string | null
+          created_at?: string
+          created_by: string
+          effective_date?: string | null
+          first_name?: string | null
+          gender?: string | null
+          id?: string
+          is_active?: boolean
+          is_approved?: boolean
+          is_delete_employee?: boolean
+          last_name?: string | null
+          maximum_benefit_limit?: string | null
+          operation_type: Database['public']['Enums']['pending_operation']
+          room_plan?: string | null
+          updated_at?: string
+        }
+        Update: {
+          account_id?: string | null
+          batch_id?: string
+          birth_date?: string | null
+          card_number?: string | null
+          civil_status?: string | null
+          company_employee_id?: string | null
+          created_at?: string
+          created_by?: string
+          effective_date?: string | null
+          first_name?: string | null
+          gender?: string | null
+          id?: string
+          is_active?: boolean
+          is_approved?: boolean
+          is_delete_employee?: boolean
+          last_name?: string | null
+          maximum_benefit_limit?: string | null
+          operation_type?: Database['public']['Enums']['pending_operation']
+          room_plan?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: 'pending_company_employees_account_id_fkey'
+            columns: ['account_id']
+            isOneToOne: false
+            referencedRelation: 'accounts'
+            referencedColumns: ['id']
+          },
+          {
+            foreignKeyName: 'pending_company_employees_company_employee_id_fkey'
+            columns: ['company_employee_id']
+            isOneToOne: false
+            referencedRelation: 'company_employees'
+            referencedColumns: ['id']
+          },
+          {
+            foreignKeyName: 'pending_company_employees_created_by_fkey1'
+            columns: ['created_by']
+            isOneToOne: false
+            referencedRelation: 'user_profiles'
+            referencedColumns: ['user_id']
+          },
+        ]
+      }
+      pending_export_requests: {
+        Row: {
+          account_id: string | null
+          approved_at: string | null
+          approved_by: string | null
+          created_at: string
+          created_by: string
+          data: Json | null
+          export_type: Database['public']['Enums']['export_type']
+          id: string
+          is_active: boolean
+          is_approved: boolean
+          updated_at: string
+        }
+        Insert: {
+          account_id?: string | null
+          approved_at?: string | null
+          approved_by?: string | null
+          created_at?: string
+          created_by?: string
+          data?: Json | null
+          export_type: Database['public']['Enums']['export_type']
+          id?: string
+          is_active?: boolean
+          is_approved?: boolean
+          updated_at?: string
+        }
+        Update: {
+          account_id?: string | null
+          approved_at?: string | null
+          approved_by?: string | null
+          created_at?: string
+          created_by?: string
+          data?: Json | null
+          export_type?: Database['public']['Enums']['export_type']
+          id?: string
+          is_active?: boolean
+          is_approved?: boolean
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: 'pending_export_requests_account_id_fkey'
+            columns: ['account_id']
+            isOneToOne: false
+            referencedRelation: 'accounts'
+            referencedColumns: ['id']
+          },
+          {
+            foreignKeyName: 'pending_export_requests_approved_by_fkey'
+            columns: ['approved_by']
+            isOneToOne: false
+            referencedRelation: 'user_profiles'
+            referencedColumns: ['user_id']
+          },
+          {
+            foreignKeyName: 'pending_export_requests_created_by_fkey'
+            columns: ['created_by']
+            isOneToOne: false
+            referencedRelation: 'user_profiles'
+            referencedColumns: ['user_id']
+          },
+        ]
+      }
       plan_types: {
         Row: {
           created_at: string | null
@@ -592,130 +1096,11 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      gtrgm_compress: {
-        Args: {
-          '': unknown
-        }
-        Returns: unknown
-      }
-      gtrgm_decompress: {
-        Args: {
-          '': unknown
-        }
-        Returns: unknown
-      }
-      gtrgm_in: {
-        Args: {
-          '': unknown
-        }
-        Returns: unknown
-      }
-      gtrgm_options: {
-        Args: {
-          '': unknown
-        }
-        Returns: undefined
-      }
-      gtrgm_out: {
-        Args: {
-          '': unknown
-        }
-        Returns: unknown
-      }
-      search_accounts: {
-        Args: {
-          account_term: string
-          start_offset: number
-          end_offset: number
-        }
-        Returns: {
-          id: string
-          is_active: boolean
-          agent: string
-          company_name: string
-          company_address: string
-          nature_of_business: string
-          hmo_provider: string
-          previous_hmo_provider: string
-          current_hmo_provider: string
-          account_type: string
-          total_utilization: number
-          total_premium_paid: number
-          signatory_designation: string
-          contact_person: string
-          contact_number: string
-          principal_plan_type: string
-          dependent_plan_type: string
-          initial_head_count: number
-          effectivity_date: string
-          coc_issue_date: string
-          expiration_date: string
-          delivery_date_of_membership_ids: string
-          orientation_date: string
-          initial_contract_value: number
-          mode_of_payment: string
-          wellness_lecture_date: string
-          annual_physical_examination_date: string
-          commision_rate: number
-          additional_benefits: string
-          special_benefits: string
-          summary_of_benefits: string
-          name_of_signatory: string
-          designation_of_contact_person: string
-          email_address_of_contact_person: string
-          created_at: string
-          updated_at: string
-          total_count: number
-        }[]
-      }
-      search_billing_statements: {
-        Args: {
-          billing_term: string
-          start_offset: number
-          end_offset: number
-        }
-        Returns: {
-          id: string
-          account_id: string
-          account_name: string
-          mode_of_payment: string
-          mode_of_payment_id: string
-          due_date: string
-          or_number: string
-          or_date: string
-          sa_number: string
-          amount: number
-          total_contract_value: number
-          balance: number
-          billing_period: number
-          amount_billed: number
-          amount_paid: number
-          commission_rate: number
-          commission_earned: number
-          created_at: string
-          updated_at: string
-          total_count: number
-        }[]
-      }
-      set_limit: {
-        Args: {
-          '': number
-        }
-        Returns: number
-      }
-      show_limit: {
-        Args: Record<PropertyKey, never>
-        Returns: number
-      }
-      show_trgm: {
-        Args: {
-          '': string
-        }
-        Returns: string[]
-      }
+      [_ in never]: never
     }
     Enums: {
-      [_ in never]: never
+      export_type: 'accounts' | 'employees'
+      pending_operation: 'insert' | 'update' | 'delete'
     }
     CompositeTypes: {
       [_ in never]: never

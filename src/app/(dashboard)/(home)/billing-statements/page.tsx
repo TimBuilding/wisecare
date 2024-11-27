@@ -1,18 +1,18 @@
 'use server'
 
-import { prefetchQuery } from '@supabase-cache-helpers/postgrest-react-query'
-import PendingTable from './pending-table'
-import { cookies } from 'next/headers'
+import { BillingProvider } from '@/app/(dashboard)/(home)/billing-statements/billing-provider'
 import getBillingStatements from '@/queries/get-billing-statements'
+import pageProtect from '@/utils/page-protect'
 import { createServerClient } from '@/utils/supabase'
+import { prefetchQuery } from '@supabase-cache-helpers/postgrest-react-query'
 import {
   HydrationBoundary,
   QueryClient,
   dehydrate,
 } from '@tanstack/react-query'
-import pageProtect from '@/utils/page-protect'
-import TableProvider from '@/providers/TableProvider'
 import { Metadata } from 'next'
+import { cookies } from 'next/headers'
+import PendingTable from './pending-table'
 
 export const metadata = async (): Promise<Metadata> => {
   return {
@@ -29,9 +29,9 @@ const BillingStatementsPage = async () => {
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <TableProvider>
+      <BillingProvider>
         <PendingTable />
-      </TableProvider>
+      </BillingProvider>
     </HydrationBoundary>
   )
 }

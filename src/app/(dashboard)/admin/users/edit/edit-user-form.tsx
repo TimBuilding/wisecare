@@ -1,4 +1,3 @@
-import ConfirmEmail from '@/app/(dashboard)/admin/users/edit/confirm-email'
 import DeleteUser from '@/app/(dashboard)/admin/users/edit/delete-user'
 import userSchema from '@/app/(dashboard)/admin/users/user-schema'
 import Message from '@/components/message'
@@ -90,6 +89,8 @@ const EditUserForm: FC<Props> = ({
 
     if (data.error) {
       setError(data.error)
+      setIsLoading(false)
+      return
     }
 
     toast({
@@ -102,6 +103,7 @@ const EditUserForm: FC<Props> = ({
 
     // clear form
     setIsLoading(false)
+    onOpenChange(false)
   }
   return (
     <Form {...form}>
@@ -141,7 +143,7 @@ const EditUserForm: FC<Props> = ({
               <FormItem>
                 <FormLabel>Email</FormLabel>
                 <FormControl>
-                  <Input {...field} disabled={isLoading} />
+                  <Input {...field} disabled={true} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -179,7 +181,7 @@ const EditUserForm: FC<Props> = ({
               </FormItem>
             )}
           />
-          <ConfirmEmail email={email} />
+          {/* <ConfirmEmail email={email} /> */}
         </div>
         <div className="fixed bottom-0 flex w-full flex-row items-center justify-between gap-2 bg-[#f1f5f9] px-4 py-3 md:max-w-2xl">
           <DeleteUser

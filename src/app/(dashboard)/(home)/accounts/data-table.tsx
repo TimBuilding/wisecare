@@ -1,6 +1,5 @@
 'use client'
 
-import ExportAccounts from '@/app/(dashboard)/(home)/accounts/export-accounts'
 import {
   PageDescription,
   PageHeader,
@@ -23,20 +22,23 @@ import { createBrowserClient } from '@/utils/supabase'
 import { useQuery } from '@supabase-cache-helpers/postgrest-react-query'
 import {
   ColumnDef,
-  SortingState,
-  VisibilityState,
   flexRender,
   getCoreRowModel,
   getFilteredRowModel,
   getPaginationRowModel,
   getSortedRowModel,
+  SortingState,
   useReactTable,
+  VisibilityState,
 } from '@tanstack/react-table'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import AccountsProvider from './accounts-provider'
 import AddAccountButton from './add-account-button'
 import getAccounts from '@/queries/get-accounts'
+import AccountRequest from '@/app/(dashboard)/(home)/accounts/request/account-request'
+import ExportAccountsModal from '@/app/(dashboard)/(home)/accounts/export-requests/export-accounts-modal'
+import ExportAccountRequests from '@/app/(dashboard)/(home)/accounts/export-requests/export-account-requests'
 
 interface IData {
   id: string
@@ -54,6 +56,7 @@ const DataTable = <TData extends IData, TValue>({
   const [sorting, setSorting] = useState<SortingState>([])
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
   const [globalFilter, setGlobalFilter] = useState<any>('')
+  const [isAccountLoading, setIsAccountLoading] = useState(false)
 
   const router = useRouter()
   const { toast } = useToast()
@@ -150,11 +153,15 @@ const DataTable = <TData extends IData, TValue>({
             <div className="flex flex-row gap-4">
               <TableSearch table={table} />
               <AddAccountButton />
-              <ExportAccounts />
+              <ExportAccountsModal exportData={'accounts'} />
             </div>
           </div>
         </PageHeader>
-        <TableViewOptions table={table} />
+        <div className="flex flex-row">
+          <AccountRequest />
+          <ExportAccountRequests />
+          <TableViewOptions table={table} />
+        </div>
         <div className="h-full bg-card">
           <div className="rounded-md border">
             <Table>
@@ -183,10 +190,11 @@ const DataTable = <TData extends IData, TValue>({
                       <TableRow
                         key={row.id}
                         data-state={row.getIsSelected() && 'selected'}
-                        className="cursor-pointer transition-colors hover:bg-muted/50"
-                        onClick={() =>
+                        className={`cursor-pointer transition-colors hover:bg-muted/50 ${isAccountLoading ? 'cursor-wait' : ''}`}
+                        onClick={() => {
+                          setIsAccountLoading(true)
                           router.push(`/accounts/${row.original.id}`)
-                        }
+                        }}
                       >
                         {row.getVisibleCells().map((cell) => (
                           <TableCell key={cell.id}>

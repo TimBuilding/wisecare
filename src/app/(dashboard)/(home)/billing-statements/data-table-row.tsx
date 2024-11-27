@@ -1,8 +1,6 @@
-import BillingStatementModal from '@/components/billing-statement/billing-statement-modal'
+import { useBillingContext } from '@/app/(dashboard)/(home)/billing-statements/billing-provider'
 import { TableCell, TableRow } from '@/components/ui/table'
-import { Tables } from '@/types/database.types'
 import { ColumnDef, Table, flexRender } from '@tanstack/react-table'
-import { useState } from 'react'
 
 interface TableRowProps<TData> {
   table: Table<TData>
@@ -10,8 +8,7 @@ interface TableRowProps<TData> {
 }
 
 const DataTableRow = <TData,>({ table, columns }: TableRowProps<TData>) => {
-  const [originalData, setOriginalData] = useState<TData | undefined>(undefined)
-  const [isEditModalOpen, setIsEditModalOpen] = useState(false)
+  const { setOriginalData, setIsEditModalOpen } = useBillingContext()
 
   const handleOnClick = (originalData: TData) => {
     setOriginalData(originalData)
@@ -41,11 +38,6 @@ const DataTableRow = <TData,>({ table, columns }: TableRowProps<TData>) => {
           </TableCell>
         </TableRow>
       )}
-      <BillingStatementModal
-        originalData={originalData as TData & Tables<'billing_statements'>}
-        open={isEditModalOpen}
-        setOpen={setIsEditModalOpen}
-      />
     </>
   )
 }

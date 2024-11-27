@@ -3,9 +3,11 @@ import { Bell, Menu } from 'lucide-react'
 import { Button } from '../ui/button'
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
 import Navbar from './navbar'
-import NotificationBell from './notification-bell'
+
 import { createServerClient } from '@/utils/supabase'
 import { cookies } from 'next/headers'
+import NotificationBell from '@/components/layout/notification/notification-bell'
+import { SidebarTrigger } from '@/components/ui/sidebar'
 
 const Header = async () => {
   const supabase = createServerClient(cookies())
@@ -15,16 +17,14 @@ const Header = async () => {
   return (
     <Sheet>
       <header className="flex h-16 w-full flex-row items-center justify-between border-b bg-card px-3 py-2 shadow-md md:justify-end">
-        <SheetTrigger asChild={true}>
+        <SidebarTrigger />
+        {/* <SheetTrigger asChild={true}>
           <Button variant={'ghost'} size={'icon'} className="md:hidden">
             <Menu className="text-muted-foreground/50" />
           </Button>
-        </SheetTrigger>
+        </SheetTrigger> */}
         <NotificationBell user={user} />
       </header>
-      <SheetContent side={'left'} className="md:hidden">
-        <Navbar />
-      </SheetContent>
     </Sheet>
   )
 }

@@ -109,7 +109,7 @@ DECLARE
     plan_type_id uuid;
     mode_of_payment_id uuid;
 BEGIN
-    FOR i IN 1..50 LOOP
+    FOR i IN 1..550 LOOP
         -- Randomly select agent_id, hmo_provider_id, account_type_id, plan_type_id, mode_of_payment_id
         SELECT user_id INTO agent_id FROM user_profiles OFFSET floor(random() * (SELECT count(*) FROM user_profiles)) LIMIT 1;
         SELECT id INTO hmo_provider_id FROM hmo_providers OFFSET floor(random() * (SELECT count(*) FROM hmo_providers)) LIMIT 1;
@@ -150,7 +150,8 @@ BEGIN
             summary_of_benefits,
             name_of_signatory,
             designation_of_contact_person,
-            email_address_of_contact_person
+            email_address_of_contact_person,
+            created_at
         ) VALUES (
             true,
             agent_id,
@@ -184,7 +185,8 @@ BEGIN
             'Comprehensive health coverage',
             'Signatory ' || i,
             'Designation ' || i,
-            'contact' || i || '@example.com'
+            'contact' || i || '@example.com',
+            timestamp '2022-10-01' + random() * (timestamp '2024-10-01' - timestamp '2022-10-01')
         );
     END LOOP;
 END $$;
@@ -193,8 +195,12 @@ END $$;
 DO $$
 DECLARE
     i integer;
+    random_created_at timestamp;
+    random_or_date timestamp;
 BEGIN
     FOR i IN 1..500 LOOP
+        random_created_at := (current_date - interval '2 years') + (random() * (current_date - (current_date - interval '2 years')));
+        random_or_date := (current_date - interval '1 year') + (random() * (current_date - (current_date - interval '1 year')));
         INSERT INTO billing_statements (
             id,
             account_id,
@@ -220,7 +226,7 @@ BEGIN
             (SELECT id FROM mode_of_payments LIMIT 1 OFFSET floor(random() * (SELECT count(*) FROM mode_of_payments))),
             current_date + (i * interval '1 month'),
             'OR' || i,
-            current_date + (i * interval '1 month'),
+            random_or_date,
             'SA' || i,
             100.0 * i,
             1000.0 * i,
@@ -231,7 +237,7 @@ BEGIN
             50.0 * i,
             5.0,
             25.0 * i,
-            now(),
+            random_created_at,
             now()
         );
     END LOOP;
@@ -282,3 +288,20 @@ BEGIN
     END LOOP;
 END $$;
 
+
+DO $$
+DECLARE
+    account RECORD;
+BEGIN
+    FOR account IN SELECT id, created_at, is_active FROM accounts LOOP
+        INSERT INTO public.account_status_changes (
+            account_id,
+            is_account_active,
+            changed_at
+        ) VALUES (
+            account.id,
+            account.is_active, -- Use the is_active status from the accounts table
+            account.created_at -- Use the created_at date from the accounts table
+        );
+    END LOOP;
+END $$;

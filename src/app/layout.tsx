@@ -1,12 +1,29 @@
-import { GeistSans } from 'geist/font/sans'
-import ThemeProvider from '@/providers/ThemeProvider'
-import NextTopLoader from 'nextjs-toploader'
-import { Analytics } from '@vercel/analytics/react'
-import './globals.css'
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import ReactQueryProvider from '@/providers/ReactQueryProvider'
-import { Toaster } from '@/components/ui/toaster'
-import ConfirmationDialog from '@/components/confirmation-dialog/confirmation-dialog'
+import ThemeProvider from '@/providers/ThemeProvider'
+import dynamic from 'next/dynamic'
+import { Inter } from 'next/font/google'
+import NextTopLoader from 'nextjs-toploader'
+import { TooltipProvider } from '@/components/ui/tooltip'
+import './globals.css'
+
+const inter = Inter({
+  subsets: ['latin'],
+  variable: '--font-sans',
+})
+
+const Toaster = dynamic(
+  () => import('@/components/ui/toaster').then((mod) => mod.Toaster),
+  {
+    ssr: false,
+  },
+)
+
+const ConfirmationDialog = dynamic(
+  () => import('@/components/confirmation-dialog/confirmation-dialog'),
+  {
+    ssr: false,
+  },
+)
 
 const defaultUrl = process.env.VERCEL_PROJECT_PRODUCTION_URL
   ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
@@ -29,27 +46,28 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={GeistSans.className}
+      className={inter.className}
       style={{ colorScheme: 'dark' }}
+      suppressHydrationWarning={true}
     >
       <body className="bg-background text-foreground">
         <NextTopLoader showSpinner={false} height={2} color="#2acf80" />
         <ThemeProvider
           attribute="class"
-          defaultTheme="dark"
-          enableSystem
+          defaultTheme="light"
+          enableSystem={false}
           disableTransitionOnChange
         >
-          <ReactQueryProvider>
-            <main className="flex min-h-screen flex-col items-center">
-              {children}
-              <Toaster />
-              <ConfirmationDialog />
-              <Analytics />
-              {/* ^^ remove this if you are not deploying to vercel. See more at https://vercel.com/docs/analytics  */}
-            </main>
-            <ReactQueryDevtools initialIsOpen={false} />
-          </ReactQueryProvider>
+          <TooltipProvider>
+            <ReactQueryProvider>
+              <div>
+                {children}
+                <Toaster />
+                <ConfirmationDialog />
+              </div>
+              {/* <ReactQueryDevtools initialIsOpen={false} /> */}
+            </ReactQueryProvider>
+          </TooltipProvider>
         </ThemeProvider>
       </body>
     </html>

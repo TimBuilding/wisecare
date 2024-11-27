@@ -22,7 +22,11 @@ export const TableViewOptions = <TData,>({
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="outline" size="sm" className="flex h-8">
+        <Button
+          variant="outline"
+          size="sm"
+          className="flex h-8 w-fit rounded-none"
+        >
           <MixerHorizontalIcon className="mr-2 h-4 w-4" />
           View
         </Button>

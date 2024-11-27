@@ -39,7 +39,9 @@ const getAccounts = (supabase: TypedSupabaseClient) => {
   updated_at,
   name_of_signatory,
   designation_of_contact_person,
-  email_address_of_contact_person
+  email_address_of_contact_person,
+  is_account_active
+
   `,
       {
         count: 'exact',

@@ -6,6 +6,7 @@ import {
   formatCurrency,
   formatPercentage,
 } from '@/app/(dashboard)/(home)/accounts/columns/accounts-columns'
+import normalizeToUTC from '@/utils/normalize-to-utc'
 
 const billingStatementsColumns: ColumnDef<Tables<'billing_statements'>>[] = [
   {
@@ -22,13 +23,10 @@ const billingStatementsColumns: ColumnDef<Tables<'billing_statements'>>[] = [
     accessorKey: 'due_date',
     header: ({ column }) => <TableHeader column={column} title="Due Date" />,
     cell: ({ row }) => {
-      return (
-        <div>
-          {row.original.due_date
-            ? format(row.getValue('due_date'), 'MMMM dd, yyyy')
-            : ''}
-        </div>
-      )
+      const dueDate = row.original.due_date
+        ? normalizeToUTC(new Date(row.original.due_date))
+        : null
+      return <div>{dueDate ? format(dueDate, 'MMMM dd, yyyy') : ''}</div>
     },
     accessorFn: (originalRow) =>
       originalRow.due_date ? format(originalRow.due_date, 'MMMM dd, yyyy') : '',
@@ -41,13 +39,10 @@ const billingStatementsColumns: ColumnDef<Tables<'billing_statements'>>[] = [
     accessorKey: 'or_date',
     header: ({ column }) => <TableHeader column={column} title="OR Date" />,
     cell: ({ row }) => {
-      return (
-        <div>
-          {row.original.or_date
-            ? format(row.getValue('or_date'), 'MMMM dd, yyyy')
-            : ''}
-        </div>
-      )
+      const orDate = row.original.or_date
+        ? normalizeToUTC(new Date(row.original.or_date))
+        : null
+      return <div>{orDate ? format(orDate, 'MMMM dd, yyyy') : ''}</div>
     },
     accessorFn: (originalRow) =>
       originalRow.or_date ? format(originalRow.or_date, 'MMMM dd, yyyy') : '',
@@ -110,7 +105,7 @@ const billingStatementsColumns: ColumnDef<Tables<'billing_statements'>>[] = [
       <TableHeader column={column} title="Commission Earned" />
     ),
     cell: ({ getValue }) =>
-      formatPercentage(getValue<number | null | undefined>()),
+      formatCurrency(getValue<number | null | undefined>()),
   },
 ]
 

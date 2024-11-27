@@ -1,8 +1,11 @@
-import EmployeeFormModal from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(employees)/employee-form-modal'
+'use client'
+
+import EmployeeActionsDropdown from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(employees)/employee-actions-dropdown'
 import EmployeesTableSearch from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(employees)/employees-table-search'
-import ExportEmployees from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(employees)/export-employees'
+import EmployeeExportRequests from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(employees)/export-requests/employee-export-requests'
+import ImportEmployeesButton from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(employees)/import/import-employees-button'
+import EmployeeRequest from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(employees)/request/employee-request'
 import TablePagination from '@/components/table-pagination'
-import { Button } from '@/components/ui/button'
 import {
   Table,
   TableBody,
@@ -13,7 +16,6 @@ import {
 } from '@/components/ui/table'
 import {
   ColumnDef,
-  ColumnFiltersState,
   flexRender,
   getCoreRowModel,
   getFilteredRowModel,
@@ -23,7 +25,6 @@ import {
   useReactTable,
   VisibilityState,
 } from '@tanstack/react-table'
-import { Plus } from 'lucide-react'
 import { useState } from 'react'
 
 interface DataTableProps<TData, TValue> {
@@ -62,15 +63,13 @@ const EmployeesDataTable = <TData, TValue>({
       <div className="flex flex-row items-center justify-between gap-2 py-4">
         <EmployeesTableSearch table={table} />
         <div className="flex items-center space-x-1">
-          <EmployeeFormModal
-            button={
-              <Button className="gap-2">
-                <Plus /> <span> Add Employee </span>
-              </Button>
-            }
-          />
-          <ExportEmployees />
+          <ImportEmployeesButton />
+          <EmployeeActionsDropdown />
         </div>
+      </div>
+      <div className="flex flex-row">
+        <EmployeeRequest />
+        <EmployeeExportRequests />
       </div>
       <div className="rounded-md border">
         <Table>

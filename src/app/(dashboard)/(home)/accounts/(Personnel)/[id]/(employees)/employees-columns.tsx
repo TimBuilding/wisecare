@@ -1,6 +1,6 @@
-import DeleteEmployee from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(employees)/delete-employee'
-import EmployeeDetails from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(employees)/employee-details'
-import EmployeeFormModal from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(employees)/employee-form-modal'
+import DeleteEmployee from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(employees)/employee-information/delete-employee'
+import EmployeeDetails from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(employees)/employee-information/employee-details'
+import EmployeeFormModal from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(employees)/employee-information/employee-form-modal'
 import TableHeader from '@/components/table-header'
 import { Button } from '@/components/ui/button'
 import {
@@ -14,9 +14,18 @@ import { Tables } from '@/types/database.types'
 import { ColumnDef } from '@tanstack/react-table'
 import { format } from 'date-fns'
 import { Eye, MoreHorizontal, Pencil } from 'lucide-react'
+import normalizeToUTC from '@/utils/normalize-to-utc'
 
 const employeesColumns: ColumnDef<Tables<'company_employees'>>[] = [
   // company name is not needed since we are already in the company page
+  {
+    accessorKey: 'card_number',
+    header: ({ column }) => <TableHeader column={column} title="Card Number" />,
+    cell: ({ row }) => (
+      <span className="capitalize">{row.original.card_number}</span>
+    ),
+    accessorFn: (originalRow) => (originalRow as any)?.card_number ?? '',
+  },
   {
     accessorKey: 'first_name',
     header: ({ column }) => <TableHeader column={column} title="First Name" />,
@@ -28,38 +37,11 @@ const employeesColumns: ColumnDef<Tables<'company_employees'>>[] = [
     cell: ({ row }) => row.original.last_name,
   },
   {
-    accessorKey: 'birth_date',
-    header: ({ column }) => <TableHeader column={column} title="Birth Date" />,
-    accessorFn: (originalRow) =>
-      (originalRow as any)?.birth_date
-        ? format((originalRow as any).birth_date, 'PP')
-        : '',
-  },
-  {
     accessorKey: 'gender',
     header: ({ column }) => <TableHeader column={column} title="Gender" />,
     cell: ({ row }) => (
       <span className="capitalize">{row.original.gender}</span>
     ),
-  },
-  {
-    accessorKey: 'civil_status',
-    header: ({ column }) => (
-      <TableHeader column={column} title="Civil Status" />
-    ),
-    cell: ({ row }) => (
-      <span className="capitalize">{row.original.civil_status}</span>
-    ),
-  },
-  {
-    accessorKey: 'effective_date',
-    header: ({ column }) => (
-      <TableHeader column={column} title="Effective Date" />
-    ),
-    accessorFn: (originalRow) =>
-      (originalRow as any)?.effective_date
-        ? format((originalRow as any).effective_date, 'PP')
-        : '',
   },
   {
     id: 'actions',
@@ -106,7 +88,7 @@ const employeesColumns: ColumnDef<Tables<'company_employees'>>[] = [
             {/* Edit employee End */}
 
             {/* Delete employee Start */}
-            <DeleteEmployee employeeId={employee.id} />
+            <DeleteEmployee originalData={employee} />
             {/* Delete employee End */}
           </DropdownMenuContent>
         </DropdownMenu>

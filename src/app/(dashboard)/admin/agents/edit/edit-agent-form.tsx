@@ -71,6 +71,8 @@ const EditAgentForm: FC<Props> = ({
 
     if (data.error) {
       setError(data.error)
+      setIsLoading(false)
+      return
     }
 
     toast({
@@ -83,6 +85,7 @@ const EditAgentForm: FC<Props> = ({
 
     // clear form
     setIsLoading(false)
+    onOpenChange(false)
   }
 
   return (
@@ -123,7 +126,7 @@ const EditAgentForm: FC<Props> = ({
               <FormItem>
                 <FormLabel>Email</FormLabel>
                 <FormControl>
-                  <Input {...field} disabled={isLoading} />
+                  <Input {...field} disabled={true} />
                 </FormControl>
                 <FormMessage />
               </FormItem>

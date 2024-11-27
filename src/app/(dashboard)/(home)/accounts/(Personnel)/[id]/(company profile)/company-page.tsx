@@ -1,15 +1,15 @@
 'use client'
 
 import CompanyAbout from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(company profile)/company-about'
-import CompanyDeleteButton from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(company profile)/company-delete-button'
 import CompanyEditButton from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(company profile)/company-edit-button'
 import CompanyEditProvider from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(company profile)/company-edit-provider'
-import CompanyHeader from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/company-header'
 import { useCompanyContext } from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(company profile)/company-provider'
-import { Tabs, TabsContent } from '@/components/ui/tabs'
-import { FC, useEffect } from 'react'
+import CompanyDeleteButton from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(company profile)/delete/company-delete-button'
+import CompanyHeader from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/company-header'
 import AddBillingStatementButton from '@/app/(dashboard)/(home)/billing-statements/add-billing-statement-button'
+import { Tabs, TabsContent } from '@/components/ui/tabs'
 import dynamic from 'next/dynamic'
+import { FC, useEffect } from 'react'
 
 interface Props {
   companyId: string
@@ -27,6 +27,14 @@ const BillingStatements = dynamic(
   () =>
     import(
       '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(billing statements)/billing-statements'
+    ),
+  { ssr: false },
+)
+
+const ToggleCompanyActive = dynamic(
+  () =>
+    import(
+      '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(company profile)/toggle-company-active'
     ),
   { ssr: false },
 )
@@ -53,18 +61,13 @@ const CompanyPage: FC<Props> = ({ companyId, role }) => {
         <TabsContent value="about">
           <CompanyEditProvider>
             <div className="flex w-full flex-row items-center gap-2 pb-4 sm:justify-end">
+              {role === 'admin' && <ToggleCompanyActive />}
               <CompanyEditButton role={role} />
-              {[
-                'marketing',
-                'finance',
-                'admin',
-                'under-sales',
-                'after-sales',
-              ].includes(role || '') && (
-                <CompanyDeleteButton accountId={companyId} />
-              )}
             </div>
             <CompanyAbout companyId={companyId} />
+            <div className="flex w-full justify-end md:justify-start">
+              <CompanyDeleteButton accountId={companyId} />
+            </div>
           </CompanyEditProvider>
         </TabsContent>
         <TabsContent value="employees">

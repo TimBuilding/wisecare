@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button'
 import { useCompanyEditContext } from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(company profile)/company-edit-provider'
 
 const CompanyCancelButton = () => {
-  const { editMode, setEditMode } = useCompanyEditContext()
+  const { setEditMode } = useCompanyEditContext()
   return (
     <Button
       variant="outline"

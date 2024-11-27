@@ -1,31 +1,19 @@
-import React, { FC } from 'react'
+import { useCompanyEditContext } from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(company profile)/company-edit-provider'
+import CompanyInformationItem from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(company profile)/company-information-item'
+import { formatPercentage } from '@/app/(dashboard)/(home)/accounts/columns/accounts-columns'
+import getAccountById from '@/queries/get-account-by-id'
 import { createBrowserClient } from '@/utils/supabase'
 import { useQuery } from '@supabase-cache-helpers/postgrest-react-query'
-import getAccountById from '@/queries/get-account-by-id'
-import { Input } from '@/components/ui/input'
-import { useCompanyEditContext } from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(company profile)/company-edit-provider'
-import {
-  FormControl,
-  FormField,
-  FormItem,
-  FormMessage,
-} from '@/components/ui/form'
-import { useFormContext } from 'react-hook-form'
-import { z } from 'zod'
-import companyEditsSchema from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(company profile)/company-edits-schema'
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select'
-import getTypes from '@/queries/get-types'
-import getAgents from '@/queries/get-agents'
-import { useMaskito } from '@maskito/react'
-import percentageOptions from '@/components/maskito/percentage-options'
-import { formatPercentage } from '@/app/(dashboard)/(home)/accounts/columns/accounts-columns'
-import CompanyInformationItem from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(company profile)/company-information-item'
+import dynamic from 'next/dynamic'
+import { FC, Suspense } from 'react'
+
+const AccountInformationFields = dynamic(
+  () =>
+    import(
+      '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(company profile)/edit/account-information-fields'
+    ),
+  { ssr: false },
+)
 
 interface CompanyAccountInformationProps {
   id: string
@@ -34,112 +22,16 @@ interface CompanyAccountInformationProps {
 const CompanyAccountInformation: FC<CompanyAccountInformationProps> = ({
   id,
 }) => {
-  const { editMode, setEditMode } = useCompanyEditContext()
-  const form = useFormContext<z.infer<typeof companyEditsSchema>>()
+  const { editMode } = useCompanyEditContext()
   const supabase = createBrowserClient()
   const { data: account } = useQuery(getAccountById(supabase, id))
-  const { data: accountType } = useQuery(getTypes(supabase, 'account_types'))
-  const { data: agents } = useQuery(getAgents(supabase))
-
-  const maskedPercentageRef = useMaskito({ options: percentageOptions })
 
   return (
     <>
       {editMode ? (
-        <>
-          <FormField
-            control={form.control}
-            name="account_type_id"
-            render={({ field }) => (
-              <FormItem>
-                <div className="pt-4">
-                  <div className="text-md grid w-full text-[#1e293b] md:grid-cols-2 lg:grid-cols-1">
-                    Account Type:
-                    <Select
-                      onValueChange={field.onChange}
-                      defaultValue={field.value}
-                    >
-                      <FormControl>
-                        <SelectTrigger>
-                          <SelectValue />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        {accountType?.map((type) => (
-                          <SelectItem key={type.id} value={type.id}>
-                            {type.name}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  </div>
-                </div>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="agent_id"
-            render={({ field }) => (
-              <FormItem>
-                <div className="pt-4">
-                  <div className="text-md grid w-full text-[#1e293b] md:grid-cols-2 lg:grid-cols-1">
-                    Agent:
-                    <Select
-                      onValueChange={field.onChange}
-                      defaultValue={field.value}
-                    >
-                      <FormControl>
-                        <SelectTrigger>
-                          <SelectValue />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        {agents &&
-                          agents.map((profile) => (
-                            <SelectItem
-                              key={profile.user_id}
-                              value={profile.user_id}
-                            >
-                              {profile.first_name} {profile.last_name}
-                            </SelectItem>
-                          ))}
-                      </SelectContent>
-                    </Select>
-                  </div>
-                </div>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="commision_rate"
-            render={({ field }) => (
-              <FormItem>
-                <FormControl>
-                  <div className="pt-4">
-                    <div className="text-md w-full text-[#1e293b] md:grid md:grid-cols-2 lg:grid-cols-1">
-                      Commission Rate:
-                      <Input
-                        className="w-full"
-                        {...field}
-                        type="text"
-                        ref={maskedPercentageRef}
-                        onInput={(e) =>
-                          // @ts-ignore
-                          form.setValue(field.name, e.target.value)
-                        }
-                      />
-                    </div>
-                  </div>
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        </>
+        <Suspense fallback={<div>Loading...</div>}>
+          <AccountInformationFields />
+        </Suspense>
       ) : (
         <div className="grid grid-cols-2 gap-2 pt-4 lg:grid-cols-1">
           <CompanyInformationItem
