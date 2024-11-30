@@ -1,6 +1,3 @@
-import DeleteAllEmployees from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(employees)/employee-information/delete-all-employees'
-import EmployeeFormModal from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(employees)/employee-information/employee-form-modal'
-import EmployeeExportModal from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(employees)/export-requests/employee-export-modal'
 import EllipsisVertical from '@/assets/icons/ellipsis-vertical'
 import { Button } from '@/components/ui/button'
 import {
@@ -12,6 +9,29 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { FileDown, Plus, Trash2 } from 'lucide-react'
+import dynamic from 'next/dynamic'
+
+const EmployeeFormModal = dynamic(
+  () =>
+    import(
+      '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(employees)/employee-information/employee-form-modal'
+    ),
+  { ssr: false },
+)
+const EmployeeExportModal = dynamic(
+  () =>
+    import(
+      '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(employees)/export-requests/employee-export-modal'
+    ),
+  { ssr: false },
+)
+const DeleteAllEmployees = dynamic(
+  () =>
+    import(
+      '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(employees)/employee-information/delete-all-employees'
+    ),
+  { ssr: false },
+)
 
 const EmployeeActionsDropdown = () => {
   return (
