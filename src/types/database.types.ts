@@ -397,51 +397,72 @@ export type Database = {
         Row: {
           account_id: string | null
           birth_date: string | null
+          cancelation_date: string | null
           card_number: string | null
           civil_status: string | null
           created_at: string
           created_by: string | null
+          dependent_relation:
+            | Database['public']['Enums']['dependent_type']
+            | null
           effective_date: string | null
+          expiration_date: string | null
           first_name: string | null
           gender: string | null
           id: string
           is_active: boolean
           last_name: string | null
           maximum_benefit_limit: string | null
+          member_type: Database['public']['Enums']['member_type'] | null
+          remarks: string | null
           room_plan: string | null
           updated_at: string
         }
         Insert: {
           account_id?: string | null
           birth_date?: string | null
+          cancelation_date?: string | null
           card_number?: string | null
           civil_status?: string | null
           created_at?: string
           created_by?: string | null
+          dependent_relation?:
+            | Database['public']['Enums']['dependent_type']
+            | null
           effective_date?: string | null
+          expiration_date?: string | null
           first_name?: string | null
           gender?: string | null
           id?: string
           is_active?: boolean
           last_name?: string | null
           maximum_benefit_limit?: string | null
+          member_type?: Database['public']['Enums']['member_type'] | null
+          remarks?: string | null
           room_plan?: string | null
           updated_at?: string
         }
         Update: {
           account_id?: string | null
           birth_date?: string | null
+          cancelation_date?: string | null
           card_number?: string | null
           civil_status?: string | null
           created_at?: string
           created_by?: string | null
+          dependent_relation?:
+            | Database['public']['Enums']['dependent_type']
+            | null
           effective_date?: string | null
+          expiration_date?: string | null
           first_name?: string | null
           gender?: string | null
           id?: string
           is_active?: boolean
           last_name?: string | null
           maximum_benefit_limit?: string | null
+          member_type?: Database['public']['Enums']['member_type'] | null
+          remarks?: string | null
           room_plan?: string | null
           updated_at?: string
         }
@@ -1099,7 +1120,9 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
+      dependent_type: 'spouse' | 'child' | 'parent'
       export_type: 'accounts' | 'employees'
+      member_type: 'principal' | 'dependent'
       pending_operation: 'insert' | 'update' | 'delete'
     }
     CompositeTypes: {
