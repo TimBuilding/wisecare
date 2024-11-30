@@ -147,15 +147,14 @@ const BillingStatementModal = <TData,>({
   const onSubmitHandler = useCallback<FormEventHandler<HTMLFormElement>>(
     (e) => {
       form.handleSubmit(async (data) => {
-        const {
-          data: { user },
-        } = await supabase.auth.getUser()
-
         await mutateAsync([
           {
             ...data,
             // @ts-ignore
-            ...(originalData?.id && { id: originalData.id }),
+            ...(originalData?.id && {
+              id: originalData.id,
+              updated_at: new Date().toISOString(),
+            }),
             due_date: data.due_date
               ? normalizeToUTC(new Date(data.due_date))
               : undefined,
@@ -166,7 +165,7 @@ const BillingStatementModal = <TData,>({
         ])
       })(e)
     },
-    [form, supabase.auth, mutateAsync, originalData],
+    [form, mutateAsync, originalData],
   )
 
   // if the modal is opened from the Company Profile page,
