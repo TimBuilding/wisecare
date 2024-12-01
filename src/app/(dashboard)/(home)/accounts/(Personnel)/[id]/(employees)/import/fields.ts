@@ -180,7 +180,16 @@ const importFields = [
   {
     label: 'Member Type',
     key: 'member_type',
-    alternateMatches: ['member type', 'member', 'member_type', 'MEMBER TYPE'],
+    alternateMatches: [
+      'member type',
+      'member',
+      'member_type',
+      'MEMBER TYPE',
+      'member classification',
+      'member_classification',
+      'MEMBER CLASSIFICATION',
+      'classification',
+    ],
     fieldType: {
       type: 'select',
       options: [
