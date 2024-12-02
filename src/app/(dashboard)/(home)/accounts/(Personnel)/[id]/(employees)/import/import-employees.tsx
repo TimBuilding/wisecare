@@ -9,7 +9,6 @@ import { createBrowserClient } from '@/utils/supabase'
 import { useInsertMutation } from '@supabase-cache-helpers/postgrest-react-query'
 import { ReactSpreadsheetImport } from 'react-spreadsheet-import'
 import { Result } from 'react-spreadsheet-import/types/types'
-import { v4 as uuidv4 } from 'uuid'
 
 interface ImportEmployeesProps {
   isOpen: boolean
@@ -23,7 +22,7 @@ const ImportEmployees = ({ isOpen, setIsOpen }: ImportEmployeesProps) => {
 
   const { mutateAsync } = useInsertMutation(
     // @ts-ignore
-    supabase.from('pending_company_employees'),
+    supabase.from('company_employees'),
     ['id'],
     null,
     {
@@ -48,7 +47,6 @@ const ImportEmployees = ({ isOpen, setIsOpen }: ImportEmployeesProps) => {
     } = await supabase.auth.getUser()
     if (!user) throw new Error('User not found')
 
-    const batchId = uuidv4()
     const employees = data.validData.map((employee) => ({
       account_id: accountId,
       first_name: employee.first_name,
@@ -60,9 +58,10 @@ const ImportEmployees = ({ isOpen, setIsOpen }: ImportEmployeesProps) => {
       effective_date: employee.effective_date,
       room_plan: employee.room_plan,
       maximum_benefit_limit: employee.maximum_benefit_limit,
+      member_type: employee.member_type,
+      dependent_relation: employee.dependent_relation,
+      expiration_date: employee.expiration_date,
       created_by: user.id,
-      operation_type: 'insert',
-      batch_id: batchId,
     }))
 
     await mutateAsync(employees)
