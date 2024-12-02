@@ -18,7 +18,12 @@ const getEmployeeByCompanyId = (
       card_number,
       effective_date,
       room_plan,
-      maximum_benefit_limit
+      maximum_benefit_limit,
+      member_type,
+      dependent_relation,
+      expiration_date,
+      cancelation_date,
+      remarks
     `,
     )
     .eq('account_id', companyId)
