@@ -29,7 +29,10 @@ import normalizeToUTC from '@/utils/normalize-to-utc'
 import { createBrowserClient } from '@/utils/supabase'
 import { cn } from '@/utils/tailwind'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useInsertMutation } from '@supabase-cache-helpers/postgrest-react-query'
+import {
+  useInsertMutation,
+  useUpsertMutation,
+} from '@supabase-cache-helpers/postgrest-react-query'
 import { format } from 'date-fns'
 import { CalendarIcon, Loader2 } from 'lucide-react'
 import { FC, FormEventHandler, useCallback, useEffect, useState } from 'react'
@@ -64,9 +67,9 @@ const EmployeeForm: FC<EmployeeFormProps> = ({
   const supabase = createBrowserClient()
   const { toast } = useToast()
 
-  const { mutateAsync, isPending } = useInsertMutation(
+  const { mutateAsync, isPending } = useUpsertMutation(
     // @ts-ignore
-    supabase.from('pending_company_employees'),
+    supabase.from('company_employees'),
     ['id'],
     null,
     {
@@ -75,9 +78,10 @@ const EmployeeForm: FC<EmployeeFormProps> = ({
 
         toast({
           variant: 'default',
-          title: 'Employee submission request submitted!',
-          description:
-            'Your request to submit the employee details has been submitted successfully and is awaiting approval.',
+          title: oldEmployeeData ? 'Employee updated!' : 'Employee added!',
+          description: oldEmployeeData
+            ? 'The employee details have been updated successfully.'
+            : 'The employee details have been added successfully.',
         })
       },
       onError: (err: any) => {
@@ -104,7 +108,7 @@ const EmployeeForm: FC<EmployeeFormProps> = ({
         await mutateAsync([
           {
             ...(oldEmployeeData && {
-              company_employee_id: oldEmployeeData.id,
+              id: oldEmployeeData.id,
             }),
             ...data,
             effective_date: data.effective_date
@@ -115,8 +119,13 @@ const EmployeeForm: FC<EmployeeFormProps> = ({
               : undefined,
             account_id: accountId,
             created_by: user.id,
-            operation_type: oldEmployeeData ? 'update' : 'insert',
-            batch_id: uuidv4(),
+            expiration_date: data.expiration_date
+              ? normalizeToUTC(new Date(data.expiration_date))
+              : undefined,
+            cancelation_date: data.cancelation_date
+              ? normalizeToUTC(new Date(data.cancelation_date))
+              : undefined,
+            updated_at: new Date().toISOString(),
           },
         ])
       })(e)
@@ -143,6 +152,15 @@ const EmployeeForm: FC<EmployeeFormProps> = ({
         room_plan: oldEmployeeData.room_plan ?? undefined,
         maximum_benefit_limit:
           oldEmployeeData.maximum_benefit_limit ?? undefined,
+        member_type: oldEmployeeData.member_type ?? undefined,
+        dependent_relation: oldEmployeeData.dependent_relation ?? undefined,
+        expiration_date: oldEmployeeData.expiration_date
+          ? normalizeToUTC(new Date(oldEmployeeData.expiration_date ?? ''))
+          : undefined,
+        cancelation_date: oldEmployeeData.cancelation_date
+          ? normalizeToUTC(new Date(oldEmployeeData.cancelation_date ?? ''))
+          : undefined,
+        remarks: oldEmployeeData.remarks ?? undefined,
       })
 
       // trigger a re-render
