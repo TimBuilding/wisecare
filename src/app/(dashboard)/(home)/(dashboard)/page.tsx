@@ -43,10 +43,10 @@ const Dashboard = async () => {
         <TopAgentsCard />
         <RetentionRateCard />
         <TopHmoCard />
+        <RenewalCard />
 
         {(role === 'finance' || role === 'admin') && (
           <>
-            <RenewalCard />
             <CommissionCard />
           </>
         )}

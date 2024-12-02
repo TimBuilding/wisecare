@@ -4,7 +4,6 @@ import EmployeeActionsDropdown from '@/app/(dashboard)/(home)/accounts/(Personne
 import EmployeesTableSearch from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(employees)/employees-table-search'
 import EmployeeExportRequests from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(employees)/export-requests/employee-export-requests'
 import ImportEmployeesButton from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(employees)/import/import-employees-button'
-import EmployeeRequest from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(employees)/request/employee-request'
 import TablePagination from '@/components/table-pagination'
 import {
   Table,
@@ -78,7 +77,7 @@ const EmployeesDataTable = <TData, TValue>({
           <EmployeeActionsDropdown />
         </div>
       </div>
-      <div className="flex flex-row">
+      <div className="flex flex-row items-center justify-end">
         <EmployeeExportRequests />
       </div>
       <div className="rounded-md border">
