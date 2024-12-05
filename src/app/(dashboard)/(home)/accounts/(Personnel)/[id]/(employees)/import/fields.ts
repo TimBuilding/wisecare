@@ -18,7 +18,7 @@ const importFields = [
       type: 'input',
     },
     // Used in the first step to provide an example of what data is expected in this field. Optional.
-    example: 'Francisco, Jeremy',
+    example: 'Francisco, Monds',
     // Can have multiple validations that are visible in Validation Step table.
   },
   {
@@ -28,7 +28,7 @@ const importFields = [
     fieldType: {
       type: 'input',
     },
-    example: 'Troy',
+    example: 'Monds',
     validations: [
       {
         rule: 'required',
@@ -44,7 +44,7 @@ const importFields = [
     fieldType: {
       type: 'input',
     },
-    example: 'Baker',
+    example: 'Francisco',
     validations: [
       {
         rule: 'required',
@@ -176,6 +176,71 @@ const importFields = [
       type: 'input',
     },
     example: 'MBL 10000',
+  },
+  {
+    label: 'Member Type',
+    key: 'member_type',
+    alternateMatches: [
+      'member type',
+      'member',
+      'member_type',
+      'MEMBER TYPE',
+      'member classification',
+      'member_classification',
+      'MEMBER CLASSIFICATION',
+      'classification',
+    ],
+    fieldType: {
+      type: 'select',
+      options: [
+        {
+          label: 'Principal',
+          value: 'principal',
+          alternateMatches: ['principal', 'PRINCIPAL', 'P'],
+        },
+        {
+          label: 'Dependent',
+          value: 'dependent',
+          alternateMatches: ['dependent', 'DEPENDENT', 'D'],
+        },
+      ],
+    },
+    example: 'principal',
+  },
+  {
+    label: 'Dependent Relation',
+    key: 'dependent_relation',
+    alternateMatches: ['dependent relation', 'dependent', 'dependent_relation'],
+    fieldType: {
+      type: 'select',
+      options: [
+        {
+          label: 'Spouse',
+          value: 'spouse',
+          alternateMatches: ['spouse', 'SPOUSE', 'S'],
+        },
+        {
+          label: 'Child',
+          value: 'child',
+          alternateMatches: ['child', 'CHILD', 'C'],
+        },
+        {
+          label: 'Parent',
+          value: 'parent',
+          alternateMatches: ['parent', 'PARENT', 'P'],
+        },
+      ],
+    },
+    example: 'spouse',
+  },
+  {
+    label: 'Expiration Date',
+    key: 'expiration_date',
+    alternateMatches: ['expiration date', 'expiration', 'expiration_date'],
+    fieldType: {
+      type: 'input',
+    },
+    example: '1/25/2024',
   },
 ]
 

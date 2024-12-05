@@ -1,24 +1,30 @@
 'use server'
-import React from 'react'
-import { DownloadsProvider } from '@/app/(dashboard)/(home)/file-manager/downloads-provider'
 import AccountDownloads from '@/app/(dashboard)/(home)/file-manager/account-files/account-downloads'
 import DownloadsPageTitle from '@/app/(dashboard)/(home)/file-manager/downloads-page-title'
+import { DownloadsProvider } from '@/app/(dashboard)/(home)/file-manager/downloads-provider'
 import EmployeeDownloads from '@/app/(dashboard)/(home)/file-manager/employee-files/employee-downloads'
+import getExports from '@/queries/get-approved-exports'
 import { createServerClient } from '@/utils/supabase'
 import { prefetchQuery } from '@supabase-cache-helpers/postgrest-react-query'
-import { cookies } from 'next/headers'
 import {
   dehydrate,
   HydrationBoundary,
   QueryClient,
 } from '@tanstack/react-query'
-import getExports from '@/queries/get-approved-exports'
+import { Metadata } from 'next'
 import dynamic from 'next/dynamic'
+import { cookies } from 'next/headers'
 
 const DownloadsSheet = dynamic(
   () => import('@/app/(dashboard)/(home)/file-manager/downloads-sheet'),
   { ssr: false },
 )
+
+export const metadata = async (): Promise<Metadata> => {
+  return {
+    title: 'File Manager',
+  }
+}
 
 const FileManagerPage = async () => {
   const supabase = createServerClient(cookies())

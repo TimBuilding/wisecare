@@ -10,6 +10,11 @@ const employeeSchema = z.object({
   effective_date: z.date().optional(),
   room_plan: z.string().optional(),
   maximum_benefit_limit: z.string().optional(),
+  member_type: z.enum(['principal', 'dependent']).optional(),
+  dependent_relation: z.enum(['spouse', 'child', 'parent']).optional(),
+  expiration_date: z.date().optional(),
+  cancelation_date: z.date().optional(),
+  remarks: z.string().optional(),
 })
 
 export default employeeSchema

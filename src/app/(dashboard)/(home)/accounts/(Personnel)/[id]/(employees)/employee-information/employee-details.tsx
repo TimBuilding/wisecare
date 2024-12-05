@@ -15,7 +15,9 @@ import {
   Heart,
   Home,
   LucideIcon,
+  MessageCircle,
   User,
+  Users,
 } from 'lucide-react'
 import { FC, ReactNode } from 'react'
 import { format } from 'date-fns'
@@ -72,6 +74,27 @@ const EmployeeDetails: FC<EmployeeDetailsProps> = ({
       value: employeeData.maximum_benefit_limit,
       icon: DollarSign,
     },
+    { label: 'Member Type', value: employeeData.member_type, icon: User },
+    {
+      label: 'Dependent Relation',
+      value: employeeData.dependent_relation,
+      icon: Users,
+    },
+    {
+      label: 'Expiration Date',
+      value: employeeData.expiration_date
+        ? format(new Date(employeeData.expiration_date), 'PPP')
+        : 'N/A',
+      icon: CalendarDays,
+    },
+    {
+      label: 'Cancelation Date',
+      value: employeeData.cancelation_date
+        ? format(new Date(employeeData.cancelation_date), 'PPP')
+        : 'N/A',
+      icon: CalendarDays,
+    },
+    { label: 'Remarks', value: employeeData.remarks, icon: MessageCircle },
   ]
 
   return (

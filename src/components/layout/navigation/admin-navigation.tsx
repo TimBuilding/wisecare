@@ -53,14 +53,6 @@ const AdminNavigation = async () => {
                       href="/admin/approval-request/accounts"
                     />
                     <SubNavigationItem
-                      title="Company Employees"
-                      href="/admin/approval-request/company-employees"
-                    />
-                    <SubNavigationItem
-                      title="Billing Statements"
-                      href="/admin/approval-request/billing-statements"
-                    />
-                    <SubNavigationItem
                       title="Account Exports"
                       href="/admin/approval-request/account-exports"
                     />

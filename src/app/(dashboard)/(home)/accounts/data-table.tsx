@@ -1,5 +1,8 @@
 'use client'
 
+import ExportAccountRequests from '@/app/(dashboard)/(home)/accounts/export-requests/export-account-requests'
+import ExportAccountsModal from '@/app/(dashboard)/(home)/accounts/export-requests/export-accounts-modal'
+import AccountRequest from '@/app/(dashboard)/(home)/accounts/request/account-request'
 import {
   PageDescription,
   PageHeader,
@@ -18,6 +21,8 @@ import {
   TableRow,
 } from '@/components/ui/table'
 import { useToast } from '@/components/ui/use-toast'
+import { useUserServer } from '@/providers/UserProvider'
+import getAccounts from '@/queries/get-accounts'
 import { createBrowserClient } from '@/utils/supabase'
 import { useQuery } from '@supabase-cache-helpers/postgrest-react-query'
 import {
@@ -35,10 +40,6 @@ import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import AccountsProvider from './accounts-provider'
 import AddAccountButton from './add-account-button'
-import getAccounts from '@/queries/get-accounts'
-import AccountRequest from '@/app/(dashboard)/(home)/accounts/request/account-request'
-import ExportAccountsModal from '@/app/(dashboard)/(home)/accounts/export-requests/export-accounts-modal'
-import ExportAccountRequests from '@/app/(dashboard)/(home)/accounts/export-requests/export-account-requests'
 
 interface IData {
   id: string
@@ -60,6 +61,7 @@ const DataTable = <TData extends IData, TValue>({
 
   const router = useRouter()
   const { toast } = useToast()
+  const { user } = useUserServer()
 
   const table = useReactTable({
     data,
@@ -158,7 +160,9 @@ const DataTable = <TData extends IData, TValue>({
           </div>
         </PageHeader>
         <div className="flex flex-row">
-          <AccountRequest />
+          {['marketing', 'after-sales'].includes(
+            user?.user_metadata?.department,
+          ) && <AccountRequest />}
           <ExportAccountRequests />
           <TableViewOptions table={table} />
         </div>

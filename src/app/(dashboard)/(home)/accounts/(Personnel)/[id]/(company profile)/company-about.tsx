@@ -10,6 +10,7 @@ import percentageOptions from '@/components/maskito/percentage-options'
 import { Button } from '@/components/ui/button'
 import { Form } from '@/components/ui/form'
 import { toast } from '@/components/ui/use-toast'
+import { useUserServer } from '@/providers/UserProvider'
 import getAccountById from '@/queries/get-account-by-id'
 import normalizeToUTC from '@/utils/normalize-to-utc'
 import { createBrowserClient } from '@/utils/supabase'
@@ -18,6 +19,7 @@ import { maskitoTransform } from '@maskito/core'
 import {
   useInsertMutation,
   useQuery,
+  useUpsertMutation,
 } from '@supabase-cache-helpers/postgrest-react-query'
 import { FC, FormEventHandler, useCallback } from 'react'
 import { useForm } from 'react-hook-form'
@@ -31,6 +33,7 @@ const CompanyAbout: FC<Props> = ({ companyId }) => {
   const { editMode, setEditMode } = useCompanyEditContext()
   const supabase = createBrowserClient()
   const { data: account } = useQuery(getAccountById(supabase, companyId))
+  const { user } = useUserServer()
 
   const form = useForm<z.infer<typeof accountsSchema>>({
     resolver: zodResolver(accountsSchema),
@@ -116,17 +119,28 @@ const CompanyAbout: FC<Props> = ({ companyId }) => {
     },
   })
 
-  const { mutateAsync } = useInsertMutation(
+  const { mutateAsync } = useUpsertMutation(
     //@ts-ignore
-    supabase.from('pending_accounts'),
+    supabase.from(
+      ['marketing', 'after-sales'].includes(user?.user_metadata?.department)
+        ? 'pending_accounts' // marketing & after-sales needs to insert to pending_accounts instead of accounts
+        : 'accounts',
+    ),
     ['id'],
     null,
     {
       onSuccess: () => {
         toast({
-          title: 'Company details edit request submitted!',
-          description:
-            'Your request to edit the company details has been submitted successfully and is awaiting approval.',
+          title: ['marketing', 'after-sales'].includes(
+            user?.user_metadata?.department,
+          )
+            ? 'Company details edit request submitted!'
+            : 'Company details edited successfully!',
+          description: ['marketing', 'after-sales'].includes(
+            user?.user_metadata?.department,
+          )
+            ? 'Your request to edit the company details has been submitted successfully and is awaiting approval.'
+            : 'Your company details have been edited successfully.',
         })
         setEditMode(false)
       },
@@ -158,7 +172,6 @@ const CompanyAbout: FC<Props> = ({ companyId }) => {
 
         await mutateAsync([
           {
-            account_id: companyId,
             company_name: data.company_name,
             company_address: data.company_address,
             initial_head_count: data.initial_head_count,
@@ -210,8 +223,17 @@ const CompanyAbout: FC<Props> = ({ companyId }) => {
                     new Date(data.annual_physical_examination_date),
                   )
                 : null,
-            created_by: user.id,
-            operation_type: 'update',
+            ...(['marketing', 'after-sales'].includes(
+              user?.user_metadata?.department,
+            )
+              ? {
+                  created_by: user.id, // marketing & after-sales needs to add this since they are inserting to pending_accounts instead of accounts
+                  account_id: companyId,
+                  operation_type: 'update',
+                }
+              : {
+                  id: companyId, // if we're updating, we need to specify the id (not used by marketing dept)
+                }),
           },
         ])
       })(e)

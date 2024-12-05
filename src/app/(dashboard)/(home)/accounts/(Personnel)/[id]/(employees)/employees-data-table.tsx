@@ -4,7 +4,6 @@ import EmployeeActionsDropdown from '@/app/(dashboard)/(home)/accounts/(Personne
 import EmployeesTableSearch from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(employees)/employees-table-search'
 import EmployeeExportRequests from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(employees)/export-requests/employee-export-requests'
 import ImportEmployeesButton from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(employees)/import/import-employees-button'
-import EmployeeRequest from '@/app/(dashboard)/(home)/accounts/(Personnel)/[id]/(employees)/request/employee-request'
 import TablePagination from '@/components/table-pagination'
 import {
   Table,
@@ -14,6 +13,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
+import { useUserServer } from '@/providers/UserProvider'
 import {
   ColumnDef,
   flexRender,
@@ -40,6 +40,8 @@ const EmployeesDataTable = <TData, TValue>({
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
   const [globalFilter, setGlobalFilter] = useState<any>('')
 
+  const { user } = useUserServer()
+
   const table = useReactTable({
     data,
     columns,
@@ -58,17 +60,24 @@ const EmployeesDataTable = <TData, TValue>({
     },
   })
 
+  // check if the user is after-sales, under-writing, or admin
+  // before rendering the import button
+  const isAfterSalesAndUnderWriting = [
+    'after-sales',
+    'under-writing',
+    'admin',
+  ].includes(user?.user_metadata?.department)
+
   return (
     <div>
       <div className="flex flex-row items-center justify-between gap-2 py-4">
         <EmployeesTableSearch table={table} />
         <div className="flex items-center space-x-1">
-          <ImportEmployeesButton />
+          {isAfterSalesAndUnderWriting && <ImportEmployeesButton />}
           <EmployeeActionsDropdown />
         </div>
       </div>
-      <div className="flex flex-row">
-        <EmployeeRequest />
+      <div className="flex flex-row items-center justify-end">
         <EmployeeExportRequests />
       </div>
       <div className="rounded-md border">

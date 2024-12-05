@@ -27,7 +27,6 @@ import { Suspense, useState } from 'react'
 
 import AddBillingStatementButton from '@/app/(dashboard)/(home)/billing-statements/add-billing-statement-button'
 import { useBillingContext } from '@/app/(dashboard)/(home)/billing-statements/billing-provider'
-import BillingStatementRequest from '@/app/(dashboard)/(home)/billing-statements/request/billing-statement-request'
 import BillingStatementModal from '@/components/billing-statement/billing-statement-modal'
 import TableSearch from '@/components/table-search'
 import { Skeleton } from '@/components/ui/skeleton'
@@ -89,9 +88,6 @@ const DataTable = <TData, TValue>({
           </div>
         </div>
       </PageHeader>
-      <div>
-        <BillingStatementRequest />
-      </div>
       <div className="flex h-full flex-col justify-between bg-card">
         <div className="h-full rounded-md border">
           <Table>

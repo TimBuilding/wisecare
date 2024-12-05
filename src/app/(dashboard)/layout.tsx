@@ -8,6 +8,7 @@ import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar'
 import { createServerClient } from '@/utils/supabase'
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
+import { UserProvider } from '@/providers/UserProvider'
 
 interface Props {
   children: ReactNode
@@ -24,15 +25,17 @@ const DashboardLayout: FC<Props> = async ({ children }) => {
   }
 
   return (
-    <SidebarProvider>
-      <AppSidebar />
-      <SidebarInset>
-        <main>
-          <Header />
-          {children}
-        </main>
-      </SidebarInset>
-    </SidebarProvider>
+    <UserProvider user={user}>
+      <SidebarProvider>
+        <AppSidebar />
+        <SidebarInset>
+          <main>
+            <Header />
+            {children}
+          </main>
+        </SidebarInset>
+      </SidebarProvider>
+    </UserProvider>
   )
 }
 

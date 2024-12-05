@@ -397,51 +397,72 @@ export type Database = {
         Row: {
           account_id: string | null
           birth_date: string | null
+          cancelation_date: string | null
           card_number: string | null
           civil_status: string | null
           created_at: string
           created_by: string | null
+          dependent_relation:
+            | Database['public']['Enums']['dependent_type']
+            | null
           effective_date: string | null
+          expiration_date: string | null
           first_name: string | null
           gender: string | null
           id: string
           is_active: boolean
           last_name: string | null
           maximum_benefit_limit: string | null
+          member_type: Database['public']['Enums']['member_type'] | null
+          remarks: string | null
           room_plan: string | null
           updated_at: string
         }
         Insert: {
           account_id?: string | null
           birth_date?: string | null
+          cancelation_date?: string | null
           card_number?: string | null
           civil_status?: string | null
           created_at?: string
           created_by?: string | null
+          dependent_relation?:
+            | Database['public']['Enums']['dependent_type']
+            | null
           effective_date?: string | null
+          expiration_date?: string | null
           first_name?: string | null
           gender?: string | null
           id?: string
           is_active?: boolean
           last_name?: string | null
           maximum_benefit_limit?: string | null
+          member_type?: Database['public']['Enums']['member_type'] | null
+          remarks?: string | null
           room_plan?: string | null
           updated_at?: string
         }
         Update: {
           account_id?: string | null
           birth_date?: string | null
+          cancelation_date?: string | null
           card_number?: string | null
           civil_status?: string | null
           created_at?: string
           created_by?: string | null
+          dependent_relation?:
+            | Database['public']['Enums']['dependent_type']
+            | null
           effective_date?: string | null
+          expiration_date?: string | null
           first_name?: string | null
           gender?: string | null
           id?: string
           is_active?: boolean
           last_name?: string | null
           maximum_benefit_limit?: string | null
+          member_type?: Database['public']['Enums']['member_type'] | null
+          remarks?: string | null
           room_plan?: string | null
           updated_at?: string
         }
@@ -770,204 +791,6 @@ export type Database = {
           },
         ]
       }
-      pending_billing_statements: {
-        Row: {
-          account_id: string
-          amount: number | null
-          amount_billed: number | null
-          amount_paid: number | null
-          balance: number | null
-          billing_period: number | null
-          billing_statement_id: string | null
-          commission_earned: number | null
-          commission_rate: number | null
-          created_at: string
-          created_by: string
-          due_date: string | null
-          id: string
-          is_active: boolean
-          is_approved: boolean
-          is_delete_billing_statement: boolean
-          mode_of_payment_id: string | null
-          operation_type: Database['public']['Enums']['pending_operation']
-          or_date: string | null
-          or_number: string | null
-          sa_number: string | null
-          total_contract_value: number | null
-          updated_at: string
-        }
-        Insert: {
-          account_id: string
-          amount?: number | null
-          amount_billed?: number | null
-          amount_paid?: number | null
-          balance?: number | null
-          billing_period?: number | null
-          billing_statement_id?: string | null
-          commission_earned?: number | null
-          commission_rate?: number | null
-          created_at?: string
-          created_by: string
-          due_date?: string | null
-          id?: string
-          is_active?: boolean
-          is_approved?: boolean
-          is_delete_billing_statement?: boolean
-          mode_of_payment_id?: string | null
-          operation_type: Database['public']['Enums']['pending_operation']
-          or_date?: string | null
-          or_number?: string | null
-          sa_number?: string | null
-          total_contract_value?: number | null
-          updated_at?: string
-        }
-        Update: {
-          account_id?: string
-          amount?: number | null
-          amount_billed?: number | null
-          amount_paid?: number | null
-          balance?: number | null
-          billing_period?: number | null
-          billing_statement_id?: string | null
-          commission_earned?: number | null
-          commission_rate?: number | null
-          created_at?: string
-          created_by?: string
-          due_date?: string | null
-          id?: string
-          is_active?: boolean
-          is_approved?: boolean
-          is_delete_billing_statement?: boolean
-          mode_of_payment_id?: string | null
-          operation_type?: Database['public']['Enums']['pending_operation']
-          or_date?: string | null
-          or_number?: string | null
-          sa_number?: string | null
-          total_contract_value?: number | null
-          updated_at?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: 'pending_billing_statements_account_id_fkey'
-            columns: ['account_id']
-            isOneToOne: false
-            referencedRelation: 'accounts'
-            referencedColumns: ['id']
-          },
-          {
-            foreignKeyName: 'pending_billing_statements_billing_statement_id_fkey'
-            columns: ['billing_statement_id']
-            isOneToOne: false
-            referencedRelation: 'billing_statements'
-            referencedColumns: ['id']
-          },
-          {
-            foreignKeyName: 'pending_billing_statements_created_by_fkey'
-            columns: ['created_by']
-            isOneToOne: false
-            referencedRelation: 'user_profiles'
-            referencedColumns: ['user_id']
-          },
-          {
-            foreignKeyName: 'pending_billing_statements_mode_of_payment_id_fkey'
-            columns: ['mode_of_payment_id']
-            isOneToOne: false
-            referencedRelation: 'mode_of_payments'
-            referencedColumns: ['id']
-          },
-        ]
-      }
-      pending_company_employees: {
-        Row: {
-          account_id: string | null
-          batch_id: string
-          birth_date: string | null
-          card_number: string | null
-          civil_status: string | null
-          company_employee_id: string | null
-          created_at: string
-          created_by: string
-          effective_date: string | null
-          first_name: string | null
-          gender: string | null
-          id: string
-          is_active: boolean
-          is_approved: boolean
-          is_delete_employee: boolean
-          last_name: string | null
-          maximum_benefit_limit: string | null
-          operation_type: Database['public']['Enums']['pending_operation']
-          room_plan: string | null
-          updated_at: string
-        }
-        Insert: {
-          account_id?: string | null
-          batch_id: string
-          birth_date?: string | null
-          card_number?: string | null
-          civil_status?: string | null
-          company_employee_id?: string | null
-          created_at?: string
-          created_by: string
-          effective_date?: string | null
-          first_name?: string | null
-          gender?: string | null
-          id?: string
-          is_active?: boolean
-          is_approved?: boolean
-          is_delete_employee?: boolean
-          last_name?: string | null
-          maximum_benefit_limit?: string | null
-          operation_type: Database['public']['Enums']['pending_operation']
-          room_plan?: string | null
-          updated_at?: string
-        }
-        Update: {
-          account_id?: string | null
-          batch_id?: string
-          birth_date?: string | null
-          card_number?: string | null
-          civil_status?: string | null
-          company_employee_id?: string | null
-          created_at?: string
-          created_by?: string
-          effective_date?: string | null
-          first_name?: string | null
-          gender?: string | null
-          id?: string
-          is_active?: boolean
-          is_approved?: boolean
-          is_delete_employee?: boolean
-          last_name?: string | null
-          maximum_benefit_limit?: string | null
-          operation_type?: Database['public']['Enums']['pending_operation']
-          room_plan?: string | null
-          updated_at?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: 'pending_company_employees_account_id_fkey'
-            columns: ['account_id']
-            isOneToOne: false
-            referencedRelation: 'accounts'
-            referencedColumns: ['id']
-          },
-          {
-            foreignKeyName: 'pending_company_employees_company_employee_id_fkey'
-            columns: ['company_employee_id']
-            isOneToOne: false
-            referencedRelation: 'company_employees'
-            referencedColumns: ['id']
-          },
-          {
-            foreignKeyName: 'pending_company_employees_created_by_fkey1'
-            columns: ['created_by']
-            isOneToOne: false
-            referencedRelation: 'user_profiles'
-            referencedColumns: ['user_id']
-          },
-        ]
-      }
       pending_export_requests: {
         Row: {
           account_id: string | null
@@ -1099,7 +922,9 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
+      dependent_type: 'spouse' | 'child' | 'parent'
       export_type: 'accounts' | 'employees'
+      member_type: 'principal' | 'dependent'
       pending_operation: 'insert' | 'update' | 'delete'
     }
     CompositeTypes: {

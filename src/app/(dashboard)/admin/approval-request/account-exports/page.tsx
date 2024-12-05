@@ -1,16 +1,22 @@
-import React from 'react'
+import AccountExportRequestModal from '@/app/(dashboard)/admin/approval-request/account-exports/account-export-request-modal'
+import { AccountExportRequestsProvider } from '@/app/(dashboard)/admin/approval-request/account-exports/account-export-requests-provider'
 import AccountExportRequestsTable from '@/app/(dashboard)/admin/approval-request/account-exports/account-export-requests-table'
+import getPendingAccountExports from '@/queries/get-pending-account-exports'
+import { createServerClient } from '@/utils/supabase'
+import { prefetchQuery } from '@supabase-cache-helpers/postgrest-react-query'
 import {
   HydrationBoundary,
   QueryClient,
   dehydrate,
 } from '@tanstack/react-query'
-import { prefetchQuery } from '@supabase-cache-helpers/postgrest-react-query'
-import getPendingAccountExports from '@/queries/get-pending-account-exports'
-import { createServerClient } from '@/utils/supabase'
+import { Metadata } from 'next'
 import { cookies } from 'next/headers'
-import AccountExportRequestModal from '@/app/(dashboard)/admin/approval-request/account-exports/account-export-request-modal'
-import { AccountExportRequestsProvider } from '@/app/(dashboard)/admin/approval-request/account-exports/account-export-requests-provider'
+
+export const metadata = async (): Promise<Metadata> => {
+  return {
+    title: 'Account Export Requests',
+  }
+}
 
 const ExportRequestPage = async () => {
   const supabase = createServerClient(cookies())

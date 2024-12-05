@@ -50,6 +50,7 @@ import { useMaskito } from '@maskito/react'
 import {
   useInsertMutation,
   useQuery,
+  useUpsertMutation,
 } from '@supabase-cache-helpers/postgrest-react-query'
 import { format } from 'date-fns'
 import { CalendarIcon, Loader2 } from 'lucide-react'
@@ -106,9 +107,9 @@ const BillingStatementModal = <TData,>({
 
   const { data: accounts } = useQuery(getAllAccounts(supabase))
 
-  const { mutateAsync, isPending } = useInsertMutation(
+  const { mutateAsync, isPending } = useUpsertMutation(
     // @ts-ignore
-    supabase.from('pending_billing_statements'),
+    supabase.from('billing_statements'),
     ['id'],
     null,
     {
@@ -118,11 +119,11 @@ const BillingStatementModal = <TData,>({
         toast({
           variant: 'default',
           title: originalData
-            ? 'Billing Statement update request submitted!'
-            : 'Billing Statement creation request submitted!',
+            ? 'Billing Statement updated!'
+            : 'Billing Statement created!',
           description: originalData
-            ? 'Your request to update the billing statement has been submitted successfully and is awaiting approval.'
-            : 'Your request to create a new billing statement has been submitted successfully and is awaiting approval.',
+            ? 'Your billing statement has been updated.'
+            : 'Your billing statement has been created.',
         })
 
         // if creating new billing statement. then we should reset the form
@@ -146,28 +147,25 @@ const BillingStatementModal = <TData,>({
   const onSubmitHandler = useCallback<FormEventHandler<HTMLFormElement>>(
     (e) => {
       form.handleSubmit(async (data) => {
-        const {
-          data: { user },
-        } = await supabase.auth.getUser()
-
         await mutateAsync([
           {
             ...data,
             // @ts-ignore
-            ...(originalData?.id && { billing_statement_id: originalData.id }),
+            ...(originalData?.id && {
+              id: originalData.id,
+              updated_at: new Date().toISOString(),
+            }),
             due_date: data.due_date
               ? normalizeToUTC(new Date(data.due_date))
               : undefined,
             or_date: data.or_date
               ? normalizeToUTC(new Date(data.or_date))
               : undefined,
-            operation_type: originalData ? 'update' : 'insert',
-            created_by: user?.id,
           },
         ])
       })(e)
     },
-    [form, supabase.auth, mutateAsync, originalData],
+    [form, mutateAsync, originalData],
   )
 
   // if the modal is opened from the Company Profile page,

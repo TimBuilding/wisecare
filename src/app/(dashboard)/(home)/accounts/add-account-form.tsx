@@ -13,6 +13,7 @@ import { z } from 'zod'
 import accountsSchema from './accounts-schema'
 import MarketingInputs from './forms/marketing-inputs'
 import normalizeToUTC from '@/utils/normalize-to-utc'
+import { useUserServer } from '@/providers/UserProvider'
 
 interface AddAccountFormProps {
   setIsOpen: (isOpen: boolean) => void
@@ -20,6 +21,7 @@ interface AddAccountFormProps {
 
 const AddAccountForm = ({ setIsOpen }: AddAccountFormProps) => {
   const { toast } = useToast()
+  const { user } = useUserServer()
   const form = useForm<z.infer<typeof accountsSchema>>({
     resolver: zodResolver(accountsSchema),
     defaultValues: {
@@ -62,15 +64,27 @@ const AddAccountForm = ({ setIsOpen }: AddAccountFormProps) => {
 
   const { mutateAsync, isPending, isSuccess } = useInsertMutation(
     // @ts-ignore
-    supabase.from('pending_accounts'),
+    supabase.from(
+      // marketing & after-sales needs to insert to pending_accounts instead of accounts
+      ['marketing', 'after-sales'].includes(user?.user_metadata?.department)
+        ? 'pending_accounts'
+        : 'accounts',
+    ),
     ['id'],
     null,
     {
       onSuccess: () => {
         toast({
-          title: 'Account creation request submitted!',
-          description:
-            'Your request to create a new account has been submitted successfully and is awaiting approval.',
+          title: ['marketing', 'after-sales'].includes(
+            user?.user_metadata?.department,
+          )
+            ? 'Account creation request submitted!'
+            : 'Account created successfully!',
+          description: ['marketing', 'after-sales'].includes(
+            user?.user_metadata?.department,
+          )
+            ? 'Your request to create a new account has been submitted successfully and is awaiting approval.'
+            : 'Your account has been created successfully.',
         })
 
         form.reset()
@@ -101,7 +115,7 @@ const AddAccountForm = ({ setIsOpen }: AddAccountFormProps) => {
           .from('pending_accounts')
           .select('company_name')
           .eq('company_name', data.company_name)
-          .single()
+          .maybeSingle()
 
         if (existingAccount) {
           form.setError('company_name', {
@@ -115,7 +129,7 @@ const AddAccountForm = ({ setIsOpen }: AddAccountFormProps) => {
           .from('accounts')
           .select('company_name')
           .eq('company_name', data.company_name)
-          .single()
+          .maybeSingle()
 
         if (existingAccountInAccounts) {
           form.setError('company_name', {
@@ -177,8 +191,13 @@ const AddAccountForm = ({ setIsOpen }: AddAccountFormProps) => {
             designation_of_contact_person: data.designation_of_contact_person,
             email_address_of_contact_person:
               data.email_address_of_contact_person,
-            created_by: user?.id,
-            operation_type: 'insert',
+            ...(['marketing', 'after-sales'].includes(
+              user?.user_metadata?.department,
+            ) && {
+              // marketing & after-sales needs to add this since they are inserting a row to pending_accounts instead of accounts
+              created_by: user?.id,
+              operation_type: 'insert',
+            }),
           },
         ])
       })(e)
