@@ -160,9 +160,9 @@ const DataTable = <TData extends IData, TValue>({
           </div>
         </PageHeader>
         <div className="flex flex-row">
-          {user?.user_metadata?.department === 'marketing' && (
-            <AccountRequest />
-          )}
+          {['marketing', 'after-sales'].includes(
+            user?.user_metadata?.department,
+          ) && <AccountRequest />}
           <ExportAccountRequests />
           <TableViewOptions table={table} />
         </div>

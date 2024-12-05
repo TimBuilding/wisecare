@@ -122,8 +122,8 @@ const CompanyAbout: FC<Props> = ({ companyId }) => {
   const { mutateAsync } = useUpsertMutation(
     //@ts-ignore
     supabase.from(
-      user?.user_metadata?.department === 'marketing'
-        ? 'pending_accounts' // marketing needs to insert to pending_accounts instead of accounts
+      ['marketing', 'after-sales'].includes(user?.user_metadata?.department)
+        ? 'pending_accounts' // marketing & after-sales needs to insert to pending_accounts instead of accounts
         : 'accounts',
     ),
     ['id'],
@@ -131,14 +131,16 @@ const CompanyAbout: FC<Props> = ({ companyId }) => {
     {
       onSuccess: () => {
         toast({
-          title:
-            user?.user_metadata?.department === 'marketing'
-              ? 'Company details edit request submitted!'
-              : 'Company details edited successfully!',
-          description:
-            user?.user_metadata?.department === 'marketing'
-              ? 'Your request to edit the company details has been submitted successfully and is awaiting approval.'
-              : 'Your company details have been edited successfully.',
+          title: ['marketing', 'after-sales'].includes(
+            user?.user_metadata?.department,
+          )
+            ? 'Company details edit request submitted!'
+            : 'Company details edited successfully!',
+          description: ['marketing', 'after-sales'].includes(
+            user?.user_metadata?.department,
+          )
+            ? 'Your request to edit the company details has been submitted successfully and is awaiting approval.'
+            : 'Your company details have been edited successfully.',
         })
         setEditMode(false)
       },
@@ -221,9 +223,11 @@ const CompanyAbout: FC<Props> = ({ companyId }) => {
                     new Date(data.annual_physical_examination_date),
                   )
                 : null,
-            ...(user?.user_metadata?.department === 'marketing'
+            ...(['marketing', 'after-sales'].includes(
+              user?.user_metadata?.department,
+            )
               ? {
-                  created_by: user.id, // marketing needs to add this since they are inserting to pending_accounts instead of accounts
+                  created_by: user.id, // marketing & after-sales needs to add this since they are inserting to pending_accounts instead of accounts
                   account_id: companyId,
                   operation_type: 'update',
                 }

@@ -65,8 +65,8 @@ const AddAccountForm = ({ setIsOpen }: AddAccountFormProps) => {
   const { mutateAsync, isPending, isSuccess } = useInsertMutation(
     // @ts-ignore
     supabase.from(
-      // marketing needs to insert to pending_accounts instead of accounts
-      user?.user_metadata?.department === 'marketing'
+      // marketing & after-sales needs to insert to pending_accounts instead of accounts
+      ['marketing', 'after-sales'].includes(user?.user_metadata?.department)
         ? 'pending_accounts'
         : 'accounts',
     ),
@@ -75,14 +75,16 @@ const AddAccountForm = ({ setIsOpen }: AddAccountFormProps) => {
     {
       onSuccess: () => {
         toast({
-          title:
-            user?.user_metadata?.department === 'marketing'
-              ? 'Account creation request submitted!'
-              : 'Account created successfully!',
-          description:
-            user?.user_metadata?.department === 'marketing'
-              ? 'Your request to create a new account has been submitted successfully and is awaiting approval.'
-              : 'Your account has been created successfully.',
+          title: ['marketing', 'after-sales'].includes(
+            user?.user_metadata?.department,
+          )
+            ? 'Account creation request submitted!'
+            : 'Account created successfully!',
+          description: ['marketing', 'after-sales'].includes(
+            user?.user_metadata?.department,
+          )
+            ? 'Your request to create a new account has been submitted successfully and is awaiting approval.'
+            : 'Your account has been created successfully.',
         })
 
         form.reset()
@@ -189,8 +191,10 @@ const AddAccountForm = ({ setIsOpen }: AddAccountFormProps) => {
             designation_of_contact_person: data.designation_of_contact_person,
             email_address_of_contact_person:
               data.email_address_of_contact_person,
-            ...(user?.user_metadata?.department === 'marketing' && {
-              // marketing needs to add this since they are inserting a row to pending_accounts instead of accounts
+            ...(['marketing', 'after-sales'].includes(
+              user?.user_metadata?.department,
+            ) && {
+              // marketing & after-sales needs to add this since they are inserting a row to pending_accounts instead of accounts
               created_by: user?.id,
               operation_type: 'insert',
             }),

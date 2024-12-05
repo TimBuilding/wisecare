@@ -70,6 +70,22 @@ const ActionRequestButton: FC<ActionRequestButtonProps> = ({
 
     // Only insert account if action is approve
     if (action === 'approve') {
+      // if selectedData is insert, then check if the account already exists in accounts
+      if (selectedData.operation_type === 'insert') {
+        const { data } = await supabase
+          .from('accounts')
+          .select('id')
+          .eq('company_name', selectedData.company_name)
+          .maybeSingle()
+        if (data) {
+          toast({
+            title: 'Error',
+            description: 'Account already exists',
+          })
+          return
+        }
+      }
+
       // Insert account
       await upsertAccount([
         {
