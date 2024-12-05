@@ -30,7 +30,7 @@ const CompanyInformation: FC<CompanyInformationProps> = ({ id }) => {
           <CompanyInformationFields />
         </Suspense>
       ) : (
-        <div className="grid grid-cols-2 gap-2 pt-4">
+        <div className="flex flex-col gap-2 pt-4 md:grid md:grid-cols-2">
           <CompanyInformationItem
             label="Company Name"
             value={account?.company_name?.toString()}
